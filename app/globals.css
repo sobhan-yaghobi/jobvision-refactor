@@ -3,47 +3,84 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "DanaBold";
+  font-family: "danaBold";
   src: url("/font/dana-fanum/dana-fanum-bold.woff") format("woff"),
     url("/font/dana-fanum/dana-fanum-bold.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "Dana";
+  font-family: "dana";
   src: url("/font/dana-fanum/dana-fanum-regular.woff") format("woff"),
     url("/font/dana-fanum/dana-fanum-regular.woff2") format("woff2");
 }
 
-:root {
-  --white: 0, 0%, 100%; /*whiteColor*/
-  --black: 220, 8%, 8%; /*blackColor*/
-  --primary: 236, 86%, 64%; /*primaryColor*/
-  --light-primary: 236, 86%, 64%, 0.078; /*lightPrimaryColor*/
-  --light: 210, 17%, 98%; /*lightColor*/
-  --gray: 222, 8%, 32%; /*grayColor*/
-  --light-gray: 220, 6%, 38%; /*lightGrayColor*/
-  --light-gray-2x: 217, 19%, 63%; /*lightGray2xColor*/
-  --light-gray-3x: 213, 15%, 88%; /*lightGray3xColor*/
-  --danger: 0, 94%, 66%; /*dangerColor*/
-  --light-danger: 356, 64%, 96%; /*lightDangerColor*/
-  --success: 140, 51%, 52%; /*successColor*/
-  --light-success: 138, 100%, 93%; /*lightSuccessColor*/
-  --warning: 48, 75%, 52%; /*warningColor*/
-  --golden: 48, 96%, 53%; /*goldenColor*/
-  --blue: 199, 88%, 49%; /*blueColor*/
-  --purple: 236, 86%, 64%; /*purpleColor*/
-  --light-blue: 195, 86%, 72%; /*lightBlueColor*/
-  --background: 0, 0%, 0%; /*backgroundColor*/
-}
+@layer base {
+  :root {
+    --white: 0, 0%, 100%; /*whiteColor*/
+    --black: 220, 8%, 8%; /*blackColor*/
+    --primary: 236, 86%, 64%; /*primaryColor*/
+    --light-primary: 236, 86%, 64%, 0.078; /*lightPrimaryColor*/
+    --light: 210, 17%, 98%; /*lightColor*/
+    --gray: 222, 8%, 32%; /*grayColor*/
+    --light-gray: 220, 6%, 38%; /*lightGrayColor*/
+    --light-gray-2x: 217, 19%, 63%; /*lightGray2xColor*/
+    --light-gray-3x: 213, 15%, 88%; /*lightGray3xColor*/
+    --danger: 0, 94%, 66%; /*dangerColor*/
+    --light-danger: 356, 64%, 96%; /*lightDangerColor*/
+    --success: 140, 51%, 52%; /*successColor*/
+    --light-success: 138, 100%, 93%; /*lightSuccessColor*/
+    --warning: 48, 75%, 52%; /*warningColor*/
+    --golden: 48, 96%, 53%; /*goldenColor*/
+    --blue: 199, 88%, 49%; /*blueColor*/
+    --purple: 236, 86%, 64%; /*purpleColor*/
+    --light-blue: 195, 86%, 72%; /*lightBlueColor*/
+    --background: 0, 0%, 0%; /*backgroundColor*/
+  }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
-    rgb(var(--background-start-rgb));
+  body {
+    @apply bg-white w-full max-w-full h-screen min-h-screen relative;
+    font-family: "dana";
+  }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--purple);
+  }
+
+  /* Handle Primary Color */
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid #f1f1f1;
+    background: #888;
+    border-radius: 5px;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .dana {
+    font-family: "dana";
+  }
+
+  .dana-bold {
+    font-family: "danaBold";
+  }
+}
+
+@layer components {
+  .center {
+    @apply flex items-center justify-center;
   }
 }
