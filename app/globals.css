@@ -2,27 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@font-face {
+  font-family: "DanaBold";
+  src: url("/font/dana-fanum/dana-fanum-bold.woff") format("woff"),
+    url("/font/dana-fanum/dana-fanum-bold.woff2") format("woff2");
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+@font-face {
+  font-family: "Dana";
+  src: url("/font/dana-fanum/dana-fanum-regular.woff") format("woff"),
+    url("/font/dana-fanum/dana-fanum-regular.woff2") format("woff2");
+}
+
+:root {
+  --white: 0, 0%, 100%; /*whiteColor*/
+  --black: 220, 8%, 8%; /*blackColor*/
+  --primary: 236, 86%, 64%; /*primaryColor*/
+  --light-primary: 236, 86%, 64%, 0.078; /*lightPrimaryColor*/
+  --light: 210, 17%, 98%; /*lightColor*/
+  --gray: 222, 8%, 32%; /*grayColor*/
+  --light-gray: 220, 6%, 38%; /*lightGrayColor*/
+  --light-gray-2x: 217, 19%, 63%; /*lightGray2xColor*/
+  --light-gray-3x: 213, 15%, 88%; /*lightGray3xColor*/
+  --danger: 0, 94%, 66%; /*dangerColor*/
+  --light-danger: 356, 64%, 96%; /*lightDangerColor*/
+  --success: 140, 51%, 52%; /*successColor*/
+  --light-success: 138, 100%, 93%; /*lightSuccessColor*/
+  --warning: 48, 75%, 52%; /*warningColor*/
+  --golden: 48, 96%, 53%; /*goldenColor*/
+  --blue: 199, 88%, 49%; /*blueColor*/
+  --purple: 236, 86%, 64%; /*purpleColor*/
+  --light-blue: 195, 86%, 72%; /*lightBlueColor*/
+  --background: 0, 0%, 0%; /*backgroundColor*/
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
     rgb(var(--background-start-rgb));
 }
 
