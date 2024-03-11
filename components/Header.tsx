@@ -1,16 +1,23 @@
 import { LogIn } from "lucide-react"
 
+import prisma from "@/lib/prisma"
 import NavigationMenu from "./NavigationMenu"
 import { Button } from "./ui/button"
 import Logo from "./Logo"
 
-const Header = () => {
+const Header = async () => {
+  const province = await prisma.province.findMany({
+    include: {
+      city: true,
+    },
+  })
+  const category = await prisma.category.findMany({ include: { category_collection: true } })
   return (
     <header className="border-b border-solid border-2 border-muted w-full mb-4 z-50">
       <div className="h-20 flex items-center justify-between container">
         <div className="flex">
           <Logo width={130} height={130} variants="PrimaryText" />
-          <NavigationMenu className="mr-6" />
+          <NavigationMenu province={province} category={category} className="mr-6" />
         </div>
         <div className="h-full flex items-center">
           <Button className="bg-primary">
