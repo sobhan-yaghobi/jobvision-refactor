@@ -106,6 +106,14 @@
   .dana-bold {
     font-family: "danaBold";
   }
+
+  .h-current {
+    height: calc(100vh - 6rem);
+  }
+
+  .h-view {
+    height: calc(100vh - 5rem);
+  }
 }
 
 @layer components {
