@@ -6,7 +6,6 @@ import Link from "next/link"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
 import { Button } from "./ui/button"
 import { cn } from "@/lib/utils"
-import { link } from "fs"
 
 type NavigationMenuProps = {
   className?: string
