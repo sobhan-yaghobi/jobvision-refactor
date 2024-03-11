@@ -16,33 +16,33 @@
 
 @layer base {
   :root {
-    --background: hsl(0 0% 100%);
-    --foreground: hsl(222.2 84% 4.9%);
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-    --card: hsl(0 0% 100%);
-    --card-foreground: hsl(222.2 84% 4.9%);
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
-    --popover: hsl(0 0% 100%);
-    --popover-foreground: hsl(222.2 84% 4.9%);
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: hsl(236, 86%, 64%);
-    --primary-foreground: hsl(236, 92%, 80%);
+    --primary: 236, 86%, 64%;
+    --primary-foreground: 236, 92%, 80%;
 
-    --secondary: hsl(222, 8%, 32%);
-    --secondary-foreground: hsl(217, 19%, 63%);
+    --secondary: 222, 8%, 32%;
+    --secondary-foreground: 217, 19%, 63%;
 
-    --muted: hsl(210 40% 96.1%);
-    --muted-foreground: hsl(215.4 16.3% 46.9%);
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: hsl(210 40% 96.1%);
-    --accent-foreground: hsl(222.2 47.4% 11.2%);
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 1.2%;
 
-    --destructive: hsl(0, 94%, 66%);
-    --destructive-foreground: hsl(210 40% 98%);
+    --destructive: 0, 94%, 66%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: hsl(214.3 31.8% 91.4%);
-    --input: hsl(214.3 31.8% 91.4%);
-    --ring: hsl(222.2 84% 4.9%);
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
     /*--white: 0, 0%, 100%; /*whiteColor*/
