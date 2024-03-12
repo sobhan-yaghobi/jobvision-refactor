@@ -5,10 +5,9 @@ import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
 
 import { ArrowRight, ChevronLeft, Menu } from "lucide-react"
 
-import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
-import { Button } from "./ui/button"
-import Link from "next/link"
-import { Item } from "./Navbar"
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
+import { Button } from "../ui/button"
+import { CategoryItem, ProvinceItem } from "./Item"
 
 type TypePage = {
   currentPage: "list" | "item" | "sub"
@@ -38,7 +37,7 @@ const Sidebar: React.FC<SidebarProps> = ({ menuItem, className, category, provin
       بازگشت
     </Button>
   )
-  
+
   return (
     <Drawer>
       <DrawerTrigger asChild>
@@ -83,55 +82,14 @@ const Sidebar: React.FC<SidebarProps> = ({ menuItem, className, category, provin
         ) : page.currentPage === "sub" ? (
           <>
             <BackButton destination="item" />
-            <ul>
+            <ul className="overflow-y-auto">
               {page.itemPage === "category" ? (
-                category.map((cat) => (
-                  <Item
-                    key={`list-item-${cat.id}`}
-                    itemHref={`jobs/cat-${cat.id}`}
-                    itemName={cat.name}
-                  >
-                    {cat.category_collection ? (
-                      <ul className="w-full px-3 cursor-default dana">
-                        {cat.category_collection.map((collection) => (
-                          <li
-                            key={`collection-item-${collection.id}`}
-                            className="w-full flex items-center mt-2 first:mt-0"
-                          >
-                            <Link
-                              href={`jobs/category_collection-${collection.link}`}
-                              className="text-secondary w-full inline-block hover:text-primary"
-                            >
-                              {collection.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : null}
-                  </Item>
+                category.map((category) => (
+                  <CategoryItem key={`list-item-sidebar-${category.id}`} category={category} />
                 ))
               ) : page.itemPage === "city" ? (
                 province.map((province) => (
-                  <Item
-                    key={`list-item-${province.id}`}
-                    itemHref={`jobs/province-${province.id}`}
-                    itemName={province.name}
-                  >
-                    {province.city ? (
-                      <ul className="w-full px-3 cursor-default dana">
-                        {province.city.map((cit) => (
-                          <li key={cit.id} className="w-full flex items-center mt-2 first:mt-0">
-                            <Link
-                              href={`jobs/city-${cit.name}`}
-                              className="text-secondary w-full inline-block hover:text-primary"
-                            >
-                              {cit.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : null}
-                  </Item>
+                  <ProvinceItem key={`list-item-sidebar-${province.id}`} province={province} />
                 ))
               ) : (
                 <p className="text-destructive">آیتمی یافت نشد</p>

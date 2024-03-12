@@ -2,8 +2,8 @@ import { User } from "lucide-react"
 import prisma from "@/lib/prisma"
 
 import NavigationMenu from "./Navbar"
-import { Button } from "./ui/button"
-import Logo from "./Logo"
+import { Button } from "../ui/button"
+import Logo from "../Logo"
 import Sidebar from "./Sidebar"
 
 export type TypeMenuItem = {

@@ -4,10 +4,11 @@ import { TypeMenuItem } from "./Header"
 
 import { ChevronDown } from "lucide-react"
 
-import Link from "next/link"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
-import { Button } from "./ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
+import { CategoryItem, ProvinceItem } from "./Item"
+import { Button } from "../ui/button"
 import { cn } from "@/lib/utils"
+import Link from "next/link"
 
 type NavbarProps = {
   menuItem: TypeMenuItem[]
@@ -71,52 +72,11 @@ export const List: React.FC<ListProps> = ({ mode, array }) => {
     <ul className="text-sm bg-white w-full columns-4 absolute top-12 bottom-0 left-0 right-0 cursor-default rounded-b-xl overflow-y-auto">
       {mode === "cities"
         ? array.map((province) => (
-            <Item
-              key={`list-item-${province.id}`}
-              itemHref={`jobs/province-${province.id}`}
-              itemName={province.name}
-            >
-              {province.city ? (
-                <ul className="w-full px-3 cursor-default dana">
-                  {province.city.map((cit) => (
-                    <li key={cit.id} className="w-full flex items-center mt-2 first:mt-0">
-                      <Link
-                        href={`jobs/city-${cit.name}`}
-                        className="text-secondary w-full inline-block hover:text-primary"
-                      >
-                        {cit.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </Item>
+            <ProvinceItem key={`list-item-${province.id}`} province={province} />
           ))
         : mode === "visitedJobs"
         ? array.map((category) => (
-            <Item
-              key={`list-item-${category.id}`}
-              itemHref={`jobs/category-${category.id}`}
-              itemName={category.name}
-            >
-              {category.category_collection ? (
-                <ul className="w-full px-3 cursor-default dana">
-                  {category.category_collection.map((collection) => (
-                    <li
-                      key={`collection-item-${collection.id}`}
-                      className="w-full flex items-center mt-2 first:mt-0"
-                    >
-                      <Link
-                        href={`jobs/category_collection-${collection.link}`}
-                        className="text-secondary w-full inline-block hover:text-primary"
-                      >
-                        {collection.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </Item>
+            <CategoryItem key={`list-item-navbar-${category.id}`} category={category} />
           ))
         : null}
     </ul>
@@ -124,23 +84,5 @@ export const List: React.FC<ListProps> = ({ mode, array }) => {
     <h3 className="text-destructive">آیتمی وجود ندازد</h3>
   )
 }
-
-type ItemProps = {
-  itemHref: string
-  itemName: string
-}
-export const Item: React.FC<React.PropsWithChildren<ItemProps>> = ({ itemHref, itemName, children }) => (
-  <li className="overflow-hidden max-h-fit p-2">
-    <div className="text-jv-lightGray dana-bold w-full h-full flex flex-col px-3 py-1 hover:text-primary ">
-      <Link
-        href={itemHref}
-        className="relative mb-1 after:content-[''] after:absolute after:top-0 after:-right-2 after:w-1 after:h-full after:bg-primary after:rounded-sm"
-      >
-        {itemName}
-      </Link>
-      {children}
-    </div>
-  </li>
-)
 
 export default Navbar
