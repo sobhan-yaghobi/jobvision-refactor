@@ -1,8 +1,9 @@
+import React from "react"
+import prisma from "@/lib/prisma"
 import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
 
 import { ChevronDown } from "lucide-react"
 
-import React from "react"
 import Link from "next/link"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
 import { Button } from "./ui/button"
@@ -10,11 +11,15 @@ import { cn } from "@/lib/utils"
 
 type NavbarProps = {
   className?: string
-  province: provinceWithCity[]
-  category: categoryWithCollection[]
 }
-const Navbar: React.FC<NavbarProps> = ({ className, province, category }) => (
-  <>
+const Navbar: React.FC<NavbarProps> = async ({ className }) => {
+  const province = await prisma.province.findMany({
+    include: {
+      city: true,
+    },
+  })
+  const category = await prisma.category.findMany({ include: { category_collection: true } })
+  return (
     <ul className={cn("flex items-center", className)}>
       <li className="h-full group peer center">
         <Link href={"/jobs"}>
@@ -54,8 +59,8 @@ const Navbar: React.FC<NavbarProps> = ({ className, province, category }) => (
       </li>
       <div className="h-view w-full center fixed top-20 left-0 z-20 duration-150 transition peer-hover:bg-black/50"></div>
     </ul>
-  </>
-)
+  )
+}
 
 type ListProps =
   | { mode: "cities"; array: provinceWithCity[] }
@@ -75,7 +80,7 @@ const List: React.FC<ListProps> = ({ mode, array }) => {
                   {province.city.map((cit) => (
                     <li key={cit.id} className="w-full flex items-center mt-2 first:mt-0">
                       <Link
-                        href={`jobs/city-${cit.id}`}
+                        href={`jobs/city-${cit.name}`}
                         className="text-secondary w-full inline-block hover:text-primary"
                       >
                         {cit.name}
