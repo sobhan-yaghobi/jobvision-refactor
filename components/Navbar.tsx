@@ -66,7 +66,7 @@ const Navbar: React.FC<NavbarProps> = async ({ menuItem, className, category, pr
 type ListProps =
   | { mode: "cities"; array: provinceWithCity[] }
   | { mode: "visitedJobs"; array: categoryWithCollection[] }
-const List: React.FC<ListProps> = ({ mode, array }) => {
+export const List: React.FC<ListProps> = ({ mode, array }) => {
   return array.length ? (
     <ul className="text-sm bg-white w-full columns-4 absolute top-12 bottom-0 left-0 right-0 cursor-default rounded-b-xl overflow-y-auto">
       {mode === "cities"
@@ -129,7 +129,7 @@ type ItemProps = {
   itemHref: string
   itemName: string
 }
-const Item: React.FC<React.PropsWithChildren<ItemProps>> = ({ itemHref, itemName, children }) => (
+export const Item: React.FC<React.PropsWithChildren<ItemProps>> = ({ itemHref, itemName, children }) => (
   <li className="overflow-hidden max-h-fit p-2">
     <div className="text-jv-lightGray dana-bold w-full h-full flex flex-col px-3 py-1 hover:text-primary ">
       <Link
