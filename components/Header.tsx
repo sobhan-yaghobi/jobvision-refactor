@@ -1,7 +1,7 @@
 import { LogIn } from "lucide-react"
 
 import prisma from "@/lib/prisma"
-import NavigationMenu from "./NavigationMenu"
+import NavigationMenu from "./Navbar"
 import { Button } from "./ui/button"
 import Logo from "./Logo"
 
@@ -15,7 +15,7 @@ const Header = async () => {
   return (
     <header className="border-b border-solid border-2 border-muted w-full mb-4 z-50">
       <div className="h-20 flex items-center justify-between container">
-        <div className="flex">
+        <div className="h-full flex">
           <Logo width={130} height={130} variants="PrimaryText" />
           <NavigationMenu province={province} category={category} className="mr-6" />
         </div>

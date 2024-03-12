@@ -1,5 +1,6 @@
-"use client"
 import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
+
+import { ChevronDown } from "lucide-react"
 
 import React from "react"
 import Link from "next/link"
@@ -7,19 +8,39 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
 import { Button } from "./ui/button"
 import { cn } from "@/lib/utils"
 
-type NavigationMenuProps = {
+type NavbarProps = {
   className?: string
   province: provinceWithCity[]
   category: categoryWithCollection[]
 }
-const NavigationMenu: React.FC<NavigationMenuProps> = ({ className, province, category }) => (
+const Navbar: React.FC<NavbarProps> = ({ className, province, category }) => (
   <>
-    <ul className={cn("flex", className)}>
-      <li>
-        <Button variant={"ghost"}>فرصت های شغلی</Button>
-      </li>
-      <li>
-        <Button variant={"ghost"}>محصولات</Button>
+    <ul className={cn("flex items-center", className)}>
+      <li className="h-full group peer center">
+        <Link href={"/jobs"}>
+          <Button variant={"ghost"}>
+            فرصت های شغلی
+            <ChevronDown className="icon-sm btn-icon-r group-hover:-scale-y-100 transition" />
+          </Button>
+        </Link>
+        <div className="bg-background w-10/12 h-5/6 absolute left-1/2 top-20 translate-x-full group-hover:-translate-x-1/2 overflow-hidden rounded-b-lg z-30 transition duration-500">
+          <Tabs dir="rtl" defaultValue="mostVisitedJobs" className="h-full m-0 p-0 flex flex-col">
+            <TabsList variant={"secondary"}>
+              <TabsTrigger variant={"secondary"} value="mostVisitedJobs">
+                پربازدید ترین شغل ها
+              </TabsTrigger>
+              <TabsTrigger variant={"secondary"} value="cities">
+                شهر و استان
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="mostVisitedJobs">
+              <List mode="visitedJobs" array={category} />
+            </TabsContent>
+            <TabsContent value="cities">
+              <List mode="cities" array={province} />
+            </TabsContent>
+          </Tabs>
+        </div>
       </li>
       <li>
         <Link href={"/"}>
@@ -31,27 +52,8 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({ className, province, ca
           <Button variant={"ghost"}>رزومه ساز</Button>
         </Link>
       </li>
+      <div className="h-view w-full center fixed top-20 left-0 z-20 duration-150 transition peer-hover:bg-black/50"></div>
     </ul>
-    <div className="h-view w-full center fixed top-20 left-0 bg-black/50">
-      <div className="w-10/12 h-5/6 bg-background absolute top-0 rounded-b-lg overflow-hidden">
-        <Tabs dir="rtl" defaultValue="mostVisitedJobs" className="h-full m-0 p-0 flex flex-col">
-          <TabsList variant={"secondary"}>
-            <TabsTrigger variant={"secondary"} value="mostVisitedJobs">
-              پربازدید ترین شغل ها
-            </TabsTrigger>
-            <TabsTrigger variant={"secondary"} value="cities">
-              شهر و استان
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="mostVisitedJobs">
-            <List mode="visitedJobs" array={category} />
-          </TabsContent>
-          <TabsContent value="cities">
-            <List mode="cities" array={province} />
-          </TabsContent>
-        </Tabs>
-      </div>
-    </div>
   </>
 )
 
@@ -135,4 +137,4 @@ const Item: React.FC<React.PropsWithChildren<ItemProps>> = ({ itemHref, itemName
   </li>
 )
 
-export default NavigationMenu
+export default Navbar
