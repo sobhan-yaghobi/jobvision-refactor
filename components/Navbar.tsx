@@ -1,6 +1,6 @@
 import React from "react"
-import prisma from "@/lib/prisma"
 import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
+import { TypeMenuItem } from "./Header"
 
 import { ChevronDown } from "lucide-react"
 
@@ -10,53 +10,54 @@ import { Button } from "./ui/button"
 import { cn } from "@/lib/utils"
 
 type NavbarProps = {
+  menuItem: TypeMenuItem[]
   className?: string
+  category: categoryWithCollection[]
+  province: provinceWithCity[]
 }
-const Navbar: React.FC<NavbarProps> = async ({ className }) => {
-  const province = await prisma.province.findMany({
-    include: {
-      city: true,
-    },
-  })
-  const category = await prisma.category.findMany({ include: { category_collection: true } })
+const Navbar: React.FC<NavbarProps> = async ({ menuItem, className, category, province }) => {
   return (
     <ul className={cn("flex items-center", className)}>
-      <li className="h-full group peer center">
-        <Link href={"/jobs"}>
-          <Button variant={"ghost"}>
-            فرصت های شغلی
-            <ChevronDown className="icon-sm btn-icon-r group-hover:-scale-y-100 transition" />
-          </Button>
-        </Link>
-        <div className="bg-background w-10/12 h-5/6 absolute left-1/2 top-20 translate-x-full group-hover:-translate-x-1/2 overflow-hidden rounded-b-lg z-30 transition duration-500">
-          <Tabs dir="rtl" defaultValue="mostVisitedJobs" className="h-full m-0 p-0 flex flex-col">
-            <TabsList variant={"secondary"}>
-              <TabsTrigger variant={"secondary"} value="mostVisitedJobs">
-                پربازدید ترین شغل ها
-              </TabsTrigger>
-              <TabsTrigger variant={"secondary"} value="cities">
-                شهر و استان
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="mostVisitedJobs">
-              <List mode="visitedJobs" array={category} />
-            </TabsContent>
-            <TabsContent value="cities">
-              <List mode="cities" array={province} />
-            </TabsContent>
-          </Tabs>
-        </div>
-      </li>
-      <li>
-        <Link href={"/"}>
-          <Button variant={"ghost"}>رده بندی شرکت ها</Button>
-        </Link>
-      </li>
-      <li>
-        <Link href={"/"}>
-          <Button variant={"ghost"}>رزومه ساز</Button>
-        </Link>
-      </li>
+      {menuItem.map((item) =>
+        item.isMegaMenu ? (
+          <li className="h-full group peer center">
+            <Link href={item.link}>
+              <Button variant={"ghost"}>
+                {item.name}
+                <ChevronDown className="icon-sm btn-icon-r group-hover:-scale-y-100 transition" />
+              </Button>
+            </Link>
+            <div className="bg-background w-10/12 h-5/6 absolute left-1/2 top-20 translate-x-full group-hover:-translate-x-1/2 overflow-hidden rounded-b-lg z-30 transition duration-500">
+              <Tabs
+                dir="rtl"
+                defaultValue="mostVisitedJobs"
+                className="h-full m-0 p-0 flex flex-col"
+              >
+                <TabsList variant={"secondary"}>
+                  <TabsTrigger variant={"secondary"} value="mostVisitedJobs">
+                    پربازدید ترین شغل ها
+                  </TabsTrigger>
+                  <TabsTrigger variant={"secondary"} value="cities">
+                    شهر و استان
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="mostVisitedJobs">
+                  <List mode="visitedJobs" array={category} />
+                </TabsContent>
+                <TabsContent value="cities">
+                  <List mode="cities" array={province} />
+                </TabsContent>
+              </Tabs>
+            </div>
+          </li>
+        ) : (
+          <li>
+            <Link href={item.link}>
+              <Button variant={"ghost"}>{item.name}</Button>
+            </Link>
+          </li>
+        )
+      )}
       <div className="h-view w-full center fixed top-20 left-0 z-20 duration-150 transition peer-hover:bg-black/50"></div>
     </ul>
   )
