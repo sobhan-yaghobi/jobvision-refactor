@@ -40,7 +40,7 @@ const Header = async () => {
             menuItem={menuItem}
             category={category}
             province={province}
-            className="hidden mr-6 xl:flex"
+            className="h-full hidden mr-6 xl:flex"
           />
         </div>
         <div className="h-full flex items-center">
