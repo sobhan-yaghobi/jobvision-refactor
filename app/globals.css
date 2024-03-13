@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "danaBold";
+  font-family: "dana-bold";
   src: url("/font/dana-fanum/dana-fanum-bold.woff") format("woff"),
     url("/font/dana-fanum/dana-fanum-bold.woff2") format("woff2");
 }
@@ -104,11 +104,11 @@
   }
 
   .dana-bold {
-    font-family: "danaBold";
+    font-family: "dana-bold";
   }
 
   .h-current {
-    height: calc(100vh - 6rem);
+    height: calc(100vh - 6.2rem);
   }
 
   .h-view {

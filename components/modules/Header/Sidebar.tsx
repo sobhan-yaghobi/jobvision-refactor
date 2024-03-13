@@ -5,7 +5,7 @@ import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
 
 import { ArrowRight, ChevronLeft, Menu } from "lucide-react"
 
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/modules/ui/drawer"
 import { Button } from "../ui/button"
 import { CategoryItem, ProvinceItem } from "./Item"
 

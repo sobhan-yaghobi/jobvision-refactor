@@ -59,7 +59,7 @@ const Navbar: React.FC<NavbarProps> = async ({ menuItem, className, category, pr
           </li>
         )
       )}
-      <div className="h-view w-full center fixed top-20 left-0 z-20 duration-150 transition peer-hover:bg-black/50"></div>
+      <div className="h-view w-full center fixed top-20 left-0 z-20 opacity-0 invisible duration-150 transition peer-hover:visible peer-hover:opacity-100 peer-hover:bg-black/50"></div>
     </ul>
   )
 }
