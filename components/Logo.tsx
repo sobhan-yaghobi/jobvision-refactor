@@ -6,8 +6,6 @@ import logoPrimaryText from "@/public/logo/logoPrimaryText.svg"
 import logoWhiteText from "@/public/logo/logoWhiteText.svg"
 
 type LogoProps = {
-  width: number
-  height: number
   className?: string
   variants: "PrimaryText" | "PrimaryShape" | "WhiteText"
 }
@@ -18,11 +16,9 @@ const imageSrc = {
   WhiteText: logoWhiteText,
 }
 
-const Logo: React.FC<LogoProps> = ({ width, height, className, variants }) => {
+const Logo: React.FC<LogoProps> = ({ className, variants }) => {
   const CurrentSrc = imageSrc[variants] ? imageSrc[variants] : logoPrimaryText
-  return (
-    <Image width={width} height={height} alt="logo" src={CurrentSrc} className={className ?? ""} />
-  )
+  return <Image width={60} height={60} alt="logo" src={CurrentSrc} className={className ?? ""} />
 }
 
 export default Logo

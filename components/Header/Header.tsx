@@ -35,7 +35,7 @@ const Header = async () => {
             province={province}
             className="ml-3 xl:hidden"
           />
-          <Logo width={130} height={130} variants="PrimaryText" className="w-24" />
+          <Logo variants="PrimaryText" className="w-24" />
           <NavigationMenu
             menuItem={menuItem}
             category={category}
