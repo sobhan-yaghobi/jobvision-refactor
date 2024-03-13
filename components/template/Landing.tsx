@@ -16,9 +16,7 @@ const Landing = () => {
         </p>
       </div>
       <div className="left-landing hidden lg:flex lg:items-center lg:justify-end col-span-1 row-span-2">
-        {/*      */}
         <Map />
-        {/* {WindowsSize.innerWidth <= 768 ? null : <MapCircle />} */}
       </div>
       <div className="col-span-2 row-span-1 h-full">
         <div className="w-full h-full flex flex-col items-start">
