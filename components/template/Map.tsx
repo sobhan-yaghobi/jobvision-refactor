@@ -1,6 +1,6 @@
 "use client"
+import React, { useEffect, useState } from "react"
 import { sample } from "lodash"
-import React, { useCallback, useEffect, useRef, useState } from "react"
 
 const MessageArray = [
   { id: 1, title: "رایان گستر" },
@@ -15,8 +15,8 @@ const MessageArray = [
 ]
 
 export interface TypeMessage {
-  x: number | undefined
-  y: number | undefined
+  x: number
+  y: number
   title: string
   isShow: boolean
   ArrowIcon: "Top" | "Bottom" | undefined
@@ -24,24 +24,21 @@ export interface TypeMessage {
 
 const Map = () => {
   const [message, setMessage] = useState({} as TypeMessage)
-  const initialSetMessage: TypeMessage = {
-    x: undefined,
-    y: undefined,
+  const initialSetMessage = (mes: TypeMessage): TypeMessage => ({
+    ...mes,
     title: "",
     isShow: false,
-    ArrowIcon: undefined,
-  }
+  })
 
   const animation = () => {
     const { innerWidth } = window
     if (innerWidth >= 1024) {
       let newElm: SVGCircleElement | null
-      setMessage(() => {
+      setMessage((prevMessage) => {
         let mainObject: TypeMessage
         const newItem = sample(MessageArray)
         const number = Math.floor(Math.random() * (916 - 476 + 1) + 476)
         newElm = document.querySelector<SVGCircleElement>(`#dot-${number}`)
-        newElm?.classList.add("fill-jv-primary")
 
         const mainIcon = number < 686 && number > 459 ? "Bottom" : "Top"
 
@@ -54,11 +51,10 @@ const Map = () => {
             ArrowIcon: mainIcon,
           }
         } else {
-          mainObject = initialSetMessage
+          mainObject = initialSetMessage(prevMessage)
         }
         setTimeout(() => {
-          newElm?.classList.remove("fill-jv-primary")
-          setMessage(initialSetMessage)
+          setMessage(initialSetMessage(prevMessage))
         }, 4000)
 
         return mainObject
@@ -67,7 +63,7 @@ const Map = () => {
   }
 
   useEffect(() => {
-    setTimeout(() => animation(), 1500)
+    setTimeout(() => animation(), 1000)
     const interval = setInterval(animation, 6000)
     return () => clearInterval(interval)
   }, [])
@@ -542,10 +538,10 @@ const Map = () => {
         <circle id="dot-916" cx="73.1021" cy="39.69" r="3.565" fill="#d8d8d8" />
       </g>
       <foreignObject
-        x={typeof message.x === "number" ? message.x : 0}
-        y={typeof message.y === "number" ? message.y : 0}
-        className={`w-2 h-2 absolute overflow-visible origin-center bg-primary rounded-full delay-300 transition ${
-          message.isShow ? "block" : "hidden"
+        x={message.x}
+        y={message.y}
+        className={`w-2 h-2 absolute overflow-visible origin-center bg-primary rounded-full delay-100 transition duration-200 ${
+          message.isShow ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
         <div
