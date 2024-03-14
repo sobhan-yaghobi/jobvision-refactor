@@ -1,4 +1,5 @@
 import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
+import { category_collection, city } from "@prisma/client"
 import Link from "next/link"
 import React from "react"
 
@@ -27,9 +28,9 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => (
     itemHref={`jobs/category-${category.id}`}
     itemName={category.name}
   >
-    {category.category_collection ? (
+    {category.category_collection.length ? (
       <ul className="w-full px-3 cursor-default dana">
-        {category.category_collection.map((collection) => (
+        {category.category_collection.map((collection: category_collection) => (
           <li
             key={`collection-item-${collection.id}`}
             className="w-full flex items-center mt-2 first:mt-0"
@@ -50,9 +51,9 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => (
 type ProvinceItemProps = { province: provinceWithCity }
 const ProvinceItem: React.FC<ProvinceItemProps> = ({ province }) => (
   <Item itemHref={`jobs/province-${province.id}`} itemName={province.name}>
-    {province.city ? (
+    {province.city.length ? (
       <ul className="w-full px-3 cursor-default dana">
-        {province.city.map((cit) => (
+        {province.city.map((cit: city) => (
           <li key={cit.id} className="w-full flex items-center mt-2 first:mt-0">
             <Link
               href={`jobs/city-${cit.name}`}
