@@ -21,7 +21,7 @@ const Navbar: React.FC<NavbarProps> = async ({ menuItem, className, category, pr
     <ul className={cn("flex items-center", className)}>
       {menuItem.map((item) =>
         item.isMegaMenu ? (
-          <li className="h-full group peer center">
+          <li key={`navbar-list-item-${item.id}`} className="h-full group peer center">
             <Link href={item.link}>
               <Button variant={"ghost"}>
                 {item.name}
@@ -52,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = async ({ menuItem, className, category, pr
             </div>
           </li>
         ) : (
-          <li>
+          <li key={`navbar-list-item-${item.id}`}>
             <Link href={item.link}>
               <Button variant={"ghost"}>{item.name}</Button>
             </Link>

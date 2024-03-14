@@ -1,7 +1,7 @@
 import { User } from "lucide-react"
 import prisma from "@/lib/prisma"
 
-import NavigationMenu from "./Navbar"
+import Navbar from "./Navbar"
 import { Button } from "../ui/button"
 import Logo from "../Logo"
 import Sidebar from "./Sidebar"
@@ -36,7 +36,7 @@ const Header = async () => {
             className="ml-3 xl:hidden"
           />
           <Logo variants="PrimaryText" className="w-24" />
-          <NavigationMenu
+          <Navbar
             menuItem={menuItem}
             category={category}
             province={province}

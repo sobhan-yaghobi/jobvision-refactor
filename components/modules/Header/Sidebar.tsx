@@ -48,14 +48,14 @@ const Sidebar: React.FC<SidebarProps> = ({ menuItem, className, category, provin
       <DrawerContent className="h-3/4 px-6">
         {page.currentPage === "list" ? (
           menuItem.map((item) => (
-            <li
+            <div
               onClick={() => setPage((prev) => ({ ...prev, currentPage: "item" }))}
               key={item.id}
               className="flex items-center justify-between px-2 py-3 rounded-md hover:bg-muted"
             >
               <span>{item.name}</span>
               {item.isMegaMenu ? <ChevronLeft className="icon" /> : null}
-            </li>
+            </div>
           ))
         ) : page.currentPage === "item" ? (
           <>
@@ -92,7 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({ menuItem, className, category, provin
                   <ProvinceItem key={`list-item-sidebar-${province.id}`} province={province} />
                 ))
               ) : (
-                <p className="text-destructive">آیتمی یافت نشد</p>
+                <li className="text-destructive">آیتمی یافت نشد</li>
               )}
             </ul>
           </>
