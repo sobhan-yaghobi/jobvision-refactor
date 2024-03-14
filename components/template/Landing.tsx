@@ -1,7 +1,10 @@
 import React from "react"
 import Map from "./Map"
+import { SearchForm } from "../modules/SearchForm"
 
-const Landing = () => {
+const Landing = async () => {
+  const provinces = await prisma.province.findMany({ include: { city: true } })
+  const categories = await prisma.category.findMany({ include: { category_collection: true } })
   return (
     <div className="h-auto grid grid-cols-1 grid-rows-3 justify-between relative z-10 md:h-current lg:grid-cols-2">
       <div className="right-landing flex flex-col justify-center col-span-1 row-span-1 text-center lg:col-span-1 lg:row-span-2 lg:text-right">
@@ -21,7 +24,7 @@ const Landing = () => {
       <div className="col-span-2 row-span-1 h-full">
         <div className="w-full h-full flex flex-col items-start">
           <h2 className="mb-5 pr-2 text-xl">دنبال چه شغلی می‌گردید؟</h2>
-          {/* <SearchFrom /> */}
+          <SearchForm provinces={provinces} categories={categories} />
         </div>
       </div>
     </div>
