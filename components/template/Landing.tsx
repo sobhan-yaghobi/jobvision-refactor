@@ -11,8 +11,8 @@ const Landing = async () => {
       <div className="right-landing flex flex-col justify-center col-span-1 row-span-1 mt-12 mb-24 text-center lg:col-span-1 lg:row-span-2 lg:mb-0 lg:text-right">
         <Title size={"lg"}>
           <h1>
-            <span className="text-primary lg:ml-2">38,346</span> آگهی شغلی در
-            <span className="text-primary lg:mx-2"> 489</span> شهر
+            <span className="text-primary !dana-bold lg:ml-2">38,346</span> آگهی شغلی در
+            <span className="text-primary !dana-bold lg:mx-2"> 489</span> شهر
           </h1>
         </Title>
         <p className="my-3 text-lg md:my-5 lg:text-lg">
@@ -26,7 +26,9 @@ const Landing = async () => {
       </div>
       <div className="h-full col-span-2 row-span-1">
         <div className="w-full h-full flex flex-col items-start">
-          <h2 className="mb-6 pr-2 text-xl dana-bold">دنبال چه شغلی می‌گردید؟</h2>
+          <Title>
+            <h2 className="mb-6">دنبال چه شغلی می‌گردید؟</h2>
+          </Title>
           <SearchForm provinces={provinces} categories={categories} />
         </div>
       </div>
