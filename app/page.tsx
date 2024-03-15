@@ -19,9 +19,9 @@ export default async function Home() {
       <div className="mb-20">
         <div className="bg-muted grid grid-cols-2 gap-3 rounded-md p-3">
           <Card className="col-span-2 *:p-6">
-            <CardContent className="flex justify-between items-center">
-              <div className="w-1/2">
-                <Title>
+            <CardContent className="flex flex-col-reverse justify-between items-center lg:flex-row">
+              <div className="center flex-col text-center lg:w-1/2 lg:block lg:text-right">
+                <Title className="lg:text-right">
                   <h3>استخدام‌های سراسری و دولتی</h3>
                 </Title>
                 <p className="w-11/12 my-3">
@@ -35,7 +35,7 @@ export default async function Home() {
                 <Image
                   width={400}
                   height={300}
-                  className="w-full sm:w-2/3 md:w-1/2 lg:hidden"
+                  className="h-48 w-auto lg:hidden"
                   src="/images/newsMobile.webp"
                   alt="Mobile-image"
                 />
@@ -49,13 +49,15 @@ export default async function Home() {
               </div>
             </CardContent>
           </Card>
-          <Card className="*:p-6">
-            <CardContent className="h-full flex justify-between items-center">
-              <div className="w-1/2">
+          <Card className="col-span-2 *:p-6 lg:col-span-1">
+            <CardContent className="h-full flex flex-col-reverse justify-between items-center lg:flex-row">
+              <div className="text-center lg:w-1/2 lg:text-right">
                 <Title>
                   <h2>رزومه ساز جاب ویژن</h2>
                 </Title>
-                <p className="my-3">رزومه ای استاندارد به دو زبان فارسی و انگلیسی بسازید.</p>
+                <p className="w-11/12 inline-block my-3">
+                  رزومه ای استاندارد به دو زبان فارسی و انگلیسی بسازید.
+                </p>
                 <Button>ساخت رزومه</Button>
               </div>
               <div className="h-full center">
@@ -69,13 +71,13 @@ export default async function Home() {
               </div>
             </CardContent>
           </Card>
-          <Card className="*:p-6">
-            <CardContent className="h-full flex justify-between items-center">
-              <div className="w-1/2">
+          <Card className="col-span-2 *:p-6 lg:col-span-1">
+            <CardContent className="h-full flex flex-col-reverse justify-between items-center lg:flex-row">
+              <div className="text-center lg:w-1/2 lg:text-right">
                 <Title>
                   <h2>ماشین حساب حقوق و دستمزد</h2>
                 </Title>
-                <p className="my-3">
+                <p className="w-11/12 inline-block my-3">
                   از حقوق دریافتی افراد در مشاغل مختلف آگاه شوید و تخمین دقیق تری از حقوق منصفانه
                   خود داشته باشید.
                 </p>
