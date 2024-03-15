@@ -14,7 +14,10 @@ type CompanyBoxType = {
 const CompanyBox: React.FC<CompanyBoxType> = ({ className }) => {
   return (
     <Card
-      className={cn("bg-muted w-[300px] h-[280px] flex flex-col justify-between p-3", className)}
+      className={cn(
+        "bg-muted w-[300px] h-[280px] flex flex-col justify-between p-3 shadow-md",
+        className
+      )}
     >
       <CardHeader className="h-16 center items-start p-0">
         <Image
