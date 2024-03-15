@@ -3,8 +3,9 @@ import prisma from "@/lib/prisma"
 
 import Navbar from "./Navbar"
 import { Button } from "../ui/button"
-import Logo from "../Logo"
 import Sidebar from "./Sidebar"
+import Title from "../Title"
+import Link from "next/link"
 
 export type TypeMenuItem = {
   id: number
@@ -35,7 +36,11 @@ const Header = async () => {
             province={province}
             className="ml-3 xl:hidden"
           />
-          <Logo variants="PrimaryText" className="w-24" />
+          <Link href={"/"}>
+            <Title size={"md"} className="text-primary">
+              <h2>جاب ویژن</h2>
+            </Title>
+          </Link>
           <Navbar
             menuItem={menuItem}
             category={category}

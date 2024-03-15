@@ -14,6 +14,13 @@
     url("/font/dana-fanum/dana-fanum-regular.woff2") format("woff2");
 }
 
+@font-face {
+  font-family: "morabba";
+  src: url("/font/morabba/woff/Morabba-Bold.woff"), url("/font/morabba/woff2/Morabba-Bold.woff2");
+  font-weight: bold;
+  font-display: swap;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -107,6 +114,10 @@
     font-family: "dana-bold";
   }
 
+  .morabba {
+    font-family: "morabba";
+  }
+
   .h-current {
     height: calc(100vh - 6.2rem);
   }
@@ -139,5 +150,29 @@
 
   .btn-icon-r {
     @apply mr-2;
+  }
+
+  .title-sm {
+    @apply w-full;
+  }
+
+  .title-sm *:first-child {
+    @apply morabba text-base sm:text-lg lg:text-xl;
+  }
+
+  .title-md {
+    @apply w-full;
+  }
+
+  .title-md *:first-child {
+    @apply morabba text-lg sm:text-xl md:text-2xl lg:text-3xl;
+  }
+
+  .title-lg {
+    @apply w-full;
+  }
+
+  .title-lg *:first-child {
+    @apply morabba text-2xl sm:text-3xl md:text-4xl;
   }
 }

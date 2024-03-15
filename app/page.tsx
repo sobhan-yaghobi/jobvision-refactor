@@ -5,7 +5,7 @@ export default async function Home() {
   return (
     <>
       <Landing />
-      <div className="w-full overflow-hidden">
+      <div className="w-full mb-20 overflow-hidden">
         <CompnaySlider />
       </div>
     </>
