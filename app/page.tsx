@@ -1,6 +1,6 @@
 import Title from "@/components/modules/Title"
 import { Button } from "@/components/modules/ui/button"
-import { Card, CardContent, CardDescription } from "@/components/modules/ui/card"
+import { Card, CardContent } from "@/components/modules/ui/card"
 import CompnaySlider from "@/components/template/CompnaySlider"
 import Landing from "@/components/template/Landing"
 import LastAds from "@/components/template/LastAds"
@@ -87,7 +87,7 @@ export default async function Home() {
                   height={400}
                   className="h-48 w-auto"
                   src="/images/salary.webp"
-                  alt=""
+                  alt="salary-image"
                 />
               </div>
             </CardContent>
