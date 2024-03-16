@@ -5,7 +5,7 @@ import AdsBox from "../modules/AdsBox"
 const LastAds = () => {
   return (
     <div>
-      <Title>
+      <Title size={"md"}>
         <h4>تازه‌ترین آگهی‌های شغلی برای شما</h4>
       </Title>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

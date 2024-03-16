@@ -26,7 +26,7 @@ const Landing = async () => {
       </div>
       <div className="h-full col-span-2 row-span-1">
         <div className="w-full h-full flex flex-col items-start">
-          <Title>
+          <Title size={"md"}>
             <h2 className="mb-6">دنبال چه شغلی می‌گردید؟</h2>
           </Title>
           <SearchForm provinces={provinces} categories={categories} />
