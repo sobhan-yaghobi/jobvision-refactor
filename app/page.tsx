@@ -1,4 +1,10 @@
 import Title from "@/components/modules/Title"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/modules/ui/accordion"
 import { Button } from "@/components/modules/ui/button"
 import {
   Card,
@@ -229,7 +235,24 @@ export default async function Home() {
       </div>
 
       <div className="mb-20">
-        
+        <Title size={"md"} className="mb-3 text-center">
+          <h5>چرا ما ؟</h5>
+        </Title>
+        <div className="lg:px-40">
+          <Accordion type="single" collapsible className="w-full">
+            {whyUsArray.map((item) => (
+              <AccordionItem
+                key={`accordion-why-use-item-${item.id}`}
+                value={`accordion-why-use-item-${item.id}`}
+              >
+                <AccordionTrigger className="py-3 dana-bold hover:no-underline">
+                  {item.title}
+                </AccordionTrigger>
+                <AccordionContent className="flex flex-col">{item.desc}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
       </div>
     </>
   )
