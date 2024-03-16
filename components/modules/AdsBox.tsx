@@ -1,9 +1,11 @@
 import React from "react"
-import { Card, CardFooter, CardHeader } from "./ui/card"
-import Image from "next/image"
+
 import { cn } from "@/lib/utils"
-import { Button } from "./ui/button"
+
+import { Card, CardFooter, CardHeader } from "./ui/card"
 import { Separator } from "./ui/separator"
+import { Button } from "./ui/button"
+import Image from "next/image"
 
 type AdsBoxProps = {
   className?: string
@@ -23,8 +25,11 @@ const AdsBox: React.FC<AdsBoxProps> = ({ className }) => {
         <div className="flex flex-col !mt-0 !mr-3">
           <p className="dana-bold text-sm">برنامه نویس فرانت اند</p>
           <span className="text-sm">ایرانسل</span>
-          <span className="text-secondary text-sm">مشهد ، قاسم آباد</span>
-          <div className="flex !mt-2 text-muted-foreground text-xs">
+          <div className="flex items-center text-secondary text-sm">
+            <span className="ml-1.5">مشهد ، قاسم آباد</span>
+            <span className="text-primary pr-1.5 border-r">15 تا 20 میلیون</span>
+          </div>
+          <div className="overflow-x-auto flex !mt-2 text-muted-foreground text-xs gap-1.5">
             <span className="p-1 bg-muted rounded-sm">امکان دورکاری</span>
           </div>
         </div>
