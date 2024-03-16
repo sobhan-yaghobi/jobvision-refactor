@@ -1,21 +1,65 @@
 import Title from "@/components/modules/Title"
 import { Button } from "@/components/modules/ui/button"
-import { Card, CardContent } from "@/components/modules/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/modules/ui/card"
 import CompnaySlider from "@/components/template/CompnaySlider"
 import Landing from "@/components/template/Landing"
 import LastAds from "@/components/template/LastAds"
 import Image from "next/image"
 
+const AboutUsItemArray = [
+  {
+    id: 1,
+    title: "کارجوی همراه",
+    desc: "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده گرافیک است.",
+    iconSrc: "/images/worker.webp",
+    customClass:
+      "from-[#f8f9fa] to-[#ec8386] shadow-[-10px_10px_30px_-9px_#ff979a,10px_10px_30px_-9px_#c96f72]",
+  },
+  {
+    id: 2,
+    title: "سازمان های در حال همکاری",
+    desc: "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده گرافیک است.",
+    iconSrc: "/images/skyline.webp",
+    customClass:
+      "from-[#f8f9fa] to-[#A5A8F2] shadow-[-10px_10px_30px_-9px_#9396d7,10px_10px_30px_-9px_#b7baff]",
+  },
+  {
+    id: 3,
+    title: "موقعیت شغلی فعال",
+    desc: "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده گرافیک است.",
+    iconSrc: "/images/job-search.webp",
+    customClass:
+      "from-[#f8f9fa] to-[#90D1F4] shadow-[-10px_10px_30px_-9px_#80bad9,10px_10px_30px_-9px_#a0e8ff]",
+  },
+  {
+    id: 4,
+    title: "استخدام موفق",
+    desc: "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده گرافیک است.",
+    iconSrc: "/images/hiring.webp",
+    customClass:
+      "from-[#f8f9fa] to-[#F5CD8D] shadow-[-10px_10px_30px_-9px_#dab67d,10px_10px_30px_-9px_#ffe49d]",
+  },
+]
+
 export default async function Home() {
   return (
     <>
       <Landing />
+
       <div className="w-full mb-20 overflow-hidden">
         <CompnaySlider />
       </div>
+
       <div className="mb-20">
         <LastAds />
       </div>
+
       <div className="mb-20">
         <div className="bg-muted grid grid-cols-2 gap-3 rounded-md p-3">
           <Card className="col-span-2 *:p-6">
@@ -94,6 +138,34 @@ export default async function Home() {
               </div>
             </CardContent>
           </Card>
+        </div>
+      </div>
+
+      <div className="mb-20">
+        <div className="flex flex-col items-center justify-start  lg:relative">
+          <Title size={"lg"} className="text-center">
+            <h5 className="text-primary">جاب ویژن</h5>
+          </Title>
+          <Title size={"md"} className="text-center mt-3">
+            <p>دستیار استخدامی شما</p>
+          </Title>
+          <div className="w-full h-auto grid grid-cols-4 gap-3 mt-3">
+            {AboutUsItemArray.map((box, index) => (
+              <Card key={`about-us-item-${index + 1}`} className="p-3 *:p-1.5">
+                <CardHeader>
+                  <div className={`${box.customClass} bg-gradient-to-tl w-14 p-2 rounded-sm`}>
+                    <Image width={56} height={56} src={box.iconSrc} alt="" />
+                  </div>
+                </CardHeader>
+                <CardTitle>
+                  <Title className="mt-1.5">
+                    <h6>{box.title}</h6>
+                  </Title>
+                </CardTitle>
+                <CardDescription>{box.desc}</CardDescription>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </>
