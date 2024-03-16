@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import "./globals.css"
 import Header from "@/components/modules/Header/Header"
+import Footer from "@/components/modules/Footer"
 
 export const metadata: Metadata = {
   title: "Clone Jobvison Website",
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body>
         <Header />
         <div className="container">{children}</div>
+        <Footer />
       </body>
     </html>
   )

@@ -222,11 +222,7 @@ export default async function Home() {
                     <Image width={56} height={56} src={box.iconSrc} alt="" />
                   </div>
                 </CardHeader>
-                <CardTitle>
-                  <Title className="mt-1.5">
-                    <h6>{box.title}</h6>
-                  </Title>
-                </CardTitle>
+                <CardTitle className="!mt-2 morabba font-normal">{box.title}</CardTitle>
                 <CardDescription>{box.desc}</CardDescription>
               </Card>
             ))}
@@ -245,10 +241,10 @@ export default async function Home() {
                 key={`accordion-why-use-item-${item.id}`}
                 value={`accordion-why-use-item-${item.id}`}
               >
-                <AccordionTrigger className="py-3 dana-bold hover:no-underline">
+                <AccordionTrigger className="py-3 morabba hover:no-underline">
                   {item.title}
                 </AccordionTrigger>
-                <AccordionContent className="flex flex-col">{item.desc}</AccordionContent>
+                <AccordionContent>{item.desc}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>

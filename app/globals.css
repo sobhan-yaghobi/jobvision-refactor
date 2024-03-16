@@ -6,18 +6,30 @@
   font-family: "dana-bold";
   src: url("/font/dana-fanum/dana-fanum-bold.woff") format("woff"),
     url("/font/dana-fanum/dana-fanum-bold.woff2") format("woff2");
+  font-weight: bold;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "dana";
   src: url("/font/dana-fanum/dana-fanum-regular.woff") format("woff"),
     url("/font/dana-fanum/dana-fanum-regular.woff2") format("woff2");
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "morabba-bold";
+  src: url("/font/morabba/woff/Morabba-Bold.woff"), url("/font/morabba/woff2/Morabba-Bold.woff2");
+  font-weight: bold;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "morabba";
-  src: url("/font/morabba/woff/Morabba-Bold.woff"), url("/font/morabba/woff2/Morabba-Bold.woff2");
-  font-weight: bold;
+  src: url("/font/morabba/woff/Morabba-medium.woff"),
+    url("/font/morabba/woff2/Morabba-medium.woff2");
+  font-weight: normal;
   font-display: swap;
 }
 
@@ -118,6 +130,10 @@
     font-family: "morabba";
   }
 
+  .morabba-bold {
+    font-family: "morabba-bold";
+  }
+
   .h-current {
     height: calc(100vh - 6.2rem);
   }
@@ -157,7 +173,7 @@
   }
 
   .title-sm *:first-child {
-    @apply morabba text-base sm:text-lg lg:text-xl;
+    @apply morabba-bold text-base sm:text-lg lg:text-xl;
   }
 
   .title-md {
@@ -165,7 +181,7 @@
   }
 
   .title-md *:first-child {
-    @apply morabba text-lg sm:text-xl md:text-2xl lg:text-3xl;
+    @apply morabba-bold text-lg sm:text-xl md:text-2xl lg:text-3xl;
   }
 
   .title-lg {
@@ -173,6 +189,6 @@
   }
 
   .title-lg *:first-child {
-    @apply morabba text-2xl sm:text-3xl md:text-4xl;
+    @apply morabba-bold text-2xl sm:text-3xl md:text-4xl;
   }
 }
