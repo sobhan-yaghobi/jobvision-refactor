@@ -214,7 +214,7 @@ export default async function Home() {
           <Title size={"md"} className="text-center mt-3">
             <p>دستیار استخدامی شما</p>
           </Title>
-          <div className="w-full h-auto grid grid-cols-1 gap-3 mt-3 md:grid-cols-2 xl:grid-cols-4">
+          <div className="w-full h-auto grid grid-cols-1 gap-3 mt-9 md:grid-cols-2 xl:grid-cols-4">
             {AboutUsItemArray.map((box, index) => (
               <Card key={`about-us-item-${index + 1}`} className="p-3 *:p-1.5">
                 <CardHeader>
