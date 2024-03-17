@@ -1,8 +1,12 @@
 "use client"
 
-import React, { useState } from "react"
-import z from "zod"
+import React, { useRef, useState } from "react"
+import { TypeSignIn, signInSchema } from "@/validation/zod.validations"
 import { getLastMessage } from "@/lib/utils"
+
+import { signInAction } from "@/app/action/signin"
+
+import { useToast } from "../modules/ui/use-toast"
 
 import { User } from "lucide-react"
 
@@ -14,28 +18,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../modules/ui/dialog"
-import { Button } from "../modules/ui/button"
 import { InputMessage } from "../modules/ui/input"
+import { Button } from "../modules/ui/button"
 import Title from "../modules/Title"
-
-const Loginschema = z.object({
-  email: z.string().trim().email("ایمیل معتبر نیست").min(1, "ایمیل اجباری میباشد"),
-  password: z
-    .string()
-    .trim()
-    .min(8, "حداقل 8 کارکتر اجباری میباشد")
-    .max(100, "حداکثر کارکتر 100 میباشد"),
-})
-type TypeLoginFileds = z.infer<typeof Loginschema>
+import { Toaster } from "@/components/modules/ui/toaster"
 
 const Login = () => {
+  const [open, setOpen] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
+  const { toast } = useToast()
+
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
+
   const clientAction = async (formData: FormData) => {
-    const newUser: TypeLoginFileds = {
+    const newUser: TypeSignIn = {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
     }
-    const resault = Loginschema.safeParse(newUser)
+    const resault = signInSchema.safeParse(newUser)
     if (!resault.success) {
       const errMessage = resault.error.issues.map((is) => ({
         path: is.path.at(0) as string,
@@ -44,63 +44,74 @@ const Login = () => {
       setErrs(errMessage)
       return
     }
-    setErrs([])
-    console.log(newUser)
+    const sign = await signInAction(resault.data)
+    toast({ title: sign.message, variant: sign.status === "error" ? "destructive" : "default" })
+    if (sign.status === "success") {
+      setOpen(false)
+      formRef.current?.reset()
+    }
   }
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>
-          <User className="md:btn-icon-l icon" />
-          <span className="hidden md:block">ورود | ثبت نام</span>
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="w-11/12 lg:w-96 rounded-sm">
-        <DialogHeader>
-          <DialogTitle className="text-center">
-            <Title size="lg" className="text-center mb-6">
-              <h1 className="text-primary">جاب ویژن</h1>
-            </Title>
-            <div className="text-xl font-thin">
-              <span className="dana-bold">ورود | ثبت نام</span> کارجو
-            </div>
-          </DialogTitle>
-          <DialogDescription>
-            <form action={clientAction} className="mt-6 w-full flex flex-col items-center gap-3">
-              <InputMessage
-                dir="ltr"
-                name="email"
-                wrapperClassName="w-full"
-                placeholder="ایمیل"
-                // message={errs?.filter((err) => err.path === "email").at(-1)?.message}
-                message={
-                  getLastMessage({
-                    array: errs,
-                    key: "path",
-                    main_id: "email",
-                  })?.message
-                }
-              />
-              <InputMessage
-                dir="ltr"
-                name="password"
-                wrapperClassName="w-full"
-                placeholder="رمز عبور"
-                type="password"
-                message={
-                  getLastMessage({
-                    array: errs,
-                    key: "path",
-                    main_id: "password",
-                  })?.message
-                }
-              />
-              <Button className="w-full">ادامه</Button>
-            </form>
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+    <>
+      <Toaster />
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button>
+            <User className="md:btn-icon-l icon" />
+            <span className="hidden md:block">ورود | ثبت نام</span>
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="w-11/12 lg:w-96 rounded-sm">
+          <DialogHeader>
+            <DialogTitle className="text-center">
+              <Title size="lg" className="text-center mb-6">
+                <h1 className="text-primary">جاب ویژن</h1>
+              </Title>
+              <div className="text-xl font-thin">
+                <span className="dana-bold">ورود | ثبت نام</span> کارجو
+              </div>
+            </DialogTitle>
+            <DialogDescription>
+              <form
+                ref={formRef}
+                action={clientAction}
+                className="mt-6 w-full flex flex-col items-center gap-3"
+              >
+                <InputMessage
+                  dir="ltr"
+                  name="email"
+                  wrapperClassName="w-full"
+                  placeholder="ایمیل"
+                  message={
+                    getLastMessage({
+                      array: errs,
+                      key: "path",
+                      main_id: "email",
+                    })?.message
+                  }
+                />
+                <InputMessage
+                  dir="ltr"
+                  name="password"
+                  wrapperClassName="w-full"
+                  placeholder="رمز عبور"
+                  type="password"
+                  autoComplete="current-password"
+                  message={
+                    getLastMessage({
+                      array: errs,
+                      key: "path",
+                      main_id: "password",
+                    })?.message
+                  }
+                />
+                <Button className="w-full">ادامه</Button>
+              </form>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }
 

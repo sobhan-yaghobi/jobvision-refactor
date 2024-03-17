@@ -41,7 +41,7 @@ model users {
   password   String     @db.Text
   created_at DateTime   @default(now())
   company    companies? @relation(fields: [company_id], references: [id])
-  company_id String
+  company_id String?
 }
 
 model companies {

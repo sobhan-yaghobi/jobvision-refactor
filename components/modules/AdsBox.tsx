@@ -16,10 +16,10 @@ const AdsBox: React.FC<AdsBoxProps> = ({ className }) => {
     <Card className={cn("w-full *:p-3 shadow-md", className)}>
       <CardHeader className="flex flex-row items-start">
         <Image
-          width={80}
-          height={80}
+          width={190}
+          height={100}
           src={"/images/Irancell_logo.webp"}
-          className="rounded-sm"
+          className="rounded-sm w-20"
           alt="logo-compnay"
         />
         <div className="flex flex-col !mt-0 !mr-3">
