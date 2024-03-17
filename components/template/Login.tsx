@@ -1,7 +1,8 @@
 "use client"
 
 import React, { useState } from "react"
-import z, { TypeOf } from "zod"
+import z from "zod"
+import { getLastMessage } from "@/lib/utils"
 
 import { User } from "lucide-react"
 
@@ -14,9 +15,8 @@ import {
   DialogTrigger,
 } from "../modules/ui/dialog"
 import { Button } from "../modules/ui/button"
-import { Input, InputMessage } from "../modules/ui/input"
+import { InputMessage } from "../modules/ui/input"
 import Title from "../modules/Title"
-import { getLastMessage } from "@/lib/utils"
 
 const Loginschema = z.object({
   email: z.string().trim().email("ایمیل معتبر نیست").min(1, "ایمیل اجباری میباشد"),
@@ -44,6 +44,7 @@ const Login = () => {
       setErrs(errMessage)
       return
     }
+    setErrs([])
     console.log(newUser)
   }
   return (
@@ -86,7 +87,13 @@ const Login = () => {
                 wrapperClassName="w-full"
                 placeholder="رمز عبور"
                 type="password"
-                message={errs?.filter((err) => err.path === "password").at(-1)?.message}
+                message={
+                  getLastMessage({
+                    array: errs,
+                    key: "path",
+                    main_id: "password",
+                  })?.message
+                }
               />
               <Button className="w-full">ادامه</Button>
             </form>
