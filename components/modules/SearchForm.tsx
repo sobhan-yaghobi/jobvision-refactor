@@ -1,6 +1,6 @@
 "use client"
 import React, { useRef, useState } from "react"
-import { category_collection } from "@prisma/client"
+import { category_collections } from "@prisma/client"
 
 import { Briefcase, CheckIcon, MapPin, Search, X } from "lucide-react"
 
@@ -97,23 +97,23 @@ const ProvinceInput: React.FC<ProvinceInputProps> = ({ provinces, width }) => {
                     />
                     تمامی شهر های {province.name}
                   </div>
-                  {province.city
-                    ? province.city.map((cit) => (
+                  {province.cities
+                    ? province.cities.map((city) => (
                         <div
-                          key={`accordion-city-item-${cit.id}`}
+                          key={`accordion-city-item-${city.id}`}
                           className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
                           onClick={() => {
-                            setValue(cit.name ?? province.name)
+                            setValue(city.name ?? province.name)
                             setOpen(false)
                           }}
                         >
                           <CheckIcon
                             className={cn(
                               "icon btn-icon btn-icon-l",
-                              value === cit.name ? "opacity-100" : "opacity-0"
+                              value === city.name ? "opacity-100" : "opacity-0"
                             )}
                           />
-                          {cit.name}
+                          {city.name}
                         </div>
                       ))
                     : null}
@@ -134,7 +134,7 @@ type CategoryInputProps = {
 const CategoryInput: React.FC<CategoryInputProps> = ({ categories, width }) => {
   const myDivRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
-  const [collection, setCollection] = useState<category_collection>({} as category_collection)
+  const [collection, setCollection] = useState<category_collections>({} as category_collections)
   return (
     <div ref={myDivRef} className={`${width ?? "w-[300px]"}`}>
       <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -153,7 +153,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({ categories, width }) => {
                   <X
                     onClick={(e) => {
                       e.preventDefault()
-                      setCollection({} as category_collection)
+                      setCollection({} as category_collections)
                     }}
                     className="icon"
                   />
@@ -180,8 +180,8 @@ const CategoryInput: React.FC<CategoryInputProps> = ({ categories, width }) => {
                   {category.name}
                 </AccordionTrigger>
                 <AccordionContent className="flex flex-col pb-0">
-                  {category.category_collection.length ? (
-                    category.category_collection.map((collect) => (
+                  {category.category_collections.length ? (
+                    category.category_collections.map((collect) => (
                       <div
                         key={`accordion-collection-item-${collect.id}`}
                         className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"

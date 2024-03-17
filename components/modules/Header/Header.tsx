@@ -6,6 +6,7 @@ import { Button } from "../ui/button"
 import Sidebar from "./Sidebar"
 import Title from "../Title"
 import Link from "next/link"
+import Login from "@/components/template/Login"
 
 export type TypeMenuItem = {
   id: number
@@ -20,10 +21,10 @@ const menuItem: TypeMenuItem[] = [
 ]
 
 const Header = async () => {
-  const category = await prisma.category.findMany({ include: { category_collection: true } })
-  const province = await prisma.province.findMany({
+  const category = await prisma.categories.findMany({ include: { category_collections: true } })
+  const province = await prisma.provinces.findMany({
     include: {
-      city: true,
+      cities: true,
     },
   })
   return (
@@ -49,10 +50,7 @@ const Header = async () => {
           />
         </div>
         <div className="h-full flex items-center">
-          <Button className="bg-primary">
-            <User className="md:btn-icon-l icon" />
-            <span className="hidden md:block">ورود | ثبت نام</span>
-          </Button>
+          <Login />
           <Button variant={"ghost"} className="hidden relative mr-6 xl:block">
             بخش کارفرمایان
             <span className="bg-secondary-foreground w-[.5px] h-full -right-3 top-0 absolute"></span>

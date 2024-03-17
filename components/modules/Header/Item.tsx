@@ -1,5 +1,5 @@
 import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
-import { category_collection, city } from "@prisma/client"
+import { category_collections, cities } from "@prisma/client"
 import Link from "next/link"
 import React from "react"
 
@@ -28,9 +28,9 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => (
     itemHref={`jobs/category-${category.id}`}
     itemName={category.name}
   >
-    {category.category_collection.length ? (
+    {category.category_collections.length ? (
       <ul className="w-full px-3 cursor-default dana">
-        {category.category_collection.map((collection: category_collection) => (
+        {category.category_collections.map((collection: category_collections) => (
           <li
             key={`collection-item-${collection.id}`}
             className="w-full flex items-center mt-2 first:mt-0"
@@ -51,15 +51,15 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => (
 type ProvinceItemProps = { province: provinceWithCity }
 const ProvinceItem: React.FC<ProvinceItemProps> = ({ province }) => (
   <Item itemHref={`jobs/province-${province.id}`} itemName={province.name}>
-    {province.city.length ? (
+    {province.cities.length ? (
       <ul className="w-full px-3 cursor-default dana">
-        {province.city.map((cit: city) => (
-          <li key={cit.id} className="w-full flex items-center mt-2 first:mt-0">
+        {province.cities.map((city: cities) => (
+          <li key={city.id} className="w-full flex items-center mt-2 first:mt-0">
             <Link
-              href={`jobs/city-${cit.name}`}
+              href={`jobs/city-${city.name}`}
               className="text-secondary w-full inline-block hover:text-primary"
             >
-              {cit.name}
+              {city.name}
             </Link>
           </li>
         ))}

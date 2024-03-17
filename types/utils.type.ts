@@ -1,9 +1,9 @@
-import { province, city, category, category_collection } from "@prisma/client"
+import { provinces, cities, categories, category_collections } from "@prisma/client"
 
-export type provinceWithCity = province & {
-  city: city[]
+export type provinceWithCity = provinces & {
+  cities: cities[]
 }
 
-export type categoryWithCollection = category & {
-  category_collection: category_collection[]
+export type categoryWithCollection = categories & {
+  category_collections: category_collections[]
 }

@@ -7,34 +7,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model category {
-  id                  Int                   @id @default(autoincrement())
-  name                String                @db.VarChar(45)
-  link                String                @db.VarChar(255)
-  category_collection category_collection[]
+model categories {
+  id                   Int                    @id @default(autoincrement())
+  name                 String                 @db.VarChar(45)
+  link                 String                 @db.VarChar(255)
+  category_collections category_collections[]
 }
 
-model category_collection {
-  id          Int       @id @default(autoincrement())
+model category_collections {
+  id          Int         @id @default(autoincrement())
   category_id Int?
-  name        String?   @db.VarChar(255)
-  link        String?   @db.VarChar(255)
-  category    category? @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "category_collection_ibfk_1")
+  name        String?     @db.VarChar(255)
+  link        String?     @db.VarChar(255)
+  categories  categories? @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "category_collections_ibfk_1")
 
   @@index([category_id], map: "category_id")
 }
 
-model city {
-  id          Int       @id @default(autoincrement())
+model cities {
+  id          Int        @id @default(autoincrement())
   province_id Int?
-  name        String?   @db.VarChar(255)
-  province    province? @relation(fields: [province_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "city_ibfk_1")
+  name        String?    @db.VarChar(255)
+  provinces   provinces? @relation(fields: [province_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "cities_ibfk_1")
 
   @@index([province_id], map: "province_id")
 }
 
-model province {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(45)
-  city city[]
+model provinces {
+  id     Int      @id @default(autoincrement())
+  name   String   @db.VarChar(45)
+  cities cities[]
 }

@@ -30,7 +30,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           className={cn(
-            "flex w-full h-full rounded-sm border border-2 border-muted bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+            "flex w-full h-full rounded-sm border-2 border-muted bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
             icon && "pr-12",
             className
           )}
@@ -43,4 +43,21 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 )
 Input.displayName = "Input"
 
-export { Input }
+type InputMessageProps = InputProps & {
+  message?: string | React.ReactNode
+}
+
+const InputMessage: React.FC<InputMessageProps> = ({ message, ...props }) => {
+  return (
+    <div className="w-full flex flex-col gap-2 items-start">
+      <Input {...props} />
+      {message && typeof message === "string" ? (
+        <p className="text-destructive text-xs">{message}</p>
+      ) : (
+        message
+      )}
+    </div>
+  )
+}
+
+export { Input, InputMessage }
