@@ -17,9 +17,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
-import logOut from "@/app/action/logOut"
 import Login from "@/components/template/Login"
-import getMe from "@/app/action/getMe"
+import { toast } from "../ui/use-toast"
+import { Toaster } from "../ui/toaster"
 
 const UserDropDown: React.FC<{}> = ({}) => {
   const [user, setUser] = useState<users | null>(null)
@@ -30,15 +30,29 @@ const UserDropDown: React.FC<{}> = ({}) => {
 
   useEffect(() => {
     async function getMeAction() {
-      const user = await getMe()
+      const res = await fetch("/api/getMe")
+      const user: users = await res.json()
 
       setUser(Object.keys(user as object).length ? user : null)
     }
     getMeAction()
   }, [])
 
+  const logoutAction = async () => {
+    const res = await fetch("/api/logOut", { method: "POST" })
+    if (res.status === 201) {
+      const isLogout = await res.json()
+      toast({ title: isLogout.message })
+      setUser(null)
+    } else {
+      toast({ title: "مشکلی در خروج شما پیش آماده لطفا مجددا امتحان کنید", variant: "destructive" })
+    }
+    setIsLogoutDialog(false)
+  }
+
   return (
     <>
+      <Toaster />
       {user ? (
         <>
           <DropdownMenu dir="rtl" open={isDropdownUser} onOpenChange={setIsDropdownUser}>
@@ -82,11 +96,7 @@ const UserDropDown: React.FC<{}> = ({}) => {
                 </Button>
                 <Button
                   variant={"outline"}
-                  onClick={() => {
-                    logOut()
-                    setIsLogoutDialog(false)
-                    setUser(null)
-                  }}
+                  onClick={logoutAction}
                   className="text-destructive border-destructive hover:text-white hover:bg-destructive"
                   type="button"
                 >
