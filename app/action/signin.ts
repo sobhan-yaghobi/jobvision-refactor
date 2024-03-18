@@ -14,6 +14,8 @@ const signInAction = async ({
   if (Boolean(user) && !isNull(user)) {
     const isValidPassword = await verifyPassword(password, user?.password)
     if (isValidPassword) {
+      const token = generateToken({ email })
+      setTokenCookieAction(token)
       return { status: "success", message: "ورود با موفقیت انجام شد" }
     }
     return { status: "error", message: "پسورد یا ایمیل صحیح نمیباشد" }
@@ -23,18 +25,22 @@ const signInAction = async ({
 
     const userStatus = await prisma.users.create({ data: { email, password: hashedPassword } })
     if (Boolean(userStatus)) {
-      cookies().set({
-        name: "token",
-        value: token,
-        httpOnly: true,
-        path: "/",
-        maxAge: 60 * 60 * 72, // 3 Day
-      })
+      setTokenCookieAction(token)
       return { status: "success", message: "ثبت نام با موفقیت انجام شد" }
     } else {
       return { status: "error", message: "خطایی در سمت سرور رخ داده است" }
     }
   }
+}
+
+const setTokenCookieAction = (token: string) => {
+  cookies().set({
+    name: "token",
+    value: token,
+    httpOnly: true,
+    path: "/",
+    maxAge: 60 * 60 * 72, // 3 Day
+  })
 }
 
 export { signInAction }

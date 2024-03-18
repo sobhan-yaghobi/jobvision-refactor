@@ -3,6 +3,7 @@ import "./globals.css"
 import Header from "@/components/modules/Header/Header"
 import Footer from "@/components/modules/Footer"
 import addInitalDataAction from "./action/addInitalDataToDb"
+import getMe from "@/app/action/getMe"
 
 export const metadata: Metadata = {
   title: "Clone Jobvison Website",
@@ -15,6 +16,8 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   await addInitalDataAction()
+  const user = await getMe()
+
   return (
     <html lang="en" dir="rtl">
       <body>
