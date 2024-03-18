@@ -1,0 +1,106 @@
+"use client"
+
+import React, { useEffect, useState } from "react"
+import { users } from "@prisma/client"
+
+import { ChevronDown } from "lucide-react"
+
+import Link from "next/link"
+import { Button } from "../ui/button"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu"
+import logOut from "@/app/action/logOut"
+import Login from "@/components/template/Login"
+import getMe from "@/app/action/getMe"
+
+const UserDropDown: React.FC<{}> = ({}) => {
+  const [user, setUser] = useState<users | null>(null)
+
+  const [isDropdownUser, setIsDropdownUser] = useState(false)
+  const [isLogoutDialog, setIsLogoutDialog] = useState(false)
+  const username = user?.email?.substring(0, user?.email?.lastIndexOf("@")) ?? ""
+
+  useEffect(() => {
+    async function getMeAction() {
+      const user = await getMe()
+
+      setUser(Object.keys(user as object).length ? user : null)
+    }
+    getMeAction()
+  }, [])
+
+  return (
+    <>
+      {user ? (
+        <>
+          <DropdownMenu dir="rtl" open={isDropdownUser} onOpenChange={setIsDropdownUser}>
+            <DropdownMenuTrigger asChild>
+              <Button variant="default" className="outline-none">
+                <span className="hidden sm:inline-block">{username}</span>
+                <ChevronDown
+                  className={`icon transition ${
+                    isDropdownUser ? "-scale-y-100" : ""
+                  } sm:btn-icon-r`}
+                />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56 ml-3 mt-2">
+              <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem className="p-0">
+                  <Link className="px-2 py-1.5 inline-block" href={"/"}>
+                    داشبورد
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => setIsLogoutDialog(true)}
+                className="text-destructive cursor-pointer"
+              >
+                خروج از حساب
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Dialog open={isLogoutDialog} onOpenChange={setIsLogoutDialog}>
+            <DialogContent isDirectionCloseLeft>
+              <DialogHeader className="mb-3">
+                <DialogTitle>آیا از خروج خود مطمعن هستید !؟</DialogTitle>
+              </DialogHeader>
+              <DialogFooter className="flex gap-2">
+                <Button variant={"outline"} onClick={() => setIsLogoutDialog(false)} type="button">
+                  خیر
+                </Button>
+                <Button
+                  variant={"outline"}
+                  onClick={() => {
+                    logOut()
+                    setIsLogoutDialog(false)
+                    setUser(null)
+                  }}
+                  className="text-destructive border-destructive hover:text-white hover:bg-destructive"
+                  type="button"
+                >
+                  بله
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </>
+      ) : (
+        <Login />
+      )}
+    </>
+  )
+}
+
+export default UserDropDown

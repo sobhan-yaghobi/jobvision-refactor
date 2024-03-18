@@ -1,4 +1,3 @@
-import { User } from "lucide-react"
 import prisma from "@/lib/prisma"
 
 import Navbar from "./Navbar"
@@ -6,7 +5,7 @@ import { Button } from "../ui/button"
 import Sidebar from "./Sidebar"
 import Title from "../Title"
 import Link from "next/link"
-import Login from "@/components/template/Login"
+import UserDropDown from "./UserDropDown"
 
 export type TypeMenuItem = {
   id: number
@@ -50,7 +49,7 @@ const Header = async () => {
           />
         </div>
         <div className="h-full flex items-center">
-          <Login />
+          <UserDropDown />
           <Button variant={"ghost"} className="hidden relative mr-6 xl:block">
             بخش کارفرمایان
             <span className="bg-secondary-foreground w-[.5px] h-full -right-3 top-0 absolute"></span>
