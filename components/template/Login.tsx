@@ -4,9 +4,10 @@ import React, { useRef, useState } from "react"
 import { TypeSignIn, signInSchema } from "@/validation/zod.validations"
 import { getLastMessage } from "@/lib/utils"
 
-import { signInAction } from "@/app/action/signin"
+import { registerAction } from "@/app/action/register"
 
 import { useToast } from "../modules/ui/use-toast"
+import useUser from "@/hook/store/useUser"
 
 import { User } from "lucide-react"
 
@@ -22,8 +23,11 @@ import { InputMessage } from "../modules/ui/input"
 import { Button } from "../modules/ui/button"
 import Title from "../modules/Title"
 import { Toaster } from "@/components/modules/ui/toaster"
+import { ToastAction } from "../modules/ui/toast"
+import Link from "next/link"
 
 const Login = () => {
+  const { setUser } = useUser()
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const { toast } = useToast()
@@ -44,10 +48,24 @@ const Login = () => {
       setErrs(errMessage)
       return
     }
-    const sign = await signInAction(resault.data)
-    toast({ title: sign.message, variant: sign.status === "error" ? "destructive" : "default" })
+    const sign = await registerAction(resault.data)
+    toast({
+      title: sign.message,
+      variant: sign.status === "error" ? "destructive" : "default",
+      ...(sign.status === "success" && {
+        action: (
+          <ToastAction
+            className="hover:bg-primary hover:text-primary-foreground"
+            altText="رفتن به پنل داشورد"
+          >
+            <Link href={"/dashboard"}>مشاهده داشبورد</Link>
+          </ToastAction>
+        ),
+      }),
+    })
     if (sign.status === "success") {
       setOpen(false)
+      setUser(sign.user)
       formRef.current?.reset()
     }
   }

@@ -1,114 +1,35 @@
 "use client"
+import React, { useEffect } from "react"
 
-import React, { useEffect, useState } from "react"
-import { users } from "@prisma/client"
+import useUser from "@/hook/store/useUser"
 
-import { ChevronDown } from "lucide-react"
-
-import Link from "next/link"
-import { Button } from "../ui/button"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu"
-import Login from "@/components/template/Login"
 import { toast } from "../ui/use-toast"
+
+import { users } from "@prisma/client"
 import { Toaster } from "../ui/toaster"
+import Login from "@/components/template/Login"
 
-const UserDropDown: React.FC<{}> = ({}) => {
-  const [user, setUser] = useState<users | null>(null)
-
-  const [isDropdownUser, setIsDropdownUser] = useState(false)
-  const [isLogoutDialog, setIsLogoutDialog] = useState(false)
-  const username = user?.email?.substring(0, user?.email?.lastIndexOf("@")) ?? ""
+const UserDropDown = () => {
+  const { user, setUser } = useUser()
 
   useEffect(() => {
-    async function getMeAction() {
+    const getMeAction = async () => {
       const res = await fetch("/api/getMe")
-      const user: users = await res.json()
-
-      setUser(Object.keys(user as object).length ? user : null)
+      if (res.status === 201) {
+        const data: users | { message: string } = await res.json()
+        if ("id" in data) {
+          setUser(data)
+        } else {
+          toast({ title: "خطا در احراز هویت", variant: "destructive" })
+        }
+      }
     }
     getMeAction()
   }, [])
-
-  const logoutAction = async () => {
-    const res = await fetch("/api/logOut", { method: "POST" })
-    if (res.status === 201) {
-      const isLogout = await res.json()
-      toast({ title: isLogout.message })
-      setUser(null)
-    } else {
-      toast({ title: "مشکلی در خروج شما پیش آماده لطفا مجددا امتحان کنید", variant: "destructive" })
-    }
-    setIsLogoutDialog(false)
-  }
-
   return (
     <>
       <Toaster />
-      {user ? (
-        <>
-          <DropdownMenu dir="rtl" open={isDropdownUser} onOpenChange={setIsDropdownUser}>
-            <DropdownMenuTrigger asChild>
-              <Button variant="default" className="outline-none">
-                <span className="hidden sm:inline-block">{username}</span>
-                <ChevronDown
-                  className={`icon transition ${
-                    isDropdownUser ? "-scale-y-100" : ""
-                  } sm:btn-icon-r`}
-                />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56 ml-3 mt-2">
-              <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem className="p-0">
-                  <Link className="px-2 py-1.5 inline-block" href={"/"}>
-                    داشبورد
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => setIsLogoutDialog(true)}
-                className="text-destructive cursor-pointer"
-              >
-                خروج از حساب
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Dialog open={isLogoutDialog} onOpenChange={setIsLogoutDialog}>
-            <DialogContent isDirectionCloseLeft>
-              <DialogHeader className="mb-3">
-                <DialogTitle>آیا از خروج خود مطمعن هستید !؟</DialogTitle>
-              </DialogHeader>
-              <DialogFooter className="flex gap-2">
-                <Button variant={"outline"} onClick={() => setIsLogoutDialog(false)} type="button">
-                  خیر
-                </Button>
-                <Button
-                  variant={"outline"}
-                  onClick={logoutAction}
-                  className="text-destructive border-destructive hover:text-white hover:bg-destructive"
-                  type="button"
-                >
-                  بله
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </>
-      ) : (
-        <Login />
-      )}
+      <div>{user !== null ? <>{user.email}</> : <Login />}</div>
     </>
   )
 }
