@@ -40,9 +40,23 @@ const UserDropDown = () => {
     }
     getMeAction()
   }, [])
+
   const username = user !== null ? user.email.substring(0, user.email.lastIndexOf("@")) : ""
   const [isDropdownUser, setIsDropdownUser] = useState(false)
   const [isLogoutDialog, setIsLogoutDialog] = useState(false)
+
+  const logOutAction = async () => {
+    const res = await fetch("/api/logOut", {
+      method: "POST",
+    })
+    const data = await res.json()
+    if (res.status === 201) {
+      setUser(null)
+      setIsLogoutDialog(false)
+      toast({ title: data.message, variant: "default" })
+    }
+    toast({ title: data.message, variant: "destructive" })
+  }
   return (
     <>
       <Toaster />
@@ -89,7 +103,7 @@ const UserDropDown = () => {
                 </Button>
                 <Button
                   variant={"outline"}
-                  onClick={() => setIsLogoutDialog(false)}
+                  onClick={logOutAction}
                   className="text-destructive border-destructive hover:text-white hover:bg-destructive"
                   type="button"
                 >
