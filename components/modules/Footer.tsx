@@ -197,7 +197,7 @@ const Footer = () => {
                       <p className="dana w-7 h-7 center ml-3 border border-muted rounded-full">
                         {index + 1}
                       </p>
-                      {item.title}
+                      <span className="text-right">{item.title}</span>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>{item.answer}</AccordionContent>
