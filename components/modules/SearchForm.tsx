@@ -5,18 +5,19 @@ import { category_collections } from "@prisma/client"
 import { Briefcase, CheckIcon, MapPin, Search, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/modules/ui/button"
+import { Button, ButtonProps } from "@/components/modules/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/modules/ui/popover"
 import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
 import { Input } from "./ui/input"
 
-type SearchFormProps = {
+export type SearchFormProps = {
   provinces: provinceWithCity[]
   categories: categoryWithCollection[]
+  buttonVariant?: ButtonProps["variant"]
 }
 
-const SearchForm: React.FC<SearchFormProps> = ({ provinces, categories }) => {
+const SearchForm: React.FC<SearchFormProps> = ({ provinces, categories, buttonVariant }) => {
   return (
     <div className="w-full flex flex-col gap-3 items-center justify-between lg:flex-row">
       <Input
@@ -26,7 +27,9 @@ const SearchForm: React.FC<SearchFormProps> = ({ provinces, categories }) => {
       />
       <CategoryInput width="w-full" categories={categories} />
       <ProvinceInput width="w-full" provinces={provinces} />
-      <Button className="w-auto">جستجو در مشاغل</Button>
+      <Button variant={buttonVariant} className="w-auto">
+        جستجو در مشاغل
+      </Button>
     </div>
   )
 }
