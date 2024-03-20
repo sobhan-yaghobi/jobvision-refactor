@@ -10,9 +10,9 @@ interface JobsFillterProps extends SearchFormProps {}
 const JobsFillter: React.FC<JobsFillterProps> = ({ categories, provinces, buttonVariant }) => {
   const [tags, setTags] = useState<string[]>([])
   return (
-    <div>
+    <div className="overflow-hidden">
       <SearchForm provinces={provinces} categories={categories} buttonVariant={buttonVariant} />
-      <ul className="flex mt-4 text-sm gap-3">
+      <ul className="w-full flex mt-4 text-sm gap-3 overflow-x-auto">
         {Array(10)
           .fill("")
           .map((_, index) => (

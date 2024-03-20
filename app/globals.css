@@ -93,6 +93,7 @@
   /* width */
   ::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
   }
 
   /* Track */
@@ -102,7 +103,7 @@
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--purple);
+    background-color: hsl(var(--secondary));
   }
 
   /* Handle Primary Color */
