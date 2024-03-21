@@ -15,10 +15,6 @@ import {
   AccordionContent,
 } from "@/components/modules/ui/accordion"
 
-const className = {
-  itemActive: "bg-primary/20 hover:bg-primary/10",
-}
-
 type RouteProps = Omit<TypeSidebarItem, "children">
 const Route: React.FC<RouteProps> = ({ href, icon, label }) => {
   const pathName = usePathname()
@@ -29,8 +25,8 @@ const Route: React.FC<RouteProps> = ({ href, icon, label }) => {
     <Link
       href={route}
       className={cn(
-        `flex items-center py-2 px-1 rounded-sm hover:bg-primary/20 ${
-          href === mainRoute ? className.itemActive : null
+        `flex items-center py-2 px-1 rounded-sm hover:bg-primary/10 ${
+          href === mainRoute ? "bg-primary/10 text-primary" : null
         }`
       )}
     >
