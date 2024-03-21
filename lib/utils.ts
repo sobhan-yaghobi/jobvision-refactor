@@ -43,12 +43,28 @@ const verifyToken = (token: string | undefined) => {
   }
 }
 
-const isLogin = (token: string | undefined) => {
-  const tokenResualt = token ? verifyToken(token) : false
-  if (typeof tokenResualt === "object" && "email" in tokenResualt && token) {
-    return true
+const validateTokenResualt = async (token: string | undefined) => {
+  const tokenResualt = verifyToken(token)
+
+  if (
+    typeof tokenResualt !== "string" &&
+    typeof tokenResualt !== "boolean" &&
+    "email" in tokenResualt
+  ) {
+    const user = await prisma.users.findFirst({ where: { email: tokenResualt.email } })
+    if (user !== null) {
+      return Response.json(user, { status: 201 })
+    }
   }
-  return false
+  return Response.json({ message: "user not found :(" }, { status: 404 })
 }
 
-export { cn, getLastMessage, hashPassword, generateToken, verifyPassword, verifyToken, isLogin }
+export {
+  cn,
+  getLastMessage,
+  hashPassword,
+  generateToken,
+  verifyPassword,
+  verifyToken,
+  validateTokenResualt,
+}
