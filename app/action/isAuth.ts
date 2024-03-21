@@ -2,17 +2,14 @@
 
 import { cookies } from "next/headers"
 
+import { validateTokenResualt } from "@/lib/utils"
+
 const isAuth = async (): Promise<boolean> => {
-  const tokenResualt = cookies().get("token")
-  if (tokenResualt?.value) {
-    const res = await fetch("http://localhost:3000/api/getMe", {
-      method: "POST",
-      body: JSON.stringify(tokenResualt.value),
-    })
-    const data = await res.json()
-    if ("email" in data) {
-      return true
-    }
+  const token = cookies().get("token")
+  const resualt = await (await validateTokenResualt(token?.value)).json()
+
+  if ("email" in resualt) {
+    return true
   }
   return false
 }

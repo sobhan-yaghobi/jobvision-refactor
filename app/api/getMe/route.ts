@@ -10,9 +10,3 @@ export const GET = async () => {
   const resualt = await validateTokenResualt(token?.value)
   return resualt
 }
-
-export const POST = async (request: NextRequest) => {
-  const token = await request.json()
-  const resualt = await validateTokenResualt(token)
-  return resualt
-}

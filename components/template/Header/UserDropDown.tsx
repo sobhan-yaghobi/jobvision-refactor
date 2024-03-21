@@ -4,11 +4,11 @@ import { users } from "@prisma/client"
 
 import useUser from "@/hook/store/useUser"
 
-import { toast } from "../ui/use-toast"
+import { toast } from "../../modules/ui/use-toast"
 
 import { ChevronDown } from "lucide-react"
 
-import { Toaster } from "../ui/toaster"
+import { Toaster } from "../../modules/ui/toaster"
 import Login from "@/components/template/Login"
 import {
   DropdownMenu,
@@ -18,10 +18,16 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu"
+} from "../../modules/ui/dropdown-menu"
 import Link from "next/link"
-import { Button } from "../ui/button"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog"
+import { Button } from "../../modules/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../../modules/ui/dialog"
 
 const UserDropDown = () => {
   const { user, setUser } = useUser()

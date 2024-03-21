@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { compare, hash } from "bcryptjs"
 import { sign, verify } from "jsonwebtoken"
+import prisma from "./prisma"
 
 const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))

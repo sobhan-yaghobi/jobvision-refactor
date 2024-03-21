@@ -4,9 +4,9 @@ import { TypeMenuItem } from "./Header"
 
 import { ChevronDown } from "lucide-react"
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../modules/ui/tabs"
 import { CategoryItem, ProvinceItem } from "./Item"
-import { Button } from "../ui/button"
+import { Button } from "../../modules/ui/button"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 

@@ -1,9 +1,9 @@
 import prisma from "@/lib/prisma"
 
 import Navbar from "./Navbar"
-import { Button } from "../ui/button"
+import { Button } from "../../modules/ui/button"
 import Sidebar from "./Sidebar"
-import Title from "../Title"
+import Title from "../../modules/Title"
 import Link from "next/link"
 import UserDropDown from "./UserDropDown"
 
