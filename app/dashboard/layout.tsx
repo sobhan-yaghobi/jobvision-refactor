@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation"
 import React from "react"
 import isAuth from "../action/isAuth"
-import Sidebar from "@/components/template/dashboard/Sidebar"
+import Sidebar from "@/components/template/dashboard/Sidebar/Sidebar"
 
 const layout: React.FC<React.PropsWithChildren> = async ({ children }) => {
   const isLogin = await isAuth()
