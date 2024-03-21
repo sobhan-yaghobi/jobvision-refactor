@@ -1,26 +1,28 @@
+"use client"
+
 import React, { Fragment, ReactNode } from "react"
+import { cn } from "@/lib/utils"
 
 import {
-  AlarmClock,
-  CheckCheck,
+  GitPullRequestClosed,
+  GitPullRequestArrow,
   FileSpreadsheet,
   GitPullRequest,
-  GitPullRequestArrow,
-  GitPullRequestClosed,
+  AlarmClock,
+  CheckCheck,
   Home,
 } from "lucide-react"
 
 import {
   Accordion,
-  AccordionContent,
   AccordionItem,
+  AccordionContent,
   AccordionTrigger,
 } from "@/components/modules/ui/accordion"
-import Title from "@/components/modules/Title"
-import { cn } from "@/lib/utils"
-import { Card } from "@/components/modules/ui/card"
-import Image from "next/image"
 import { Button } from "@/components/modules/ui/button"
+import { Card } from "@/components/modules/ui/card"
+import Title from "@/components/modules/Title"
+import Image from "next/image"
 
 type TypeSidebarItem = {
   label: string
@@ -30,7 +32,6 @@ type TypeSidebarItem = {
     parent_href: TypeSidebarItem["href"]
   })[]
 }
-
 const sidebarItems: TypeSidebarItem[] = [
   { label: "خانه", icon: <Home className="icon" />, href: "" },
   { label: "آگهی ها", icon: <FileSpreadsheet className="icon" />, href: "ads" },
@@ -72,7 +73,7 @@ const className = {
   itemActive: "bg-primary/20",
 }
 
-const Sidebar = () => {
+const Sidebar: React.FC = () => {
   return (
     <div className="h-full flex flex-col justify-between">
       <Accordion type="single" collapsible>
