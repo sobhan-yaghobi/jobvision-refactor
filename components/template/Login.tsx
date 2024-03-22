@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useRef, useState } from "react"
+
 import { TypeSignIn, signInSchema } from "@/validation/zod.validations"
 import { getLastMessage } from "@/lib/utils"
 
@@ -8,6 +9,7 @@ import { registerAction } from "@/app/action/register"
 
 import { useToast } from "../modules/ui/use-toast"
 import useUser from "@/hook/store/useUser"
+import { useRouter } from "next/navigation"
 
 import { User } from "lucide-react"
 
@@ -20,10 +22,9 @@ import {
   DialogTrigger,
 } from "../modules/ui/dialog"
 import { InputMessage } from "../modules/ui/input"
+import { ToastAction } from "../modules/ui/toast"
 import { Button } from "../modules/ui/button"
 import Title from "../modules/Title"
-import { ToastAction } from "../modules/ui/toast"
-import { useRouter } from "next/navigation"
 
 const Login = () => {
   const router = useRouter()
