@@ -32,6 +32,27 @@ const LogOutButtonAction: React.FC<React.PropsWithChildren<LogOutButtonActionPro
   const { setUser } = useUser()
   const [isLogoutDialog, setIsLogoutDialog] = useState(false)
 
+  const messageShowAction = (status: number, message: string) => {
+    if (props.mode === "ClientAction") {
+      if (status === 201) {
+        props.successAction(message)
+      } else {
+        props.errorAction(message)
+      }
+    }
+    if (props.mode === "ServerAction") {
+      console.log(message, status)
+
+      if (status === 201) {
+        toast({ title: message })
+      } else {
+        toast({ title: message, variant: "destructive" })
+        props.redirectPath && router.replace(props.redirectPath)
+      }
+    }
+    return false
+  }
+
   const logOutAction = async () => {
     const res = await fetch("/api/logOut", {
       method: "POST",
@@ -43,23 +64,17 @@ const LogOutButtonAction: React.FC<React.PropsWithChildren<LogOutButtonActionPro
       if (props.redirectPath) {
         router.replace(props.redirectPath)
       }
-      if (props.mode === "ClientAction") {
-        props.successAction(data.message)
-      } else if (props.mode === "ServerAction") {
-        toast({ title: data.message })
-      }
+      messageShowAction(res.status, data.message)
     }
-    if (props.mode === "ClientAction") {
-      props.errorAction(data.message)
-    } else if (props.mode === "ServerAction") {
-      toast({ title: data.message, variant: "destructive" })
-    }
+    messageShowAction(res.status, data.message)
   }
   return (
-    <div onClick={() => setIsLogoutDialog(true)} className={props.className}>
-      {props.mode === "ServerAction" ? props.Toaster : null}
-      {props.children}
-      <Dialog open={isLogoutDialog} onOpenChange={setIsLogoutDialog}>
+    <>
+      <div onClick={() => setIsLogoutDialog(true)} className={props.className}>
+        {props.mode === "ServerAction" ? props.Toaster : null}
+        {props.children}
+      </div>
+      <Dialog open={isLogoutDialog} onOpenChange={() => setIsLogoutDialog(false)}>
         <DialogContent isDirectionCloseLeft>
           <DialogHeader className="mb-3">
             <DialogTitle>آیا از خروج خود مطمعن هستید !؟</DialogTitle>
@@ -79,7 +94,7 @@ const LogOutButtonAction: React.FC<React.PropsWithChildren<LogOutButtonActionPro
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   )
 }
 
