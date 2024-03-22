@@ -50,9 +50,9 @@ const UserDropDown = () => {
           <DropdownMenu dir="rtl" open={isDropdownUser} onOpenChange={setIsDropdownUser}>
             <DropdownMenuTrigger asChild>
               <Button variant="default" className="outline-none">
-                <span className="hidden sm:inline-block">{username}</span>
+                <span className="max-w-20 truncate">{username}</span>
                 <ChevronDown
-                  className={`icon transition ${
+                  className={`icon btn-icon-r transition ${
                     isDropdownUser ? "-scale-y-100" : ""
                   } sm:btn-icon-r`}
                 />
