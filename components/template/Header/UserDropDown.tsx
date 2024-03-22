@@ -63,14 +63,16 @@ const UserDropDown = () => {
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem className="p-0">
-                  <Link className="px-2 py-1.5 inline-block" href={"/"}>
+                  <Link className="px-2 py-1.5 inline-block" href={"/dashboard"}>
                     داشبورد
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <LogOutButtonAction>خروج از حساب</LogOutButtonAction>
+                <LogOutButtonAction className="text-destructive cursor-pointer">
+                  خروج از حساب
+                </LogOutButtonAction>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
