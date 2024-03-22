@@ -1,3 +1,4 @@
+import LogOutButtonAction from "@/components/modules/LogOutButtonAction"
 import { Button } from "@/components/modules/ui/button"
 import { DoorOpen, LogOut } from "lucide-react"
 import Link from "next/link"
@@ -12,9 +13,11 @@ const QuickAccess = () => {
             <DoorOpen className="icon" />
           </Button>
         </Link>
-        <Button variant={"destructiveOutline"} aria-label="خروج از حساب" title="خروج از حساب">
-          <LogOut className="icon rotate-180" />
-        </Button>
+        <LogOutButtonAction redirectPath="/">
+          <Button variant={"destructiveOutline"} aria-label="خروج از حساب" title="خروج از حساب">
+            <LogOut className="icon rotate-180" />
+          </Button>
+        </LogOutButtonAction>
       </div>
     </div>
   )
