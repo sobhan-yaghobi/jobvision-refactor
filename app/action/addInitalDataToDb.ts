@@ -9,6 +9,7 @@ import {
   users,
   PrismaClient,
 } from "@prisma/client"
+import prisma from "@/lib/prisma"
 
 const CategoriesData: categories[] = [
   { id: uuid(), name: "حسابدار / مالی و..", link: "accounting" },
