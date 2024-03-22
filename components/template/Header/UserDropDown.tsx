@@ -21,13 +21,7 @@ import {
 } from "../../modules/ui/dropdown-menu"
 import Link from "next/link"
 import { Button } from "../../modules/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../../modules/ui/dialog"
+import LogOutButtonAction from "@/components/modules/LogOutButtonAction"
 
 const UserDropDown = () => {
   const { user, setUser } = useUser()
@@ -49,20 +43,6 @@ const UserDropDown = () => {
 
   const username = user !== null ? user.email.substring(0, user.email.lastIndexOf("@")) : ""
   const [isDropdownUser, setIsDropdownUser] = useState(false)
-  const [isLogoutDialog, setIsLogoutDialog] = useState(false)
-
-  const logOutAction = async () => {
-    const res = await fetch("/api/logOut", {
-      method: "POST",
-    })
-    const data = await res.json()
-    if (res.status === 201) {
-      setUser(null)
-      setIsLogoutDialog(false)
-      toast({ title: data.message, variant: "default" })
-    }
-    toast({ title: data.message, variant: "destructive" })
-  }
   return (
     <>
       <Toaster />
@@ -90,34 +70,18 @@ const UserDropDown = () => {
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => setIsLogoutDialog(true)}
-                className="text-destructive cursor-pointer"
-              >
-                خروج از حساب
+              <DropdownMenuItem asChild>
+                <LogOutButtonAction
+                  mode="ClientAction"
+                  className="text-destructive cursor-pointer"
+                  successAction={(message) => toast({ title: message, variant: "default" })}
+                  errorAction={(message) => toast({ title: message, variant: "destructive" })}
+                >
+                  خروج از حساب
+                </LogOutButtonAction>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Dialog open={isLogoutDialog} onOpenChange={setIsLogoutDialog}>
-            <DialogContent isDirectionCloseLeft>
-              <DialogHeader className="mb-3">
-                <DialogTitle>آیا از خروج خود مطمعن هستید !؟</DialogTitle>
-              </DialogHeader>
-              <DialogFooter className="flex gap-2">
-                <Button variant={"outline"} onClick={() => setIsLogoutDialog(false)} type="button">
-                  خیر
-                </Button>
-                <Button
-                  variant={"outline"}
-                  onClick={logOutAction}
-                  className="text-destructive border-destructive hover:text-white hover:bg-destructive"
-                  type="button"
-                >
-                  بله
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
         </>
       ) : (
         <Login />

@@ -1,8 +1,7 @@
 "use client"
-import React, { useState } from "react"
+import React, { ReactNode, useState } from "react"
 import { useRouter } from "next/navigation"
 
-import { toast } from "@/components/modules/ui/use-toast"
 import useUser from "@/hook/store/useUser"
 
 import {
@@ -13,16 +12,22 @@ import {
   DialogTitle,
 } from "@/components/modules/ui/dialog"
 import { Button } from "@/components/modules/ui/button"
-import { Toaster } from "@/components/modules/ui/toaster"
+import { toast } from "./ui/use-toast"
 
 type LogOutButtonActionProps = {
+  mode: "ClientAction" | "ServerAction"
+  className?: string
   redirectPath?: string
-}
+} & (
+  | {
+      mode: "ClientAction"
+      successAction: (message: string) => void
+      errorAction: (message: string) => void
+    }
+  | { mode: "ServerAction"; Toaster: ReactNode }
+)
 
-const LogOutButtonAction: React.FC<React.PropsWithChildren<LogOutButtonActionProps>> = ({
-  children,
-  redirectPath,
-}) => {
+const LogOutButtonAction: React.FC<React.PropsWithChildren<LogOutButtonActionProps>> = (props) => {
   const router = useRouter()
   const { setUser } = useUser()
   const [isLogoutDialog, setIsLogoutDialog] = useState(false)
@@ -35,17 +40,25 @@ const LogOutButtonAction: React.FC<React.PropsWithChildren<LogOutButtonActionPro
     if (res.status === 201) {
       setUser(null)
       setIsLogoutDialog(false)
-      if (redirectPath) {
-        router.replace(redirectPath)
+      if (props.redirectPath) {
+        router.replace(props.redirectPath)
       }
-      toast({ title: data.message, variant: "default" })
+      if (props.mode === "ClientAction") {
+        props.successAction(data.message)
+      } else if (props.mode === "ServerAction") {
+        toast({ title: data.message })
+      }
     }
-    toast({ title: data.message, variant: "destructive" })
+    if (props.mode === "ClientAction") {
+      props.errorAction(data.message)
+    } else if (props.mode === "ServerAction") {
+      toast({ title: data.message, variant: "destructive" })
+    }
   }
   return (
-    <div onClick={() => setIsLogoutDialog(true)}>
-      {children}
-      <Toaster />
+    <div onClick={() => setIsLogoutDialog(true)} className={props.className}>
+      {props.mode === "ServerAction" ? props.Toaster : null}
+      {props.children}
       <Dialog open={isLogoutDialog} onOpenChange={setIsLogoutDialog}>
         <DialogContent isDirectionCloseLeft>
           <DialogHeader className="mb-3">
