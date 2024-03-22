@@ -1,8 +1,9 @@
 "use client"
-import React, { ReactNode, useState } from "react"
+import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 
 import useUser from "@/hook/store/useUser"
+import { useToast } from "./ui/use-toast"
 
 import {
   Dialog,
@@ -12,7 +13,6 @@ import {
   DialogTitle,
 } from "@/components/modules/ui/dialog"
 import { Button } from "@/components/modules/ui/button"
-import { useToast } from "./ui/use-toast"
 
 type LogOutButtonActionProps = {
   className?: string
@@ -37,7 +37,6 @@ const LogOutButtonAction: React.FC<React.PropsWithChildren<LogOutButtonActionPro
         router.replace(props.redirectPath)
       }
       toast({ title: data.message, variant: "default" })
-      console.log("success")
     }
     toast({ title: data.message, variant: "destructive" })
   }
