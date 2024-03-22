@@ -1,15 +1,13 @@
 "use client"
 import React, { useEffect, useState } from "react"
+
 import { users } from "@prisma/client"
 
 import useUser from "@/hook/store/useUser"
-
 import { useToast } from "../../modules/ui/use-toast"
 
 import { ChevronDown } from "lucide-react"
 
-import { Toaster } from "../../modules/ui/toaster"
-import Login from "@/components/template/Login"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,9 +17,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../modules/ui/dropdown-menu"
-import Link from "next/link"
-import { Button } from "../../modules/ui/button"
 import LogOutButtonAction from "@/components/modules/LogOutButtonAction"
+import { Button } from "../../modules/ui/button"
+import Login from "@/components/template/Login"
+import Link from "next/link"
 
 const UserDropDown = () => {
   const { user, setUser } = useUser()
