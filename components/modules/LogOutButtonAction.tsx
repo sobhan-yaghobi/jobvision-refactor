@@ -12,46 +12,18 @@ import {
   DialogTitle,
 } from "@/components/modules/ui/dialog"
 import { Button } from "@/components/modules/ui/button"
-import { toast } from "./ui/use-toast"
+import { useToast } from "./ui/use-toast"
 
 type LogOutButtonActionProps = {
-  mode: "ClientAction" | "ServerAction"
   className?: string
   redirectPath?: string
-} & (
-  | {
-      mode: "ClientAction"
-      successAction: (message: string) => void
-      errorAction: (message: string) => void
-    }
-  | { mode: "ServerAction"; Toaster: ReactNode }
-)
+}
 
 const LogOutButtonAction: React.FC<React.PropsWithChildren<LogOutButtonActionProps>> = (props) => {
   const router = useRouter()
   const { setUser } = useUser()
+  const { toast } = useToast()
   const [isLogoutDialog, setIsLogoutDialog] = useState(false)
-
-  const messageShowAction = (status: number, message: string) => {
-    if (props.mode === "ClientAction") {
-      if (status === 201) {
-        props.successAction(message)
-      } else {
-        props.errorAction(message)
-      }
-    }
-    if (props.mode === "ServerAction") {
-      console.log(message, status)
-
-      if (status === 201) {
-        toast({ title: message })
-      } else {
-        toast({ title: message, variant: "destructive" })
-        props.redirectPath && router.replace(props.redirectPath)
-      }
-    }
-    return false
-  }
 
   const logOutAction = async () => {
     const res = await fetch("/api/logOut", {
@@ -64,14 +36,14 @@ const LogOutButtonAction: React.FC<React.PropsWithChildren<LogOutButtonActionPro
       if (props.redirectPath) {
         router.replace(props.redirectPath)
       }
-      messageShowAction(res.status, data.message)
+      toast({ title: data.message, variant: "default" })
+      console.log("success")
     }
-    messageShowAction(res.status, data.message)
+    toast({ title: data.message, variant: "destructive" })
   }
   return (
     <>
       <div onClick={() => setIsLogoutDialog(true)} className={props.className}>
-        {props.mode === "ServerAction" ? props.Toaster : null}
         {props.children}
       </div>
       <Dialog open={isLogoutDialog} onOpenChange={() => setIsLogoutDialog(false)}>

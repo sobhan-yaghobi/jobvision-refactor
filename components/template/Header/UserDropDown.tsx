@@ -4,7 +4,7 @@ import { users } from "@prisma/client"
 
 import useUser from "@/hook/store/useUser"
 
-import { toast } from "../../modules/ui/use-toast"
+import { useToast } from "../../modules/ui/use-toast"
 
 import { ChevronDown } from "lucide-react"
 
@@ -25,6 +25,7 @@ import LogOutButtonAction from "@/components/modules/LogOutButtonAction"
 
 const UserDropDown = () => {
   const { user, setUser } = useUser()
+  const { toast } = useToast()
 
   useEffect(() => {
     const getMeAction = async () => {
@@ -45,7 +46,6 @@ const UserDropDown = () => {
   const [isDropdownUser, setIsDropdownUser] = useState(false)
   return (
     <>
-      <Toaster />
       {user !== null ? (
         <>
           <DropdownMenu dir="rtl" open={isDropdownUser} onOpenChange={setIsDropdownUser}>
@@ -71,14 +71,7 @@ const UserDropDown = () => {
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <LogOutButtonAction
-                  mode="ClientAction"
-                  className="text-destructive cursor-pointer"
-                  successAction={(message) => toast({ title: message, variant: "default" })}
-                  errorAction={(message) => toast({ title: message, variant: "destructive" })}
-                >
-                  خروج از حساب
-                </LogOutButtonAction>
+                <LogOutButtonAction>خروج از حساب</LogOutButtonAction>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

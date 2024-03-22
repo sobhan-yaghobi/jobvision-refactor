@@ -22,16 +22,17 @@ import {
 import { InputMessage } from "../modules/ui/input"
 import { Button } from "../modules/ui/button"
 import Title from "../modules/Title"
-import { Toaster } from "@/components/modules/ui/toaster"
 import { ToastAction } from "../modules/ui/toast"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 const Login = () => {
-  const { setUser } = useUser()
-  const [open, setOpen] = useState(false)
-  const formRef = useRef<HTMLFormElement>(null)
+  const router = useRouter()
   const { toast } = useToast()
+  const { setUser } = useUser()
 
+  const formRef = useRef<HTMLFormElement>(null)
+
+  const [open, setOpen] = useState(false)
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
 
   const clientAction = async (formData: FormData) => {
@@ -49,13 +50,21 @@ const Login = () => {
       return
     }
     const sign = await registerAction(resault.data)
-    toast({
+
+    const toastId = toast({
       title: sign.message,
       variant: sign.status === "error" ? "destructive" : "default",
       ...(sign.status === "success" && {
         action: (
-          <ToastAction className="!bg-primary text-primary-foreground" altText="رفتن به پنل داشورد">
-            <Link href={"/dashboard"}>مشاهده داشبورد</Link>
+          <ToastAction
+            onClick={() => {
+              toastId.dismiss()
+              router.push("/dashboard")
+            }}
+            className="!bg-primary text-primary-foreground"
+            altText="رفتن به پنل داشورد"
+          >
+            مشاهده پنل
           </ToastAction>
         ),
       }),
@@ -66,9 +75,9 @@ const Login = () => {
       formRef.current?.reset()
     }
   }
+
   return (
     <>
-      <Toaster />
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button>

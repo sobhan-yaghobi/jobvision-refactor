@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import "./globals.css"
 import addInitalDataAction from "./action/addInitalDataToDb"
+import { Toaster } from "@/components/modules/ui/toaster"
 
 export const metadata: Metadata = {
   title: "Clone Jobvison Website",
@@ -15,7 +16,10 @@ export default async function RootLayout({
   await addInitalDataAction()
   return (
     <html lang="en" dir="rtl">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster />
+      </body>
     </html>
   )
 }
