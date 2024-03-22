@@ -54,10 +54,7 @@ const Login = () => {
       variant: sign.status === "error" ? "destructive" : "default",
       ...(sign.status === "success" && {
         action: (
-          <ToastAction
-            className="hover:bg-primary hover:text-primary-foreground"
-            altText="رفتن به پنل داشورد"
-          >
+          <ToastAction className="!bg-primary text-primary-foreground" altText="رفتن به پنل داشورد">
             <Link href={"/dashboard"}>مشاهده داشبورد</Link>
           </ToastAction>
         ),
