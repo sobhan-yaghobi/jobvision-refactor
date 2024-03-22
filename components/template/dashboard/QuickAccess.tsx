@@ -1,8 +1,10 @@
+import React from "react"
+
+import { DoorOpen, LogOut } from "lucide-react"
+
+import Link from "next/link"
 import LogOutButtonAction from "@/components/modules/LogOutButtonAction"
 import { Button } from "@/components/modules/ui/button"
-import { DoorOpen, LogOut } from "lucide-react"
-import Link from "next/link"
-import React from "react"
 
 const QuickAccess = () => {
   return (
