@@ -2,6 +2,7 @@ import { redirect } from "next/navigation"
 import React from "react"
 import isAuth from "../action/isAuth"
 import Sidebar from "@/components/template/dashboard/Sidebar/Sidebar"
+import QuickAccess from "@/components/template/dashboard/QuickAccess"
 
 const layout: React.FC<React.PropsWithChildren> = async ({ children }) => {
   const isLogin = await isAuth()
@@ -16,7 +17,9 @@ const layout: React.FC<React.PropsWithChildren> = async ({ children }) => {
         <Sidebar />
       </div>
       <div className="w-7/12 mx-6 p-3">{children}</div>
-      <div className="w-3/12 p-3"></div>
+      <div className="w-3/12 p-3">
+        <QuickAccess />
+      </div>
     </div>
   )
 }
