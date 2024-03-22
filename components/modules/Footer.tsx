@@ -1,8 +1,10 @@
 import React, { Fragment } from "react"
+
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "./ui/accordion"
-import Title from "./Title"
-import Link from "next/link"
 import { Button } from "./ui/button"
+import Title from "./Title"
+import Image from "next/image"
+import Link from "next/link"
 
 const faqItems = [
   {
@@ -363,10 +365,22 @@ const Footer = () => {
             </div>
             <div className="w-full my-5 flex items-center justify-center md:my-0 md:w-4/12 md:justify-end">
               <div className="h-36 p-2 m-1 rounded-xl bg-muted flex items-center justify-center">
-                <img className="h-full" src="/images/Enamad.webp" alt="" />
+                <Image
+                  width={118}
+                  height={128}
+                  className="h-full"
+                  src="/images/Enamad.webp"
+                  alt=""
+                />
               </div>
               <div className="h-36 p-2 m-1 rounded-xl bg-muted flex items-center justify-center">
-                <img className="h-full" src="/images/samandehipng.webp" alt="" />
+                <Image
+                  width={85}
+                  height={128}
+                  className="h-full"
+                  src="/images/samandehipng.webp"
+                  alt=""
+                />
               </div>
             </div>
           </div>
