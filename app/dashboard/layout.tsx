@@ -16,7 +16,7 @@ const layout: React.FC<React.PropsWithChildren> = async ({ children }) => {
       <div className="w-2/12 p-3">
         <Sidebar />
       </div>
-      <div className="w-7/12 mx-6 p-3">{children}</div>
+      <div className="bg-secondary/10 w-7/12 my-3 p-3 rounded-sm">{children}</div>
       <div className="w-3/12 p-3">
         <QuickAccess />
       </div>
