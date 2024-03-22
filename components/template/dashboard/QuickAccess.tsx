@@ -2,10 +2,10 @@ import React from "react"
 
 import { DoorOpen, LogOut } from "lucide-react"
 
-import Link from "next/link"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/modules/ui/card"
 import LogOutButtonAction from "@/components/modules/LogOutButtonAction"
 import { Button } from "@/components/modules/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/modules/ui/card"
+import Link from "next/link"
 
 const QuickAccess = () => {
   return (
