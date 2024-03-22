@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import "./globals.css"
 import addInitalDataAction from "./action/addInitalDataToDb"
+
 import { Toaster } from "@/components/modules/ui/toaster"
 
 export const metadata: Metadata = {
