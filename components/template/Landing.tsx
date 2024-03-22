@@ -3,6 +3,8 @@ import Map from "./Map"
 import { SearchForm } from "../modules/SearchForm"
 import Title from "../modules/Title"
 
+import prisma from "@/lib/prisma"
+
 const Landing = async () => {
   const provinces = await prisma.provinces.findMany({ include: { cities: true } })
   const categories = await prisma.categories.findMany({ include: { category_collections: true } })

@@ -4,6 +4,8 @@ import JobsFillter from "@/components/template/JobsFillter"
 import CurrentJobAd from "@/components/template/CurrentJobAd"
 import AdsList from "@/components/template/AdsList"
 
+import prisma from "@/lib/prisma"
+
 const page = async () => {
   const provinces = await prisma.provinces.findMany({ include: { cities: true } })
   const categories = await prisma.categories.findMany({ include: { category_collections: true } })
