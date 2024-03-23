@@ -2,6 +2,7 @@ import React from "react"
 
 import TabsPage, { TypePage } from "@/components/modules/dashboard/TabsPage"
 import Home from "@/components/template/dashboard/Home"
+import Company from "@/components/template/dashboard/Company"
 
 const pageItems: TypePage[] = [
   {
@@ -12,7 +13,7 @@ const pageItems: TypePage[] = [
   {
     id: "company",
     name: "درباره شرکت",
-    content: <>شرکتتتتتتت</>,
+    content: <Company />,
   },
 ]
 const page: React.FC = async () => {

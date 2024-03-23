@@ -153,6 +153,10 @@
     @apply h-5 w-5;
   }
 
+  .icon-stroke-light {
+    @apply icon stroke-muted-foreground;
+  }
+
   .icon-sm {
     @apply h-4 w-4;
   }
