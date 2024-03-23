@@ -28,7 +28,9 @@ const TabsPage: React.FC<TabsPageProps> = ({ pageItems }) => {
   return (
     <Tabs
       dir="rtl"
-      defaultValue={defPage && some(pageItems, defPage) ? defPage : pageItems[0].id}
+      defaultValue={
+        defPage && some(pageItems, (item) => item.id === defPage) ? defPage : pageItems[0].id
+      }
       className="h-full m-0 p-0 flex flex-col"
     >
       <TabsList className="bg-transparent justify-start px-0">
