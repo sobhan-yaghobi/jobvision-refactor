@@ -10,7 +10,7 @@ const LastCv: React.FC = () => {
         <h3>آخرین رزومه های فرستاده شده</h3>
       </Title>
       <div className="mt-3">
-        {Array(5)
+        {Array(3)
           .fill("")
           .map((_, index) => (
             <CvRequest status={"success"} key={index} />

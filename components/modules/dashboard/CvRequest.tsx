@@ -8,8 +8,8 @@ const cvVaraiant = cva("mb-2 h-36 bg-jv-white py-4 px-3 rounded-lg border-solid 
   variants: {
     status: {
       default: "",
-      success: "border-green-500",
-      warning: "border-yellow-500",
+      success: "border-green-500/50`",
+      warning: "border-yellow-500/50`",
       danger: "border-destructive",
     },
   },

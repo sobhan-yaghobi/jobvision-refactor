@@ -22,10 +22,10 @@ const QuickAccess = () => {
           </Button>
         </LogOutButtonAction>
       </div>
-      <div className="bg-secondary/10 flex flex-col mt-3 p-3 rounded-sm">
+      <div className="bg-muted flex flex-col mt-3 p-3 rounded-sm">
         <Card className="border-none shadow-lg p-3">
           <CardHeader className="center pt-0">
-            <div className="w-16 h-16 bg-secondary/40 rounded-full"></div>
+            <div className="w-16 h-16 bg-muted rounded-full"></div>
           </CardHeader>
           <CardTitle className="center text-center">
             {/* <div className="w-20 h-5 bg-secondary/40 animate-pulse"></div> */}
