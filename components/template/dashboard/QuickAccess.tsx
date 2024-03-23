@@ -10,20 +10,20 @@ import Link from "next/link"
 const QuickAccess = () => {
   return (
     <div className="h-full flex-col">
-      <div className="flex justify-end gap-3">
-        <Link href={"/"}>
-          <Button variant={"outline"} aria-label="خررج از داشبورد" title="خروج از داشبورد">
-            <DoorOpen className="icon" />
-          </Button>
-        </Link>
-        <LogOutButtonAction redirectPath="/">
-          <Button variant={"destructiveOutline"} aria-label="خروج از حساب" title="خروج از حساب">
-            <LogOut className="icon rotate-180" />
-          </Button>
-        </LogOutButtonAction>
-      </div>
-      <div className="bg-muted flex flex-col mt-3 p-3 rounded-sm">
-        <Card className="border-none shadow-lg p-3">
+      <div className="bg-muted flex flex-col p-3 rounded-sm">
+        <div className="flex justify-end gap-3">
+          <Link href={"/"}>
+            <Button variant={"outline"} aria-label="خررج از داشبورد" title="خروج از داشبورد">
+              <DoorOpen className="icon" />
+            </Button>
+          </Link>
+          <LogOutButtonAction redirectPath="/">
+            <Button variant={"destructiveOutline"} aria-label="خروج از حساب" title="خروج از حساب">
+              <LogOut className="icon rotate-180" />
+            </Button>
+          </LogOutButtonAction>
+        </div>
+        <Card className="border-none shadow-lg my-3 p-3">
           <CardHeader className="center pt-0">
             <div className="w-16 h-16 bg-muted rounded-full"></div>
           </CardHeader>
@@ -39,7 +39,7 @@ const QuickAccess = () => {
             </div>
           </CardTitle>
         </Card>
-        <Card className="flex-1 mt-3 p-3 border-none shadow-lg">
+        <Card className="flex-1 p-3 border-none shadow-lg">
           <CardHeader className="p-0">
             <h3 className="morabba text-xl">درخواست های اخیر</h3>
           </CardHeader>
