@@ -12,11 +12,11 @@ const layout: React.FC<React.PropsWithChildren> = async ({ children }) => {
   }
 
   return (
-    <div className="w-full h-screen flex">
+    <div className="w-full max-h-screen h-screen flex">
       <div className="w-2/12 p-3">
         <Sidebar />
       </div>
-      <div className="bg-secondary/10 w-7/12 my-3 p-3 rounded-sm">{children}</div>
+      <div className="bg-secondary/10 w-7/12 my-3 p-3 rounded-sm overflow-y-auto">{children}</div>
       <div className="w-3/12 p-3">
         <QuickAccess />
       </div>
