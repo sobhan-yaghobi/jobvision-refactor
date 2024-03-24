@@ -56,7 +56,7 @@ model companies {
   score_responsiveness            Float    @db.Float
   website                         String   @db.Text
   description                     String   @db.Text
-  company_slogan                  String   @db.Text
+  slogan                  String   @db.Text
   organization_employ             Int
   type_of_activity                String   @db.Text
   industry                        String   @db.Text
