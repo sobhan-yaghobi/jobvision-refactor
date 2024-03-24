@@ -120,6 +120,8 @@ const Company = () => {
         <div className="mt-6">
           <span className="morabba">تعداد کارکنان شرکت</span>
           <InputMessage
+            type="number"
+            min={1}
             icon={<Users className="icon-stroke-light" />}
             wrapperClassName="w-full"
             placeholder="برای مثال کاریابی آنلاین در ایران"
@@ -129,12 +131,6 @@ const Company = () => {
 
         <div className="mt-6">
           <span className="morabba">سال تاسیس شرکت</span>
-          {/* <InputMessage
-            icon={<Calendar className="icon-stroke-light" />}
-            wrapperClassName="w-full"
-            placeholder={new Date().getFullYear().toString()}
-            name="industry"
-          /> */}
           <Calender
             icon={<CalendarIcon className="icon-stroke-light" />}
             containerClassName="w-full *:h-10 *:cursor-pointer"
