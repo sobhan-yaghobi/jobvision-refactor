@@ -5,9 +5,9 @@ import Sidebar from "@/components/template/dashboard/Sidebar/Sidebar"
 import QuickAccess from "@/components/template/dashboard/QuickAccess"
 
 const layout: React.FC<React.PropsWithChildren> = async ({ children }) => {
-  const isLogin = await isAuth()
+  const { isUser } = await isAuth()
 
-  if (!isLogin) {
+  if (!isUser) {
     return redirect("/")
   }
 

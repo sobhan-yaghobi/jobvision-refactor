@@ -87,7 +87,7 @@ const CompaniesData: companies[] = [
     score_responsiveness: 3.5,
     website: "WEBSITE",
     description: "متن تستی برای شرکت ایرانسل",
-    company_slogan: "متن تستی برای شعار شرکت ایرانسل",
+    slogan: "متن تستی برای شعار شرکت ایرانسل",
     organization_employ: 3,
     type_of_activity: "شرکت خدمات رسانی دولتی",
     industry: "فناوری اطلاعات",

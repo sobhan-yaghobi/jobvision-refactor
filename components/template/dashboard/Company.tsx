@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from "react"
+import React, { useRef, useState } from "react"
 
 import { DateObject } from "react-multi-date-picker"
 import { TypeCompany, companySchema } from "@/validation/zod.validations"
@@ -26,12 +26,13 @@ import { Button } from "@/components/modules/ui/button"
 import Title from "@/components/modules/Title"
 import Calender from "@/components/modules/Calender"
 import { getLastMessage } from "@/lib/utils"
+import registerCompany from "@/app/action/registerCompany"
 
 const Company = () => {
   const formRef = useRef<HTMLFormElement>(null)
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
 
-  const clientAction = (formData: FormData) => {
+  const clientAction = async (formData: FormData) => {
     const companyObject: TypeCompany = {
       name: formData.get("name") as string,
       location: formData.get("location") as string,
@@ -66,11 +67,10 @@ const Company = () => {
         }))
       )
     }
+    const resault = await registerCompany(companyObject)
+    console.log("resualt", resault)
   }
 
-  useEffect(() => {
-    console.log("err", errs)
-  }, [errs])
   return (
     <>
       <Title>
