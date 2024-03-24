@@ -36,7 +36,7 @@ const TabsPage: React.FC<TabsPageProps> = ({ pageItems }) => {
       <TabsList className="bg-transparent justify-start px-0">
         {pageItems.map((item) => (
           <TabsTrigger
-            key={`${item}-trigger`}
+            key={`${item.id}-trigger`}
             onClick={() => router.push(`${pathname}?${createQueryString("page", item.id)}`)}
             value={item.id}
           >
@@ -46,7 +46,7 @@ const TabsPage: React.FC<TabsPageProps> = ({ pageItems }) => {
       </TabsList>
       <div className="bg-background h-full p-3">
         {pageItems.map((item) => (
-          <TabsContent key={`${item}-content`} value={item.id}>
+          <TabsContent key={`${item.id}-content`} value={item.id}>
             {item.content}
           </TabsContent>
         ))}
