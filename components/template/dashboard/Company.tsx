@@ -75,10 +75,7 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
       )
     }
     const resault = await registerCompany(companyObject)
-    console.log("resualt", resault)
   }
-
-  console.log(company?.established_year)
 
   return (
     <>

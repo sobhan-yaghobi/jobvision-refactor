@@ -7,7 +7,7 @@ import isAuth from "../action/isAuth"
 import { companies } from "@prisma/client"
 
 const page: React.FC = async () => {
-  const { user, isUser } = await isAuth()
+  const { user } = await isAuth()
 
   const company =
     user && "company_id" in user && user.company_id !== null
