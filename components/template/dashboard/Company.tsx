@@ -1,10 +1,12 @@
-import Title from "@/components/modules/Title"
-import { Button } from "@/components/modules/ui/button"
-import { InputMessage } from "@/components/modules/ui/input"
-import { Textarea } from "@/components/modules/ui/textarea"
+"use client"
+
+import React from "react"
+import Persian_cl from "react-date-object/calendars/persian"
+import { DateObject } from "react-multi-date-picker"
+
 import {
   Building2,
-  Calendar,
+  CalendarIcon,
   Image,
   Link,
   MapPin,
@@ -13,9 +15,15 @@ import {
   Speech,
   Users,
 } from "lucide-react"
-import React from "react"
+
+import { InputMessage } from "@/components/modules/ui/input"
+import { Textarea } from "@/components/modules/ui/textarea"
+import { Button } from "@/components/modules/ui/button"
+import Title from "@/components/modules/Title"
+import Calender from "@/components/modules/Calender"
 
 const Company = () => {
+  const [date, setDate] = React.useState<Date>()
   return (
     <>
       <Title>
@@ -121,11 +129,17 @@ const Company = () => {
 
         <div className="mt-6">
           <span className="morabba">سال تاسیس شرکت</span>
-          <InputMessage
+          {/* <InputMessage
             icon={<Calendar className="icon-stroke-light" />}
             wrapperClassName="w-full"
             placeholder={new Date().getFullYear().toString()}
             name="industry"
+          /> */}
+          <Calender
+            icon={<CalendarIcon className="icon-stroke-light" />}
+            containerClassName="w-full *:h-10 *:cursor-pointer"
+            placeholder={`برای مثال ${new DateObject().convert(Persian_cl)}`}
+            name="establish"
           />
         </div>
 
