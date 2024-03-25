@@ -30,6 +30,7 @@ import { Button } from "@/components/modules/ui/button"
 import Title from "@/components/modules/Title"
 import Calender from "@/components/modules/Calender"
 import { isEqual, keys, pick, unset } from "lodash"
+import { toast } from "@/components/modules/ui/use-toast"
 
 type CompanyProps = {
   company: companies | null
@@ -75,11 +76,22 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
         )
       }
       const resault = await registerCompany(companyObject)
+
+      if (resault.status) {
+        toast({ title: "شرکت با موفقیت ساخته شد" })
+      }
+      toast({ title: resault.message, variant: "destructive" })
     } else {
       const companyPick = pick(company, keys(companyObject))
       const isEq = isEqual(companyObject, companyPick)
+
       if (!isEq) {
-        registerCompany(companyObject)
+        const resualt = await registerCompany(companyObject)
+
+        if (resualt.status) toast({ title: "اطلاعات جدید با موفقیت آپدیت شدند" })
+        else toast({ title: resualt.message, variant: "destructive" })
+      } else {
+        toast({ title: "نخست فیلد مورد نظر خود را بروز کنید" })
       }
     }
   }

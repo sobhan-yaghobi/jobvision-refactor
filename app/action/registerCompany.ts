@@ -13,6 +13,12 @@ const registerCompany = async (company: TypeCompany) => {
         where: { id: user.company_id },
         data: company,
       })
+      if (companyResualt) {
+        return {
+          status: true,
+        }
+      }
+      return { status: false }
     } else {
       const companyResualt = await prisma.companies.create({ data: company })
       if (companyResualt) {
@@ -31,7 +37,7 @@ const registerCompany = async (company: TypeCompany) => {
       }
     }
   }
-  return { message: "مشکلی در ثبت شرکت به وجود آمد", status: false }
+  return { message: "مشکلی در ثبت یا بروزرسانی شرکت به وجود آمد", status: false }
 }
 
 export default registerCompany
