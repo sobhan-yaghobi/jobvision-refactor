@@ -1,13 +1,19 @@
 import React from "react"
 
-import { DoorOpen, LogOut } from "lucide-react"
+import { companies } from "@prisma/client"
+
+import { DoorOpen, FilePlus2, GitPullRequestArrow, LogOut, Pencil } from "lucide-react"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/modules/ui/card"
 import LogOutButtonAction from "@/components/modules/LogOutButtonAction"
 import { Button } from "@/components/modules/ui/button"
 import Link from "next/link"
 
-const QuickAccess = () => {
+type QuickAccessProps = {
+  company: companies | null
+}
+
+const QuickAccess: React.FC<QuickAccessProps> = ({ company }) => {
   return (
     <div className="h-full flex-col">
       <div className="bg-muted flex flex-col p-3 rounded-sm">
@@ -25,19 +31,51 @@ const QuickAccess = () => {
         </div>
         <Card className="border-none shadow-lg my-3 p-3">
           <CardHeader className="center pt-0">
-            <div className="w-16 h-16 bg-muted rounded-full"></div>
+            {company?.logo ? (
+              <img
+                width={100}
+                height={100}
+                src={company?.logo}
+                alt="company-logo"
+                className="p-1 bg-muted rounded-full"
+              />
+            ) : (
+              <div className="w-16 h-16 bg-muted rounded-full"></div>
+            )}
           </CardHeader>
-          <CardTitle className="center text-center">
-            {/* <div className="w-20 h-5 bg-secondary/40 animate-pulse"></div> */}
-            <div className="flex flex-col">
-              <span className="morabba">شرکتی یافت نشد</span>
-              <Button variant={"link"}>
-                <Link className="mt-3 text-sm" href={"/"}>
-                  ثبت شرکت
-                </Link>
-              </Button>
-            </div>
+          <CardTitle className="center text-center morabba">
+            {company?.name ? (
+              <span>{company.name}</span>
+            ) : (
+              <div className="flex flex-col">
+                <span>شرکتی یافت نشد</span>
+                <Button variant={"link"}>
+                  <Link className="mt-3 text-sm dana" href={"/"}>
+                    ثبت شرکت
+                  </Link>
+                </Button>
+              </div>
+            )}
           </CardTitle>
+          {company !== null ? (
+            <CardContent className="w-full flex justify-around mt-6 p-0">
+              <Link href={"/dashboard/ads?page=add-ads"}>
+                <Button variant={"fill"} size={"sm"} title="آگهی جدید" aria-label="آگهی جدید">
+                  <FilePlus2 className="icon-sm" />
+                </Button>
+              </Link>
+              <Link href={"/dashboard/request_all"}>
+                <Button variant={"fill"} size={"sm"} title="درخواست ها" aria-label="درخواست ها">
+                  <GitPullRequestArrow className="icon-sm" />
+                </Button>
+              </Link>
+              <Link href={"/dashboard?page=company"}>
+                <Button variant={"fill"} size={"sm"} title="ویرایش شرکت" aria-label="ویرایش شرکت">
+                  <Pencil className="icon-sm" />
+                </Button>
+              </Link>
+            </CardContent>
+          ) : null}
         </Card>
         <Card className="flex-1 p-3 border-none shadow-lg">
           <CardHeader className="p-0">
