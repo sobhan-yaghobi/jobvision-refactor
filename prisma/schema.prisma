@@ -8,11 +8,12 @@ datasource db {
 }
 
 model category_collections {
-  id          String      @id @default(uuid())
-  category_id String?
-  name        String?     @db.Text
-  link        String?     @db.Text
-  categories  categories? @relation(fields: [category_id], references: [id])
+  id                      String                    @id @default(uuid())
+  category_id             String?
+  name                    String?                   @db.Text
+  link                    String?                   @db.Text
+  categories              categories?               @relation(fields: [category_id], references: [id])
+  adsCategory_collections adsCategory_collections[]
 }
 
 model categories {
@@ -56,10 +57,59 @@ model companies {
   score_responsiveness            Float    @db.Float
   website                         String   @db.Text
   description                     String   @db.Text
-  slogan                  String   @db.Text
+  slogan                          String   @db.Text
   organization_employ             Int
   type_of_activity                String   @db.Text
   industry                        String   @db.Text
   established_year                DateTime @db.DateTime
   users                           users[]
+}
+
+enum gender {
+  FEMALE
+  MALE
+  NOT_IMPORTANT
+}
+
+enum seniority_level {
+  WORKER
+  EMPLOYEE
+  EXPERT
+  MA
+  ASSISTANCE
+  CHIEF
+}
+
+enum cooperation_type {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+}
+
+model ads {
+  id                      String                    @id @default(uuid())
+  name                    String                    @db.Text
+  price                   Json                      @default("{\"min\": 0, \"max\": 0}")
+  work_time               String                    @db.Text
+  travel_benefits         String                    @db.Text
+  age                     Json                      @default("{\"min\": 0, \"max\": 0}")
+  edicational_level       Json                      @default("[]")
+  key_indicator           Json                      @default("[]")
+  software_skills         Json                      @default("[]")
+  tags                    Json                      @default("[]")
+  advantage               Json                      @default("[]")
+  gender                  gender
+  seniority_level         seniority_level
+  cooperation_type        cooperation_type
+  adsCategory_collections adsCategory_collections[]
+}
+
+model adsCategory_collections {
+  ad_id String
+  ad    ads    @relation(fields: [ad_id], references: [id])
+
+  category_collection_id String
+  category_collections   category_collections @relation(fields: [category_collection_id], references: [id])
+
+  @@id([ad_id, category_collection_id])
 }
