@@ -10,7 +10,6 @@ import { TypeCompany, companySchema } from "@/validation/zod.validations"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
 import gregorian_en from "react-date-object/locales/gregorian_en"
-import { users } from "@prisma/client"
 import { getLastMessage } from "@/lib/utils"
 
 import {
@@ -30,6 +29,7 @@ import { Textarea } from "@/components/modules/ui/textarea"
 import { Button } from "@/components/modules/ui/button"
 import Title from "@/components/modules/Title"
 import Calender from "@/components/modules/Calender"
+import { isEqual, keys, pick, unset } from "lodash"
 
 type CompanyProps = {
   company: companies | null
@@ -64,17 +64,24 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
       ),
       type_of_activity: formData.get("type_of_activity") as string,
     }
-
-    const resualt = companySchema.safeParse(companyObject)
-    if (!resualt.success) {
-      setErrs(
-        resualt.error.issues.map((err) => ({
-          message: err.message as string,
-          path: err.path.at(0) as string,
-        }))
-      )
+    if (company === null) {
+      const resualt = companySchema.safeParse(companyObject)
+      if (!resualt.success) {
+        setErrs(
+          resualt.error.issues.map((err) => ({
+            message: err.message as string,
+            path: err.path.at(0) as string,
+          }))
+        )
+      }
+      const resault = await registerCompany(companyObject)
+    } else {
+      const companyPick = pick(company, keys(companyObject))
+      const isEq = isEqual(companyObject, companyPick)
+      if (!isEq) {
+        registerCompany(companyObject)
+      }
     }
-    const resault = await registerCompany(companyObject)
   }
 
   return (
@@ -276,7 +283,7 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
           </p>
         </div>
 
-        <Button className="mt-6 w-full">ثبت شرکت</Button>
+        <Button className="mt-6 w-full">{company !== null ? "آپدیت" : "ثبت شرکت"}</Button>
       </form>
     </>
   )

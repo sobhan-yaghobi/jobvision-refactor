@@ -10,6 +10,7 @@ import {
   PrismaClient,
 } from "@prisma/client"
 import prisma from "@/lib/prisma"
+import { DateObject } from "react-multi-date-picker"
 
 const CategoriesData: categories[] = [
   { id: uuid(), name: "حسابدار / مالی و..", link: "accounting" },
@@ -81,17 +82,17 @@ const CompaniesData: companies[] = [
     name: "ایرانسل",
     location: "مشهد قاسم آباد",
     logo: "https://way2pay.ir/wp-content/uploads/irancell-newlogo-00-12-18.png",
-    score_company: 5,
-    score_popularity: 4,
-    score_experience_of_job_seekers: 2.6,
-    score_responsiveness: 3.5,
+    score_company: 4.3,
+    score_popularity: 4.6,
+    score_experience_of_job_seekers: 5,
+    score_responsiveness: 2,
     website: "www.irancel.com",
     description: "متن تستی برای شرکت ایرانسل",
     slogan: "متن تستی برای شعار شرکت ایرانسل",
     organization_employ: 3,
     type_of_activity: "شرکت خدمات رسانی دولتی",
     industry: "فناوری اطلاعات",
-    established_year: new Date(),
+    established_year: new Date(new DateObject().format()),
   },
 ]
 
@@ -100,7 +101,7 @@ const UsersData: users[] = [
     id: uuid(),
     company_id: CompaniesData[0].id,
     email: "sobhan@gmail.com",
-    password: "sobhan",
+    password: "sobhan1206",
     created_at: new Date(),
   },
 ]
