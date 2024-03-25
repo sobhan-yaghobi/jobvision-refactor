@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useRef, useState } from "react"
+import { isEqual, keys, pick } from "lodash"
 
 import registerCompany from "@/app/action/registerCompany"
 import { companies } from "@prisma/client"
@@ -11,6 +12,7 @@ import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
 import gregorian_en from "react-date-object/locales/gregorian_en"
 import { getLastMessage } from "@/lib/utils"
+import { toast } from "@/components/modules/ui/use-toast"
 
 import {
   Building2,
@@ -29,8 +31,6 @@ import { Textarea } from "@/components/modules/ui/textarea"
 import { Button } from "@/components/modules/ui/button"
 import Title from "@/components/modules/Title"
 import Calender from "@/components/modules/Calender"
-import { isEqual, keys, pick, unset } from "lodash"
-import { toast } from "@/components/modules/ui/use-toast"
 
 type CompanyProps = {
   company: companies | null
@@ -38,6 +38,10 @@ type CompanyProps = {
 
 const Company: React.FC<CompanyProps> = ({ company }) => {
   const formRef = useRef<HTMLFormElement>(null)
+  const [companyState, setCompanyState] = useState<TypeCompany>(
+    company ? company : ({} as TypeCompany)
+  )
+
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
 
   const clientAction = async (formData: FormData) => {
@@ -82,14 +86,16 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
       }
       toast({ title: resault.message, variant: "destructive" })
     } else {
-      const companyPick = pick(company, keys(companyObject))
+      const companyPick = pick(companyState, keys(companyObject))
       const isEq = isEqual(companyObject, companyPick)
 
       if (!isEq) {
         const resualt = await registerCompany(companyObject)
 
-        if (resualt.status) toast({ title: "اطلاعات جدید با موفقیت آپدیت شدند" })
-        else toast({ title: resualt.message, variant: "destructive" })
+        if (resualt.status) {
+          toast({ title: "اطلاعات جدید با موفقیت آپدیت شدند" })
+          setCompanyState(companyObject)
+        } else toast({ title: resualt.message, variant: "destructive" })
       } else {
         toast({ title: "نخست فیلد مورد نظر خود را بروز کنید" })
       }
@@ -108,7 +114,7 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
           </div>
           <div className="flex-1">
             <InputMessage
-              defaultValue={company?.logo}
+              defaultValue={companyState.logo}
               icon={<Image className="icon-stroke-light" />}
               wrapperClassName="w-full flex-row-reverse"
               placeholder="لینک لوگو شرکت.."
@@ -131,7 +137,7 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
         <div className="mt-6">
           <span className="morabba">نام شرکت</span>
           <InputMessage
-            defaultValue={company?.name}
+            defaultValue={companyState.name}
             icon={<Building2 className="icon-stroke-light" />}
             wrapperClassName="w-full"
             placeholder="برای مثال جاب ویژن"
@@ -149,7 +155,7 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
         <div className="mt-6">
           <span className="morabba">موقعیت شغلی</span>
           <InputMessage
-            defaultValue={company?.location}
+            defaultValue={companyState.location}
             icon={<MapPin className="icon-stroke-light" />}
             wrapperClassName="w-full"
             placeholder="برای مثال تهران ، بهارستان"
@@ -167,7 +173,7 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
         <div className="mt-6">
           <span className="morabba">وب سایت شرکت</span>
           <InputMessage
-            defaultValue={company?.website}
+            defaultValue={companyState.website}
             icon={<Link className="icon-stroke-light" />}
             wrapperClassName="w-full"
             placeholder="برای مثال www.jobvision.com"
@@ -185,7 +191,7 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
         <div className="mt-6">
           <span className="morabba">درباره شرکت</span>
           <Textarea
-            defaultValue={company?.description}
+            defaultValue={companyState.description}
             className="max-h-32"
             placeholder="سخنی از سمت شرکت شما برای جویندگان شغل ..."
             name="description"
@@ -204,7 +210,7 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
         <div className="mt-6">
           <span className="morabba">شعار شرکت</span>
           <InputMessage
-            defaultValue={company?.slogan}
+            defaultValue={companyState.slogan}
             icon={<Speech className="icon-stroke-light" />}
             wrapperClassName="w-full"
             placeholder="برای مثال ، متفاوت باش"
@@ -222,7 +228,7 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
         <div className="mt-6">
           <span className="morabba">نوع فعالیت شرکت</span>
           <InputMessage
-            defaultValue={company?.type_of_activity}
+            defaultValue={companyState.type_of_activity}
             icon={<MonitorDot className="icon-stroke-light" />}
             wrapperClassName="w-full"
             placeholder="برای مثال استخدام آنلاین"
@@ -240,7 +246,7 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
         <div className="mt-6">
           <span className="morabba">صنعت شرکت</span>
           <InputMessage
-            defaultValue={company?.industry}
+            defaultValue={companyState.industry}
             icon={<MonitorSmartphone className="icon-stroke-light" />}
             wrapperClassName="w-full"
             placeholder="برای مثال کاریابی آنلاین در ایران"
@@ -258,7 +264,7 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
         <div className="mt-6">
           <span className="morabba">تعداد کارکنان شرکت</span>
           <InputMessage
-            defaultValue={company?.organization_employ}
+            defaultValue={companyState.organization_employ}
             type="number"
             min={1}
             icon={<Users className="icon-stroke-light" />}
@@ -278,7 +284,7 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
         <div className="mt-6">
           <span className="morabba">سال تاسیس شرکت</span>
           <Calender
-            value={new DateObject({ date: company?.established_year, locale: persian_fa })}
+            value={new DateObject({ date: companyState.established_year, locale: persian_fa })}
             icon={<CalendarIcon className="icon-stroke-light" />}
             containerClassName="w-full *:h-10 *:cursor-pointer"
             placeholder={`برای مثال ${new DateObject().convert(persian)}`}
