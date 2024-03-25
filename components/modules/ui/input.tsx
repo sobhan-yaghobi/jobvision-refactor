@@ -45,11 +45,16 @@ Input.displayName = "Input"
 
 type InputMessageProps = InputProps & {
   message?: string | React.ReactNode
+  parentWrapperClassName?: string
 }
 
-const InputMessage: React.FC<InputMessageProps> = ({ message, ...props }) => {
+const InputMessage: React.FC<InputMessageProps> = ({
+  message,
+  parentWrapperClassName,
+  ...props
+}) => {
   return (
-    <div className="w-full flex flex-col gap-2 items-start">
+    <div className={cn("w-full flex flex-col gap-2 items-start", parentWrapperClassName)}>
       <Input {...props} />
       {message && typeof message === "string" ? (
         <p className="text-destructive text-xs">{message}</p>
