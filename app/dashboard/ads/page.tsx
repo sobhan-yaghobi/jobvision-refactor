@@ -4,14 +4,21 @@ import TabsPage, { TypePage } from "@/components/modules/dashboard/TabsPage"
 import Ads from "@/components/template/dashboard/Ads"
 import AddAds from "@/components/template/dashboard/AddAds"
 
-const page = () => {
+const page = async () => {
+  const categories = await prisma.categories.findMany({
+    include: { category_collections: true },
+  })
   const pageItems: TypePage[] = [
     {
       id: "ads",
       name: "آگهی ها",
       content: <Ads />,
     },
-    { id: "add-ads", name: "آگهی جدید", content: <AddAds /> },
+    {
+      id: "add-ads",
+      name: "آگهی جدید",
+      content: <AddAds categories={categories} />,
+    },
   ]
   return (
     <div>

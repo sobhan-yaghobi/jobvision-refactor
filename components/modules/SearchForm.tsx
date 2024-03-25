@@ -134,7 +134,7 @@ type CategoryInputProps = {
   width?: string
   categories: categoryWithCollection[]
 }
-const CategoryInput: React.FC<CategoryInputProps> = ({ categories, width }) => {
+export const CategoryInput: React.FC<CategoryInputProps> = ({ categories, width }) => {
   const myDivRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [collection, setCollection] = useState<category_collections>({} as category_collections)
