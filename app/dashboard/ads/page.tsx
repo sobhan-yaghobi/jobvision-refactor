@@ -1,17 +1,22 @@
-import Title from "@/components/modules/Title"
-import AdsBox from "@/components/modules/dashboard/AdsBox"
 import React from "react"
+import TabsPage, { TypePage } from "@/components/modules/dashboard/TabsPage"
+
+import Ads from "@/components/template/dashboard/Ads"
+import AddAds from "@/components/template/dashboard/AddAds"
 
 const page = () => {
+  const pageItems: TypePage[] = [
+    {
+      id: "ads",
+      name: "آگهی ها",
+      content: <Ads />,
+    },
+    { id: "add-ads", name: "آگهی جدید", content: <AddAds /> },
+  ]
   return (
-    <>
-      <Title>
-        <h3>درخواست ها</h3>
-      </Title>
-      <div className="mt-6">
-        <AdsBox />
-      </div>
-    </>
+    <div>
+      <TabsPage pageItems={pageItems} />
+    </div>
   )
 }
 
