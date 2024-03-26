@@ -32,19 +32,22 @@ const MultipleTagsSelect: React.FC<MultipleTagsSelectProps> = ({ state, setState
             <Tags className="icon-stroke-light absolute right-3" />
             {state.length ? (
               state.map((item) => (
-                <Button size={"sm"} variant={"ghost"} key={item.id} className="text-xs h-7">
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setState((prev) =>
+                      filter(prev, function (prevItem) {
+                        return prevItem.id !== item.id
+                      })
+                    )
+                  }}
+                  key={item.id}
+                  size={"sm"}
+                  variant={"fill"}
+                  className="h-7 ml-1 group last:ml-0"
+                >
                   {item.name}
-                  <X
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setState((prev) =>
-                        filter(prev, function (prevItem) {
-                          return prevItem.id !== item.id
-                        })
-                      )
-                    }}
-                    className="icon btn-icon-r p-1 rounded-sm hover:bg-destructive/50 hover:text-destructive-foreground"
-                  />
+                  <X className="icon btn-icon-r p-1 rounded-sm group-hover:bg-destructive/50 group-hover:text-destructive-foreground" />
                 </Button>
               ))
             ) : (
