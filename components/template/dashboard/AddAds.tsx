@@ -1,13 +1,15 @@
 "use client"
 
-import React, { useRef, useState } from "react"
+import React, { useState } from "react"
 
 import { categoryWithCollection } from "@/types/utils.type"
+import { category_collections } from "@prisma/client"
+
+import { cooperationTypeItems, genderItems, seniorityLevelItems } from "@/types/utils.variable"
 
 import {
   BriefcaseBusiness,
   CalendarClock,
-  CheckIcon,
   CircleCheckBig,
   Code2,
   Earth,
@@ -18,29 +20,23 @@ import {
   MaximizeIcon,
   MinimizeIcon,
   SquareUserRound,
-  Tags,
-  X,
 } from "lucide-react"
 
-import Title from "@/components/modules/Title"
+import SingleSelect, { TypeMainSelect } from "@/components/modules/dashboard/SignleSelect"
+import MultipleTagsSelect from "@/components/modules/dashboard/MultipleTagsSelect"
 import { InputMessage } from "@/components/modules/ui/input"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/modules/ui/popover"
-import { Button } from "@/components/modules/ui/button"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/modules/ui/accordion"
-import { cn } from "@/lib/utils"
-import { category_collections } from "@prisma/client"
-import { filter, pick, remove, some, unset } from "lodash"
+import Title from "@/components/modules/Title"
 
 type AddAdsProps = {
   categories: categoryWithCollection[]
 }
 
 const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
+  const [gender, setGender] = useState<TypeMainSelect>({} as TypeMainSelect)
+  const [seniorityLevel, setSeniorityLevel] = useState<TypeMainSelect>({} as TypeMainSelect)
+  const [cooperationType, setCooperationType] = useState<TypeMainSelect>({} as TypeMainSelect)
+  const [tags, setTags] = useState<category_collections[]>([] as category_collections[])
+
   const [checked, setChecked] = useState({
     is_price_max: false,
     is_age_max: false,
@@ -122,6 +118,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
           <div className="w-full">
             <div className="w-full flex items-center gap-3">
               <InputMessage
+                min={10}
                 type="number"
                 icon={<MinimizeIcon className="icon-stroke-light" />}
                 wrapperClassName="w-full"
@@ -129,6 +126,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
                 name="min_age"
               />
               <InputMessage
+                min={10}
                 type="number"
                 icon={<MaximizeIcon className="icon-stroke-light" />}
                 parentWrapperClassName={`w-full ${checked.is_age_max ? "block" : "hidden"}`}
@@ -183,13 +181,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
 
         <div className="mt-6">
           <span className="morabba">تگ های آگهی</span>
-          {/* <InputMessage
-            icon={<Tags className="icon-stroke-light" />}
-            wrapperClassName="w-full"
-            placeholder=""
-            name="name"
-          /> */}
-          <InputTag categories={categories} />
+          <MultipleTagsSelect state={tags} setState={setTags} categories={categories} />
         </div>
 
         <div className="mt-6">
@@ -204,123 +196,37 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
 
         <div className="mt-6">
           <span className="morabba">جنسیت</span>
-          <InputMessage
+          <SingleSelect
+            state={gender}
+            setState={setGender}
+            items={genderItems}
+            placeholder="جنسیت را انتخاب کنید"
             icon={<SquareUserRound className="icon-stroke-light" />}
-            wrapperClassName="w-full"
-            placeholder="برای مثال برنامه نویس فرانت اند"
-            name="name"
           />
         </div>
 
         <div className="mt-6">
           <span className="morabba">سطح ارشدیت</span>
-          <InputMessage
+          <SingleSelect
+            state={seniorityLevel}
+            setState={setSeniorityLevel}
+            items={seniorityLevelItems}
+            placeholder="سطح ارشدیت را انتخاب کنید"
             icon={<BriefcaseBusiness className="icon-stroke-light" />}
-            wrapperClassName="w-full"
-            placeholder="برای مثال برنامه نویس فرانت اند"
-            name="name"
           />
         </div>
 
         <div className="mt-6">
           <span className="morabba">نوع همکاری</span>
-          <InputMessage
+          <SingleSelect
+            state={cooperationType}
+            setState={setCooperationType}
+            items={cooperationTypeItems}
+            placeholder="نوع همکاری را انتخاب کنید"
             icon={<Handshake className="icon-stroke-light" />}
-            wrapperClassName="w-full"
-            placeholder="برای مثال برنامه نویس فرانت اند"
-            name="name"
           />
         </div>
       </form>
-    </div>
-  )
-}
-
-type InputTagProps = {
-  categories: categoryWithCollection[]
-}
-const InputTag: React.FC<InputTagProps> = ({ categories }) => {
-  const myDivRef = useRef<HTMLDivElement>(null)
-  const [isOpen, setIsOpen] = useState(false)
-  const [collections, setCollections] = useState<category_collections[]>([])
-  return (
-    <div ref={myDivRef} className="w-full h-10">
-      <Popover open={isOpen} onOpenChange={setIsOpen}>
-        <PopoverTrigger asChild>
-          <div
-            role="combobox"
-            aria-expanded={isOpen}
-            className={`h-full relative flex items-center pr-12 border-2 border-muted rounded-sm cursor-pointer`}
-          >
-            <Tags className="icon-stroke-light absolute right-3" />
-            {collections.length ? (
-              collections.map((item) => (
-                <Button size={"sm"} variant={"ghost"} key={item.id} className="text-xs h-7">
-                  {item.name}
-                  <X
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setCollections((prev) =>
-                        filter(prev, function (prevItem) {
-                          return prevItem.id !== item.id
-                        })
-                      )
-                    }}
-                    className="icon btn-icon-r p-1 rounded-sm hover:bg-destructive/50 hover:text-destructive-foreground"
-                  />
-                </Button>
-              ))
-            ) : (
-              <span className="text-muted-foreground text-sm">تگ های شغلی</span>
-            )}
-          </div>
-        </PopoverTrigger>
-        <PopoverContent style={{ width: myDivRef.current?.clientWidth }} className="px-3 py-2">
-          <Accordion type="single" collapsible>
-            {categories.map((category) => (
-              <AccordionItem
-                key={`accordion-category-item-${category.id}`}
-                value={`accordion-category-item-${category.id}`}
-              >
-                <AccordionTrigger className="py-2 hover:no-underline">
-                  {category.name}
-                </AccordionTrigger>
-                <AccordionContent className="flex flex-col pb-0">
-                  {category.category_collections.length ? (
-                    category.category_collections.map((collect) => (
-                      <div
-                        key={`accordion-collection-item-${collect.id}`}
-                        className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
-                        onClick={() => {
-                          setCollections((prev) =>
-                            prev.some((prevItem) => collect.id === prevItem.id)
-                              ? prev.filter((item) => item.id !== collect.id)
-                              : [...prev, collect]
-                          )
-                        }}
-                      >
-                        <CheckIcon
-                          className={cn(
-                            "icon btn-icon btn-icon-l",
-                            collections.some((item) => item.id === collect.id)
-                              ? "opacity-100"
-                              : "opacity-0"
-                          )}
-                        />
-                        {collect.name}
-                      </div>
-                    ))
-                  ) : (
-                    <div className="text-destructive my-1 p-2 rounded-sm hover:bg-destructive-foreground">
-                      شغلی برای {category.name} یافت نشد
-                    </div>
-                  )}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </PopoverContent>
-      </Popover>
     </div>
   )
 }
