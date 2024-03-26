@@ -24,6 +24,7 @@ import {
 
 import SingleSelect, { TypeMainSelect } from "@/components/modules/dashboard/SignleSelect"
 import MultipleTagsSelect from "@/components/modules/dashboard/MultipleTagsSelect"
+import MultipleTextInput from "@/components/modules/dashboard/MultipleTextInput"
 import { InputMessage } from "@/components/modules/ui/input"
 import Title from "@/components/modules/Title"
 
@@ -36,6 +37,11 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
   const [seniorityLevel, setSeniorityLevel] = useState<TypeMainSelect>({} as TypeMainSelect)
   const [cooperationType, setCooperationType] = useState<TypeMainSelect>({} as TypeMainSelect)
   const [tags, setTags] = useState<category_collections[]>([] as category_collections[])
+
+  const [softwareSkills, setSoftwareSkills] = useState<string[]>([] as string[])
+  const [keyIndicator, setKeyIndicator] = useState<string[]>([] as string[])
+  const [edicationalLevel, setEdicationalLevel] = useState<string[]>([] as string[])
+  const [advantage, setAdvantage] = useState<string[]>([] as string[])
 
   const [checked, setChecked] = useState({
     is_price_max: false,
@@ -151,31 +157,31 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
 
         <div className="mt-6">
           <span className="morabba">میزان تحصیلات</span>
-          <InputMessage
-            icon={<GraduationCap className="icon-stroke-light" />}
-            wrapperClassName="w-full"
+          <MultipleTextInput
+            state={edicationalLevel}
+            setState={setEdicationalLevel}
             placeholder="برای مثال لیسانس دکترا ، مدرک زبان معتبر"
-            name="name"
+            icon={<GraduationCap className="icon-stroke-light" />}
           />
         </div>
 
         <div className="mt-6">
           <span className="morabba">شاخص های کلیدی</span>
-          <InputMessage
-            icon={<FileStack className="icon-stroke-light" />}
-            wrapperClassName="w-full"
+          <MultipleTextInput
+            state={keyIndicator}
+            setState={setKeyIndicator}
             placeholder="برای مثال 3 سال سابقه کار با react"
-            name="name"
+            icon={<FileStack className="icon-stroke-light" />}
           />
         </div>
 
         <div className="mt-6">
           <span className="morabba">مهارت های نرم افزاری</span>
-          <InputMessage
-            icon={<Code2 className="icon-stroke-light" />}
-            wrapperClassName="w-full"
+          <MultipleTextInput
+            state={softwareSkills}
+            setState={setSoftwareSkills}
             placeholder="برای مثال react - متوسط ، next js - مقدماتی"
-            name="name"
+            icon={<Code2 className="icon-stroke-light" />}
           />
         </div>
 
@@ -186,11 +192,11 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
 
         <div className="mt-6">
           <span className="morabba">مزایا</span>
-          <InputMessage
-            icon={<CircleCheckBig className="icon-stroke-light" />}
-            wrapperClassName="w-full"
+          <MultipleTextInput
+            state={advantage}
+            setState={setAdvantage}
             placeholder="برای مثال برنامه نویس فرانت اند"
-            name="name"
+            icon={<CircleCheckBig className="icon-stroke-light" />}
           />
         </div>
 
