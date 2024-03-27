@@ -46,7 +46,7 @@ const MultipleTextInput: React.FC<MultipleTextInputProps> = ({
     <div className="flex flex-col gap-2">
       <div
         onClick={() => myInput.current?.focus()}
-        className="min-h-10 relative flex flex-wrap items-center py-1 pr-12 border-2 border-muted rounded-sm cursor-text focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary gap-1"
+        className="min-h-10 relative flex flex-wrap items-center py-1 pr-12 border-2 border-muted rounded-sm cursor-text focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary m-0 gap-1"
       >
         <span className="absolute right-3 center">
           {value.length ? (
@@ -77,7 +77,7 @@ const MultipleTextInput: React.FC<MultipleTextInputProps> = ({
                 key={`multiple-text-${item}`}
                 size={"sm"}
                 variant={"fill"}
-                className="h-9 group"
+                className="h-7 group"
               >
                 {item}
                 <X className="icon btn-icon-r p-1 rounded-sm group-hover:bg-destructive/50 group-hover:text-destructive-foreground" />
@@ -88,7 +88,7 @@ const MultipleTextInput: React.FC<MultipleTextInputProps> = ({
           placeholder={!state.length ? placeholder : undefined}
           ref={myInput}
           value={value}
-          wrapperClassName="h-9 flex-1"
+          wrapperClassName="h-7 flex-1"
           className="border-none !ring-0 !ring-offset-0 pr-0"
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={enterAction}
