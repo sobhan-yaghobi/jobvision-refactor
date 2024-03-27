@@ -30,7 +30,7 @@ import {
 } from "lucide-react"
 
 import SingleSelect, { TypeMainSelect } from "@/components/modules/dashboard/SignleSelect"
-import MultipleTagsSelect from "@/components/modules/dashboard/MultipleSelect"
+import MultipleSelect from "@/components/modules/dashboard/MultipleSelect"
 import MultipleTextInput from "@/components/modules/dashboard/MultipleTextInput"
 import { InputMessage } from "@/components/modules/ui/input"
 import Title from "@/components/modules/Title"
@@ -279,7 +279,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
 
         <div className="mt-6">
           <span className="morabba">تگ های آگهی</span>
-          <MultipleTagsSelect
+          <MultipleSelect
             trigger={
               tags.length ? (
                 tags.map((item) => (
@@ -350,12 +350,12 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
                 </AccordionItem>
               ))}
             </Accordion>
-          </MultipleTagsSelect>
+          </MultipleSelect>
         </div>
 
         <div className="mt-6">
           <span className="morabba">مزایا</span>
-          <MultipleTagsSelect
+          <MultipleSelect
             placeholder="مزایا و امکانات"
             trigger={
               facilities.length ? (
@@ -409,7 +409,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
                 {advantage.type}
               </div>
             ))}
-          </MultipleTagsSelect>
+          </MultipleSelect>
         </div>
 
         <div className="mt-6">
