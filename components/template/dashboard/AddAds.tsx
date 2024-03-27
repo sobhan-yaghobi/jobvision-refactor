@@ -1,9 +1,9 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { categoryWithCollection } from "@/types/utils.type"
-import { category_collections } from "@prisma/client"
+import { category_collections, cooperation_type, gender, seniority_level } from "@prisma/client"
 
 import { cooperationTypeItems, genderItems, seniorityLevelItems } from "@/types/utils.variable"
 
@@ -27,12 +27,17 @@ import MultipleTagsSelect from "@/components/modules/dashboard/MultipleTagsSelec
 import MultipleTextInput from "@/components/modules/dashboard/MultipleTextInput"
 import { InputMessage } from "@/components/modules/ui/input"
 import Title from "@/components/modules/Title"
+import { Button } from "@/components/modules/ui/button"
+import { TypeAd, adSchema } from "@/validation/zod.validations"
+import { getLastMessage } from "@/lib/utils"
 
 type AddAdsProps = {
   categories: categoryWithCollection[]
 }
 
 const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
+  const [errs, setErrs] = useState<{ path: string; message: string }[]>()
+
   const [gender, setGender] = useState<TypeMainSelect>({} as TypeMainSelect)
   const [seniorityLevel, setSeniorityLevel] = useState<TypeMainSelect>({} as TypeMainSelect)
   const [cooperationType, setCooperationType] = useState<TypeMainSelect>({} as TypeMainSelect)
@@ -47,12 +52,50 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
     is_price_max: false,
     is_age_max: false,
   })
+
+  const clientAction = async (formData: FormData) => {
+    const newAd: TypeAd = {
+      name: formData.get("name") as string,
+      price: {
+        min: Number(formData.get("min_price")),
+        max: Number(formData.get("max_price")),
+      },
+      work_time: formData.get("work_time") as string,
+      travel_benefits: formData.get("travel_benefits") as string,
+      age: {
+        min: Number(formData.get("min_age")),
+        max: Number(formData.get("max_age")),
+      },
+      edicational_level: edicationalLevel,
+      key_indicator: keyIndicator,
+      software_skills: softwareSkills,
+      tags,
+      advantage,
+      gender: gender.type as gender,
+      seniority_level: seniorityLevel.type as seniority_level,
+      cooperation_type: cooperationType.type as cooperation_type,
+    }
+
+    const resualt = adSchema.safeParse(newAd)
+    if (!resualt.success) {
+      const newErrs = resualt.error.issues.map((item) => ({
+        path: item.path.at(0) as string,
+        message: item.message,
+      }))
+      setErrs(newErrs)
+    }
+  }
+
+  useEffect(() => {
+    console.log("errs", errs)
+  }, [errs])
+
   return (
     <div>
       <Title>
         <h3>آگهی جدید</h3>
       </Title>
-      <form>
+      <form action={clientAction}>
         <div className="mt-6">
           <span className="morabba">عنوان آگهی</span>
           <InputMessage
@@ -60,6 +103,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
             wrapperClassName="w-full"
             placeholder="برای مثال برنامه نویس فرانت اند"
             name="name"
+            message={getLastMessage({ array: errs, key: "path", main_id: "name" })?.message}
           />
         </div>
 
@@ -73,6 +117,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
                 wrapperClassName="w-full"
                 placeholder="حداقل قیمت"
                 name="min_price"
+                message={getLastMessage({ array: errs, key: "path", main_id: "price" })?.message}
               />
               <InputMessage
                 type="number"
@@ -105,7 +150,8 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
             icon={<CalendarClock className="icon-stroke-light" />}
             wrapperClassName="w-full"
             placeholder="برای مثال از شنبه تا چهارشنبه ساعت 8 صبح تا 2 عصر"
-            name="name"
+            name="work_time"
+            message={getLastMessage({ array: errs, key: "path", main_id: "work_time" })?.message}
           />
         </div>
 
@@ -115,7 +161,10 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
             icon={<Earth className="icon-stroke-light" />}
             wrapperClassName="w-full"
             placeholder="برای مثال سفر به کیش"
-            name="name"
+            name="travel_benefits"
+            message={
+              getLastMessage({ array: errs, key: "path", main_id: "travel_benefits" })?.message
+            }
           />
         </div>
 
@@ -130,6 +179,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
                 wrapperClassName="w-full"
                 placeholder="حداقل سن"
                 name="min_age"
+                message={getLastMessage({ array: errs, key: "path", main_id: "age" })?.message}
               />
               <InputMessage
                 min={10}
@@ -232,6 +282,8 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
             icon={<Handshake className="icon-stroke-light" />}
           />
         </div>
+
+        <Button className="w-full mt-6">ثبت اگهی</Button>
       </form>
     </div>
   )

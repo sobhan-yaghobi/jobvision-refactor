@@ -91,7 +91,7 @@ model ads {
   name                    String                    @db.Text
   price                   Json                      @default("{\"min\": 0, \"max\": 0}")
   work_time               String                    @db.Text
-  travel_benefits         String                    @db.Text
+  travel_benefits         String                    @db.Text @default("")
   age                     Json                      @default("{\"min\": 0, \"max\": 0}")
   edicational_level       Json                      @default("[]")
   key_indicator           Json                      @default("[]")

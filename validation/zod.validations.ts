@@ -1,3 +1,6 @@
+import { genderItems } from "@/types/utils.variable"
+import { $Enums, category_collections, gender } from "@prisma/client"
+import { map } from "lodash"
 import { z } from "zod"
 
 export const signInSchema = z.object({
@@ -27,3 +30,51 @@ export const companySchema = z.object({
   established_year: z.date(),
 })
 export type TypeCompany = z.infer<typeof companySchema>
+
+const genderEnums = [$Enums.gender.FEMALE, $Enums.gender.MALE, $Enums.gender.NOT_IMPORTANT] as const
+const seniorityLevelEnums = [
+  $Enums.seniority_level.WORKER,
+  $Enums.seniority_level.EMPLOYEE,
+  $Enums.seniority_level.EXPERT,
+  $Enums.seniority_level.MA,
+  $Enums.seniority_level.ASSISTANCE,
+  $Enums.seniority_level.CHIEF,
+] as const
+const cooperationTypeEnums = [
+  $Enums.cooperation_type.FULL_TIME,
+  $Enums.cooperation_type.PART_TIME,
+  $Enums.cooperation_type.CONTRACT,
+] as const
+
+export const adSchema = z.object({
+  name: z.string().trim().min(1, "نام آگهی اجباری میباشد"),
+  price: z.object({
+    min: z.number().min(1, "حداقل قیمت آگهی اجباری میباشد"),
+    max: z.number(),
+  }),
+  work_time: z.string().trim().min(1, "زمان کار آگهی اجباری میباشد"),
+  travel_benefits: z.string().trim(),
+  age: z.object({
+    min: z.number().min(1, "حداقل سن اجباری میباشد"),
+    max: z.number(),
+  }),
+  edicational_level: z.array(z.string()).min(1, "میزان تحصیلات اجباری میباشد"),
+  key_indicator: z.array(z.string()).min(1, "شاخص های کلیدی اجباری میباشد"),
+  software_skills: z.array(z.string()).min(1, "مهارت های نرم افزاری اجباری میباشد"),
+  tags: z
+    .array(
+      z.object({
+        id: z.string(),
+        category_id: z.string().nullable(),
+        name: z.string().nullable(),
+        link: z.string().nullable(),
+      })
+    )
+    .min(1, "تگ های آگهی اجباری میباشد"),
+  advantage: z.array(z.string()),
+  gender: z.enum(genderEnums, { required_error: "جنسیت اجباری میباشد" }),
+  seniority_level: z.enum(seniorityLevelEnums, { required_error: "سطح ارشدیت اجباری میباشد" }),
+  cooperation_type: z.enum(cooperationTypeEnums, { required_error: "نوع همکاری اجباری میباشد" }),
+})
+
+export type TypeAd = z.infer<typeof adSchema>
