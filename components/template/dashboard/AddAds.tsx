@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useRef, useState } from "react"
 
 import { categoryWithCollection } from "@/types/utils.type"
 import {
@@ -44,6 +44,8 @@ import {
   AccordionTrigger,
 } from "@/components/modules/ui/accordion"
 import { filter } from "lodash"
+import addAds from "@/app/action/addAds"
+import { toast } from "@/components/modules/ui/use-toast"
 
 type AddAdsProps = {
   categories: categoryWithCollection[]
@@ -51,6 +53,7 @@ type AddAdsProps = {
 }
 
 const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
+  const formRef = useRef<HTMLFormElement>(null)
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
 
   const [gender, setGender] = useState<TypeMainSelect>({} as TypeMainSelect)
@@ -99,18 +102,33 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
       }))
       setErrs(newErrs)
     }
+    const createResault = await addAds(newAd)
+    if (createResault.status) {
+      toast({ title: createResault.message, variant: "default" })
+      clearForm()
+      return
+    }
+    toast({ title: createResault.message, variant: "destructive" })
   }
 
-  useEffect(() => {
-    console.log("errs", errs)
-  }, [errs])
+  const clearForm = () => {
+    formRef.current?.reset()
+    setGender({} as TypeMainSelect)
+    setSeniorityLevel({} as TypeMainSelect)
+    setCooperationType({} as TypeMainSelect)
+    setTags([] as category_collections[])
+    setSoftwareSkills([] as string[])
+    setKeyIndicator([] as string[])
+    setEdicationalLevel([] as string[])
+    setFacilities([] as advantage[])
+  }
 
   return (
     <div>
       <Title>
         <h3>آگهی جدید</h3>
       </Title>
-      <form action={clientAction}>
+      <form ref={formRef} action={clientAction}>
         <div className="mt-6">
           <span className="morabba">عنوان آگهی</span>
           <InputMessage

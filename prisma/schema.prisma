@@ -63,6 +63,7 @@ model companies {
   industry                        String   @db.Text
   established_year                DateTime @db.DateTime
   users                           users[]
+  ads                             ads[]
 }
 
 model advantage {
@@ -93,6 +94,7 @@ enum cooperation_type {
 }
 
 model ads {
+  company_id              String
   id                      String                    @id @default(uuid())
   name                    String                    @db.Text
   price                   Json                      @default("{\"min\": 0, \"max\": 0}")
@@ -109,6 +111,7 @@ model ads {
   cooperation_type        cooperation_type
   adsCategory_collections adsCategory_collections[]
   facilitiesAdvantage     facilitiesAdvantage[]
+  companies               companies?                @relation(fields: [company_id], references: [id])
 }
 
 model adsCategory_collections {

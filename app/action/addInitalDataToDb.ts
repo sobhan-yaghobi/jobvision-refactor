@@ -117,6 +117,7 @@ const AdvantageData: advantage[] = [
 
 const AdsData: ads[] = [
   {
+    company_id: CompaniesData[0].id,
     id: uuid(),
     name: "",
     price: { min: 0, max: 10 },
