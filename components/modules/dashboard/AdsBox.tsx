@@ -1,103 +1,175 @@
-import React from "react"
+"use client"
+import React, { useState } from "react"
+import { find } from "lodash"
 
-import { Menu } from "lucide-react"
+import { ad } from "@/types/utils.type"
+import { cooperationTypeItems, genderItems, seniorityLevelItems } from "@/types/utils.variable"
+
+import { Trash } from "lucide-react"
+
 import { Card, CardContent, CardHeader } from "../ui/card"
 import { Button } from "../ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog"
+import { toast } from "../ui/use-toast"
 
-const AdsBox = () => {
+const AdsBox: React.FC<{ ad: ad }> = ({ ad }) => {
+  const [isLogoutDialog, setIsLogoutDialog] = useState(false)
+  const removeAction = async () => {
+    const res = await fetch("/api/ad/remove", {
+      method: "POST",
+      body: JSON.stringify(ad.id),
+    })
+    const data = await res.json()
+    if (res.status === 201) {
+      toast({ title: data.message, variant: "default" })
+      setIsLogoutDialog(false)
+      return
+    }
+    toast({ title: data.message, variant: "destructive" })
+  }
   return (
     <Card>
       <CardHeader className="flex justify-between flex-row p-3">
         <section className="h-full">
-          <p className="text-base font-semibold text-muted-foreground">
-            Front End Developer (React.js)
-          </p>
+          <p className="text-base font-semibold text-muted-foreground">{ad.name}</p>
           <div className="text-xs flex flex-nowrap overflow-x-hidden">
             <div className="box-info-type">امکان جذب کارآموز</div>
             <div className="box-info-type">امکان دورکاری</div>
           </div>
-          <p className="truncate text-xs my-2">8 - 6 میلیون تومان</p>
-          <div className="truncate text-xs">6 اسفند 1400 - 7 اسفند 1400</div>
+
+          <p className="truncate text-xs my-2">
+            {ad.price.max
+              ? `${ad.price.min.toLocaleString("ir-fs")} - ${ad.price.max.toLocaleString(
+                  "ir-fs"
+                )} میلیون تومان`
+              : `${ad.price.min.toLocaleString("ir-fs")} میلیون تومان`}
+          </p>
+          <div className="truncate text-xs">6 اسفند 1400</div>
         </section>
         <section className="h-full flex">
           <p className="box-info-type !h-full m-0">4 روز پیش</p>
-          <Button size={"sm"} variant={"outline"} className="mr-3">
-            <Menu className="icon-sm" />
-          </Button>
+          <Dialog open={isLogoutDialog} onOpenChange={setIsLogoutDialog}>
+            <DialogTrigger asChild>
+              <Button size={"sm"} variant={"destructiveOutline"} className="mr-3">
+                <Trash className="icon-sm" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent isDirectionCloseLeft>
+              <DialogHeader className="mb-3">
+                <DialogTitle>آیا از حذف کردن آگهی خود مطمعن هستید !؟</DialogTitle>
+              </DialogHeader>
+              <DialogFooter className="flex gap-2">
+                <Button variant={"outline"} onClick={() => setIsLogoutDialog(false)} type="button">
+                  خیر
+                </Button>
+                <Button
+                  variant={"outline"}
+                  onClick={removeAction}
+                  className="text-destructive border-destructive hover:text-white hover:bg-destructive"
+                  type="button"
+                >
+                  بله
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </section>
       </CardHeader>
-      <CardContent className="grid grid-cols-2 grid-rows-2 gap-3 text-sm mt-3">
+      <CardContent className="grid grid-cols-2 grid-rows-2 gap-6 text-sm mt-3">
         <div>
-          <span className="text-secondary font-semibold morabba">شرح شغل و وظایف</span>
-          <p className="w-10/12">
-            پروژه برنامه نویسی اختصاصی وب اپلیکیشن برای برند بسیار معروف می باشد. نیاز به فرانت کار
-            ماهر جهت ادامه ی پروژه. تسویه 15 روزه
-          </p>
+          <span className="text-secondary font-semibold morabba">شاخص های کلیدی</span>
+          <div className="w-10/12 mt-2">
+            {ad.key_indicator.map((item, index) => (
+              <span key={`key-indicator-${index + 1}`} className="box-info-type">
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
         <div>
           <span className="text-secondary font-semibold morabba">نوع همکاری</span>
-          <p>قراردادی / پروژه ای</p>
+          <p className="mt-2">
+            {
+              find(cooperationTypeItems, function (item) {
+                return item.type === ad.cooperation_type
+              })?.name
+            }
+          </p>
         </div>
+
+        <div className="col-span-1">
+          <span className="text-secondary font-semibold morabba">جنسیت</span>
+          <p className="mt-2">
+            {
+              find(genderItems, function (item) {
+                return item.type === ad.gender
+              })?.name
+            }
+          </p>
+        </div>
+        <div className="col-span-1">
+          <span className="text-secondary font-semibold morabba">سطح ارشدیت</span>
+          <p className="mt-2">
+            {
+              find(seniorityLevelItems, function (item) {
+                return item.type === ad.seniority_level
+              })?.name
+            }
+          </p>
+        </div>
+
         <div className="col-span-2">
-          <span className="text-secondary font-semibold morabba">شاخص های کلیدی</span>
+          <span className="text-secondary font-semibold morabba">مزایا و امکانات</span>
           <div className="flex flex-wrap">
-            <div className="box-info-type">2 سال سابقه کار در گروه شغلی مشابه</div>
-            <div className="box-info-type">React - پیشرفته</div>
-            <div className="box-info-type">ترجیحا ساکن اصفهان</div>
-            <div className="box-info-type">شاخص های کلیدی 1</div>
-            <div className="box-info-type">شاخص های کلیدی 2</div>
-            <div className="box-info-type">شاخص های کلیدی 3</div>
-            <div className="box-info-type">شاخص های کلیدی 4</div>
+            {ad.facilities?.map((item) => (
+              <span className="box-info-type" key={item.id}>
+                {item.type}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="col-span-2">
+          <span className="text-secondary font-semibold morabba">تگ های آگهی</span>
+          <div className="flex flex-wrap">
+            {ad.tags?.map((item) => (
+              <span className="box-info-type" key={item.id}>
+                {item.name}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="col-span-2">
+          <span className="text-secondary font-semibold morabba">میزان تحصیلات</span>
+          <div className="flex flex-wrap">
+            {ad.edicational_level?.map((item, index) => (
+              <span className="box-info-type" key={`edicational-level-${index + 1}`}>
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="col-span-2">
+          <span className="text-secondary font-semibold morabba">مهارت های نرم افزاری</span>
+          <div className="flex flex-wrap">
+            {ad.software_skills.map((item, index) => (
+              <span className="box-info-type" key={`software-skills-${index + 1}`}>
+                {item}
+              </span>
+            ))}
           </div>
         </div>
       </CardContent>
     </Card>
-  )
-  return (
-    <div className={`mb-2 bg-jv-white py-5 px-3 rounded-lg`}>
-      <div className="flex justify-between">
-        <section className="h-full">
-          <p className="text-base text-jv-lightGray">Front End Developer (React.js)</p>
-          <div className="text-xs flex flex-nowrap overflow-x-hidden">
-            <div className="box-info-type">امکان جذب کارآموز</div>
-            <div className="box-info-type">امکان دورکاری</div>
-          </div>
-          <p className="truncate text-xs my-2">8 - 6 میلیون تومان</p>
-          <div className="truncate text-xs">6 اسفند 1400 - 7 اسفند 1400</div>
-        </section>
-        <section className="h-full flex items-start">
-          <p className="box-info-type m-0">4 روز پیش</p>
-          <div className="mt-1 mr-2 flex items-center justify-center cursor-pointer">
-            <Menu />
-          </div>
-        </section>
-      </div>
-      <div className="mt-4 text-xs grid grid-cols-2 grid-rows-2">
-        <div>
-          <span className="font-semibold morabba">شرح شغل و وظایف</span>
-          <p className="w-10/12">
-            پروژه برنامه نویسی اختصاصی وب اپلیکیشن برای برند بسیار معروف می باشد. نیاز به فرانت کار
-            ماهر جهت ادامه ی پروژه. تسویه 15 روزه
-          </p>
-        </div>
-        <div>
-          <span className="font-semibold morabba">نوع همکاری</span>
-          <p>قراردادی / پروژه ای</p>
-        </div>
-        <div className="col-span-2">
-          <span className="font-semibold morabba">شاخص های کلیدی</span>
-          <div className="flex flex-wrap">
-            <div className="box-info-type">2 سال سابقه کار در گروه شغلی مشابه</div>
-            <div className="box-info-type">React - پیشرفته</div>
-            <div className="box-info-type">ترجیحا ساکن اصفهان</div>
-            <div className="box-info-type">شاخص های کلیدی 1</div>
-            <div className="box-info-type">شاخص های کلیدی 2</div>
-            <div className="box-info-type">شاخص های کلیدی 3</div>
-            <div className="box-info-type">شاخص های کلیدی 4</div>
-          </div>
-        </div>
-      </div>
-    </div>
   )
 }
 
