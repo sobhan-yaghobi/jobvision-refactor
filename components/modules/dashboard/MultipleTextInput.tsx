@@ -30,11 +30,17 @@ const MultipleTextInput: React.FC<MultipleTextInputProps> = ({
       return stateVal === value
     })
 
-    if (!isExsist) {
+    if (!isExsist && value.length) {
       setState((prev) => [...prev, value])
     }
     setValue("")
     myInput.current?.focus()
+  }
+  const enterAction = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key == "Enter") {
+      e.preventDefault()
+      clickAction()
+    }
   }
   return (
     <div className="flex flex-col gap-2">
@@ -85,6 +91,7 @@ const MultipleTextInput: React.FC<MultipleTextInputProps> = ({
           wrapperClassName="flex-1"
           className="border-none !ring-0 !ring-offset-0 pr-0"
           onChange={(e) => setValue(e.target.value)}
+          onKeyDown={enterAction}
         />
       </div>
       {message && typeof message === "string" ? (
