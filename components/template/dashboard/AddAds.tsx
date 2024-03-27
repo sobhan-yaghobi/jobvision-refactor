@@ -295,9 +295,9 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
                     key={item.id}
                     size={"sm"}
                     variant={"fill"}
-                    className="h-7 ml-1 group last:ml-0"
+                    className="h-7 max-w-52 group"
                   >
-                    {item.name}
+                    <span className="flex-1 truncate">{item.name}</span>
                     <X className="icon btn-icon-r p-1 rounded-sm group-hover:bg-destructive/50 group-hover:text-destructive-foreground" />
                   </Button>
                 ))

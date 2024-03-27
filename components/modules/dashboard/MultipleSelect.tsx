@@ -19,13 +19,13 @@ const MultipleTagsSelect: React.FC<React.PropsWithChildren<MultipleTagsSelectPro
   const [isOpen, setIsOpen] = useState(false)
   return (
     <div className="flex flex-col gap-2">
-      <div ref={myDivRef} className="w-full h-10">
+      <div ref={myDivRef} className="w-full">
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger asChild>
             <div
               role="combobox"
               aria-expanded={isOpen}
-              className={`h-full relative flex items-center pr-12 border-2 border-muted rounded-sm cursor-pointer`}
+              className={`min-h-10 relative flex items-center flex-wrap gap-1 py-1 pr-12 border-2 border-muted rounded-sm cursor-pointer`}
             >
               <Tags className="icon-stroke-light absolute right-3" />
               {trigger}

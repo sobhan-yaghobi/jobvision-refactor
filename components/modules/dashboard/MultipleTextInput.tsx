@@ -77,9 +77,9 @@ const MultipleTextInput: React.FC<MultipleTextInputProps> = ({
                 key={`multiple-text-${item}`}
                 size={"sm"}
                 variant={"fill"}
-                className="h-7 group"
+                className="h-7 max-w-52 group"
               >
-                {item}
+                <span className="flex-1 truncate">{item}</span>
                 <X className="icon btn-icon-r p-1 rounded-sm group-hover:bg-destructive/50 group-hover:text-destructive-foreground" />
               </Button>
             ))
