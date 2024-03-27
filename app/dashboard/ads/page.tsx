@@ -8,6 +8,7 @@ const page = async () => {
   const categories = await prisma.categories.findMany({
     include: { category_collections: true },
   })
+  const advantages = await prisma.advantage.findMany()
   const pageItems: TypePage[] = [
     {
       id: "ads",
@@ -17,7 +18,7 @@ const page = async () => {
     {
       id: "add-ads",
       name: "آگهی جدید",
-      content: <AddAds categories={categories} />,
+      content: <AddAds categories={categories} advantages={advantages} />,
     },
   ]
   return (
