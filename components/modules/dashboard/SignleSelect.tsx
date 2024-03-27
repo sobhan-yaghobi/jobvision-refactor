@@ -30,7 +30,7 @@ const SingleSelect: React.FC<SingleSelectProps> = ({
   return (
     <div className="flex flex-col gap-2">
       <div ref={myDivRef} className="w-full h-10">
-        <Popover>
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger asChild>
             <div
               role="combobox"
