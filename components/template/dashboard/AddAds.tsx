@@ -101,6 +101,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
         message: item.message,
       }))
       setErrs(newErrs)
+      return
     }
     const createResault = await addAds(newAd)
     if (createResault.status) {
