@@ -71,12 +71,14 @@ export const adSchema = z.object({
       })
     )
     .min(1, "تگ های آگهی اجباری میباشد"),
-  facilities: z.array(
-    z.object({
-      id: z.string(),
-      type: z.string(),
-    })
-  ),
+  facilities: z
+    .array(
+      z.object({
+        id: z.string(),
+        type: z.string(),
+      })
+    )
+    .min(1, "مزایا و امکانات اجباری میباشد"),
   gender: z.enum(genderEnums, { required_error: "جنسیت اجباری میباشد" }),
   seniority_level: z.enum(seniorityLevelEnums, { required_error: "سطح ارشدیت اجباری میباشد" }),
   cooperation_type: z.enum(cooperationTypeEnums, { required_error: "نوع همکاری اجباری میباشد" }),

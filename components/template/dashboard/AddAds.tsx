@@ -16,7 +16,7 @@ import { cooperationTypeItems, genderItems, seniorityLevelItems } from "@/types/
 import {
   BriefcaseBusiness,
   CalendarClock,
-  CircleCheckBig,
+  CheckIcon,
   Code2,
   Earth,
   FileStack,
@@ -26,16 +26,24 @@ import {
   MaximizeIcon,
   MinimizeIcon,
   SquareUserRound,
+  X,
 } from "lucide-react"
 
 import SingleSelect, { TypeMainSelect } from "@/components/modules/dashboard/SignleSelect"
-import MultipleTagsSelect from "@/components/modules/dashboard/MultipleTagsSelect"
+import MultipleTagsSelect from "@/components/modules/dashboard/MultipleSelect"
 import MultipleTextInput from "@/components/modules/dashboard/MultipleTextInput"
 import { InputMessage } from "@/components/modules/ui/input"
 import Title from "@/components/modules/Title"
 import { Button } from "@/components/modules/ui/button"
 import { TypeAd, adSchema } from "@/validation/zod.validations"
-import { getLastMessage } from "@/lib/utils"
+import { cn, getLastMessage } from "@/lib/utils"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/modules/ui/accordion"
+import { filter } from "lodash"
 
 type AddAdsProps = {
   categories: categoryWithCollection[]
@@ -254,21 +262,136 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
         <div className="mt-6">
           <span className="morabba">تگ های آگهی</span>
           <MultipleTagsSelect
-            state={tags}
-            setState={setTags}
-            categories={categories}
+            trigger={
+              tags.length ? (
+                tags.map((item) => (
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setTags((prev) =>
+                        filter(prev, function (prevItem) {
+                          return prevItem.id !== item.id
+                        })
+                      )
+                    }}
+                    key={item.id}
+                    size={"sm"}
+                    variant={"fill"}
+                    className="h-7 ml-1 group last:ml-0"
+                  >
+                    {item.name}
+                    <X className="icon btn-icon-r p-1 rounded-sm group-hover:bg-destructive/50 group-hover:text-destructive-foreground" />
+                  </Button>
+                ))
+              ) : (
+                <span className="text-muted-foreground text-sm">تگ های شغلی</span>
+              )
+            }
             message={getLastMessage({ array: errs, key: "path", main_id: "tags" })?.message}
-          />
+          >
+            <Accordion type="single" collapsible>
+              {categories.map((category) => (
+                <AccordionItem
+                  key={`accordion-category-item-${category.id}`}
+                  value={`accordion-category-item-${category.id}`}
+                >
+                  <AccordionTrigger className="py-2 hover:no-underline">
+                    {category.name}
+                  </AccordionTrigger>
+                  <AccordionContent className="flex flex-col pb-0">
+                    {category.category_collections.length ? (
+                      category.category_collections.map((collect) => (
+                        <div
+                          key={`accordion-collection-item-${collect.id}`}
+                          className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
+                          onClick={() => {
+                            setTags((prev) =>
+                              prev.some((prevItem) => collect.id === prevItem.id)
+                                ? prev.filter((item) => item.id !== collect.id)
+                                : [...prev, collect]
+                            )
+                          }}
+                        >
+                          <CheckIcon
+                            className={cn(
+                              "icon btn-icon btn-icon-l",
+                              tags.some((item) => item.id === collect.id)
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                          {collect.name}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-destructive my-1 p-2 rounded-sm hover:bg-destructive-foreground">
+                        شغلی برای {category.name} یافت نشد
+                      </div>
+                    )}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </MultipleTagsSelect>
         </div>
 
         <div className="mt-6">
           <span className="morabba">مزایا</span>
-          {/* <MultipleTextInput
-            state={advantage}
-            setState={setAdvantage}
-            placeholder="برای مثال برنامه نویس فرانت اند"
-            icon={<CircleCheckBig className="icon-stroke-light" />}
-          /> */}
+          <MultipleTagsSelect
+            placeholder="مزایا و امکانات"
+            trigger={
+              facilities.length ? (
+                facilities.map((item) => (
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setFacilities((prev) =>
+                        filter(prev, function (prevItem) {
+                          return prevItem.id !== item.id
+                        })
+                      )
+                    }}
+                    key={item.id}
+                    size={"sm"}
+                    variant={"fill"}
+                    className="h-7 ml-1 group last:ml-0"
+                  >
+                    {item.type}
+                    <X className="icon btn-icon-r p-1 rounded-sm group-hover:bg-destructive/50 group-hover:text-destructive-foreground" />
+                  </Button>
+                ))
+              ) : (
+                <span className="text-muted-foreground text-sm">
+                  مزایا و امکانات را انتخاب کنید
+                </span>
+              )
+            }
+            message={getLastMessage({ array: errs, key: "path", main_id: "facilities" })?.message}
+          >
+            {advantages.map((advantage) => (
+              <div
+                key={advantage.id}
+                className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
+                onClick={() => {
+                  setFacilities((prev) =>
+                    prev.some((prevItem) => advantage.id === prevItem.id)
+                      ? prev.filter((item) => item.id !== advantage.id)
+                      : [...prev, advantage]
+                  )
+                }}
+              >
+                <CheckIcon
+                  className={cn(
+                    "icon btn-icon btn-icon-l",
+                    facilities.some((item) => item.id === advantage.id)
+                      ? "opacity-100"
+                      : "opacity-0"
+                  )}
+                />
+                {advantage.type}
+              </div>
+            ))}
+          </MultipleTagsSelect>
         </div>
 
         <div className="mt-6">
