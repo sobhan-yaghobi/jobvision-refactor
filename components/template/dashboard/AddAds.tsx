@@ -3,7 +3,13 @@
 import React, { useEffect, useState } from "react"
 
 import { categoryWithCollection } from "@/types/utils.type"
-import { category_collections, cooperation_type, gender, seniority_level } from "@prisma/client"
+import {
+  advantage,
+  category_collections,
+  cooperation_type,
+  gender,
+  seniority_level,
+} from "@prisma/client"
 
 import { cooperationTypeItems, genderItems, seniorityLevelItems } from "@/types/utils.variable"
 
@@ -33,9 +39,10 @@ import { getLastMessage } from "@/lib/utils"
 
 type AddAdsProps = {
   categories: categoryWithCollection[]
+  advantages: advantage[]
 }
 
-const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
+const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
 
   const [gender, setGender] = useState<TypeMainSelect>({} as TypeMainSelect)
@@ -46,7 +53,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
   const [softwareSkills, setSoftwareSkills] = useState<string[]>([] as string[])
   const [keyIndicator, setKeyIndicator] = useState<string[]>([] as string[])
   const [edicationalLevel, setEdicationalLevel] = useState<string[]>([] as string[])
-  const [advantage, setAdvantage] = useState<string[]>([] as string[])
+  const [facilities, setFacilities] = useState<advantage[]>([] as advantage[])
 
   const [checked, setChecked] = useState({
     is_price_max: false,
@@ -70,7 +77,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
       key_indicator: keyIndicator,
       software_skills: softwareSkills,
       tags,
-      advantage,
+      facilities,
       gender: gender.type as gender,
       seniority_level: seniorityLevel.type as seniority_level,
       cooperation_type: cooperationType.type as cooperation_type,
@@ -256,12 +263,12 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
 
         <div className="mt-6">
           <span className="morabba">مزایا</span>
-          <MultipleTextInput
+          {/* <MultipleTextInput
             state={advantage}
             setState={setAdvantage}
             placeholder="برای مثال برنامه نویس فرانت اند"
             icon={<CircleCheckBig className="icon-stroke-light" />}
-          />
+          /> */}
         </div>
 
         <div className="mt-6">

@@ -9,6 +9,7 @@ import {
   users,
   PrismaClient,
   ads,
+  advantage,
 } from "@prisma/client"
 import prisma from "@/lib/prisma"
 import { DateObject } from "react-multi-date-picker"
@@ -107,6 +108,13 @@ const UsersData: users[] = [
   },
 ]
 
+const AdvantageData: advantage[] = [
+  { id: uuid(), type: "وام" },
+  { id: uuid(), type: "پارکینگ" },
+  { id: uuid(), type: "پاداش" },
+  { id: uuid(), type: "سرویس رفت و برگشت" },
+]
+
 const AdsData: ads[] = [
   {
     id: uuid(),
@@ -118,7 +126,7 @@ const AdsData: ads[] = [
     edicational_level: ["dd", "ddds"],
     key_indicator: ["1", "2", "3"],
     software_skills: ["sof1", "sof2", "sof3"],
-    advantage: ["ad1", "ad2"],
+    facilities: [AdvantageData[0], AdvantageData[1], AdvantageData[2]],
     gender: "NOT_IMPORTANT",
     seniority_level: "EXPERT",
     cooperation_type: "FULL_TIME",
@@ -127,7 +135,14 @@ const AdsData: ads[] = [
 ]
 
 interface InitialData {
-  data: categories[] | category_collections[] | provinces[] | cities[] | companies[] | users[]
+  data:
+    | categories[]
+    | category_collections[]
+    | provinces[]
+    | cities[]
+    | companies[]
+    | users[]
+    | advantage[]
   successMessage: string
 }
 async function addInitialData(
@@ -138,6 +153,7 @@ async function addInitialData(
     | "cities"
     | "companies"
     | "users"
+    | "advantage"
     | "ads",
   initialData: InitialData
 ): Promise<void> {
@@ -176,6 +192,10 @@ const addInitalDataAction = async () => {
   await addInitialData("users", {
     data: UsersData,
     successMessage: "Inital Data Of Users",
+  })
+  await addInitialData("advantage", {
+    data: AdvantageData,
+    successMessage: "Inital Data Of Advantages",
   })
   await addInitialData("ads", {
     data: AdsData,

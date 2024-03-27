@@ -65,6 +65,12 @@ model companies {
   users                           users[]
 }
 
+model advantage {
+  id                  String                @id @default(uuid())
+  type                String                @db.Text
+  facilitiesAdvantage facilitiesAdvantage[]
+}
+
 enum gender {
   FEMALE
   MALE
@@ -91,17 +97,18 @@ model ads {
   name                    String                    @db.Text
   price                   Json                      @default("{\"min\": 0, \"max\": 0}")
   work_time               String                    @db.Text
-  travel_benefits         String                    @db.Text @default("")
+  travel_benefits         String                    @db.Text
   age                     Json                      @default("{\"min\": 0, \"max\": 0}")
   edicational_level       Json                      @default("[]")
   key_indicator           Json                      @default("[]")
   software_skills         Json                      @default("[]")
   tags                    Json                      @default("[]")
-  advantage               Json                      @default("[]")
+  facilities              Json                      @default("[]")
   gender                  gender
   seniority_level         seniority_level
   cooperation_type        cooperation_type
   adsCategory_collections adsCategory_collections[]
+  facilitiesAdvantage     facilitiesAdvantage[]
 }
 
 model adsCategory_collections {
@@ -112,4 +119,14 @@ model adsCategory_collections {
   category_collections   category_collections @relation(fields: [category_collection_id], references: [id])
 
   @@id([ad_id, category_collection_id])
+}
+
+model facilitiesAdvantage {
+  ad_id String
+  ad    ads    @relation(fields: [ad_id], references: [id])
+
+  advantage_id String
+  advantage    advantage @relation(fields: [advantage_id], references: [id])
+
+  @@id([ad_id, advantage_id])
 }
