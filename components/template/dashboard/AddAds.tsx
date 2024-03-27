@@ -190,7 +190,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
                 name="max_age"
               />
             </div>
-            <span className="flex items-center gap-2 mt-3">
+            <span className="flex items-center gap-2 mt-2">
               <input
                 type="checkbox"
                 onChange={(e) => setChecked((prev) => ({ ...prev, is_age_max: e.target.checked }))}
@@ -212,6 +212,9 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
             setState={setEdicationalLevel}
             placeholder="برای مثال لیسانس دکترا ، مدرک زبان معتبر"
             icon={<GraduationCap className="icon-stroke-light" />}
+            message={
+              getLastMessage({ array: errs, key: "path", main_id: "edicational_level" })?.message
+            }
           />
         </div>
 
@@ -222,6 +225,9 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
             setState={setKeyIndicator}
             placeholder="برای مثال 3 سال سابقه کار با react"
             icon={<FileStack className="icon-stroke-light" />}
+            message={
+              getLastMessage({ array: errs, key: "path", main_id: "key_indicator" })?.message
+            }
           />
         </div>
 
@@ -232,12 +238,20 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
             setState={setSoftwareSkills}
             placeholder="برای مثال react - متوسط ، next js - مقدماتی"
             icon={<Code2 className="icon-stroke-light" />}
+            message={
+              getLastMessage({ array: errs, key: "path", main_id: "software_skills" })?.message
+            }
           />
         </div>
 
         <div className="mt-6">
           <span className="morabba">تگ های آگهی</span>
-          <MultipleTagsSelect state={tags} setState={setTags} categories={categories} />
+          <MultipleTagsSelect
+            state={tags}
+            setState={setTags}
+            categories={categories}
+            message={getLastMessage({ array: errs, key: "path", main_id: "tags" })?.message}
+          />
         </div>
 
         <div className="mt-6">
@@ -258,6 +272,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
             items={genderItems}
             placeholder="جنسیت را انتخاب کنید"
             icon={<SquareUserRound className="icon-stroke-light" />}
+            message={getLastMessage({ array: errs, key: "path", main_id: "gender" })?.message}
           />
         </div>
 
@@ -269,6 +284,9 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
             items={seniorityLevelItems}
             placeholder="سطح ارشدیت را انتخاب کنید"
             icon={<BriefcaseBusiness className="icon-stroke-light" />}
+            message={
+              getLastMessage({ array: errs, key: "path", main_id: "seniority_level" })?.message
+            }
           />
         </div>
 
@@ -280,6 +298,9 @@ const AddAds: React.FC<AddAdsProps> = ({ categories }) => {
             items={cooperationTypeItems}
             placeholder="نوع همکاری را انتخاب کنید"
             icon={<Handshake className="icon-stroke-light" />}
+            message={
+              getLastMessage({ array: errs, key: "path", main_id: "cooperation_type" })?.message
+            }
           />
         </div>
 
