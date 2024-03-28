@@ -17,23 +17,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog"
-import { toast } from "../ui/use-toast"
 
-const AdsBox: React.FC<{ ad: ad }> = ({ ad }) => {
+type AdsBoxProps = {
+  ad: ad
+  remove: (id: string) => Promise<void>
+}
+
+const AdsBox: React.FC<AdsBoxProps> = ({ ad, remove }) => {
   const [isLogoutDialog, setIsLogoutDialog] = useState(false)
-  const removeAction = async () => {
-    const res = await fetch("/api/ad/remove", {
-      method: "POST",
-      body: JSON.stringify(ad.id),
-    })
-    const data = await res.json()
-    if (res.status === 201) {
-      toast({ title: data.message, variant: "default" })
-      setIsLogoutDialog(false)
-      return
-    }
-    toast({ title: data.message, variant: "destructive" })
-  }
   return (
     <Card>
       <CardHeader className="flex justify-between flex-row p-3">
@@ -71,7 +62,7 @@ const AdsBox: React.FC<{ ad: ad }> = ({ ad }) => {
                 </Button>
                 <Button
                   variant={"outline"}
-                  onClick={removeAction}
+                  onClick={() => remove(ad.id)}
                   className="text-destructive border-destructive hover:text-white hover:bg-destructive"
                   type="button"
                 >

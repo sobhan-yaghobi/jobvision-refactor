@@ -83,7 +83,7 @@ const CompaniesData: companies[] = [
     created_at: new Date(),
     name: "ایرانسل",
     location: "مشهد قاسم آباد",
-    logo: "https://way2pay.ir/wp-content/uploads/irancell-newlogo-00-12-18.png",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/3/3d/MTN_Irancell_Logo.svg",
     score_company: 4.3,
     score_popularity: 4.6,
     score_experience_of_job_seekers: 5,
