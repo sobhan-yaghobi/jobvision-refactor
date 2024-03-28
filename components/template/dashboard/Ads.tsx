@@ -1,22 +1,38 @@
-import isAuth from "@/app/action/isAuth"
-import Title from "@/components/modules/Title"
-import AdsBox from "@/components/modules/dashboard/AdsBox"
-import { ad } from "@/types/utils.type"
-import React from "react"
+"use client"
+import React, { useEffect, useState } from "react"
 
-const Ads: React.FC = async () => {
-  const { user } = await isAuth()
-  const adItems: ad[] = user?.company_id
-    ? ((await prisma.ads.findMany({ where: { company_id: user?.company_id } })) as ad[])
-    : ([] as ad[])
+import { ad } from "@/types/utils.type"
+import AdsBox from "@/components/modules/dashboard/AdsBox"
+import Title from "@/components/modules/Title"
+
+const Ads: React.FC = () => {
+  const [adItems, setAdItems] = useState<ad[]>()
+  useEffect(() => {
+    const fetchAction = async () => {
+      const res = await fetch("/api/ad?query=me", {
+        method: "GET",
+      })
+
+      const data = await res.json()
+      setAdItems(data)
+    }
+
+    fetchAction()
+  }, [])
   return (
     <div>
       <Title className="mb-6">
         <h3>آگهی ها</h3>
       </Title>
-      {adItems.map((item) => (
-        <AdsBox key={item.id} ad={item} />
-      ))}
+      {adItems ? (
+        adItems.length ? (
+          adItems.map((item) => <AdsBox key={item.id} ad={item} />)
+        ) : (
+          <>آگهی وجود ندارد</>
+        )
+      ) : (
+        <>Loading</>
+      )}
     </div>
   )
 }
