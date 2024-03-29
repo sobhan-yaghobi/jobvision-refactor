@@ -49,7 +49,7 @@ const QuickAccess: React.FC<QuickAccessProps> = ({ company }) => {
             <div className="flex flex-col">
               <span>شرکتی یافت نشد</span>
               <Button variant={"link"}>
-                <Link className="mt-3 text-sm dana" href={"/"}>
+                <Link className="mt-3 text-sm dana" href={"/dashboard?page=company"}>
                   ثبت شرکت
                 </Link>
               </Button>
