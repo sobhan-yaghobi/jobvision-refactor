@@ -15,7 +15,11 @@ export type TypeSignIn = z.infer<typeof signInSchema>
 
 export const companySchema = z.object({
   name: z.string().trim().min(1, "نام اجباری میباشد"),
-  location: z.string().trim().min(1, "موقعیت اجباری میباشد"),
+  // location: z.string().trim().min(1, "موقعیت اجباری میباشد"),
+  location: z.object({
+    address: z.string(),
+    cities_id: z.string(),
+  }),
   logo: z.string().url().trim().min(1, "لینک لوگو اجباری میباشد"),
   score_company: z.number(),
   score_popularity: z.number(),

@@ -3,20 +3,22 @@
 import React, { useRef, useState } from "react"
 import { isEqual, keys, pick } from "lodash"
 
+import { companyWithLocation, provinceWithCity } from "@/types/utils.type"
+
 import registerCompany from "@/app/action/registerCompany"
-import { companies } from "@prisma/client"
 
 import { DateObject } from "react-multi-date-picker"
 import { TypeCompany, companySchema } from "@/validation/zod.validations"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
 import gregorian_en from "react-date-object/locales/gregorian_en"
-import { getLastMessage } from "@/lib/utils"
+import { cn, getLastMessage } from "@/lib/utils"
 import { toast } from "@/components/modules/ui/use-toast"
 
 import {
   Building2,
   CalendarIcon,
+  CheckIcon,
   Image,
   Link,
   MapPin,
@@ -24,6 +26,7 @@ import {
   MonitorSmartphone,
   Speech,
   Users,
+  X,
 } from "lucide-react"
 
 import { InputMessage } from "@/components/modules/ui/input"
@@ -31,13 +34,23 @@ import { Textarea } from "@/components/modules/ui/textarea"
 import { Button } from "@/components/modules/ui/button"
 import Title from "@/components/modules/Title"
 import Calender from "@/components/modules/Calender"
+import { cities } from "@prisma/client"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/modules/ui/popover"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/modules/ui/accordion"
 
 type CompanyProps = {
-  company: companies | null
+  company: companyWithLocation | null
+  provinces: provinceWithCity[]
 }
 
-const Company: React.FC<CompanyProps> = ({ company }) => {
+const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
   const formRef = useRef<HTMLFormElement>(null)
+  const [city, setCity] = useState<cities>({} as cities)
   const [companyState, setCompanyState] = useState<TypeCompany>(
     company ? company : ({} as TypeCompany)
   )
@@ -47,7 +60,7 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
   const clientAction = async (formData: FormData) => {
     const companyObject: TypeCompany = {
       name: formData.get("name") as string,
-      location: formData.get("location") as string,
+      location: { address: formData.get("address") as string, cities_id: city.id },
       logo: formData.get("logo") as string,
       score_company: 4.3,
       score_popularity: 4.6,
@@ -154,20 +167,23 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
 
         <div className="mt-6">
           <span className="morabba">موقعیت شغلی</span>
-          <InputMessage
-            defaultValue={companyState.location}
-            icon={<MapPin className="icon-stroke-light" />}
-            wrapperClassName="w-full"
-            placeholder="برای مثال تهران ، بهارستان"
-            name="location"
-            message={
-              getLastMessage({
-                array: errs,
-                key: "path",
-                main_id: "location",
-              })?.message
-            }
-          />
+          <div className="flex items-center gap-1">
+            <ProvinceInput provinces={provinces} />
+            <InputMessage
+              defaultValue={companyState.location.address}
+              icon={<MapPin className="icon-stroke-light" />}
+              wrapperClassName="w-full"
+              placeholder="برای مثال بهارستان"
+              name="address"
+              message={
+                getLastMessage({
+                  array: errs,
+                  key: "path",
+                  main_id: "location",
+                })?.message
+              }
+            />
+          </div>
         </div>
 
         <div className="mt-6">
@@ -304,6 +320,87 @@ const Company: React.FC<CompanyProps> = ({ company }) => {
         <Button className="mt-6 w-full">{company !== null ? "آپدیت" : "ثبت شرکت"}</Button>
       </form>
     </>
+  )
+}
+
+type ProvinceInputProps = {
+  width?: string
+  provinces: provinceWithCity[]
+}
+const ProvinceInput: React.FC<ProvinceInputProps> = ({ provinces, width }) => {
+  const myDivRef = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState(false)
+  const [value, setValue] = useState("")
+  return (
+    <div ref={myDivRef} className={`${width ?? "w-[300px]"}`}>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-full justify-start pl-2"
+          >
+            <MapPin className="icon btn-icon-l" />
+            {value ? (
+              <>
+                <span>{value}</span>
+                <button className="mr-auto p-1 rounded-sm hover:*:stroke-destructive hover:bg-destructive-foreground">
+                  <X
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setValue("")
+                    }}
+                    className="icon"
+                  />
+                </button>
+              </>
+            ) : (
+              "شهر"
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          style={{ width: `${myDivRef.current?.clientWidth}px` }}
+          className="px-3 py-2"
+        >
+          <Accordion type="single" collapsible className="w-full">
+            {provinces.map((province) => (
+              <AccordionItem
+                key={`accordion-province-item-${province.id}`}
+                value={`accordion-province-item-${province.id}`}
+              >
+                <AccordionTrigger className="py-2 hover:no-underline">
+                  {province.name}
+                </AccordionTrigger>
+                <AccordionContent className="flex flex-col">
+                  {province.cities
+                    ? province.cities.map((city) => (
+                        <div
+                          key={`accordion-city-item-${city.id}`}
+                          className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
+                          onClick={() => {
+                            setValue(city.name ?? province.name)
+                            setOpen(false)
+                          }}
+                        >
+                          <CheckIcon
+                            className={cn(
+                              "icon btn-icon btn-icon-l",
+                              value === city.name ? "opacity-100" : "opacity-0"
+                            )}
+                          />
+                          {city.name}
+                        </div>
+                      ))
+                    : null}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </PopoverContent>
+      </Popover>
+    </div>
   )
 }
 

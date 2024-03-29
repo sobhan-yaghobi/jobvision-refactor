@@ -1,6 +1,6 @@
 import React from "react"
 
-import { companies } from "@prisma/client"
+import { companyWithLocation } from "@/types/utils.type"
 
 import { DoorOpen, FilePlus2, GitPullRequestArrow, LogOut, Pencil } from "lucide-react"
 
@@ -10,7 +10,7 @@ import { Button } from "@/components/modules/ui/button"
 import Link from "next/link"
 
 type QuickAccessProps = {
-  company: companies | null
+  company: companyWithLocation | null
 }
 
 const QuickAccess: React.FC<QuickAccessProps> = ({ company }) => {
