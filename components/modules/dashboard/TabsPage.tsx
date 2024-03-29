@@ -28,6 +28,7 @@ const TabsPage: React.FC<TabsPageProps> = ({ pageItems }) => {
   return (
     <Tabs
       dir="rtl"
+      key={defPage}
       defaultValue={
         defPage && some(pageItems, (item) => item.id === defPage) ? defPage : pageItems[0].id
       }
