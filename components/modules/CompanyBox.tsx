@@ -1,11 +1,12 @@
 import React from "react"
+import { cn } from "@/lib/utils"
+
+import { MoveLeft, Star } from "lucide-react"
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
+import { Button } from "./ui/button"
 import Image from "next/image"
 import Link from "next/link"
-import { MoveLeft, Star } from "lucide-react"
-import { Button } from "./ui/button"
-import { cn } from "@/lib/utils"
 
 type CompanyBoxType = {
   className?: string
