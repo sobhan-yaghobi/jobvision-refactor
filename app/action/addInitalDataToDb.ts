@@ -158,6 +158,12 @@ const AdsData: ads[] = [
     gender: "MALE",
     seniority_level: "EXPERT",
     cooperation_type: "FULL_TIME",
+    disabledPeople: false,
+    important: true,
+    itern: false,
+    militaryOrder: false,
+    response: false,
+    telecommuting: false,
   },
 ]
 

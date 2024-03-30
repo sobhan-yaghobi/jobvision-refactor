@@ -35,6 +35,7 @@ import {
 } from "lucide-react"
 
 import SingleSelect, { TypeMainSelect } from "@/components/modules/dashboard/SignleSelect"
+import { ToggleGroup, ToggleGroupItem } from "@/components/modules/ui/toggle-group"
 import MultipleSelect from "@/components/modules/dashboard/MultipleSelect"
 import MultipleTextInput from "@/components/modules/dashboard/MultipleTextInput"
 import { InputMessage } from "@/components/modules/ui/input"
@@ -52,6 +53,42 @@ type AddAdsProps = {
   advantages: advantage[]
 }
 
+const statusLabelItems = [
+  {
+    name: "important",
+    value: "امریه سربازی",
+  },
+  {
+    name: "response",
+    value: "امکان استخدام معلولین",
+  },
+  {
+    name: "itern",
+    value: "امکان دورکاری",
+  },
+  {
+    name: "telecommuting",
+    value: "امکان دریافت کارآموز",
+  },
+  {
+    name: "disabledPeople",
+    value: "پاسخگویی در اصرع وقت",
+  },
+  {
+    name: "militaryOrder",
+    value: "این آگهی فوری میباشد",
+  },
+]
+
+const initialStatusData = {
+  important: false,
+  response: false,
+  itern: false,
+  telecommuting: false,
+  disabledPeople: false,
+  militaryOrder: false,
+}
+
 const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
@@ -65,6 +102,8 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
   const [keyIndicator, setKeyIndicator] = useState<string[]>([] as string[])
   const [edicationalLevel, setEdicationalLevel] = useState<string[]>([] as string[])
   const [facilities, setFacilities] = useState<advantage[]>([] as advantage[])
+
+  const [status, setStatus] = useState(initialStatusData)
 
   const [checked, setChecked] = useState({
     is_price_max: false,
@@ -92,7 +131,15 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
       gender: gender.type as gender,
       seniority_level: seniorityLevel.type as seniority_level,
       cooperation_type: cooperationType.type as cooperation_type,
+      important: status.important,
+      response: status.response,
+      itern: status.itern,
+      telecommuting: status.telecommuting,
+      disabledPeople: status.disabledPeople,
+      militaryOrder: status.militaryOrder,
     }
+
+    console.log("newAd", newAd)
 
     const resualt = adSchema.safeParse(newAd)
     if (!resualt.success) {
@@ -122,6 +169,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
     setKeyIndicator([] as string[])
     setEdicationalLevel([] as string[])
     setFacilities([] as advantage[])
+    setStatus(initialStatusData)
   }
 
   return (
@@ -451,6 +499,30 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
               getLastMessage({ array: errs, key: "path", main_id: "cooperation_type" })?.message
             }
           />
+        </div>
+
+        <div className="mt-6">
+          <span className="morabba">وضعیت آگهی</span>
+          <ToggleGroup
+            type="multiple"
+            variant={"outline"}
+            className="flex-row flex-wrap justify-end"
+          >
+            {statusLabelItems.map((item) => (
+              <ToggleGroupItem
+                onClick={(e) => {
+                  const is = e.currentTarget.dataset.state === "off" ? true : false
+                  setStatus((prev) => ({
+                    ...prev,
+                    [item.name]: is,
+                  }))
+                }}
+                value={item.name}
+              >
+                {item.value}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
         </div>
 
         <Button className="w-full mt-6">ثبت اگهی</Button>

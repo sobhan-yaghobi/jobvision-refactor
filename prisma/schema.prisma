@@ -121,6 +121,12 @@ model ads {
   cooperation_type        cooperation_type
   adsCategory_collections adsCategory_collections[]
   facilitiesAdvantage     facilitiesAdvantage[]
+  important               Boolean                   @default(false)
+  response                Boolean                   @default(false)
+  itern                   Boolean                   @default(false)
+  telecommuting           Boolean                   @default(false)
+  disabledPeople          Boolean                   @default(false)
+  militaryOrder           Boolean                   @default(false)
   companies               companies?                @relation(fields: [company_id], references: [id])
 }
 
