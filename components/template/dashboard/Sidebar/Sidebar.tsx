@@ -1,5 +1,5 @@
 import React, { Fragment, ReactNode } from "react"
-import { cn } from "@/lib/utils"
+import { Route, MultipleItem } from "./Item"
 
 import {
   GitPullRequestClosed,
@@ -16,7 +16,6 @@ import { Button } from "@/components/modules/ui/button"
 import { Card } from "@/components/modules/ui/card"
 import Title from "@/components/modules/Title"
 import Image from "next/image"
-import { Route, MultipleItem } from "./Item"
 
 export type TypeSidebarItem = {
   label: string
