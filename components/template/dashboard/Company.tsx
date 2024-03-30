@@ -16,6 +16,7 @@ import { cn, getLastMessage } from "@/lib/utils"
 import { toast } from "@/components/modules/ui/use-toast"
 
 import {
+  Building,
   Building2,
   CalendarIcon,
   CheckIcon,
@@ -42,6 +43,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/modules/ui/accordion"
+import ProvinceInput from "@/components/modules/ProvinceInput"
 
 type CompanyProps = {
   company: companyWithLocation | null
@@ -151,7 +153,7 @@ const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
           <span className="morabba">نام شرکت</span>
           <InputMessage
             defaultValue={companyState.name}
-            icon={<Building2 className="icon-stroke-light" />}
+            icon={<Building className="icon-stroke-light" />}
             wrapperClassName="w-full"
             placeholder="برای مثال جاب ویژن"
             name="name"
@@ -168,7 +170,14 @@ const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
         <div className="mt-6">
           <span className="morabba">موقعیت شغلی</span>
           <div className="flex items-center gap-1">
-            <ProvinceInput provinces={provinces} />
+            <ProvinceInput
+              defValueId={company?.location.cities_id}
+              state={city}
+              setState={setCity}
+              provinces={provinces}
+              icon={<Building2 className="icon-stroke-light" />}
+              placeholder={<p className="text-sm">شهر مورد نظر را انتخاب کنید</p>}
+            />
             <InputMessage
               defaultValue={companyState.location.address}
               icon={<MapPin className="icon-stroke-light" />}
@@ -320,87 +329,6 @@ const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
         <Button className="mt-6 w-full">{company !== null ? "آپدیت" : "ثبت شرکت"}</Button>
       </form>
     </>
-  )
-}
-
-type ProvinceInputProps = {
-  width?: string
-  provinces: provinceWithCity[]
-}
-const ProvinceInput: React.FC<ProvinceInputProps> = ({ provinces, width }) => {
-  const myDivRef = useRef<HTMLDivElement>(null)
-  const [open, setOpen] = useState(false)
-  const [value, setValue] = useState("")
-  return (
-    <div ref={myDivRef} className={`${width ?? "w-[300px]"}`}>
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            role="combobox"
-            aria-expanded={open}
-            className="w-full justify-start pl-2"
-          >
-            <MapPin className="icon btn-icon-l" />
-            {value ? (
-              <>
-                <span>{value}</span>
-                <button className="mr-auto p-1 rounded-sm hover:*:stroke-destructive hover:bg-destructive-foreground">
-                  <X
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setValue("")
-                    }}
-                    className="icon"
-                  />
-                </button>
-              </>
-            ) : (
-              "شهر"
-            )}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent
-          style={{ width: `${myDivRef.current?.clientWidth}px` }}
-          className="px-3 py-2"
-        >
-          <Accordion type="single" collapsible className="w-full">
-            {provinces.map((province) => (
-              <AccordionItem
-                key={`accordion-province-item-${province.id}`}
-                value={`accordion-province-item-${province.id}`}
-              >
-                <AccordionTrigger className="py-2 hover:no-underline">
-                  {province.name}
-                </AccordionTrigger>
-                <AccordionContent className="flex flex-col">
-                  {province.cities
-                    ? province.cities.map((city) => (
-                        <div
-                          key={`accordion-city-item-${city.id}`}
-                          className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
-                          onClick={() => {
-                            setValue(city.name ?? province.name)
-                            setOpen(false)
-                          }}
-                        >
-                          <CheckIcon
-                            className={cn(
-                              "icon btn-icon btn-icon-l",
-                              value === city.name ? "opacity-100" : "opacity-0"
-                            )}
-                          />
-                          {city.name}
-                        </div>
-                      ))
-                    : null}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </PopoverContent>
-      </Popover>
-    </div>
   )
 }
 
