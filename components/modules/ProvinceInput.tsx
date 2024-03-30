@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react"
 
 import { provinceWithCity } from "@/types/utils.type"
-import { cities } from "@prisma/client"
+import { cities, provinces } from "@prisma/client"
 
 import { cn } from "@/lib/utils"
 
@@ -9,10 +9,9 @@ import { CheckIcon, MapPin, X } from "lucide-react"
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
-import { Button } from "./ui/button"
 
 export type StateProvinceOrCity =
-  | { mode: "Province"; province: provinceWithCity }
+  | { mode: "Province"; province: provinces }
   | { mode: "City"; city: cities }
 
 type ProvinceInputProps = {
@@ -50,11 +49,15 @@ const ProvinceInput: React.FC<ProvinceInputProps> = ({
   useEffect(() => {
     const fetchAction = async () => {
       if (props.isAllCity) {
-      } else {
-        const res = await fetch(`/api/city?id=${defValueId}`)
-        const dataCity: cities = await res.json()
+        const res = await fetch(`/api/province?provinceId=${defValueId}`)
+        const provinceData: provinces = await res.json()
 
-        props.setState(dataCity)
+        props.setState({ mode: "Province", province: provinceData })
+      } else {
+        const res = await fetch(`/api/province?cityId=${defValueId}`)
+        const cityData: cities = await res.json()
+
+        props.setState(cityData)
       }
     }
 
