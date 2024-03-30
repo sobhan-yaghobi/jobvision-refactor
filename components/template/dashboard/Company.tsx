@@ -2,24 +2,24 @@
 
 import React, { useRef, useState } from "react"
 import { isEqual, keys, pick } from "lodash"
+import { getLastMessage } from "@/lib/utils"
+import { toast } from "@/components/modules/ui/use-toast"
 
 import { companyWithLocation, provinceWithCity } from "@/types/utils.type"
 
 import registerCompany from "@/app/action/registerCompany"
+import { cities } from "@prisma/client"
+import { TypeCompany, companySchema } from "@/validation/zod.validations"
 
 import { DateObject } from "react-multi-date-picker"
-import { TypeCompany, companySchema } from "@/validation/zod.validations"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
 import gregorian_en from "react-date-object/locales/gregorian_en"
-import { cn, getLastMessage } from "@/lib/utils"
-import { toast } from "@/components/modules/ui/use-toast"
 
 import {
   Building,
   Building2,
   CalendarIcon,
-  CheckIcon,
   Image,
   Link,
   MapPin,
@@ -27,23 +27,14 @@ import {
   MonitorSmartphone,
   Speech,
   Users,
-  X,
 } from "lucide-react"
 
 import { InputMessage } from "@/components/modules/ui/input"
+import ProvinceInput from "@/components/modules/ProvinceInput"
 import { Textarea } from "@/components/modules/ui/textarea"
 import { Button } from "@/components/modules/ui/button"
-import Title from "@/components/modules/Title"
 import Calender from "@/components/modules/Calender"
-import { cities } from "@prisma/client"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/modules/ui/popover"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/modules/ui/accordion"
-import ProvinceInput from "@/components/modules/ProvinceInput"
+import Title from "@/components/modules/Title"
 
 type CompanyProps = {
   company: companyWithLocation | null
