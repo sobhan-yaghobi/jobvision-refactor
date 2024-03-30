@@ -1,11 +1,13 @@
 "use server"
 
-import prisma from "@/lib/prisma"
 import { generateToken, hashPassword, verifyPassword } from "@/lib/utils"
-import { TypeSignIn } from "@/validation/zod.validations"
-import { users } from "@prisma/client"
-import { isNull } from "lodash"
 import { cookies } from "next/headers"
+import { isNull } from "lodash"
+
+import prisma from "@/lib/prisma"
+import { users } from "@prisma/client"
+
+import { TypeSignIn } from "@/validation/zod.validations"
 
 const registerAction = async ({
   email,
