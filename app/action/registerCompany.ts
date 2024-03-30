@@ -1,9 +1,9 @@
 "use server"
 
-import { TypeCompany } from "@/validation/zod.validations"
 import isAuth from "./isAuth"
+
+import { TypeCompany } from "@/validation/zod.validations"
 import prisma from "@/lib/prisma"
-import { pick, unset } from "lodash"
 
 const registerCompany = async (company: TypeCompany) => {
   const { user } = await isAuth()
