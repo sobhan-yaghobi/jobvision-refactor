@@ -2,12 +2,13 @@ import React from "react"
 
 import { cn } from "@/lib/utils"
 
+import { ad } from "@/types/utils.type"
+
 import { Card, CardFooter, CardHeader } from "./ui/card"
 import { Separator } from "./ui/separator"
 import { Button } from "./ui/button"
 import Image from "next/image"
 import Link from "next/link"
-import { ad } from "@/types/utils.type"
 
 type AdsBoxProps = {
   ad: ad
