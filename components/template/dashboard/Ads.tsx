@@ -1,11 +1,12 @@
 "use client"
 import React, { useEffect, useState } from "react"
-
-import { ad } from "@/types/utils.type"
-import AdsBox from "@/components/modules/dashboard/AdsBox"
-import Title from "@/components/modules/Title"
 import { toast } from "@/components/modules/ui/use-toast"
 import { filter } from "lodash"
+
+import { ad } from "@/types/utils.type"
+
+import AdsBox from "@/components/modules/dashboard/AdsBox"
+import Title from "@/components/modules/Title"
 
 const Ads: React.FC = () => {
   const [adItems, setAdItems] = useState<ad[]>()
