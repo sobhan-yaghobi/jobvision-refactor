@@ -1,6 +1,9 @@
 "use client"
 
 import React, { useRef, useState } from "react"
+import { cn, getLastMessage } from "@/lib/utils"
+import { filter } from "lodash"
+import addAds from "@/app/action/addAds"
 
 import { categoryWithCollection } from "@/types/utils.type"
 import {
@@ -10,8 +13,10 @@ import {
   gender,
   seniority_level,
 } from "@prisma/client"
+import { TypeAd, adSchema } from "@/validation/zod.validations"
 
 import { cooperationTypeItems, genderItems, seniorityLevelItems } from "@/types/utils.variable"
+import { toast } from "@/components/modules/ui/use-toast"
 
 import {
   BriefcaseBusiness,
@@ -35,17 +40,12 @@ import MultipleTextInput from "@/components/modules/dashboard/MultipleTextInput"
 import { InputMessage } from "@/components/modules/ui/input"
 import Title from "@/components/modules/Title"
 import { Button } from "@/components/modules/ui/button"
-import { TypeAd, adSchema } from "@/validation/zod.validations"
-import { cn, getLastMessage } from "@/lib/utils"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/modules/ui/accordion"
-import { filter } from "lodash"
-import addAds from "@/app/action/addAds"
-import { toast } from "@/components/modules/ui/use-toast"
 
 type AddAdsProps = {
   categories: categoryWithCollection[]
