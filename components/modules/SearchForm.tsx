@@ -1,16 +1,17 @@
 "use client"
 import React, { useRef, useState } from "react"
+import { cn } from "@/lib/utils"
+
 import { category_collections } from "@prisma/client"
 
 import { Briefcase, CheckIcon, Search, X } from "lucide-react"
 
-import { cn } from "@/lib/utils"
-import { Button, ButtonProps } from "@/components/modules/ui/button"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/modules/ui/popover"
-import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
-import { Input } from "./ui/input"
+import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/modules/ui/popover"
 import ProvinceInput, { StateProvinceOrCity } from "./ProvinceInput"
+import { Button, ButtonProps } from "@/components/modules/ui/button"
+import { Input } from "./ui/input"
 
 export type SearchFormProps = {
   provinces: provinceWithCity[]
