@@ -1,10 +1,12 @@
 import React from "react"
 
+import { companyWithLocation } from "@/types/utils.type"
+
+import isAuth from "../action/isAuth"
+
 import TabsPage, { TypePage } from "@/components/modules/dashboard/TabsPage"
 import Home from "@/components/template/dashboard/Home"
 import Company from "@/components/template/dashboard/Company"
-import isAuth from "../action/isAuth"
-import { companyWithLocation } from "@/types/utils.type"
 
 const page: React.FC = async () => {
   const { user } = await isAuth()

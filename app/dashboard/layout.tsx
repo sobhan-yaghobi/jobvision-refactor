@@ -1,11 +1,12 @@
 import React from "react"
 import { redirect } from "next/navigation"
 
+import { companyWithLocation } from "@/types/utils.type"
+
 import isAuth from "../action/isAuth"
 
 import Sidebar from "@/components/template/dashboard/Sidebar/Sidebar"
 import QuickAccess from "@/components/template/dashboard/QuickAccess"
-import { companyWithLocation } from "@/types/utils.type"
 
 const layout: React.FC<React.PropsWithChildren> = async ({ children }) => {
   const { user, isUser } = await isAuth()

@@ -1,6 +1,6 @@
 import React from "react"
-import TabsPage, { TypePage } from "@/components/modules/dashboard/TabsPage"
 
+import TabsPage, { TypePage } from "@/components/modules/dashboard/TabsPage"
 import Ads from "@/components/template/dashboard/Ads"
 import AddAds from "@/components/template/dashboard/AddAds"
 
