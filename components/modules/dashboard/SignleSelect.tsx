@@ -1,9 +1,11 @@
 import { ReactNode, useRef, useState } from "react"
+import { cn } from "@/lib/utils"
+
+import { CheckIcon } from "lucide-react"
 
 import { cooperation_type, gender, seniority_level } from "@prisma/client"
+
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
-import { CheckIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
 
 type SingleSelectProps = {
   state: TypeMainSelect
