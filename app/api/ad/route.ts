@@ -1,6 +1,7 @@
 import isAuth from "@/app/action/isAuth"
-import { ad } from "@/types/utils.type"
 import { NextRequest } from "next/server"
+
+import { ad } from "@/types/utils.type"
 
 export const dynamic = "force-dynamic"
 
