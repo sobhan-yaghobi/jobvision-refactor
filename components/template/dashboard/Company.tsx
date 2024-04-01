@@ -1,8 +1,8 @@
 "use client"
 
-import React, { useRef, useState } from "react"
-import { isEqual, keys, pick } from "lodash"
-import { getLastMessage } from "@/lib/utils"
+import React, { useEffect, useRef, useState } from "react"
+import { find, isEqual, keys, pick } from "lodash"
+import { cn, getLastMessage } from "@/lib/utils"
 import { toast } from "@/components/modules/ui/use-toast"
 
 import { companyWithLocation, provinceWithCity } from "@/types/utils.type"
@@ -20,6 +20,7 @@ import {
   Building,
   Building2,
   CalendarIcon,
+  CheckIcon,
   Image,
   Link,
   MapPin,
@@ -27,6 +28,7 @@ import {
   MonitorSmartphone,
   Speech,
   Users,
+  X,
 } from "lucide-react"
 
 import { InputMessage } from "@/components/modules/ui/input"
@@ -35,6 +37,13 @@ import { Textarea } from "@/components/modules/ui/textarea"
 import { Button } from "@/components/modules/ui/button"
 import Calender from "@/components/modules/Calender"
 import Title from "@/components/modules/Title"
+import SingleSelect from "@/components/modules/SingleSelect"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/modules/ui/accordion"
 
 type CompanyProps = {
   company: companyWithLocation | null
@@ -108,6 +117,16 @@ const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
     }
   }
 
+  useEffect(() => {
+    const fetchAction = async () => {
+      const res = await fetch(`/api/province?cityId=${company?.location.cities_id}`)
+      const cityData: cities = await res.json()
+
+      setCity(cityData)
+    }
+
+    fetchAction()
+  }, [company?.location.cities_id])
   return (
     <>
       <Title>
@@ -161,29 +180,86 @@ const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
         <div className="mt-6">
           <span className="morabba">موقعیت شغلی</span>
           <div className="flex items-center gap-1">
-            <ProvinceInput
-              defValueId={company?.location.cities_id}
-              state={city}
-              setState={setCity}
-              provinces={provinces}
-              icon={<Building2 className="icon-stroke-light" />}
-              placeholder={<p className="text-sm">شهر مورد نظر را انتخاب کنید</p>}
-            />
+            <SingleSelect
+              className="w-[320px]"
+              trigger={
+                <div
+                  role="combobox"
+                  className={`min-h-10 relative flex items-center flex-wrap gap-1 p-1 pr-12 border-2 border-muted rounded-sm cursor-pointer`}
+                >
+                  <div className="absolute right-3 center">
+                    <Building2 className="icon-stroke-light" />
+                  </div>
+                  {city.id ? (
+                    <>
+                      <span className="text-sm">{city.name}</span>
+                      <button className="mr-auto p-1 rounded-sm hover:*:stroke-destructive hover:bg-destructive-foreground">
+                        <X
+                          onClick={(e) => {
+                            e.preventDefault()
+                            setCity({} as cities)
+                          }}
+                          className="icon"
+                        />
+                      </button>
+                    </>
+                  ) : (
+                    <p className="text-sm">شهر مورد نظر را انتخاب کنید</p>
+                  )}
+                </div>
+              }
+            >
+              <Accordion type="single" collapsible className="w-full">
+                {provinces.map((province) => (
+                  <AccordionItem
+                    key={`accordion-province-item-${province.id}`}
+                    value={`accordion-province-item-${province.id}`}
+                  >
+                    <AccordionTrigger className="py-2 hover:no-underline">
+                      {province.name}
+                    </AccordionTrigger>
+                    <AccordionContent className="flex flex-col">
+                      {province.cities
+                        ? province.cities.map((cit) => (
+                            <div
+                              key={`accordion-city-item-${cit.id}`}
+                              className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
+                              onClick={() => {
+                                setCity(cit)
+                              }}
+                            >
+                              <CheckIcon
+                                className={cn(
+                                  "icon btn-icon btn-icon-l",
+                                  cit.id === city.id ? "opacity-100" : "opacity-0"
+                                )}
+                              />
+                              {cit.name}
+                            </div>
+                          ))
+                        : null}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </SingleSelect>
             <InputMessage
               defaultValue={companyState.location.address}
               icon={<MapPin className="icon-stroke-light" />}
               wrapperClassName="w-full"
               placeholder="برای مثال بهارستان"
               name="address"
-              message={
-                getLastMessage({
-                  array: errs,
-                  key: "path",
-                  main_id: "location",
-                })?.message
-              }
             />
           </div>
+          <p className="text-destructive text-xs mt-2">
+            {
+              getLastMessage({
+                array: errs,
+                key: "path",
+                main_id: "location",
+              })?.message
+            }
+          </p>
         </div>
 
         <div className="mt-6">

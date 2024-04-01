@@ -13,12 +13,12 @@ export const GET = async (request: NextRequest) => {
       where: { id: cityId },
       include: { provinces: true },
     })
-    return Response.json(city ? city : ({} as cities))
+    return Response.json(city !== null ? city : ({} as cities))
   }
   if (provinceId) {
     const province = await prisma.provinces.findFirst({
       where: { id: provinceId },
     })
-    return Response.json(province ? province : ({} as provinces))
+    return Response.json(province !== null ? province : ({} as provinces))
   }
 }

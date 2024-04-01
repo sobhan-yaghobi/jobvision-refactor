@@ -6,7 +6,11 @@ import AdsList from "@/components/template/AdsList"
 
 import prisma from "@/lib/prisma"
 
-const page = async () => {
+const page = async ({
+  searchParams,
+}: {
+  searchParams: { job: string | undefined; tag: string | undefined; city: string | undefined }
+}) => {
   const provinces = await prisma.provinces.findMany({ include: { cities: true } })
   const categories = await prisma.categories.findMany({ include: { category_collections: true } })
   return (

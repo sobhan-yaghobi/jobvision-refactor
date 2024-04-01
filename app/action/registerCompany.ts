@@ -11,11 +11,18 @@ const registerCompany = async (company: TypeCompany) => {
   if (user !== null) {
     if (user?.company_id !== null) {
       const { location, ...companyModify } = company
+      const companyResponse = await prisma.companies.findFirst({ where: { id: user.company_id } })
+      const locationResault = await prisma.location.update({
+        where: { id: companyResponse?.locationId },
+        data: location,
+      })
+
       const companyResualt = await prisma.companies.update({
         where: { id: user.company_id },
         data: { ...companyModify },
       })
-      if (companyResualt) {
+
+      if (companyResualt && locationResault) {
         return {
           status: true,
         }
