@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
-import { find, isEqual, keys, pick } from "lodash"
+import { isEqual, keys, pick } from "lodash"
 import { cn, getLastMessage } from "@/lib/utils"
 import { toast } from "@/components/modules/ui/use-toast"
 
@@ -32,7 +32,6 @@ import {
 } from "lucide-react"
 
 import { InputMessage } from "@/components/modules/ui/input"
-import ProvinceInput from "@/components/modules/ProvinceInput"
 import { Textarea } from "@/components/modules/ui/textarea"
 import { Button } from "@/components/modules/ui/button"
 import Calender from "@/components/modules/Calender"
@@ -127,6 +126,7 @@ const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
 
     fetchAction()
   }, [company?.location.cities_id])
+
   return (
     <>
       <Title>
