@@ -5,11 +5,11 @@ import { cn } from "@/lib/utils"
 import { useRouter, useSearchParams } from "next/navigation"
 
 import { category_collections, cities, provinces } from "@prisma/client"
+import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
 
 import { Briefcase, CheckIcon, MapPin, Search, X } from "lucide-react"
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
-import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
 import { Button } from "@/components/modules/ui/button"
 import SingleSelect from "./SingleSelect"
 import { Input } from "./ui/input"
