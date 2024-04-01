@@ -1,5 +1,5 @@
 "use client"
-import React, { useRef, useState } from "react"
+import React, { useState } from "react"
 import { cn } from "@/lib/utils"
 
 import { category_collections, cities, provinces } from "@prisma/client"
@@ -8,7 +8,6 @@ import { Briefcase, CheckIcon, MapPin, Search, X } from "lucide-react"
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
 import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/modules/ui/popover"
 import { Button, ButtonProps } from "@/components/modules/ui/button"
 import SingleSelect from "./SingleSelect"
 import { Input } from "./ui/input"
