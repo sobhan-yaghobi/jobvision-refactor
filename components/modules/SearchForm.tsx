@@ -10,20 +10,27 @@ import { Briefcase, CheckIcon, MapPin, Search, X } from "lucide-react"
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
 import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
-import { Button, ButtonProps } from "@/components/modules/ui/button"
+import { Button } from "@/components/modules/ui/button"
 import SingleSelect from "./SingleSelect"
 import { Input } from "./ui/input"
 
 export type SearchFormProps = {
   provinces: provinceWithCity[]
   categories: categoryWithCollection[]
-  buttonVariant?: ButtonProps["variant"]
+  redirectAsap?: boolean
+  path?: string
 }
 type StateProvinceOrCity =
   | { mode: "Province"; province: provinces }
   | { mode: "City"; city: cities }
 
-const SearchForm: React.FC<SearchFormProps> = ({ provinces, categories, buttonVariant }) => {
+const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
+  provinces,
+  categories,
+  children,
+  redirectAsap,
+  path,
+}) => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false)
   const [isprovinceOpen, setIsProvinceOpen] = useState(false)
 
@@ -43,7 +50,9 @@ const SearchForm: React.FC<SearchFormProps> = ({ provinces, categories, buttonVa
       params.delete(path)
     }
     deletePath && params.delete(deletePath)
-    replace(`?${params.toString()}`)
+    redirectAsap
+      ? replace(`${typeof path !== "undefined" && path}?${params.toString()}`)
+      : replace(`?${params.toString()}`)
   }
 
   useEffect(() => {
@@ -253,8 +262,15 @@ const SearchForm: React.FC<SearchFormProps> = ({ provinces, categories, buttonVa
           ))}
         </Accordion>
       </SingleSelect>
-      <Button variant={buttonVariant} className="w-auto">
-        جستجو در مشاغل
+
+      <Button
+        onClick={() => {
+          const params = new URLSearchParams(searchParams)
+          replace(`${path}?${params.toString()}`)
+        }}
+        asChild
+      >
+        {children}
       </Button>
     </div>
   )

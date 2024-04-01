@@ -1,11 +1,11 @@
 import React from "react"
+
 import Map from "./Map"
 import SearchForm from "../modules/SearchForm"
 import Title from "../modules/Title"
+import { Button } from "../modules/ui/button"
 
-import prisma from "@/lib/prisma"
-
-const Landing = async () => {
+const Landing: React.FC = async () => {
   const provinces = await prisma.provinces.findMany({ include: { cities: true } })
   const categories = await prisma.categories.findMany({ include: { category_collections: true } })
   return (
@@ -31,7 +31,11 @@ const Landing = async () => {
           <Title size={"md"}>
             <h2 className="mb-6">دنبال چه شغلی می‌گردید؟</h2>
           </Title>
-          <SearchForm provinces={provinces} categories={categories} />
+          <SearchForm path="/jobs" provinces={provinces} categories={categories}>
+            <Button variant={"default"} className="w-auto">
+              جستجو در مشاغل
+            </Button>
+          </SearchForm>
         </div>
       </div>
     </div>
