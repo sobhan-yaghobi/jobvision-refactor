@@ -34,7 +34,7 @@ import {
   X,
 } from "lucide-react"
 
-import SingleSelect, { TypeMainSelect } from "@/components/modules/dashboard/SignleSelect"
+import EnumSingleSelect, { TypeMainSelect } from "@/components/modules/dashboard/EnumSingleSelect"
 import { ToggleGroup, ToggleGroupItem } from "@/components/modules/ui/toggle-group"
 import MultipleSelect from "@/components/modules/dashboard/MultipleSelect"
 import MultipleTextInput from "@/components/modules/dashboard/MultipleTextInput"
@@ -463,7 +463,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
 
         <div className="mt-6">
           <span className="morabba">جنسیت</span>
-          <SingleSelect
+          <EnumSingleSelect
             state={gender}
             setState={setGender}
             items={genderItems}
@@ -475,7 +475,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
 
         <div className="mt-6">
           <span className="morabba">سطح ارشدیت</span>
-          <SingleSelect
+          <EnumSingleSelect
             state={seniorityLevel}
             setState={setSeniorityLevel}
             items={seniorityLevelItems}
@@ -489,7 +489,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
 
         <div className="mt-6">
           <span className="morabba">نوع همکاری</span>
-          <SingleSelect
+          <EnumSingleSelect
             state={cooperationType}
             setState={setCooperationType}
             items={cooperationTypeItems}
