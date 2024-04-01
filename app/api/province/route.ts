@@ -4,7 +4,6 @@ import { NextRequest } from "next/server"
 
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams
-  const query = searchParams.get("query")
   const cityId = searchParams.get("cityId") ?? ""
   const provinceId = searchParams.get("provinceId") ?? ""
 

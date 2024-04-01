@@ -1,6 +1,8 @@
 "use client"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
+
+import { useRouter, useSearchParams } from "next/navigation"
 
 import { category_collections, cities, provinces } from "@prisma/client"
 
@@ -29,9 +31,57 @@ const SearchForm: React.FC<SearchFormProps> = ({ provinces, categories, buttonVa
   const [cityOrProvince, setCityOrProvince] = useState<StateProvinceOrCity>(
     {} as StateProvinceOrCity
   )
+
+  const searchParams = useSearchParams()
+  const { replace } = useRouter()
+
+  const handelSearch = (value: string, path: string, deletePath?: string) => {
+    const params = new URLSearchParams(searchParams)
+    if (value) {
+      params.set(path, value)
+    } else {
+      params.delete(path)
+    }
+    deletePath && params.delete(deletePath)
+    replace(`?${params.toString()}`)
+  }
+
+  useEffect(() => {
+    const categoryFetchAction = async () => {
+      const queryCollection = searchParams.get("collection") || ""
+      if (queryCollection) {
+        const res = await fetch(`/api/category?collection=${queryCollection}`)
+        const collectionData: category_collections = await res.json()
+        setCollection(collectionData)
+      }
+    }
+    const provinceFetchAction = async () => {
+      const queryCity = searchParams.get("city") || ""
+      const queryProvince = searchParams.get("province") || ""
+
+      if (queryCity) {
+        const res = await fetch(`/api/province?cityId=${queryCity}`)
+        const cityData: cities = await res.json()
+        setCityOrProvince({ mode: "City", city: cityData })
+        return
+      }
+
+      if (queryProvince) {
+        const res = await fetch(`/api/province?provinceId=${queryProvince}`)
+        const provinceData: provinces = await res.json()
+        setCityOrProvince({ mode: "Province", province: provinceData })
+      }
+    }
+
+    categoryFetchAction()
+    provinceFetchAction()
+  }, [])
+
   return (
     <div className="w-full flex flex-col gap-3 items-center justify-between lg:flex-row">
       <Input
+        onChange={(e) => handelSearch(e.target.value.trim(), "job")}
+        defaultValue={searchParams.get("job"?.toString()) || ""}
         wrapperClassName="w-full"
         icon={<Search className="icon" />}
         placeholder="عنوان شغلی یا شرکت..."
@@ -56,6 +106,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ provinces, categories, buttonVa
                     onClick={(e) => {
                       e.preventDefault()
                       setCollection({} as category_collections)
+                      handelSearch("", "collection")
                     }}
                     className="icon"
                   />
@@ -84,6 +135,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ provinces, categories, buttonVa
                       className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
                       onClick={() => {
                         setCollection(collect)
+                        handelSearch(collect.id, "collection")
                         setIsCategoryOpen(false)
                       }}
                     >
@@ -130,6 +182,9 @@ const SearchForm: React.FC<SearchFormProps> = ({ provinces, categories, buttonVa
                     onClick={(e) => {
                       e.preventDefault()
                       setCityOrProvince({} as StateProvinceOrCity)
+                      cityOrProvince.mode === "City"
+                        ? handelSearch("", "city")
+                        : handelSearch("", "province")
                     }}
                     className="icon"
                   />
@@ -155,6 +210,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ provinces, categories, buttonVa
                   className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
                   onClick={() => {
                     setCityOrProvince({ mode: "Province", province })
+                    handelSearch(province.id, "province", "city")
                     setIsProvinceOpen(false)
                   }}
                 >
@@ -176,6 +232,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ provinces, categories, buttonVa
                         className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
                         onClick={() => {
                           setCityOrProvince({ mode: "City", city })
+                          handelSearch(city.id, "city", "province")
                           setIsProvinceOpen(false)
                         }}
                       >
