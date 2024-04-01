@@ -1,6 +1,6 @@
 import React from "react"
 import Map from "./Map"
-import { SearchForm } from "../modules/SearchForm"
+import SearchForm from "../modules/SearchForm"
 import Title from "../modules/Title"
 
 import prisma from "@/lib/prisma"

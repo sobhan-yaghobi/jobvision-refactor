@@ -2,7 +2,7 @@
 
 import React, { useState } from "react"
 
-import { SearchForm, SearchFormProps } from "../modules/SearchForm"
+import SearchForm, { SearchFormProps } from "../modules/SearchForm"
 import { Button } from "../modules/ui/button"
 
 interface JobsFillterProps extends SearchFormProps {}
