@@ -1,17 +1,47 @@
 "use client"
-import { ad } from "@/types/utils.type"
-import React, { useEffect, useState } from "react"
-import Title from "../modules/Title"
+
+import React, { useEffect, useRef, useState } from "react"
 import useCurrentAdQuery from "@/hook/useCurrentAdQuery"
+import useFilterQuery from "@/hook/useFilterQuery"
+
+import { ad } from "@/types/utils.type"
+
+import Title from "../modules/Title"
 
 const AdsList = () => {
+  const { searchParams, isExsist, isAnyFilterExsist, get } = useFilterQuery()
   const [adItems, setAdItems] = useState<ad[]>([] as ad[])
+  const allAdItems = useRef({ ads: [] as ad[] })
   const { setCurrentAd } = useCurrentAdQuery()
+
+  useEffect(() => {
+    const newAdItems = allAdItems.current.ads.filter((ad) => {
+      return isExsist("itren", "true")
+        ? ad.itern
+        : null || isExsist("telecommuting", "true")
+        ? ad.telecommuting
+        : null || isExsist("disabledPeople", "true")
+        ? ad.disabledPeople
+        : null || isExsist("militaryOrder", "true")
+        ? ad.militaryOrder
+        : null || get("seniority_level")?.length
+        ? ad.seniority_level === get("seniority_level")
+        : null
+    })
+    setAdItems(newAdItems)
+    console.log("all ads", allAdItems.current.ads)
+    console.log("new", newAdItems)
+
+    if (!isAnyFilterExsist()) {
+      setAdItems(allAdItems.current.ads)
+    }
+  }, [searchParams, allAdItems.current.ads])
 
   useEffect(() => {
     const fetchAction = async () => {
       const res = await fetch("/api/ad")
       const data = await res.json()
+      allAdItems.current.ads = data
       setAdItems(data)
     }
 

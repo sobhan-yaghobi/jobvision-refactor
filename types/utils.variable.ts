@@ -6,7 +6,8 @@ export const genderItems: { type: gender; name: string }[] = [
   { name: "تفاوتی ندارد", type: "NOT_IMPORTANT" },
 ]
 
-export const seniorityLevelItems: { type: seniority_level; name: string }[] = [
+export type TypeSeniorityLevel = { type: seniority_level; name: string }
+export const seniorityLevelItems: TypeSeniorityLevel[] = [
   { name: "کارگر", type: "WORKER" },
   { name: "کارمند", type: "EMPLOYEE" },
   { name: "کارشناس", type: "EXPERT" },

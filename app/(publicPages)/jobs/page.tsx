@@ -16,7 +16,7 @@ const page = async ({
   return (
     <div>
       <div className="w-full pb-4 mb-4 border-b-2 border-solid">
-        <JobsFillter provinces={provinces} categories={categories} buttonVariant={"secondary"} />
+        <JobsFillter provinces={provinces} categories={categories}  />
       </div>
       <div className="grid grid-cols-3 gap-6 mb-4">
         <div className="col-span-1">
