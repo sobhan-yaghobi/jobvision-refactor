@@ -14,6 +14,27 @@ const AdsList = () => {
   const allAdItems = useRef({ ads: [] as ad[] })
   const { setCurrentAd } = useCurrentAdQuery()
 
+  const checkPriceAction = ({
+    price: { min, max },
+    filter,
+  }: {
+    price: ad["price"]
+    filter: string
+  }): boolean => {
+    const splitfilter = filter.split("-")
+    const mode = splitfilter.at(0)
+    const currentPrice = (value: string | number | undefined) => Number(value) * 1_000_000
+
+    if (mode === "RIGHT_UNDER") {
+      return currentPrice(splitfilter.at(1)) >= min
+    } else if (mode === "RIGHT_BETWEEN") {
+      return currentPrice(splitfilter.at(1)) > min && currentPrice(splitfilter.at(1)) < max
+    } else if (mode === "RIGHT_HIGHER") {
+      return currentPrice(splitfilter.at(1)) <= max || currentPrice(splitfilter.at(1)) <= min
+    }
+    return false
+  }
+
   useEffect(() => {
     const newAdItems = allAdItems.current.ads.filter((ad) => {
       return isExsist("itren", "true")
@@ -26,12 +47,13 @@ const AdsList = () => {
         ? ad.militaryOrder
         : null || get("seniority_level")?.length
         ? ad.seniority_level === get("seniority_level")
+        : null || get("cooperation_type")?.length
+        ? ad.cooperation_type === get("cooperation_type")
+        : null || get("price")?.length
+        ? checkPriceAction({ price: ad.price, filter: get("price") ?? "" })
         : null
     })
     setAdItems(newAdItems)
-    console.log("all ads", allAdItems.current.ads)
-    console.log("new", newAdItems)
-
     if (!isAnyFilterExsist()) {
       setAdItems(allAdItems.current.ads)
     }

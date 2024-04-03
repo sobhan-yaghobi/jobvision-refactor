@@ -7,8 +7,9 @@ export type TypePath =
   | "telecommuting"
   | "disabledPeople"
   | "militaryOrder"
-  | "cooperation_type"
   | "seniority_level"
+  | "cooperation_type"
+  | "price"
 
 const VariablePath: TypePath[] = [
   "itren",
@@ -16,6 +17,8 @@ const VariablePath: TypePath[] = [
   "disabledPeople",
   "militaryOrder",
   "seniority_level",
+  "cooperation_type",
+  "price",
 ]
 
 const useFilterQuery = () => {
