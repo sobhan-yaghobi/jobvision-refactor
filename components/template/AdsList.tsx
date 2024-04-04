@@ -7,12 +7,13 @@ import useFilterQuery from "@/hook/useFilterQuery"
 import { ad } from "@/types/utils.type"
 
 import Title from "../modules/Title"
+import AdsBox from "../modules/AdsBox"
 
 const AdsList = () => {
   const { searchParams, isExsist, isAnyFilterExsist, get } = useFilterQuery()
   const [adItems, setAdItems] = useState<ad[]>([] as ad[])
   const allAdItems = useRef({ ads: [] as ad[] })
-  const { setCurrentAd } = useCurrentAdQuery()
+  const { currentAd } = useCurrentAdQuery()
 
   const checkPriceAction = ({
     price: { min, max },
@@ -81,13 +82,7 @@ const AdsList = () => {
   return (
     <div className="bg-muted w-full flex flex-col gap-1 p-3 rounded-sm">
       {adItems.map((ad) => (
-        <li
-          onClick={() => setCurrentAd(ad.id)}
-          className="bg-background p-3 rounded-sm list-none cursor-pointer hover:bg-background/50"
-          key={ad.id}
-        >
-          {ad.name}
-        </li>
+        <AdsBox ad={{ ...ad }} active={ad.id === currentAd()} isFooter></AdsBox>
       ))}
     </div>
   )

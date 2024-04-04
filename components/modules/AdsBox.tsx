@@ -13,12 +13,21 @@ import Link from "next/link"
 type AdsBoxProps = {
   ad: ad
   className?: string
+  isFooter?: boolean
+  active?: boolean
 }
 
-const AdsBox: React.FC<AdsBoxProps> = ({ ad, className }) => {
+const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
   return (
     <Link href={`/jobs?id=${ad?.id}`}>
-      <Card className={cn("w-full *:p-3 shadow-md", className)}>
+      <Card
+        className={cn(
+          `w-full *:p-3 shadow-md border-2 border-transparent ${
+            active ? "border-solid border-primary" : ""
+          }`,
+          className
+        )}
+      >
         <CardHeader className="flex flex-row items-start">
           <Image
             width={190}
@@ -39,13 +48,17 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className }) => {
             </div>
           </div>
         </CardHeader>
-        <div>
-          <Separator />
-        </div>
-        <CardFooter className="flex justify-between">
-          <span className="text-xs text-secondary">2 روز پیش</span>
-          <Button variant={"default"}>ارسال رزومه</Button>
-        </CardFooter>
+        {!isFooter ? (
+          <>
+            <div>
+              <Separator />
+            </div>
+            <CardFooter className="flex justify-between">
+              <span className="text-xs text-secondary">2 روز پیش</span>
+              <Button variant={"default"}>ارسال رزومه</Button>
+            </CardFooter>
+          </>
+        ) : null}
       </Card>
     </Link>
   )

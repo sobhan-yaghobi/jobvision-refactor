@@ -19,7 +19,8 @@ const useCurrentAdQuery = () => {
   const setCurrentAd = (id: string) => {
     router.push(`${pathname}?${createQueryString(id)}`)
   }
-  return { setCurrentAd }
+  const currentAd = () => searchParams.get("id")
+  return { currentAd, setCurrentAd }
 }
 
 export default useCurrentAdQuery
