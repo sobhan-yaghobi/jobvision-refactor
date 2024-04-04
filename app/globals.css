@@ -142,6 +142,10 @@
   .h-view {
     height: calc(100vh - 5rem);
   }
+
+  .h-current-job {
+    height: calc(100vh - (9rem + 6.2rem));
+  }
 }
 
 @layer components {

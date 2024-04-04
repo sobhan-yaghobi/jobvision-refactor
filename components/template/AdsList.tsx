@@ -80,7 +80,7 @@ const AdsList = () => {
   }
 
   return (
-    <div className="bg-muted w-full flex flex-col gap-1 p-3 rounded-sm">
+    <div className="bg-muted w-full h-full flex flex-col gap-1 p-3 rounded-sm">
       {adItems.map((ad) => (
         <AdsBox ad={{ ...ad }} active={ad.id === currentAd()} isFooter></AdsBox>
       ))}

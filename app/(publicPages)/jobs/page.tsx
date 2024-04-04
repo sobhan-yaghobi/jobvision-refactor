@@ -15,14 +15,14 @@ const page = async ({
   const categories = await prisma.categories.findMany({ include: { category_collections: true } })
   return (
     <div>
-      <div className="w-full pb-4 mb-4 border-b-2 border-solid">
-        <JobsFillter provinces={provinces} categories={categories}  />
+      <div className="w-full h-28 pb-4 mb-4 border-b-2 border-solid">
+        <JobsFillter provinces={provinces} categories={categories} />
       </div>
-      <div className="grid grid-cols-3 gap-6 mb-4">
+      <div className="h-current-job grid grid-cols-3 gap-6 mb-4">
         <div className="col-span-1">
           <AdsList />
         </div>
-        <div className="col-span-2">
+        <div className="h-full col-span-2 overflow-y-auto">
           <CurrentJobAd />
         </div>
       </div>
