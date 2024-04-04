@@ -9,7 +9,7 @@ import { Button } from "../modules/ui/button"
 import Link from "next/link"
 import { Separator } from "../modules/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../modules/ui/tabs"
-import Image from "next/image"
+import Info from "./jobs/Info"
 
 type InfoTypes = "INFO_JOB" | "ABOUT_COMPANY" | "RELATED_ADS" | "RESUME_RECRRDS"
 export interface TypeItemBox {
@@ -18,21 +18,6 @@ export interface TypeItemBox {
   type: InfoTypes
   component: ReactNode
 }
-const mainItemsBoxInfos: TypeItemBox[] = [
-  {
-    id: uuid(),
-    title: "درباره شغل",
-    type: "INFO_JOB",
-    component: <div className="h-80">درباره ما</div>,
-  },
-  { id: uuid(), title: "درباره شرکت", type: "ABOUT_COMPANY", component: <>درباره شرکت</> },
-  {
-    id: uuid(),
-    title: "سایر آگهی های این شرکت",
-    type: "RELATED_ADS",
-    component: <>سایر آگهی ها</>,
-  },
-]
 
 const CurrentJobAd: React.FC = () => {
   const [current, setCurrent] = useState<ad>()
@@ -47,6 +32,22 @@ const CurrentJobAd: React.FC = () => {
 
     fetchAction()
   }, [id])
+
+  const mainItemsBoxInfos: TypeItemBox[] = [
+    {
+      id: uuid(),
+      title: "درباره شغل",
+      type: "INFO_JOB",
+      component: <Info ad={current ?? ({} as ad)} />,
+    },
+    { id: uuid(), title: "درباره شرکت", type: "ABOUT_COMPANY", component: <>درباره شرکت</> },
+    {
+      id: uuid(),
+      title: "سایر آگهی های این شرکت",
+      type: "RELATED_ADS",
+      component: <></>,
+    },
+  ]
 
   return (
     <div className="w-full bg-muted p-3 rounded-sm">

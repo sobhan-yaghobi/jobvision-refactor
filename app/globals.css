@@ -202,6 +202,6 @@
   }
 
   .box-info-type {
-    @apply text-xs ml-1 mt-2 px-2 py-1 border border-solid border-muted rounded-lg;
+    @apply text-xs ml-1 mt-2 px-2 py-1 border-2 border-solid border-muted rounded-sm;
   }
 }
