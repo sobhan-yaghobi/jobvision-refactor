@@ -1,6 +1,6 @@
 import React from "react"
 
-import JobsFillter from "@/components/template/JobsFillter"
+import JobsFillter from "@/components/template/JobsFilter"
 import CurrentJobAd from "@/components/template/CurrentJobAd"
 import AdsList from "@/components/template/AdsList"
 
