@@ -1,11 +1,9 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
+import { cn } from "@/lib/utils"
 
-import SearchForm, { SearchFormProps } from "../modules/SearchForm"
-import { Button } from "../modules/ui/button"
 import useFilterQuery, { TypePath } from "@/hook/useFilterQuery"
-import SingleSelect from "../modules/SingleSelect"
 import {
   TypeCooperationType,
   TypePrice,
@@ -14,13 +12,33 @@ import {
   priceItems,
   seniorityLevelItems,
 } from "@/types/utils.variable"
+
 import { CheckIcon, X } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { find } from "lodash"
+
+import SearchForm, { SearchFormProps } from "../modules/SearchForm"
+import SingleSelect from "../modules/SingleSelect"
+import { Button } from "../modules/ui/button"
 
 interface JobsFillterProps extends SearchFormProps {}
 
-const booleanTypes: { name: string; type: TypePath }[] = [
+type TypeEnumDatas = {
+  seniorityLevel: TypeSeniorityLevel
+  cooperationType: TypeCooperationType
+  price: TypePrice
+  [key: string]: any
+}
+
+type TypeEnumItems = {
+  name: string
+  placeholder: string
+  removeAction: Function
+  items: TypeSeniorityLevel[] | TypeCooperationType[] | TypePrice[]
+  queryAcion: (type: string) => void
+  isCheck: (type: string) => boolean
+  value: () => string | null
+}
+
+const booleanTypeItems: { name: string; type: TypePath }[] = [
   { name: "دورکاری", type: "itren" },
   { name: "کار آموزی", type: "telecommuting" },
   { name: "امکان استخدام افراد معلول", type: "disabledPeople" },
@@ -29,47 +47,77 @@ const booleanTypes: { name: string; type: TypePath }[] = [
 
 const JobsFillter: React.FC<JobsFillterProps> = ({ categories, provinces }) => {
   const { searchParams, queryAction, isExsist, get } = useFilterQuery()
-  const [enumDatas, setEnumDatas] = useState({
+  const [enumDatas, setEnumDatas] = useState<TypeEnumDatas>({
     seniorityLevel: {} as TypeSeniorityLevel,
     cooperationType: {} as TypeCooperationType,
     price: {} as TypePrice,
   })
 
+  const enumTypeItems: TypeEnumItems[] = [
+    {
+      name: "seniorityLevel",
+      placeholder: "سطح ارشدیت",
+      removeAction: () => {
+        queryAction("seniority_level", "")
+        setEnumDatas((prev) => ({
+          ...prev,
+          seniorityLevel: {} as TypeSeniorityLevel,
+        }))
+      },
+      items: seniorityLevelItems,
+      queryAcion: (type) => queryAction("seniority_level", type),
+      isCheck: (type) => isExsist("seniority_level", type),
+      value: () => get("seniority_level"),
+    },
+    {
+      name: "cooperationType",
+      placeholder: "نوع همکاری",
+      removeAction: () => {
+        queryAction("cooperation_type", "")
+        setEnumDatas((prev) => ({
+          ...prev,
+          cooperationType: {} as TypeCooperationType,
+        }))
+      },
+      items: cooperationTypeItems,
+      queryAcion: (type) => queryAction("cooperation_type", type),
+      isCheck: (type) => isExsist("cooperation_type", type),
+      value: () => get("cooperation_type"),
+    },
+    {
+      name: "price",
+      placeholder: "حقوق",
+      removeAction: () => {
+        queryAction("price", "")
+        setEnumDatas((prev) => ({
+          ...prev,
+          price: {} as TypePrice,
+        }))
+      },
+      items: priceItems,
+      queryAcion: (type) => queryAction("price", type),
+      isCheck: (type) => isExsist("price", type),
+      value: () => get("price"),
+    },
+  ]
+
   useEffect(() => {
-    if (get("seniority_level")) {
-      const newSeniorityLevel = find(seniorityLevelItems, function (item) {
-        return item.type === get("seniority_level")
-      })
+    enumTypeItems.map((enumType) => {
+      if (enumType.value()) {
+        const newItems = enumType.items.find((item) => item.type === enumType.value())
 
-      typeof newSeniorityLevel !== "undefined"
-        ? setEnumDatas((prev) => ({ ...prev, seniorityLevel: newSeniorityLevel }))
-        : queryAction("seniority_level", "")
-    }
-
-    if (get("cooperation_type")) {
-      const newCooperationType = find(cooperationTypeItems, function (item) {
-        return item.type === get("cooperation_type")
-      })
-      typeof newCooperationType !== "undefined"
-        ? setEnumDatas((prev) => ({ ...prev, cooperationType: newCooperationType }))
-        : queryAction("cooperation_type", "")
-    }
-
-    if (get("price")) {
-      const newPrice = find(priceItems, function (item) {
-        return item.type === get("price")
-      })
-      typeof newPrice !== "undefined"
-        ? setEnumDatas((prev) => ({ ...prev, price: newPrice }))
-        : queryAction("price", "")
-    }
+        typeof newItems !== "undefined"
+          ? setEnumDatas((prev) => ({ ...prev, [enumType.name]: newItems }))
+          : enumType.queryAcion("")
+      }
+    })
   }, [searchParams])
 
   return (
     <div>
       <SearchForm provinces={provinces} categories={categories} />
       <ul className="w-full flex mt-4 text-sm gap-3 overflow-x-auto">
-        {booleanTypes.map((item) => (
+        {booleanTypeItems.map((item) => (
           <Button
             key={item.type}
             onClick={() => queryAction(item.type, "true")}
@@ -92,155 +140,54 @@ const JobsFillter: React.FC<JobsFillterProps> = ({ categories, provinces }) => {
           </Button>
         ))}
 
-        <SingleSelect
-          contentClassName="!w-80"
-          trigger={
-            <Button
-              className={`px-2 py-1 border border-solid rounded-sm ${
-                enumDatas.seniorityLevel.type
-                  ? "bg-primary/30 text-black hover:bg-primary/30"
-                  : "bg-transparent text-muted-foreground hover:bg-muted"
-              }`}
-            >
-              {enumDatas.seniorityLevel.type ? (
-                <>
-                  {enumDatas.seniorityLevel.name}
-                  <X
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      queryAction("seniority_level", "")
-                      setEnumDatas((prev) => ({
-                        ...prev,
-                        seniorityLevel: {} as TypeSeniorityLevel,
-                      }))
-                    }}
-                    className="bg-primary stroke-primary-foreground icon btn-icon-r rounded-sm"
-                  />
-                </>
-              ) : (
-                "سطح ارشدیت"
-              )}
-            </Button>
-          }
-        >
-          <div>
-            {seniorityLevelItems.map((item) => (
-              <div
-                key={item.type}
-                className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
-                onClick={() => queryAction("seniority_level", item.type)}
+        {enumTypeItems.map((enumType) => (
+          <SingleSelect
+            key={enumDatas[enumType.name].type}
+            contentClassName="!w-80"
+            trigger={
+              <Button
+                className={`px-2 py-1 border border-solid rounded-sm ${
+                  enumDatas[enumType.name].type
+                    ? "bg-primary/30 text-black hover:bg-primary/30"
+                    : "bg-transparent text-muted-foreground hover:bg-muted"
+                }`}
               >
-                <CheckIcon
-                  className={cn(
-                    "icon btn-icon btn-icon-l",
-                    isExsist("seniority_level", item.type) ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {item.name}
-              </div>
-            ))}
-          </div>
-        </SingleSelect>
-
-        <SingleSelect
-          contentClassName="!w-80"
-          trigger={
-            <Button
-              className={`px-2 py-1 border border-solid rounded-sm ${
-                enumDatas.cooperationType.type
-                  ? "bg-primary/30 text-black hover:bg-primary/30"
-                  : "bg-transparent text-muted-foreground hover:bg-muted"
-              }`}
-            >
-              {enumDatas.cooperationType.type ? (
-                <>
-                  {enumDatas.cooperationType.name}
-                  <X
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      queryAction("cooperation_type", "")
-                      setEnumDatas((prev) => ({
-                        ...prev,
-                        cooperationType: {} as TypeCooperationType,
-                      }))
-                    }}
-                    className="bg-primary stroke-primary-foreground icon btn-icon-r rounded-sm"
+                {enumDatas[enumType.name].type ? (
+                  <>
+                    {enumDatas[enumType.name].name}
+                    <X
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        enumType.removeAction()
+                      }}
+                      className="bg-primary stroke-primary-foreground icon btn-icon-r rounded-sm"
+                    />
+                  </>
+                ) : (
+                  enumType.placeholder
+                )}
+              </Button>
+            }
+          >
+            <div>
+              {enumType.items.map((item) => (
+                <div
+                  key={item.type}
+                  className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
+                  onClick={() => enumType.queryAcion(item.type)}
+                >
+                  <CheckIcon
+                    className={cn(
+                      "icon btn-icon btn-icon-l",
+                      enumType.isCheck(item.type) ? "opacity-100" : "opacity-0"
+                    )}
                   />
-                </>
-              ) : (
-                "نوع همکاری"
-              )}
-            </Button>
-          }
-        >
-          <div>
-            {cooperationTypeItems.map((item) => (
-              <div
-                key={item.type}
-                className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
-                onClick={() => queryAction("cooperation_type", item.type)}
-              >
-                <CheckIcon
-                  className={cn(
-                    "icon btn-icon btn-icon-l",
-                    isExsist("cooperation_type", item.type) ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {item.name}
-              </div>
-            ))}
-          </div>
-        </SingleSelect>
-
-        <SingleSelect
-          contentClassName="!w-80"
-          trigger={
-            <Button
-              className={`px-2 py-1 border border-solid rounded-sm ${
-                enumDatas.price.type
-                  ? "bg-primary/30 text-black hover:bg-primary/30"
-                  : "bg-transparent text-muted-foreground hover:bg-muted"
-              }`}
-            >
-              {enumDatas.price.type ? (
-                <>
-                  {enumDatas.price.name}
-                  <X
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      queryAction("price", "")
-                      setEnumDatas((prev) => ({
-                        ...prev,
-                        price: {} as TypePrice,
-                      }))
-                    }}
-                    className="bg-primary stroke-primary-foreground icon btn-icon-r rounded-sm"
-                  />
-                </>
-              ) : (
-                "حقوق"
-              )}
-            </Button>
-          }
-        >
-          <div>
-            {priceItems.map((item) => (
-              <div
-                key={item.type}
-                className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
-                onClick={() => queryAction("price", item.type)}
-              >
-                <CheckIcon
-                  className={cn(
-                    "icon btn-icon btn-icon-l",
-                    isExsist("price", item.type) ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {item.name}
-              </div>
-            ))}
-          </div>
-        </SingleSelect>
+                  {item.name}
+                </div>
+              ))}
+            </div>
+          </SingleSelect>
+        ))}
       </ul>
     </div>
   )
