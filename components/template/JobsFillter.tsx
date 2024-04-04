@@ -109,7 +109,10 @@ const JobsFillter: React.FC<JobsFillterProps> = ({ categories, provinces }) => {
                     onClick={(e) => {
                       e.stopPropagation()
                       queryAction("seniority_level", "")
-                      enumDatas.seniorityLevel = {} as TypeSeniorityLevel
+                      setEnumDatas((prev) => ({
+                        ...prev,
+                        seniorityLevel: {} as TypeSeniorityLevel,
+                      }))
                     }}
                     className="bg-primary stroke-primary-foreground icon btn-icon-r rounded-sm"
                   />
@@ -156,7 +159,10 @@ const JobsFillter: React.FC<JobsFillterProps> = ({ categories, provinces }) => {
                     onClick={(e) => {
                       e.stopPropagation()
                       queryAction("cooperation_type", "")
-                      enumDatas.cooperationType = {} as TypeCooperationType
+                      setEnumDatas((prev) => ({
+                        ...prev,
+                        cooperationType: {} as TypeCooperationType,
+                      }))
                     }}
                     className="bg-primary stroke-primary-foreground icon btn-icon-r rounded-sm"
                   />
@@ -203,7 +209,10 @@ const JobsFillter: React.FC<JobsFillterProps> = ({ categories, provinces }) => {
                     onClick={(e) => {
                       e.stopPropagation()
                       queryAction("price", "")
-                      enumDatas.price = {} as TypePrice
+                      setEnumDatas((prev) => ({
+                        ...prev,
+                        price: {} as TypePrice,
+                      }))
                     }}
                     className="bg-primary stroke-primary-foreground icon btn-icon-r rounded-sm"
                   />
