@@ -142,7 +142,7 @@ const JobsFillter: React.FC<JobsFillterProps> = ({ categories, provinces }) => {
 
         {enumTypeItems.map((enumType) => (
           <SingleSelect
-            key={enumDatas[enumType.name].type}
+            key={enumDatas[enumType.name].type ?? enumType.name}
             contentClassName="!w-80"
             trigger={
               <Button
