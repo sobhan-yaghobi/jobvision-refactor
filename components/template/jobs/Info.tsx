@@ -76,8 +76,8 @@ const Info: React.FC<InfoProps> = ({ ad }) => {
           <div className="w-full mt-6">
             <h4 className="morabba">تحصیلات</h4>
             <div className="flex flex-row flex-wrap">
-              {ad.edicational_level.map((item, index) => (
-                <span key={index + 1} className="box-info-type">
+              {ad.edicational_level.map((item) => (
+                <span key={item} className="box-info-type">
                   {item}
                 </span>
               ))}
@@ -86,8 +86,8 @@ const Info: React.FC<InfoProps> = ({ ad }) => {
           <div className="w-full mt-6">
             <h4 className="morabba">نرم افزارها</h4>
             <div className="flex flex-row flex-wrap">
-              {ad.software_skills.map((item, index) => (
-                <span key={index + 1} className="box-info-type">
+              {ad.software_skills.map((item) => (
+                <span key={item} className="box-info-type">
                   {item}
                 </span>
               ))}
