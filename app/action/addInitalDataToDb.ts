@@ -164,6 +164,7 @@ const AdsData: ads[] = [
     militaryOrder: false,
     response: false,
     telecommuting: false,
+    created_at: new Date(),
   },
 ]
 

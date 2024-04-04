@@ -127,6 +127,7 @@ model ads {
   telecommuting           Boolean                   @default(false)
   disabledPeople          Boolean                   @default(false)
   militaryOrder           Boolean                   @default(false)
+  created_at              DateTime                  @default(now())
   companies               companies?                @relation(fields: [company_id], references: [id])
 }
 

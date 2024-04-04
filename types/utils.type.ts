@@ -17,11 +17,19 @@ export type categoryWithCollection = categories & {
   category_collections: category_collections[]
 }
 
-export type companyWithLocation = companies & {
-  location: location
+export type locationWithCity = location & {
+  city: cities
 }
 
-export interface ad extends ads {
+export type companyWithLocation = companies & {
+  location: locationWithCity
+}
+
+type adWithCompanyLoaction = ads & {
+  companies: companyWithLocation
+}
+
+export interface ad extends adWithCompanyLoaction {
   age: { min: number; max: number }
   price: { min: number; max: number }
   tags: category_collections[]

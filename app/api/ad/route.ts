@@ -19,10 +19,15 @@ export const GET = async (request: NextRequest) => {
     return Response.json(adItems)
   }
   if (id) {
-    const ad = await prisma.ads.findFirst({ where: { id: id }, include: { companies: true } })
+    const ad = await prisma.ads.findFirst({
+      where: { id: id },
+      include: { companies: { include: { location: { include: { city: true } } } } },
+    })
     return Response.json(ad)
   }
-  const ads = await prisma.ads.findMany()
+  const ads = await prisma.ads.findMany({
+    include: { companies: { include: { location: { include: { city: true } } } } },
+  })
   return Response.json(ads)
 }
 

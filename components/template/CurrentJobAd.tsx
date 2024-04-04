@@ -10,6 +10,9 @@ import Link from "next/link"
 import { Separator } from "../modules/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../modules/ui/tabs"
 import Info from "./jobs/Info"
+import Company from "./jobs/Company"
+import { TimeType, getTime } from "@/lib/utils"
+import TimeGenerator from "../modules/TimeGenerator"
 
 type InfoTypes = "INFO_JOB" | "ABOUT_COMPANY" | "RELATED_ADS" | "RESUME_RECRRDS"
 export interface TypeItemBox {
@@ -40,12 +43,17 @@ const CurrentJobAd: React.FC = () => {
       type: "INFO_JOB",
       component: <Info ad={current ?? ({} as ad)} />,
     },
-    { id: uuid(), title: "درباره شرکت", type: "ABOUT_COMPANY", component: <>درباره شرکت</> },
+    {
+      id: uuid(),
+      title: "درباره شرکت",
+      type: "ABOUT_COMPANY",
+      component: <Company ad={current ?? ({} as ad)} />,
+    },
     {
       id: uuid(),
       title: "سایر آگهی های این شرکت",
       type: "RELATED_ADS",
-      component: <></>,
+      component: <div className="morabba">آگهی یافت نشد</div>,
     },
   ]
 
@@ -75,15 +83,25 @@ const CurrentJobAd: React.FC = () => {
             </div>
           </div>
           <div className="w-full">
-            <div className="flex flex-col w-full">
-              <p className="text-sm">{}</p>
-              <div className="mb-2 flex flex-wrap">
-                <div className="box-info-type !mr-1 !p-0">امکان جذب کارآموز</div>
-                <div className="box-info-type !mr-1 !p-0">امکان دورکاری</div>
+            <div className="w-full flex flex-col text-sm">
+              <p>{`${current.companies.location.city.name} , ${current.companies.location.address}`}</p>
+              <div className="mb-2 flex flex-wrap *:text-sm">
+                {current.itern ? (
+                  <div className="box-info-type !mr-1 !p-0">امکان جذب کارآموز</div>
+                ) : null}
+                {current.telecommuting ? (
+                  <div className="box-info-type !mr-1 !p-0">امکان دورکاری</div>
+                ) : null}
               </div>
               <div className="my-2 flex items-start justify-between">
                 <div className="flex flex-col gap-3">
-                  <p className="text-xs text-jv-lightGray2x">57 روز پیش / 8 - 6 میلیون تومان</p>
+                  <p>
+                    {`${current.price.min.toLocaleString("fa-ir")}${
+                      current.price.max ? ` - ${current.price.max.toLocaleString("fa-ir")}` : ""
+                    } `}
+                    تومان
+                  </p>
+                  <TimeGenerator dateInfo={getTime(current.created_at)} />
                   <Button variant={"outline"}>مشاهده حقوق دریافتی افراد در مشاغل مشابه</Button>
                 </div>
                 <div className="flex text-2xl text-jv-primary">
@@ -94,14 +112,14 @@ const CurrentJobAd: React.FC = () => {
             </div>
           </div>
           <Separator className="my-3" />
-          <div className="w-full flex items-center justify-start">
-            <div className="w-4/12 flex items-center text-jv-lightGray fill-jv-lightGray2x">
+          <div className="w-full flex items-center justify-start text-sm">
+            <div className="w-4/12 flex items-center fill-jv-lightGray2x">
               <Users className="icon-stroke-light" />
-              <p className="mr-3 truncate">{} نفر</p>
+              <p className="mr-3 truncate">{current.companies.organization_employ} نفر</p>
             </div>
-            <div className="w-8/12 flex items-center text-jv-lightGray">
+            <div className="w-8/12 flex items-center">
               <Speech className="icon-stroke-light" />
-              <p className="mr-3 truncate w-10/12">{}</p>
+              <p className="w-10/12 mr-3 truncate">{current.companies.slogan}</p>
             </div>
           </div>
           <Tabs

@@ -1,5 +1,4 @@
 import Title from "@/components/modules/Title"
-import { Button } from "@/components/modules/ui/button"
 import { ad } from "@/types/utils.type"
 import { cooperationTypeItems, genderItems } from "@/types/utils.variable"
 import React from "react"
@@ -12,7 +11,7 @@ const Info: React.FC<InfoProps> = ({ ad }) => {
   return (
     <>
       <section className="mb-6">
-        <Title size={"default"}>
+        <Title>
           <h2>مشخصات موقعیت شغلی</h2>
         </Title>
         <div className="text-sm pr-3 flex flex-wrap">
@@ -38,7 +37,7 @@ const Info: React.FC<InfoProps> = ({ ad }) => {
       </section>
       {typeof ad.key_indicator !== "undefined" ? (
         <section className="mb-6">
-          <Title size={"default"}>
+          <Title>
             <h2>شاخص های کلیدی از نظر کارفرما</h2>
           </Title>
           <div className="flex flex-col pr-3 ">
@@ -54,27 +53,27 @@ const Info: React.FC<InfoProps> = ({ ad }) => {
         </section>
       ) : null}
       <section>
-        <Title size={"default"}>
+        <Title>
           <h2>شرایط احراز شغل</h2>
         </Title>
         <div className="flex flex-wrap pr-3 text-sm">
           <div className="w-full flex">
             <div className="w-1/2 mt-6">
-              <h4 className="morabba">سن</h4>
+              <h4 className="morabba text-base">سن</h4>
               <p className="mt-3 truncate">
                 {`${ad.age.min}${ad.age.max ? ` - ${ad.age.max}` : ""} `}
                 سال
               </p>
             </div>
             <div className="w-1/2 mt-6">
-              <h4 className="morabba">جنسیت</h4>
+              <h4 className="morabba text-base">جنسیت</h4>
               <p className="mt-3 truncate">
                 {genderItems.find((item) => item.type === ad.gender)?.name}
               </p>
             </div>
           </div>
           <div className="w-full mt-6">
-            <h4 className="morabba">تحصیلات</h4>
+            <h4 className="morabba text-base">تحصیلات</h4>
             <div className="flex flex-row flex-wrap">
               {ad.edicational_level.map((item) => (
                 <span key={item} className="box-info-type">
@@ -84,7 +83,7 @@ const Info: React.FC<InfoProps> = ({ ad }) => {
             </div>
           </div>
           <div className="w-full mt-6">
-            <h4 className="morabba">نرم افزارها</h4>
+            <h4 className="morabba text-base">نرم افزارها</h4>
             <div className="flex flex-row flex-wrap">
               {ad.software_skills.map((item) => (
                 <span key={item} className="box-info-type">
