@@ -1,4 +1,4 @@
-import { cities, provinces } from "@prisma/client"
+import { city, province } from "@prisma/client"
 
 import { NextRequest } from "next/server"
 
@@ -8,16 +8,16 @@ export const GET = async (request: NextRequest) => {
   const provinceId = searchParams.get("provinceId") ?? ""
 
   if (cityId) {
-    const city = await prisma.cities.findFirst({
+    const city = await prisma.city.findFirst({
       where: { id: cityId },
-      include: { provinces: true },
+      include: { province: true },
     })
-    return Response.json(city !== null ? city : ({} as cities))
+    return Response.json(city !== null ? city : ({} as city))
   }
   if (provinceId) {
-    const province = await prisma.provinces.findFirst({
+    const province = await prisma.province.findFirst({
       where: { id: provinceId },
     })
-    return Response.json(province !== null ? province : ({} as provinces))
+    return Response.json(province !== null ? province : ({} as province))
   }
 }

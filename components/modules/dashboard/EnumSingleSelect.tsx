@@ -5,7 +5,6 @@ import { CheckIcon } from "lucide-react"
 
 import { cooperation_type, gender, seniority_level } from "@prisma/client"
 
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import SingleSelect from "../SingleSelect"
 
 type EnumSingleSelectProps = {

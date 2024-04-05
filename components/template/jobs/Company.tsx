@@ -28,11 +28,8 @@ const Company: React.FC<CompanyProps> = ({ ad }) => {
           <AccordionItem value="scores">
             <AccordionTrigger>
               <div className="flex items-center">
-                <p className="morabba ml-3">{ad.companies.score_company.toFixed(1)}</p>
-                <ScoreIconGenerator
-                  key={`score_icon_${ad.id}`}
-                  score={ad.companies.score_company}
-                />
+                <p className="morabba ml-3">{ad.company.score_company.toFixed(1)}</p>
+                <ScoreIconGenerator key={`score_icon_${ad.id}`} score={ad.company.score_company} />
               </div>
             </AccordionTrigger>
             <AccordionContent>
@@ -40,21 +37,21 @@ const Company: React.FC<CompanyProps> = ({ ad }) => {
                 <div className="w-full mb-3 lg:w-1/2 lg:mb-0">
                   <span className="morabba ml-2">
                     <Star className="fill-yellow-500 stroke-none inline-block" />
-                    {ad.companies.score_popularity.toFixed(1)}
+                    {ad.company.score_popularity.toFixed(1)}
                   </span>
                   <span>محبوبیت (براساس بازدید کارجویان)</span>
                 </div>
                 <div className="w-full mb-3 lg:w-1/2 lg:mb-0">
                   <span className="morabba ml-2">
                     <Star className="fill-yellow-500 stroke-none inline-block" />
-                    {ad.companies.score_responsiveness.toFixed(1)}
+                    {ad.company.score_responsiveness.toFixed(1)}
                   </span>
                   <span>پاسخگویی به رزومه‌های دریافتی</span>
                 </div>
                 <div className="w-full mb-3 lg:w-1/2 lg:mb-0">
                   <span className="morabba ml-2">
                     <Star className="fill-yellow-500 stroke-none inline-block" />
-                    {ad.companies.score_experience_of_job_seekers.toFixed(1)}
+                    {ad.company.score_experience_of_job_seekers.toFixed(1)}
                   </span>
                   <span>تجربه کارجویان از جلسه مصاحبه</span>
                 </div>
@@ -67,15 +64,15 @@ const Company: React.FC<CompanyProps> = ({ ad }) => {
         <div className="flex items-center justify-between">
           <Title>
             <h2 className="w-6/12 truncate">
-              درباره <p className="inline-block text-primary">{ad.companies.name}</p>
+              درباره <p className="inline-block text-primary">{ad.company.name}</p>
             </h2>
           </Title>
           <Link href="/" className="w-4/12 truncate text-left">
-            {ad.companies.website}
+            {ad.company.website}
           </Link>
         </div>
         <div className="my-6 text-sm">
-          <p>{ad.companies.description}</p>
+          <p>{ad.company.description}</p>
         </div>
         <Button variant={"outline"}>مشاهده سایر موقعیت های شغلی این سازمان</Button>
       </section>
@@ -100,22 +97,22 @@ const Company: React.FC<CompanyProps> = ({ ad }) => {
             <h5 className="morabba text-base">سال تاسیس</h5>
             <p className="truncate">
               {new DateObject({
-                date: new Date(ad.companies?.established_year),
+                date: new Date(ad.company?.established_year),
                 calendar: persian,
               }).format()}
             </p>
           </div>
           <div className="min-w-[50%] mt-6">
             <h5 className="morabba text-base">اندازه سازمان</h5>
-            <p className="truncate">{ad.companies.organization_employ}</p>
+            <p className="truncate">{ad.company.organization_employ}</p>
           </div>
           <div className="min-w-[50%] mt-6">
             <h5 className="morabba text-base">نوع فعالیت</h5>
-            <p className="truncate">{ad.companies.type_of_activity}</p>
+            <p className="truncate">{ad.company.type_of_activity}</p>
           </div>
           <div className="min-w-[50%] mt-6">
             <h5 className="morabba text-base">صنعت</h5>
-            <p className="truncate">{ad.companies.industry}</p>
+            <p className="truncate">{ad.company.industry}</p>
           </div>
         </div>
       </section>

@@ -8,7 +8,7 @@ import { toast } from "@/components/modules/ui/use-toast"
 import { companyWithLocation, provinceWithCity } from "@/types/utils.type"
 
 import registerCompany from "@/app/action/registerCompany"
-import { cities } from "@prisma/client"
+import { city } from "@prisma/client"
 import { TypeCompany, companySchema } from "@/validation/zod.validations"
 
 import { DateObject } from "react-multi-date-picker"
@@ -51,8 +51,8 @@ type CompanyProps = {
 
 const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
   const formRef = useRef<HTMLFormElement>(null)
-  const [city, setCity] = useState<cities>({} as cities)
-  const [companyState, setCompanyState] = useState<TypeCompany>(
+  const [city, setCity] = useState<city>({} as city)
+  const [companyState, setCompanyState] = useState<TypeCompany | companyWithLocation>(
     company ? company : ({} as TypeCompany)
   )
 
@@ -118,14 +118,14 @@ const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
 
   useEffect(() => {
     const fetchAction = async () => {
-      const res = await fetch(`/api/province?cityId=${company?.location.cities_id}`)
-      const cityData: cities = await res.json()
+      const res = await fetch(`/api/province?cityId=${company?.location.city_id}`)
+      const cityData: city = await res.json()
 
       setCity(cityData)
     }
 
     fetchAction()
-  }, [company?.location.cities_id])
+  }, [company?.location.city_id])
 
   return (
     <>
@@ -197,7 +197,7 @@ const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
                         <X
                           onClick={(e) => {
                             e.preventDefault()
-                            setCity({} as cities)
+                            setCity({} as city)
                           }}
                           className="icon"
                         />

@@ -84,7 +84,7 @@ const CurrentJobAd: React.FC = () => {
           </div>
           <div className="w-full">
             <div className="w-full flex flex-col text-sm">
-              <p>{`${current.companies.location.city.name} , ${current.companies.location.address}`}</p>
+              <p>{`${current.company.location.city.name} , ${current.company.location.address}`}</p>
               <div className="mb-2 flex flex-wrap *:text-sm">
                 {current.itern ? (
                   <div className="box-info-type !mr-1 !p-0">امکان جذب کارآموز</div>
@@ -115,11 +115,11 @@ const CurrentJobAd: React.FC = () => {
           <div className="w-full flex items-center justify-start text-sm">
             <div className="w-4/12 flex items-center fill-jv-lightGray2x">
               <Users className="icon-stroke-light" />
-              <p className="mr-3 truncate">{current.companies.organization_employ} نفر</p>
+              <p className="mr-3 truncate">{current.company.organization_employ} نفر</p>
             </div>
             <div className="w-8/12 flex items-center">
               <Speech className="icon-stroke-light" />
-              <p className="w-10/12 mr-3 truncate">{current.companies.slogan}</p>
+              <p className="w-10/12 mr-3 truncate">{current.company.slogan}</p>
             </div>
           </div>
           <Tabs

@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react"
 
-import { users } from "@prisma/client"
+import { user } from "@prisma/client"
 
 import useUser from "@/hook/store/useUser"
 import { useToast } from "../../modules/ui/use-toast"
@@ -30,7 +30,7 @@ const UserDropDown = () => {
     const getMeAction = async () => {
       const res = await fetch("/api/getMe")
       if (res.status === 201) {
-        const data: users | { message: string } = await res.json()
+        const data: user | { message: string } = await res.json()
         if ("id" in data) {
           setUser(data)
         } else {

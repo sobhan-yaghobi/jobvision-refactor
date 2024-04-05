@@ -13,13 +13,13 @@ const page: React.FC = async () => {
 
   const company =
     user && "company_id" in user && user.company_id !== null
-      ? await prisma.companies.findFirst({
+      ? await prisma.company.findFirst({
           where: { id: user?.company_id },
-          include: { location: true },
+          include: { location: { include: { city: true } } },
         })
       : ({} as companyWithLocation)
 
-  const provinces = await prisma.provinces.findMany({ include: { cities: true } })
+  const provinces = await prisma.province.findMany({ include: { cities: true } })
 
   const pageItems: TypePage[] = [
     {

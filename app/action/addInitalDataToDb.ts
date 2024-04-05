@@ -4,20 +4,20 @@ import { DateObject } from "react-multi-date-picker"
 import { v4 as uuid } from "uuid"
 
 import {
-  categories,
-  category_collections,
-  provinces,
-  cities,
-  companies,
-  users,
+  company,
+  ad,
+  category,
+  category_collection,
+  city,
+  province,
+  user,
   PrismaClient,
-  ads,
   advantage,
   location,
 } from "@prisma/client"
 import prisma from "@/lib/prisma"
 
-const CategoriesData: categories[] = [
+const CategoriesData: category[] = [
   { id: uuid(), name: "حسابدار / مالی و..", link: "accounting" },
   { id: uuid(), name: "معامله گر و تحلیل بازار های مالی", link: "trader" },
   { id: uuid(), name: "منابع انسانی", link: "humen-resources" },
@@ -26,7 +26,7 @@ const CategoriesData: categories[] = [
   { id: uuid(), name: "برنامه نویس و توسعه نرم افزار", link: "developer" },
 ]
 
-const CategoryCollectionData: category_collections[] = [
+const CategoryCollectionData: category_collection[] = [
   {
     id: uuid(),
     category_id: CategoriesData[0].id,
@@ -62,13 +62,13 @@ const CategoryCollectionData: category_collections[] = [
   },
 ]
 
-const ProvincesData: provinces[] = [
+const ProvincesData: province[] = [
   { id: uuid(), name: "تهران" },
   { id: uuid(), name: "خراسان رضوی" },
   { id: uuid(), name: "مازندران" },
 ]
 
-const CitiesData: cities[] = [
+const CitiesData: city[] = [
   { id: uuid(), province_id: ProvincesData[0].id, name: "شهریار" },
   { id: uuid(), province_id: ProvincesData[0].id, name: "کمالشهر" },
   { id: uuid(), province_id: ProvincesData[0].id, name: "پرند" },
@@ -80,16 +80,14 @@ const CitiesData: cities[] = [
   { id: uuid(), province_id: ProvincesData[2].id, name: "چالوس" },
 ]
 
-const LocationsData: location[] = [
-  { id: uuid(), cities_id: CitiesData[3].id, address: "سعادت آباد" },
-]
+const LocationsData: location[] = [{ id: uuid(), city_id: CitiesData[3].id, address: "سعادت آباد" }]
 
-const CompaniesData: companies[] = [
+const CompaniesData: company[] = [
   {
     id: uuid(),
     created_at: new Date(),
     name: "ایرانسل",
-    locationId: LocationsData[0].id,
+    location_id: LocationsData[0].id,
     logo: "https://upload.wikimedia.org/wikipedia/commons/3/3d/MTN_Irancell_Logo.svg",
     score_company: 4.3,
     score_popularity: 4.6,
@@ -105,7 +103,7 @@ const CompaniesData: companies[] = [
   },
 ]
 
-const UsersData: users[] = [
+const UsersData: user[] = [
   {
     id: uuid(),
     company_id: CompaniesData[0].id,
@@ -122,7 +120,7 @@ const AdvantageData: advantage[] = [
   { id: uuid(), type: "سرویس رفت و برگشت" },
 ]
 
-const AdsData: ads[] = [
+const AdsData: ad[] = [
   {
     company_id: CompaniesData[0].id,
     id: "d7effb8f-e913-4c59-873d-0508536ee7c9",
@@ -170,26 +168,27 @@ const AdsData: ads[] = [
 
 interface InitialData {
   data:
-    | categories[]
-    | category_collections[]
-    | provinces[]
-    | cities[]
-    | companies[]
-    | users[]
+    | category[]
+    | category_collection[]
+    | province[]
+    | city[]
+    | company[]
+    | user[]
     | advantage[]
+    | ad[]
     | location[]
   successMessage: string
 }
 async function addInitialData(
   model:
-    | "categories"
-    | "category_collections"
-    | "provinces"
-    | "cities"
-    | "companies"
-    | "users"
+    | "category"
+    | "category_collection"
+    | "province"
+    | "city"
+    | "company"
+    | "user"
     | "advantage"
-    | "ads"
+    | "ad"
     | "location",
   initialData: InitialData
 ): Promise<void> {
@@ -205,19 +204,19 @@ async function addInitialData(
 }
 
 const addInitalDataAction = async () => {
-  await addInitialData("categories", {
+  await addInitialData("category", {
     data: CategoriesData,
     successMessage: "Inital Data Of Categories",
   })
-  await addInitialData("category_collections", {
+  await addInitialData("category_collection", {
     data: CategoryCollectionData,
     successMessage: "Inital Data Of CategoryCollections",
   })
-  await addInitialData("provinces", {
+  await addInitialData("province", {
     data: ProvincesData,
     successMessage: "Inital Data Of Provinces",
   })
-  await addInitialData("cities", {
+  await addInitialData("city", {
     data: CitiesData,
     successMessage: "Inital Data Of Cities",
   })
@@ -225,11 +224,11 @@ const addInitalDataAction = async () => {
     data: LocationsData,
     successMessage: "Inital Data Of location",
   })
-  await addInitialData("companies", {
+  await addInitialData("company", {
     data: CompaniesData,
     successMessage: "Inital Data Of Companies",
   })
-  await addInitialData("users", {
+  await addInitialData("user", {
     data: UsersData,
     successMessage: "Inital Data Of Users",
   })
@@ -237,7 +236,7 @@ const addInitalDataAction = async () => {
     data: AdvantageData,
     successMessage: "Inital Data Of Advantages",
   })
-  await addInitialData("ads", {
+  await addInitialData("ad", {
     data: AdsData,
     successMessage: "Inital Data Of Ads",
   })

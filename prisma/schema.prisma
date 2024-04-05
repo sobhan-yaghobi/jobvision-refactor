@@ -7,58 +7,63 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model category_collections {
-  id                      String                    @id @default(uuid())
+// model category_collections {
+model category_collection {
+  id                      String                   @id @default(uuid())
   category_id             String?
-  name                    String?                   @db.Text
-  link                    String?                   @db.Text
-  categories              categories?               @relation(fields: [category_id], references: [id])
-  adsCategory_collections adsCategory_collections[]
+  name                    String?                  @db.Text
+  link                    String?                  @db.Text
+  categories              category?                @relation(fields: [category_id], references: [id])
+  adsCategory_collections adsCategory_collection[]
 }
 
-model categories {
-  id                   String                 @id @default(uuid())
-  name                 String                 @db.Text
-  link                 String                 @db.Text
-  category_collections category_collections[]
+// model categories {
+model category {
+  id                   String                @id @default(uuid())
+  name                 String                @db.Text
+  link                 String                @db.Text
+  category_collections category_collection[]
 }
 
-model provinces {
-  id     String   @id @default(uuid())
-  name   String   @db.Text
-  cities cities[]
+model province {
+  id     String @id @default(uuid())
+  name   String @db.Text
+  cities city[]
 }
 
-model cities {
+// model cities {
+model city {
   id          String     @id @default(uuid())
   province_id String?
   name        String?    @db.Text
-  provinces   provinces? @relation(fields: [province_id], references: [id])
+  province    province?  @relation(fields: [province_id], references: [id])
   locations   location[]
 }
 
-model users {
-  id         String     @id @default(uuid())
-  email      String     @unique @db.VarChar(255)
-  password   String     @db.Text
-  created_at DateTime   @default(now())
-  company    companies? @relation(fields: [company_id], references: [id])
+// model users {
+model user {
+  id         String   @id @default(uuid())
+  email      String   @unique @db.VarChar(255)
+  password   String   @db.Text
+  created_at DateTime @default(now())
+  company    company? @relation(fields: [company_id], references: [id])
   company_id String?
 }
 
 model location {
-  id        String      @id @default(uuid())
-  cities_id String
-  city      cities      @relation(fields: [cities_id], references: [id])
+  id        String    @id @default(uuid())
+  city_id   String
+  city      city      @relation(fields: [city_id], references: [id])
   address   String
-  companies companies[]
+  companies company[]
 }
 
-model companies {
+// model companies {
+model company {
   id                              String   @id @default(uuid())
   created_at                      DateTime @default(now())
   name                            String   @unique @db.VarChar(255)
-  location                        location @relation(fields: [locationId], references: [id])
+  location                        location @relation(fields: [location_id], references: [id])
   logo                            String   @db.Text
   score_company                   Float    @db.Float
   score_popularity                Float    @db.Float
@@ -71,9 +76,9 @@ model companies {
   type_of_activity                String   @db.Text
   industry                        String   @db.Text
   established_year                DateTime @db.DateTime
-  users                           users[]
-  ads                             ads[]
-  locationId                      String
+  users                           user[]
+  ads                             ad[]
+  location_id                     String
 }
 
 model advantage {
@@ -103,47 +108,49 @@ enum cooperation_type {
   CONTRACT
 }
 
-model ads {
+// model ads {
+model ad {
   company_id              String
-  id                      String                    @id @default(uuid())
-  name                    String                    @db.Text
-  price                   Json                      @default("{\"min\": 0, \"max\": 0}")
-  work_time               String                    @db.Text
-  travel_benefits         String                    @db.Text
-  age                     Json                      @default("{\"min\": 0, \"max\": 0}")
-  edicational_level       Json                      @default("[]")
-  key_indicator           Json                      @default("[]")
-  software_skills         Json                      @default("[]")
-  tags                    Json                      @default("[]")
-  facilities              Json                      @default("[]")
+  id                      String                   @id @default(uuid())
+  name                    String                   @db.Text
+  price                   Json                     @default("{\"min\": 0, \"max\": 0}")
+  work_time               String                   @db.Text
+  travel_benefits         String                   @db.Text
+  age                     Json                     @default("{\"min\": 0, \"max\": 0}")
+  edicational_level       Json                     @default("[]")
+  key_indicator           Json                     @default("[]")
+  software_skills         Json                     @default("[]")
+  tags                    Json                     @default("[]")
+  facilities              Json                     @default("[]")
   gender                  gender
   seniority_level         seniority_level
   cooperation_type        cooperation_type
-  adsCategory_collections adsCategory_collections[]
+  adsCategory_collections adsCategory_collection[]
   facilitiesAdvantage     facilitiesAdvantage[]
-  important               Boolean                   @default(false)
-  response                Boolean                   @default(false)
-  itern                   Boolean                   @default(false)
-  telecommuting           Boolean                   @default(false)
-  disabledPeople          Boolean                   @default(false)
-  militaryOrder           Boolean                   @default(false)
-  created_at              DateTime                  @default(now())
-  companies               companies?                @relation(fields: [company_id], references: [id])
+  important               Boolean                  @default(false)
+  response                Boolean                  @default(false)
+  itern                   Boolean                  @default(false)
+  telecommuting           Boolean                  @default(false)
+  disabledPeople          Boolean                  @default(false)
+  militaryOrder           Boolean                  @default(false)
+  created_at              DateTime                 @default(now())
+  companies               company?                 @relation(fields: [company_id], references: [id])
 }
 
-model adsCategory_collections {
+// model adsCategory_collections {
+model adsCategory_collection {
   ad_id String
-  ad    ads    @relation(fields: [ad_id], references: [id])
+  ad    ad     @relation(fields: [ad_id], references: [id])
 
   category_collection_id String
-  category_collections   category_collections @relation(fields: [category_collection_id], references: [id])
+  category_collections   category_collection @relation(fields: [category_collection_id], references: [id])
 
   @@id([ad_id, category_collection_id])
 }
 
 model facilitiesAdvantage {
   ad_id String
-  ad    ads    @relation(fields: [ad_id], references: [id])
+  ad    ad     @relation(fields: [ad_id], references: [id])
 
   advantage_id String
   advantage    advantage @relation(fields: [advantage_id], references: [id])

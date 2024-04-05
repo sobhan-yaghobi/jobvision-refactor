@@ -1,38 +1,38 @@
 import {
-  provinces,
-  cities,
-  categories,
-  category_collections,
-  ads,
+  province,
+  city,
+  category,
+  category_collection,
+  ad as TypeAd,
   advantage,
-  companies,
+  company,
   location,
 } from "@prisma/client"
 
-export type provinceWithCity = provinces & {
-  cities: cities[]
+export type provinceWithCity = province & {
+  cities: city[]
 }
 
-export type categoryWithCollection = categories & {
-  category_collections: category_collections[]
+export type categoryWithCollection = category & {
+  category_collections: category_collection[]
 }
 
 export type locationWithCity = location & {
-  city: cities
+  city: city
 }
 
-export type companyWithLocation = companies & {
+export type companyWithLocation = company & {
   location: locationWithCity
 }
 
-type adWithCompanyLoaction = ads & {
-  companies: companyWithLocation
+type adWithCompanyLoaction = TypeAd & {
+  company: companyWithLocation
 }
 
 export interface ad extends adWithCompanyLoaction {
   age: { min: number; max: number }
   price: { min: number; max: number }
-  tags: category_collections[]
+  tags: category_collection[]
   key_indicator: string[]
   software_skills: string[]
   facilities: advantage[]

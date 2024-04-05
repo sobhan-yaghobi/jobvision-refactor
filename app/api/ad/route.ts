@@ -14,18 +14,18 @@ export const GET = async (request: NextRequest) => {
     const { user } = await isAuth()
     const adItems: ad[] =
       user && "email" in user && user?.company_id
-        ? ((await prisma.ads.findMany({ where: { company_id: user?.company_id } })) as ad[])
+        ? ((await prisma.ad.findMany({ where: { company_id: user?.company_id } })) as ad[])
         : ([] as ad[])
     return Response.json(adItems)
   }
   if (id) {
-    const ad = await prisma.ads.findFirst({
+    const ad = await prisma.ad.findFirst({
       where: { id: id },
       include: { companies: { include: { location: { include: { city: true } } } } },
     })
     return Response.json(ad)
   }
-  const ads = await prisma.ads.findMany({
+  const ads = await prisma.ad.findMany({
     include: { companies: { include: { location: { include: { city: true } } } } },
   })
   return Response.json(ads)
@@ -33,7 +33,7 @@ export const GET = async (request: NextRequest) => {
 
 export const DELETE = async (request: NextRequest) => {
   const id = await request.json()
-  const removeResault = await prisma.ads.delete({ where: { id } })
+  const removeResault = await prisma.ad.delete({ where: { id } })
   if (removeResault) {
     return Response.json({ message: "آگهی با موفقیت پاک شد" }, { status: 201 })
   }

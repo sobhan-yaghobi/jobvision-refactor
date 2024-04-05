@@ -1,6 +1,4 @@
-import { genderItems } from "@/types/utils.variable"
-import { $Enums, category_collections, gender } from "@prisma/client"
-import { map } from "lodash"
+import { $Enums } from "@prisma/client"
 import { z } from "zod"
 
 export const signInSchema = z.object({

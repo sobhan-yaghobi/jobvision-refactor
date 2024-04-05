@@ -8,7 +8,7 @@ import addAds from "@/app/action/addAds"
 import { categoryWithCollection } from "@/types/utils.type"
 import {
   advantage,
-  category_collections,
+  category_collection,
   cooperation_type,
   gender,
   seniority_level,
@@ -96,7 +96,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
   const [gender, setGender] = useState<TypeMainSelect>({} as TypeMainSelect)
   const [seniorityLevel, setSeniorityLevel] = useState<TypeMainSelect>({} as TypeMainSelect)
   const [cooperationType, setCooperationType] = useState<TypeMainSelect>({} as TypeMainSelect)
-  const [tags, setTags] = useState<category_collections[]>([] as category_collections[])
+  const [tags, setTags] = useState<category_collection[]>([] as category_collection[])
 
   const [softwareSkills, setSoftwareSkills] = useState<string[]>([] as string[])
   const [keyIndicator, setKeyIndicator] = useState<string[]>([] as string[])
@@ -164,7 +164,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
     setGender({} as TypeMainSelect)
     setSeniorityLevel({} as TypeMainSelect)
     setCooperationType({} as TypeMainSelect)
-    setTags([] as category_collections[])
+    setTags([] as category_collection[])
     setSoftwareSkills([] as string[])
     setKeyIndicator([] as string[])
     setEdicationalLevel([] as string[])

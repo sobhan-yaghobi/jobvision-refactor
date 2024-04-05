@@ -40,9 +40,9 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
           />
           <div className="flex flex-col !mt-0 !mr-3">
             <p className="dana-bold text-sm">{ad.name}</p>
-            <span className="text-sm">{ad.companies.name}</span>
+            <span className="text-sm">{ad.company.name}</span>
             <div className="flex items-center text-secondary text-sm">
-              <p className="ml-1.5">{`${ad.companies.location.city.name} , ${ad.companies.location.address}`}</p>
+              <p className="ml-1.5">{`${ad.company.location.city.name} , ${ad.company.location.address}`}</p>
               <p className="text-primary text-xs pr-1.5 border-r">
                 <PriceGenerator price={ad.price.min} />
                 {ad.price.max ? (

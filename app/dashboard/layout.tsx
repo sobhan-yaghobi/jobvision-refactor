@@ -12,9 +12,9 @@ const layout: React.FC<React.PropsWithChildren> = async ({ children }) => {
   const { user, isUser } = await isAuth()
   const company =
     user && "company_id" in user && user.company_id !== null
-      ? await prisma.companies.findFirst({
+      ? await prisma.company.findFirst({
           where: { id: user?.company_id },
-          include: { location: true },
+          include: { location: { include: { city: true } } },
         })
       : ({} as companyWithLocation)
 

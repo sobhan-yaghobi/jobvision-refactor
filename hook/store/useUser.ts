@@ -1,8 +1,8 @@
-import { users } from "@prisma/client"
+import { user } from "@prisma/client"
 import { create } from "zustand"
 
 type TypeUseUser = {
-  user: users | null
+  user: user | null
   setUser: (user: TypeUseUser["user"]) => void
 }
 

@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 
 import { useRouter, useSearchParams } from "next/navigation"
 
-import { category_collections, cities, provinces } from "@prisma/client"
+import { category_collection, city, province } from "@prisma/client"
 import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
 
 import { Briefcase, CheckIcon, MapPin, Search, X } from "lucide-react"
@@ -20,9 +20,7 @@ export type SearchFormProps = {
   redirectAsap?: boolean
   path?: string
 }
-type StateProvinceOrCity =
-  | { mode: "Province"; province: provinces }
-  | { mode: "City"; city: cities }
+type StateProvinceOrCity = { mode: "Province"; province: province } | { mode: "City"; city: city }
 
 const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
   provinces,
@@ -34,7 +32,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
   const [isCategoryOpen, setIsCategoryOpen] = useState(false)
   const [isprovinceOpen, setIsProvinceOpen] = useState(false)
 
-  const [collection, setCollection] = useState<category_collections>({} as category_collections)
+  const [collection, setCollection] = useState<category_collection>({} as category_collection)
   const [cityOrProvince, setCityOrProvince] = useState<StateProvinceOrCity>(
     {} as StateProvinceOrCity
   )
@@ -60,7 +58,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
       const queryCollection = searchParams.get("collection") || ""
       if (queryCollection) {
         const res = await fetch(`/api/category?collection=${queryCollection}`)
-        const collectionData: category_collections = await res.json()
+        const collectionData: category_collection = await res.json()
         setCollection(collectionData)
       }
     }
@@ -70,14 +68,14 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
 
       if (queryCity) {
         const res = await fetch(`/api/province?cityId=${queryCity}`)
-        const cityData: cities = await res.json()
+        const cityData: city = await res.json()
         setCityOrProvince({ mode: "City", city: cityData })
         return
       }
 
       if (queryProvince) {
         const res = await fetch(`/api/province?provinceId=${queryProvince}`)
-        const provinceData: provinces = await res.json()
+        const provinceData: province = await res.json()
         setCityOrProvince({ mode: "Province", province: provinceData })
       }
     }
@@ -114,7 +112,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
                   <X
                     onClick={(e) => {
                       e.preventDefault()
-                      setCollection({} as category_collections)
+                      setCollection({} as category_collection)
                       handelSearch("", "collection")
                     }}
                     className="icon"
