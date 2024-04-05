@@ -20,8 +20,8 @@ const menuItem: TypeMenuItem[] = [
 ]
 
 const Header = async () => {
-  const category = await prisma.categories.findMany({ include: { category_collections: true } })
-  const province = await prisma.provinces.findMany({
+  const category = await prisma.category.findMany({ include: { category_collections: true } })
+  const province = await prisma.province.findMany({
     include: {
       cities: true,
     },

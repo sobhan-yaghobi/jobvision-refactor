@@ -83,7 +83,7 @@ const Info: React.FC<InfoProps> = ({ ad }) => {
             </div>
           </div>
           <div className="w-full mt-6">
-            <h4 className="morabba text-base">نرم افزارها</h4>
+            <h4 className="morabba text-base">مهارت های نرم افزاری</h4>
             <div className="flex flex-row flex-wrap">
               {ad.software_skills.map((item) => (
                 <span key={item} className="box-info-type">

@@ -69,7 +69,7 @@ const CurrentJobAd: React.FC = () => {
               className="bg-[#11111165] bg-blend-multiply w-full h-36 rounded-sm bg-fixed bg-center bg-no-repeat bg-cover"
             ></div>
           </div>
-          <div className="bg-muted w-full h-28 flex justify-between sticky top-0 py-3 z-40">
+          <div className="bg-muted w-full h-28 flex justify-between sticky top-0 py-3 z-20">
             <div className="w-9/12">
               <Title>
                 <h3 className="mb-3">{current.name}</h3>
@@ -127,7 +127,7 @@ const CurrentJobAd: React.FC = () => {
             defaultValue={mainItemsBoxInfos.at(0)?.type}
             className="h-full my-3 p-0 flex flex-col"
           >
-            <TabsList variant={"secondary"} className="w-full sticky top-28 z-40">
+            <TabsList variant={"secondary"} className="w-full sticky top-28 z-20">
               {mainItemsBoxInfos.map((item) => (
                 <TabsTrigger
                   className="p-5"

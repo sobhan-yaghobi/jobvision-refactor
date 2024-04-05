@@ -134,7 +134,7 @@ model ad {
   disabledPeople          Boolean                  @default(false)
   militaryOrder           Boolean                  @default(false)
   created_at              DateTime                 @default(now())
-  companies               company?                 @relation(fields: [company_id], references: [id])
+  company               company?                 @relation(fields: [company_id], references: [id])
 }
 
 // model adsCategory_collections {

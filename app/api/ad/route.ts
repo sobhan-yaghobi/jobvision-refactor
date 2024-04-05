@@ -21,12 +21,12 @@ export const GET = async (request: NextRequest) => {
   if (id) {
     const ad = await prisma.ad.findFirst({
       where: { id: id },
-      include: { companies: { include: { location: { include: { city: true } } } } },
+      include: { company: { include: { location: { include: { city: true } } } } },
     })
     return Response.json(ad)
   }
   const ads = await prisma.ad.findMany({
-    include: { companies: { include: { location: { include: { city: true } } } } },
+    include: { company: { include: { location: { include: { city: true } } } } },
   })
   return Response.json(ads)
 }

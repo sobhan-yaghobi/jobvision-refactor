@@ -65,6 +65,8 @@ const AdsList = () => {
       const res = await fetch("/api/ad")
       const data = await res.json()
       allAdItems.current.ads = data
+      console.log("allAdItems", allAdItems)
+
       setAdItems(data)
     }
 

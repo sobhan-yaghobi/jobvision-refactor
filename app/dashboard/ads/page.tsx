@@ -5,7 +5,7 @@ import Ads from "@/components/template/dashboard/Ads"
 import AddAds from "@/components/template/dashboard/AddAds"
 
 const page = async () => {
-  const categories = await prisma.categories.findMany({
+  const categories = await prisma.category.findMany({
     include: { category_collections: true },
   })
   const advantages = await prisma.advantage.findMany()

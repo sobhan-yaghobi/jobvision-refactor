@@ -11,8 +11,8 @@ const page = async ({
 }: {
   searchParams: { job: string | undefined; tag: string | undefined; city: string | undefined }
 }) => {
-  const provinces = await prisma.provinces.findMany({ include: { cities: true } })
-  const categories = await prisma.categories.findMany({ include: { category_collections: true } })
+  const provinces = await prisma.province.findMany({ include: { cities: true } })
+  const categories = await prisma.category.findMany({ include: { category_collections: true } })
   return (
     <div>
       <div className="w-full h-28 pb-4 mb-4 border-b-2 border-solid">

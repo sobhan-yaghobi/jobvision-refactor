@@ -52,7 +52,7 @@ const validateTokenResualt = async (token: string | undefined) => {
     typeof tokenResualt !== "boolean" &&
     "email" in tokenResualt
   ) {
-    const user = await prisma.users.findFirst({ where: { email: tokenResualt.email } })
+    const user = await prisma.user.findFirst({ where: { email: tokenResualt.email } })
     if (user !== null) {
       return Response.json(user, { status: 201 })
     }

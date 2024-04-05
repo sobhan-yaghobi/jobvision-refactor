@@ -28,7 +28,7 @@ const Navbar: React.FC<NavbarProps> = async ({ menuItem, className, category, pr
                 <ChevronDown className="icon-sm btn-icon-r group-hover:-scale-y-100 transition" />
               </Button>
             </Link>
-            <div className="bg-background w-10/12 h-5/6 absolute left-1/2 top-20 translate-x-full group-hover:-translate-x-1/2 overflow-hidden rounded-b-lg z-30 transition duration-500">
+            <div className="bg-background w-10/12 h-5/6 absolute left-1/2 top-20 translate-x-full group-hover:-translate-x-1/2 overflow-hidden rounded-b-lg z-40 transition duration-500">
               <Tabs
                 dir="rtl"
                 defaultValue="mostVisitedJobs"
@@ -59,7 +59,7 @@ const Navbar: React.FC<NavbarProps> = async ({ menuItem, className, category, pr
           </li>
         )
       )}
-      <div className="h-view w-full center fixed top-20 left-0 z-20 opacity-0 invisible duration-150 transition peer-hover:visible peer-hover:opacity-100 peer-hover:bg-black/50"></div>
+      <div className="h-view w-full center fixed top-20 left-0 z-30 opacity-0 invisible duration-150 transition peer-hover:visible peer-hover:opacity-100 peer-hover:bg-black/50"></div>
     </ul>
   )
 }
