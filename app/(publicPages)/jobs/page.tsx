@@ -17,11 +17,11 @@ const page = async ({ searchParams }: { searchParams: TypeSearchParams }) => {
   const provinces = await prisma.province.findMany({ include: { cities: true } })
   const categories = await prisma.category.findMany({ include: { category_collections: true } })
   return (
-    <div>
+    <div className="mb-3">
       <div className="w-full h-28 pb-4 mb-4 border-b-2 border-solid">
         <JobsFillter provinces={provinces} categories={categories} />
       </div>
-      <div className="h-current-job grid grid-cols-3 gap-6 mb-4">
+      <div className="max-h-current-job overflow-hidden grid grid-cols-3 gap-6">
         <div className="col-span-1">
           <AdsList searchParams={searchParams} />
         </div>
