@@ -77,9 +77,6 @@ const getTime = (date: Date | string): TimeType => {
   const monthTime = Math.floor(mainTime / 1000 / 60 / 60 / 24 / 30)
   const yearTime = Math.floor(mainTime / 1000 / 60 / 60 / 24 / 30 / 12)
 
-  console.log("dateTime ", dateTime)
-  console.log("mainTime ", mainTime)
-
   return dateTime < nowTime && secondsTime > 0 && secondsTime <= 59
     ? { date: secondsTime, type: "Second" }
     : dateTime < nowTime && minutesTime > 0 && minutesTime <= 59

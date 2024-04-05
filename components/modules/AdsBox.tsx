@@ -1,6 +1,6 @@
 import React from "react"
 
-import { cn } from "@/lib/utils"
+import { cn, getTime } from "@/lib/utils"
 
 import { ad } from "@/types/utils.type"
 
@@ -9,6 +9,8 @@ import { Separator } from "./ui/separator"
 import { Button } from "./ui/button"
 import Image from "next/image"
 import Link from "next/link"
+import PriceGenerator from "./PriceGenerator"
+import TimeGenerator from "./TimeGenerator"
 
 type AdsBoxProps = {
   ad: ad
@@ -37,15 +39,29 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
             alt="logo-compnay"
           />
           <div className="flex flex-col !mt-0 !mr-3">
-            <p className="dana-bold text-sm">برنامه نویس فرانت اند</p>
-            <span className="text-sm">ایرانسل</span>
+            <p className="dana-bold text-sm">{ad.name}</p>
+            <span className="text-sm">{ad.companies.name}</span>
             <div className="flex items-center text-secondary text-sm">
-              <span className="ml-1.5">مشهد ، قاسم آباد</span>
-              <span className="text-primary pr-1.5 border-r">15 تا 20 میلیون</span>
+              <p className="ml-1.5">{`${ad.companies.location.city.name} , ${ad.companies.location.address}`}</p>
+              <p className="text-primary text-xs pr-1.5 border-r">
+                <PriceGenerator price={ad.price.min} />
+                {ad.price.max ? (
+                  <>
+                    {" "}
+                    - <PriceGenerator price={ad.price.max} />
+                  </>
+                ) : null}
+              </p>
             </div>
             <div className="overflow-x-auto flex !mt-2 text-muted-foreground text-xs gap-1.5">
-              <span className="p-1 bg-muted rounded-sm">امکان دورکاری</span>
+              {ad.itern ? <div className="box-info-type !ml-1">امکان جذب کارآموز</div> : null}
+              {ad.telecommuting ? <div className="box-info-type !ml-1">امکان دورکاری</div> : null}
             </div>
+            {isFooter ? (
+              <div className="text-xs mt-3">
+                <TimeGenerator dateInfo={getTime(ad.created_at)} />
+              </div>
+            ) : null}
           </div>
         </CardHeader>
         {!isFooter ? (
@@ -54,7 +70,7 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
               <Separator />
             </div>
             <CardFooter className="flex justify-between">
-              <span className="text-xs text-secondary">2 روز پیش</span>
+              <TimeGenerator dateInfo={getTime(ad.created_at)} />
               <Button variant={"default"}>ارسال رزومه</Button>
             </CardFooter>
           </>
