@@ -8,9 +8,39 @@ import { ad } from "@/types/utils.type"
 
 import Title from "../modules/Title"
 import AdsBox from "../modules/AdsBox"
+import { TypeSearchParams } from "@/app/(publicPages)/jobs/page"
 
-const AdsList = () => {
-  const { searchParams, isExsist, isAnyFilterExsist, get } = useFilterQuery()
+// const AdsList: React.FC<AdsListPorps> = ({ searchParams }) => {
+//   const [adItems, setAdItems] = useState<adWithCompany[]>([] as adWithCompany[])
+//   const allAds = useRef({ ads: [] as adWithCompany[] })
+//   const { setCurrentAd } = useCurrentAdQuery()
+
+//   useEffect(() => {
+// if (
+//   searchParams.job?.length ||
+//   searchParams.collection?.length ||
+//   searchParams.province?.length ||
+//   searchParams.city?.length
+// ) {
+//   const newAdItems = allAds.current.ads.filter(
+//     (ad) =>
+//       (searchParams.job?.length && ad.name.includes(searchParams.job)) ||
+//       ad.tags.some((tag) => tag.id === searchParams.collection) ||
+//       ad.companies.location.cities_id === searchParams.city ||
+//       ad.companies.location.city.province_id === searchParams.province
+//   )
+//       setAdItems(newAdItems)
+//     } else {
+//       setAdItems(allAds.current.ads)
+//     }
+//   }, [searchParams])
+
+type AdsListPorps = {
+  searchParams: TypeSearchParams
+}
+
+const AdsList: React.FC<AdsListPorps> = ({ searchParams }) => {
+  const { searchParams: filterParams, isExsist, isAnyFilterExsist, get } = useFilterQuery()
   const [adItems, setAdItems] = useState<ad[]>([] as ad[])
   const allAdItems = useRef({ ads: [] as ad[] })
   const { currentAd } = useCurrentAdQuery()
@@ -37,7 +67,21 @@ const AdsList = () => {
   }
 
   useEffect(() => {
-    const newAdItems = allAdItems.current.ads.filter((ad) => {
+    const items: ad[] =
+      isAnyFilterExsist() ||
+      searchParams.job?.length ||
+      searchParams.collection?.length ||
+      searchParams.province?.length ||
+      searchParams.city?.length
+        ? allAdItems.current.ads
+        : allAdItems.current.ads
+
+    // ||
+    //   (searchParams.job?.length && ad.name.includes(searchParams.job)) ||
+    //   ad.tags.some((tag) => tag.id === searchParams.collection) ||
+    //   ad.company.location.city_id === searchParams.city ||
+    //   ad.company.location.city.province_id === searchParams.province
+    const newItems = allAdItems.current.ads.filter((ad) => {
       return isExsist("itren", "true")
         ? ad.itern
         : null || isExsist("telecommuting", "true")
@@ -54,11 +98,11 @@ const AdsList = () => {
         ? checkPriceAction({ price: ad.price, filter: get("price") ?? "" })
         : null
     })
-    setAdItems(newAdItems)
+    setAdItems(newItems)
     if (!isAnyFilterExsist()) {
       setAdItems(allAdItems.current.ads)
     }
-  }, [searchParams, allAdItems.current.ads])
+  }, [filterParams, allAdItems.current.ads])
 
   useEffect(() => {
     const fetchAction = async () => {

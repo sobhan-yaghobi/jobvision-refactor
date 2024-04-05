@@ -6,11 +6,14 @@ import AdsList from "@/components/template/AdsList"
 
 import prisma from "@/lib/prisma"
 
-const page = async ({
-  searchParams,
-}: {
-  searchParams: { job: string | undefined; tag: string | undefined; city: string | undefined }
-}) => {
+export type TypeSearchParams = {
+  job: string | undefined
+  collection: string | undefined
+  city: string | undefined
+  province: string | undefined
+}
+
+const page = async ({ searchParams }: { searchParams: TypeSearchParams }) => {
   const provinces = await prisma.province.findMany({ include: { cities: true } })
   const categories = await prisma.category.findMany({ include: { category_collections: true } })
   return (
@@ -20,7 +23,7 @@ const page = async ({
       </div>
       <div className="h-current-job grid grid-cols-3 gap-6 mb-4">
         <div className="col-span-1">
-          <AdsList />
+          <AdsList searchParams={searchParams} />
         </div>
         <div className="h-full col-span-2 overflow-y-auto">
           <CurrentJobAd />

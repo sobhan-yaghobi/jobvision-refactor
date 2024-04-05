@@ -52,8 +52,14 @@ type CompanyProps = {
 const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [city, setCity] = useState<city>({} as city)
-  const [companyState, setCompanyState] = useState<TypeCompany | companyWithLocation>(
-    company ? company : ({} as TypeCompany)
+  const { location, ...companyPick } = company ?? ({} as companyWithLocation)
+  const [companyState, setCompanyState] = useState<TypeCompany>(
+    company
+      ? {
+          ...companyPick,
+          location: { address: company.location.address, city_id: company.location.city_id },
+        }
+      : ({} as TypeCompany)
   )
 
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
@@ -61,7 +67,7 @@ const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
   const clientAction = async (formData: FormData) => {
     const companyObject: TypeCompany = {
       name: formData.get("name") as string,
-      location: { address: formData.get("address") as string, cities_id: city.id },
+      location: { address: formData.get("address") as string, city_id: city.id },
       logo: formData.get("logo") as string,
       score_company: 4.3,
       score_popularity: 4.6,

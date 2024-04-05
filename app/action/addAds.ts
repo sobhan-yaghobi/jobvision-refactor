@@ -8,11 +8,11 @@ const addAds = async (ad: TypeAd) => {
 
   if (user !== null) {
     if (user.company_id !== null) {
-      const isExsist = await prisma.ads.findFirst({
+      const isExsist = await prisma.ad.findFirst({
         where: { name: ad.name, company_id: user.company_id },
       })
       if (isExsist === null) {
-        const adsResualt = await prisma.ads.create({ data: { ...ad, company_id: user.company_id } })
+        const adsResualt = await prisma.ad.create({ data: { ...ad, company_id: user.company_id } })
         if (adsResualt) {
           return { message: "آگهی با موفقیت ثبت شد", status: true, ad: adsResualt }
         }

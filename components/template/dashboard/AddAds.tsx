@@ -55,11 +55,11 @@ type AddAdsProps = {
 
 const statusLabelItems = [
   {
-    name: "important",
+    name: "militaryOrder",
     value: "امریه سربازی",
   },
   {
-    name: "response",
+    name: "disabledPeople",
     value: "امکان استخدام معلولین",
   },
   {
@@ -71,16 +71,26 @@ const statusLabelItems = [
     value: "امکان دریافت کارآموز",
   },
   {
-    name: "disabledPeople",
+    name: "response",
     value: "پاسخگویی در اصرع وقت",
   },
   {
-    name: "militaryOrder",
+    name: "important",
     value: "این آگهی فوری میباشد",
   },
 ]
 
-const initialStatusData = {
+type TypeStatus = {
+  important: boolean
+  response: boolean
+  itern: boolean
+  telecommuting: boolean
+  disabledPeople: boolean
+  militaryOrder: boolean
+  [key: string]: boolean
+}
+
+const initialStatusData: TypeStatus = {
   important: false,
   response: false,
   itern: false,
@@ -103,7 +113,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
   const [edicationalLevel, setEdicationalLevel] = useState<string[]>([] as string[])
   const [facilities, setFacilities] = useState<advantage[]>([] as advantage[])
 
-  const [status, setStatus] = useState(initialStatusData)
+  const [status, setStatus] = useState<TypeStatus>(initialStatusData)
 
   const [checked, setChecked] = useState({
     is_price_max: false,
@@ -138,8 +148,6 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
       disabledPeople: status.disabledPeople,
       militaryOrder: status.militaryOrder,
     }
-
-    console.log("newAd", newAd)
 
     const resualt = adSchema.safeParse(newAd)
     if (!resualt.success) {
@@ -510,6 +518,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
           >
             {statusLabelItems.map((item) => (
               <ToggleGroupItem
+                data-state={status[item.name] ? "on" : "off"}
                 onClick={(e) => {
                   const is = e.currentTarget.dataset.state === "off" ? true : false
                   setStatus((prev) => ({

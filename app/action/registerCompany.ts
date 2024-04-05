@@ -11,13 +11,13 @@ const registerCompany = async (company: TypeCompany) => {
   if (user !== null) {
     if (user?.company_id !== null) {
       const { location, ...companyModify } = company
-      const companyResponse = await prisma.companies.findFirst({ where: { id: user.company_id } })
+      const companyResponse = await prisma.company.findFirst({ where: { id: user.company_id } })
       const locationResault = await prisma.location.update({
-        where: { id: companyResponse?.locationId },
+        where: { id: companyResponse?.location_id },
         data: location,
       })
 
-      const companyResualt = await prisma.companies.update({
+      const companyResualt = await prisma.company.update({
         where: { id: user.company_id },
         data: { ...companyModify },
       })
@@ -32,11 +32,11 @@ const registerCompany = async (company: TypeCompany) => {
       const locationResault = await prisma.location.create({ data: company.location })
 
       const { location, ...companyModify } = company
-      const companyResualt = await prisma.companies.create({
-        data: { ...companyModify, locationId: locationResault.id },
+      const companyResualt = await prisma.company.create({
+        data: { ...companyModify, location_id: locationResault.id },
       })
       if (companyResualt && locationResault) {
-        const userResault = await prisma.users.update({
+        const userResault = await prisma.user.update({
           where: { id: user?.id },
           data: { company_id: companyResualt.id },
         })
