@@ -58,9 +58,9 @@ const CurrentJobAd: React.FC = () => {
   ]
 
   return (
-    <div className="w-full bg-muted p-3 rounded-sm">
+    <>
       {current ? (
-        <>
+        <div className="w-full bg-muted p-3 rounded-sm">
           <div>
             <div
               style={{
@@ -147,16 +147,16 @@ const CurrentJobAd: React.FC = () => {
               ))}
             </div>
           </Tabs>
-        </>
+        </div>
       ) : (
-        <div className="h-full center flex-col">
+        <div className="bg-muted h-full w-full center flex-col p-3 rounded-sm">
           <Inbox className="w-52 h-52 stroke-muted-foreground stroke-1" />
           <Title className="w-2/4 text-center text-muted-foreground select-none">
             <h3>جهت مشاهده اطلاعات آگهی شغلی یکی از موارد را از سمت راست انتخاب کنید</h3>
           </Title>
         </div>
       )}
-    </div>
+    </>
   )
 }
 
