@@ -53,7 +53,7 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
                 ) : null}
               </p>
             </div>
-            <div className="overflow-x-auto flex !mt-2 text-muted-foreground text-xs gap-1.5">
+            <div className="h-9 overflow-x-auto flex !mt-2 text-muted-foreground text-xs gap-1.5">
               {ad.itern ? <div className="box-info-type !ml-1">امکان جذب کارآموز</div> : null}
               {ad.telecommuting ? <div className="box-info-type !ml-1">امکان دورکاری</div> : null}
             </div>
@@ -70,7 +70,9 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
               <Separator />
             </div>
             <CardFooter className="flex justify-between">
-              <TimeGenerator dateInfo={getTime(ad.created_at)} />
+              <span className="text-sm">
+                <TimeGenerator dateInfo={getTime(ad.created_at)} />
+              </span>
               <Button variant={"default"}>ارسال رزومه</Button>
             </CardFooter>
           </>
