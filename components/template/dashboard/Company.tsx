@@ -54,7 +54,7 @@ const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
   const [city, setCity] = useState<city>({} as city)
   const { location, ...companyPick } = company ?? ({} as companyWithLocation)
   const [companyState, setCompanyState] = useState<TypeCompany>(
-    company
+    company && "id" in company
       ? {
           ...companyPick,
           location: { address: company.location.address, city_id: company.location.city_id },
@@ -130,8 +130,10 @@ const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
       setCity(cityData)
     }
 
-    fetchAction()
-  }, [company?.location.city_id])
+    if (company?.location?.city_id) {
+      fetchAction()
+    }
+  }, [company?.location?.city_id])
 
   return (
     <>
@@ -250,7 +252,7 @@ const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
               </Accordion>
             </SingleSelect>
             <InputMessage
-              defaultValue={companyState.location.address}
+              defaultValue={companyState.location?.address}
               icon={<MapPin className="icon-stroke-light" />}
               wrapperClassName="w-full"
               placeholder="برای مثال بهارستان"

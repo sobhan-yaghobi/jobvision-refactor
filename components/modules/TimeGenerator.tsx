@@ -5,6 +5,8 @@ interface TimeGeneratorProps {
 }
 
 const TimeGenerator: React.FC<TimeGeneratorProps> = ({ dateInfo }) => {
+  console.log(dateInfo)
+
   return (
     <>
       {dateInfo.type === "Second"

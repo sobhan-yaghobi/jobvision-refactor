@@ -7,7 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model category_collections {
 model category_collection {
   id                      String                   @id @default(uuid())
   category_id             String?
@@ -17,7 +16,6 @@ model category_collection {
   adsCategory_collections adsCategory_collection[]
 }
 
-// model categories {
 model category {
   id                   String                @id @default(uuid())
   name                 String                @db.Text
@@ -31,7 +29,6 @@ model province {
   cities city[]
 }
 
-// model cities {
 model city {
   id          String     @id @default(uuid())
   province_id String?
@@ -40,7 +37,6 @@ model city {
   locations   location[]
 }
 
-// model users {
 model user {
   id         String   @id @default(uuid())
   email      String   @unique @db.VarChar(255)
@@ -48,6 +44,7 @@ model user {
   created_at DateTime @default(now())
   company    company? @relation(fields: [company_id], references: [id])
   company_id String?
+  cv         cv[]
 }
 
 model location {
@@ -58,7 +55,6 @@ model location {
   companies company[]
 }
 
-// model companies {
 model company {
   id                              String   @id @default(uuid())
   created_at                      DateTime @default(now())
@@ -108,7 +104,6 @@ enum cooperation_type {
   CONTRACT
 }
 
-// model ads {
 model ad {
   company_id              String
   id                      String                   @id @default(uuid())
@@ -134,10 +129,11 @@ model ad {
   disabledPeople          Boolean                  @default(false)
   militaryOrder           Boolean                  @default(false)
   created_at              DateTime                 @default(now())
-  company               company?                 @relation(fields: [company_id], references: [id])
+  company                 company?                 @relation(fields: [company_id], references: [id])
+  cvAd                    cvAd[]
+  cv                      cv[]
 }
 
-// model adsCategory_collections {
 model adsCategory_collection {
   ad_id String
   ad    ad     @relation(fields: [ad_id], references: [id])
@@ -156,4 +152,32 @@ model facilitiesAdvantage {
   advantage    advantage @relation(fields: [advantage_id], references: [id])
 
   @@id([ad_id, advantage_id])
+}
+
+enum status {
+  accept
+  reject
+  waiting
+}
+
+model cv {
+  id      String @id @default(uuid())
+  user_id String
+  ad_id   String
+  status  status
+  created_at              DateTime                 @default(now())
+
+  user user?  @relation(fields: [user_id], references: [id])
+  ad   ad?    @relation(fields: [ad_id], references: [id])
+  cvAd cvAd[]
+}
+
+model cvAd {
+  cv_id String
+  cv    cv     @relation(fields: [cv_id], references: [id])
+
+  ad_id String
+  ad    ad     @relation(fields: [ad_id], references: [id])
+
+  @@id([cv_id, ad_id])
 }

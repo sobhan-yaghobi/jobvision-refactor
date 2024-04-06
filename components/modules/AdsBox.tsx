@@ -1,3 +1,4 @@
+"use client"
 import React from "react"
 
 import { cn, getTime } from "@/lib/utils"
@@ -11,6 +12,8 @@ import Image from "next/image"
 import Link from "next/link"
 import PriceGenerator from "./PriceGenerator"
 import TimeGenerator from "./TimeGenerator"
+import sendCv from "@/app/action/sendCv"
+import { toast } from "./ui/use-toast"
 
 type AdsBoxProps = {
   ad: ad
@@ -20,8 +23,16 @@ type AdsBoxProps = {
 }
 
 const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
+  const clientAction = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.stopPropagation()
+    const cvResault = await sendCv(ad)
+    if (cvResault.status) {
+      return toast({ title: cvResault.message, variant: "default" })
+    }
+    return toast({ title: cvResault.message, variant: "destructive" })
+  }
   return (
-    <Link href={`/jobs?id=${ad?.id}`}>
+    <div>
       <Card
         className={cn(
           `w-full *:p-3 shadow-md border-2 border-transparent ${
@@ -31,10 +42,10 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
         )}
       >
         <CardHeader className="flex flex-row items-start">
-          <Image
+          <img
             width={190}
             height={100}
-            src={"/images/Irancell_logo.webp"}
+            src={ad.company.logo}
             className="rounded-sm w-20"
             alt="logo-compnay"
           />
@@ -73,12 +84,14 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
               <span className="text-sm">
                 <TimeGenerator dateInfo={getTime(ad.created_at)} />
               </span>
-              <Button variant={"default"}>ارسال رزومه</Button>
+              <Button onClick={clientAction} variant={"default"}>
+                ارسال رزومه
+              </Button>
             </CardFooter>
           </>
         ) : null}
       </Card>
-    </Link>
+    </div>
   )
 }
 

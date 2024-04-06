@@ -1,16 +1,18 @@
 import React from "react"
-import { VariantProps, cva } from "class-variance-authority"
-
+import { cva } from "class-variance-authority"
+import { status } from "@prisma/client"
 import { Button } from "../ui/button"
 import { User } from "lucide-react"
-
+import { cvWithAdWithUser } from "@/types/utils.type"
+import TimeGenerator from "../TimeGenerator"
+import { getTime } from "@/lib/utils"
 const cvVaraiant = cva("mb-2 h-36 bg-jv-white py-4 px-3 rounded-lg border-solid border-[1px]", {
   variants: {
     status: {
-      default: "",
-      success: "border-green-500/50`",
-      warning: "border-yellow-500/50`",
-      danger: "border-destructive",
+      default: "border-yellow-500/50",
+      accept: "border-green-500/50",
+      waiting: "border-yellow-500/50",
+      reject: "border-destructive",
     },
   },
   defaultVariants: {
@@ -18,9 +20,12 @@ const cvVaraiant = cva("mb-2 h-36 bg-jv-white py-4 px-3 rounded-lg border-solid 
   },
 })
 
-type CvRequestProps = {} & VariantProps<typeof cvVaraiant>
+type CvRequestProps = {
+  cv: cvWithAdWithUser
+  status: status
+}
 
-const CvRequest: React.FC<CvRequestProps> = ({ status }) => {
+const CvRequest: React.FC<CvRequestProps> = ({ cv, status }) => {
   return (
     <div className={cvVaraiant({ status })}>
       <div className="h-1/3 flex justify-between">
@@ -29,26 +34,25 @@ const CvRequest: React.FC<CvRequestProps> = ({ status }) => {
             <User />
           </span>
           <span>
-            <p className="text-base text-jv-lightGray">سبحان یعقوبی</p>
+            <p className="text-base text-jv-lightGray">{cv?.user.email}</p>
             <p className="text-xs">توسعه دهنده فرانت اند</p>
           </span>
         </section>
         <section className="h-full">
-          <p className="box-info-type m-0">4 روز پیش</p>
+          <p className="box-info-type m-0">
+            <TimeGenerator dateInfo={getTime(cv.created_at)} />
+          </p>
         </section>
       </div>
       <div className="h-2/3 mt-2 text-xs flex flex-col">
         <p className="text-base pb-2 text-jv-lightGray w-full truncate" title="متن کامل">
           لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و
         </p>
-        <div className="h-full flex items-end justify-between">
-          <span>6 اسفند 1400 - 7 اسفند 1400</span>
-          <div className="flex items-center gap-3">
-            <Button size={"sm"}>قبول</Button>
-            <Button size={"sm"} variant={"destructiveOutline"}>
-              رد
-            </Button>
-          </div>
+        <div className="flex items-center justify-end gap-3">
+          <Button size={"sm"}>قبول</Button>
+          <Button size={"sm"} variant={"destructiveOutline"}>
+            رد
+          </Button>
         </div>
       </div>
     </div>

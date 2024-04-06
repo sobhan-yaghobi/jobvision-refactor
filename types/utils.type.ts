@@ -7,6 +7,8 @@ import {
   advantage,
   company,
   location,
+  cv,
+  user,
 } from "@prisma/client"
 
 export type provinceWithCity = province & {
@@ -37,4 +39,9 @@ export interface ad extends adWithCompanyLoaction {
   software_skills: string[]
   facilities: advantage[]
   edicational_level: string[]
+}
+
+export type cvWithAdWithUser = cv & {
+  user: user
+  ad: ad
 }

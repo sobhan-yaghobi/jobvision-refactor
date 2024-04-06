@@ -119,7 +119,7 @@ const AdsList: React.FC<AdsListPorps> = ({ searchParams }) => {
 
   if (!adItems.length) {
     return (
-      <Title className="bg-muted text-yellow-500 p-2.5 rounded-sm">
+      <Title className="bg-muted h-full text-yellow-500 p-2.5 rounded-sm">
         <h3>آگهی وجود ندارد</h3>
       </Title>
     )
