@@ -1,5 +1,10 @@
 "use client"
+
 import React from "react"
+import { useRouter } from "next/navigation"
+import { toast } from "./ui/use-toast"
+
+import sendCv from "@/app/action/sendCv"
 
 import { cn, getTime } from "@/lib/utils"
 
@@ -8,12 +13,8 @@ import { ad } from "@/types/utils.type"
 import { Card, CardFooter, CardHeader } from "./ui/card"
 import { Separator } from "./ui/separator"
 import { Button } from "./ui/button"
-import Image from "next/image"
-import Link from "next/link"
 import PriceGenerator from "./PriceGenerator"
 import TimeGenerator from "./TimeGenerator"
-import sendCv from "@/app/action/sendCv"
-import { toast } from "./ui/use-toast"
 
 type AdsBoxProps = {
   ad: ad
@@ -23,6 +24,7 @@ type AdsBoxProps = {
 }
 
 const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
+  const router = useRouter()
   const clientAction = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.stopPropagation()
     const cvResault = await sendCv(ad)
@@ -31,8 +33,13 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
     }
     return toast({ title: cvResault.message, variant: "destructive" })
   }
+
   return (
-    <div>
+    <div
+      title="مشاهده آگهی"
+      className="cursor-pointer"
+      onClick={() => router.push(`/jobs?id=${ad.id}`)}
+    >
       <Card
         className={cn(
           `w-full *:p-3 shadow-md border-2 border-transparent ${

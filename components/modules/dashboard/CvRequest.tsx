@@ -1,11 +1,20 @@
-import React from "react"
-import { cva } from "class-variance-authority"
-import { status } from "@prisma/client"
-import { Button } from "../ui/button"
-import { User } from "lucide-react"
-import { cvWithAdWithUser } from "@/types/utils.type"
-import TimeGenerator from "../TimeGenerator"
+"use client"
+import React, { useState } from "react"
 import { getTime } from "@/lib/utils"
+import { toast } from "../ui/use-toast"
+import { cva } from "class-variance-authority"
+
+import rejectCv from "@/app/action/rejectCv"
+import acceptCv from "@/app/action/acceptCv"
+
+import { status } from "@prisma/client"
+import { cvWithAdWithUser } from "@/types/utils.type"
+
+import { User } from "lucide-react"
+
+import { Button } from "../ui/button"
+import TimeGenerator from "../TimeGenerator"
+
 const cvVaraiant = cva("mb-2 h-36 bg-jv-white py-4 px-3 rounded-lg border-solid border-[1px]", {
   variants: {
     status: {
@@ -25,7 +34,28 @@ type CvRequestProps = {
   status: status
 }
 
-const CvRequest: React.FC<CvRequestProps> = ({ cv, status }) => {
+const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus }) => {
+  const [status, setStatus] = useState(cvStatus)
+  const acceptClientAction = async () => {
+    if (status !== "accept") {
+      const cvResault = await acceptCv(cv.id)
+      if (cvResault.status) {
+        setStatus("accept")
+        return toast({ title: cvResault.message, variant: "default" })
+      }
+      return toast({ title: cvResault.message, variant: "destructive" })
+    }
+  }
+  const rejectClientAction = async () => {
+    if (status !== "reject") {
+      const cvResault = await rejectCv(cv.id)
+      if (cvResault.status) {
+        setStatus("reject")
+        return toast({ title: cvResault.message, variant: "default" })
+      }
+      return toast({ title: cvResault.message, variant: "destructive" })
+    }
+  }
   return (
     <div className={cvVaraiant({ status })}>
       <div className="h-1/3 flex justify-between">
@@ -47,8 +77,15 @@ const CvRequest: React.FC<CvRequestProps> = ({ cv, status }) => {
       </div>
       <div className="h-2/3 flex flex-col mt-3 text-xs">
         <div className="flex items-center justify-end gap-3">
-          <Button size={"sm"}>قبول</Button>
-          <Button size={"sm"} variant={"destructiveOutline"}>
+          <Button disabled={status === "accept"} onClick={acceptClientAction} size={"sm"}>
+            قبول
+          </Button>
+          <Button
+            disabled={status === "reject"}
+            onClick={rejectClientAction}
+            size={"sm"}
+            variant={"destructiveOutline"}
+          >
             رد
           </Button>
         </div>
