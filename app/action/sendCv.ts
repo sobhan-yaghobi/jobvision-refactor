@@ -9,8 +9,13 @@ const sendCv = async (ad: ad) => {
     return { message: "ارسال رزومه به آگهی شرکت خود ممکن نمیباشد", status: false }
   }
   if (user?.email) {
-    const cvResault = await prisma.ad.findFirst({ include: { cvAd: { include: { cv: true } } } })
-    const isExsist = cvResault?.cvAd.find((item) => item.cv.user_id === user.id)
+    // const cvResault = await prisma.ad.findFirst({ include: { cvAd: { include: { cv: true } } } })
+    const cvResault = await prisma.cv.findMany({ where: { ad_id: ad.id } })
+
+    // const isExsist = cvResault?.cvAd.find((item) => item.cv.user_id === user.id)
+    const isExsist = cvResault.find((cv) => cv.user_id === user.id)
+    console.log("is cvResault ", cvResault)
+
     if (typeof isExsist === "undefined") {
       const cvCreateResault = await prisma.cv.create({
         data: { status: "waiting", user_id: user.id, ad_id: ad.id },

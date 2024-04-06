@@ -33,9 +33,10 @@ const CvRequest: React.FC<CvRequestProps> = ({ cv, status }) => {
           <span className="ml-2 text-2xl text-secondary w-10 h-10 border-2 border-solid border-muted rounded-full flex items-center justify-center">
             <User />
           </span>
-          <span>
-            <p className="text-base text-jv-lightGray">{cv?.user.email}</p>
+          <span className="text-muted-foreground">
+            <p className="text-base">{cv?.user.email}</p>
             <p className="text-xs">توسعه دهنده فرانت اند</p>
+            <p className="w-full mt-3 text-base text-primary  truncate">{cv.ad.name}</p>
           </span>
         </section>
         <section className="h-full">
@@ -44,10 +45,7 @@ const CvRequest: React.FC<CvRequestProps> = ({ cv, status }) => {
           </p>
         </section>
       </div>
-      <div className="h-2/3 mt-2 text-xs flex flex-col">
-        <p className="text-base pb-2 text-jv-lightGray w-full truncate" title="متن کامل">
-          لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و
-        </p>
+      <div className="h-2/3 flex flex-col mt-3 text-xs">
         <div className="flex items-center justify-end gap-3">
           <Button size={"sm"}>قبول</Button>
           <Button size={"sm"} variant={"destructiveOutline"}>
