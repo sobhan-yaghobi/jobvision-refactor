@@ -47,6 +47,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/modules/ui/accordion"
+import LoadButton from "@/components/modules/ui/LoadButton"
 
 type AddAdsProps = {
   categories: categoryWithCollection[]
@@ -534,7 +535,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
           </ToggleGroup>
         </div>
 
-        <Button className="w-full mt-6">ثبت اگهی</Button>
+        <LoadButton className="w-full mt-6">ثبت اگهی</LoadButton>
       </form>
     </div>
   )

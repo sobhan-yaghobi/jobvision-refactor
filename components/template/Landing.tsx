@@ -6,8 +6,8 @@ import Title from "../modules/Title"
 import { Button } from "../modules/ui/button"
 
 const Landing: React.FC = async () => {
-  const provinces = await prisma.provinces.findMany({ include: { cities: true } })
-  const categories = await prisma.categories.findMany({ include: { category_collections: true } })
+  const provinces = await prisma.province.findMany({ include: { cities: true } })
+  const categories = await prisma.category.findMany({ include: { category_collections: true } })
   return (
     <div className="h-auto relative z-10 lg:h-current lg:grid lg:grid-cols-2 lg:grid-rows-3 lg:justify-between lg:mb-0">
       <div className="right-landing flex flex-col justify-center col-span-1 row-span-1 mt-12 mb-24 text-center lg:col-span-1 lg:row-span-2 lg:mb-0 lg:text-right">

@@ -23,8 +23,9 @@ import {
 } from "../modules/ui/dialog"
 import { InputMessage } from "../modules/ui/input"
 import { ToastAction } from "../modules/ui/toast"
-import { Button } from "../modules/ui/button"
 import Title from "../modules/Title"
+import LoadButton from "../modules/ui/LoadButton"
+import { Button } from "../modules/ui/button"
 
 const Login = () => {
   const router = useRouter()
@@ -130,7 +131,8 @@ const Login = () => {
                     })?.message
                   }
                 />
-                <Button className="w-full">ادامه</Button>
+
+                <LoadButton className="w-full">ادامه</LoadButton>
               </form>
             </DialogDescription>
           </DialogHeader>

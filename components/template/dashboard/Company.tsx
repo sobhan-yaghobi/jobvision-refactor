@@ -33,7 +33,6 @@ import {
 
 import { InputMessage } from "@/components/modules/ui/input"
 import { Textarea } from "@/components/modules/ui/textarea"
-import { Button } from "@/components/modules/ui/button"
 import Calender from "@/components/modules/Calender"
 import Title from "@/components/modules/Title"
 import SingleSelect from "@/components/modules/SingleSelect"
@@ -43,6 +42,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/modules/ui/accordion"
+import LoadButton from "@/components/modules/ui/LoadButton"
 
 type CompanyProps = {
   company: companyWithLocation | null
@@ -399,7 +399,7 @@ const Company: React.FC<CompanyProps> = ({ company, provinces }) => {
           </p>
         </div>
 
-        <Button className="mt-6 w-full">{company !== null ? "آپدیت" : "ثبت شرکت"}</Button>
+        <LoadButton className="mt-6 w-full">{company !== null ? "آپدیت" : "ثبت شرکت"}</LoadButton>
       </form>
     </>
   )
