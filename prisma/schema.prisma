@@ -75,6 +75,7 @@ model company {
   users                           user[]
   ads                             ad[]
   location_id                     String
+  cv                              cv[]
 }
 
 model advantage {
@@ -161,15 +162,17 @@ enum status {
 }
 
 model cv {
-  id      String @id @default(uuid())
-  user_id String
-  ad_id   String
-  status  status
-  created_at              DateTime                 @default(now())
+  id         String   @id @default(uuid())
+  user_id    String
+  ad_id      String
+  company_id String
+  status     status
+  created_at DateTime @default(now())
 
-  user user?  @relation(fields: [user_id], references: [id])
-  ad   ad?    @relation(fields: [ad_id], references: [id])
-  cvAd cvAd[]
+  user    user?    @relation(fields: [user_id], references: [id])
+  ad      ad?      @relation(fields: [ad_id], references: [id])
+  company company? @relation(fields: [company_id], references: [id])
+  cvAd    cvAd[]
 }
 
 model cvAd {

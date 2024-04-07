@@ -30,34 +30,36 @@ const cvVaraiant = cva("mb-2 h-36 bg-jv-white py-4 px-3 rounded-lg border-solid 
 })
 
 type CvRequestProps = {
+  setState?: React.Dispatch<React.SetStateAction<cvWithAdWithUser[] | undefined>>
   cv: cvWithAdWithUser
   status: status
 }
 
-const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus }) => {
-  const [status, setStatus] = useState(cvStatus)
+const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, setState }) => {
   const acceptClientAction = async () => {
-    if (status !== "accept") {
+    if (cvStatus !== "accept") {
       const cvResault = await acceptCv(cv.id)
       if (cvResault.status) {
-        setStatus("accept")
+        typeof setState !== "undefined" &&
+          setState((prev) => prev?.filter((item) => (item.id === cv.id ? null : item)))
         return toast({ title: cvResault.message, variant: "default" })
       }
       return toast({ title: cvResault.message, variant: "destructive" })
     }
   }
   const rejectClientAction = async () => {
-    if (status !== "reject") {
+    if (cvStatus !== "reject") {
       const cvResault = await rejectCv(cv.id)
       if (cvResault.status) {
-        setStatus("reject")
+        typeof setState !== "undefined" &&
+          setState((prev) => prev?.filter((item) => (item.id === cv.id ? null : item)))
         return toast({ title: cvResault.message, variant: "default" })
       }
       return toast({ title: cvResault.message, variant: "destructive" })
     }
   }
   return (
-    <div className={cvVaraiant({ status })}>
+    <div className={cvVaraiant({ status: cvStatus })}>
       <div className="h-1/3 flex justify-between">
         <section className="h-full flex">
           <span className="ml-2 text-2xl text-secondary w-10 h-10 border-2 border-solid border-muted rounded-full flex items-center justify-center">
@@ -77,11 +79,11 @@ const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus }) => {
       </div>
       <div className="h-2/3 flex flex-col mt-3 text-xs">
         <div className="flex items-center justify-end gap-3">
-          <Button disabled={status === "accept"} onClick={acceptClientAction} size={"sm"}>
+          <Button disabled={cvStatus === "accept"} onClick={acceptClientAction} size={"sm"}>
             قبول
           </Button>
           <Button
-            disabled={status === "reject"}
+            disabled={cvStatus === "reject"}
             onClick={rejectClientAction}
             size={"sm"}
             variant={"destructiveOutline"}
