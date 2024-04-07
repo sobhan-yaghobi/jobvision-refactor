@@ -1,20 +1,24 @@
 "use client"
-import { v4 as uuid } from "uuid"
-import { ad } from "@/types/utils.type"
-import { useRouter, useSearchParams } from "next/navigation"
+
 import React, { Fragment, ReactNode, useEffect, useState } from "react"
-import Title from "../modules/Title"
-import { ExternalLink, Heart, Inbox, Speech, Users, X } from "lucide-react"
-import { Button } from "../modules/ui/button"
-import Link from "next/link"
-import { Separator } from "../modules/ui/separator"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../modules/ui/tabs"
-import Info from "./jobs/Info"
-import Company from "./jobs/Company"
-import { getTime } from "@/lib/utils"
-import TimeGenerator from "../modules/TimeGenerator"
+import { useRouter, useSearchParams } from "next/navigation"
 import useSize from "@/hook/useSize"
+
+import TimeGenerator from "../modules/TimeGenerator"
+import { v4 as uuid } from "uuid"
+import { getTime } from "@/lib/utils"
+
+import { ad } from "@/types/utils.type"
+
+import { ExternalLink, Heart, Inbox, Speech, Users, X } from "lucide-react"
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../modules/ui/tabs"
 import { Drawer, DrawerContent } from "../modules/ui/drawer"
+import { Separator } from "../modules/ui/separator"
+import { Button } from "../modules/ui/button"
+import Company from "./jobs/Company"
+import Title from "../modules/Title"
+import Info from "./jobs/Info"
 
 type InfoTypes = "INFO_JOB" | "ABOUT_COMPANY" | "RELATED_ADS" | "RESUME_RECRRDS"
 export interface TypeItemBox {

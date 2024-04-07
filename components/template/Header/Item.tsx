@@ -23,11 +23,7 @@ const Item: React.FC<React.PropsWithChildren<ItemProps>> = ({ itemHref, itemName
 
 type CategoryItemProps = { category: categoryWithCollection }
 const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => (
-  <Item
-    key={`list-item-${category.id}`}
-    itemHref={`jobs/category-${category.id}`}
-    itemName={category.name}
-  >
+  <Item key={`list-item-${category.id}`} itemHref={`jobs`} itemName={category.name}>
     {category.category_collections.length ? (
       <ul className="w-full px-3 cursor-default dana">
         {category.category_collections.map((collection: category_collection) => (
@@ -36,7 +32,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => (
             className="w-full flex items-center mt-2 first:mt-0"
           >
             <Link
-              href={`jobs/category_collection-${collection.link}`}
+              href={`jobs?collection=${collection.id}`}
               className="text-secondary w-full inline-block hover:text-primary"
             >
               {collection.name}
@@ -50,13 +46,13 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => (
 
 type ProvinceItemProps = { province: provinceWithCity }
 const ProvinceItem: React.FC<ProvinceItemProps> = ({ province }) => (
-  <Item itemHref={`jobs/province-${province.id}`} itemName={province.name}>
+  <Item itemHref={`jobs?province=${province.id}`} itemName={province.name}>
     {province.cities.length ? (
       <ul className="w-full px-3 cursor-default dana">
         {province.cities.map((city: city) => (
           <li key={city.id} className="w-full flex items-center mt-2 first:mt-0">
             <Link
-              href={`jobs/city-${city.name}`}
+              href={`jobs?city=${city.id}`}
               className="text-secondary w-full inline-block hover:text-primary"
             >
               {city.name}

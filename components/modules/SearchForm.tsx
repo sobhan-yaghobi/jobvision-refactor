@@ -80,9 +80,10 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
       }
     }
 
-    categoryFetchAction()
-    provinceFetchAction()
-  }, [])
+    if (searchParams.get("collection")?.length) categoryFetchAction()
+    if (searchParams.get("province")?.length || searchParams.get("city")?.length)
+      provinceFetchAction()
+  }, [searchParams.get("province"), searchParams.get("city"), searchParams.get("collection")])
 
   return (
     <div className="w-full flex flex-col gap-3 items-center justify-between lg:flex-row">
