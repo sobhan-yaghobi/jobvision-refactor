@@ -7,9 +7,9 @@ import { NextRequest } from "next/server"
 export const GET = async (request: NextRequest) => {
   const route = request.nextUrl.searchParams
   const statusObject = Object.values(status)
-  const query: status = statusObject.includes(route.get("status") as status)
+  const query: status | undefined = statusObject.includes(route.get("status") as status)
     ? (route.get("status") as status)
-    : "waiting"
+    : undefined
 
   const { user } = await isAuth()
   const lastCv = user?.company_id

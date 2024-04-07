@@ -9,7 +9,7 @@ const page = () => {
   const [waitingCv, setWaitingCv] = useState<undefined | cvWithAdWithUser[]>()
   useEffect(() => {
     const fetchAction = async () => {
-      const res = await fetch("/api/cv")
+      const res = await fetch("/api/cv?status=waiting")
       const cvData: cvWithAdWithUser[] = await res.json()
       setWaitingCv(cvData)
     }
