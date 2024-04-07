@@ -16,8 +16,9 @@ import {
 import { CheckIcon, X } from "lucide-react"
 
 import SearchForm, { SearchFormProps } from "../modules/SearchForm"
-import SingleSelect from "../modules/SingleSelect"
 import { Button } from "../modules/ui/button"
+import { Drawer, DrawerContent, DrawerTrigger } from "../modules/ui/drawer"
+import ResponsiveSingleSelect from "../modules/ResponsiveSingleSelect"
 
 interface JobsFillterProps extends SearchFormProps {}
 
@@ -141,7 +142,7 @@ const JobsFillter: React.FC<JobsFillterProps> = ({ categories, provinces }) => {
         ))}
 
         {enumTypeItems.map((enumType) => (
-          <SingleSelect
+          <ResponsiveSingleSelect
             key={enumDatas[enumType.name].type ?? enumType.name}
             contentClassName="!w-80"
             trigger={
@@ -186,7 +187,7 @@ const JobsFillter: React.FC<JobsFillterProps> = ({ categories, provinces }) => {
                 </div>
               ))}
             </div>
-          </SingleSelect>
+          </ResponsiveSingleSelect>
         ))}
       </ul>
     </div>

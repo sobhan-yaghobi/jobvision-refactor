@@ -1,8 +1,8 @@
-import React, { ReactNode, useRef, useState } from "react"
+import React, { ReactNode, useRef } from "react"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { cn } from "@/lib/utils"
 
-type SingleSelectProps = {
+export type SingleSelectProps = {
   isOpen?: boolean
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>
   trigger: ReactNode
