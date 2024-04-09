@@ -1,3 +1,4 @@
+import { categoryWithCollection } from "@/types/utils.type"
 import { category_collection } from "@prisma/client"
 
 import { NextRequest } from "next/server"
@@ -15,4 +16,6 @@ export const GET = async (request: NextRequest) => {
       category_collection !== null ? category_collection : ({} as category_collection)
     )
   }
+  const categories = await prisma.category.findMany({ include: { category_collections: true } })
+  return Response.json(categories ? categories : ([] as categoryWithCollection[]))
 }

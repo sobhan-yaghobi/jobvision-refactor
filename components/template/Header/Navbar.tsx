@@ -7,7 +7,7 @@ import { ChevronDown } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../modules/ui/tabs"
 import { CategoryItem, ProvinceItem } from "./Item"
 import { Button } from "../../modules/ui/button"
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/utils.function"
 import Link from "next/link"
 
 type NavbarProps = {

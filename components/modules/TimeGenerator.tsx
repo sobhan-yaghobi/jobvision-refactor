@@ -1,4 +1,4 @@
-import { TimeType } from "@/lib/utils"
+import { TimeType } from "@/utils/utils.function"
 
 interface TimeGeneratorProps {
   dateInfo: TimeType

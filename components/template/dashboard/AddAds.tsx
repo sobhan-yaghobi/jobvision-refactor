@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useRef, useState } from "react"
-import { cn, getLastMessage } from "@/lib/utils"
+import { cn, getLastMessage } from "@/utils/utils.function"
 import { filter } from "lodash"
 import addAds from "@/app/action/addAds"
 

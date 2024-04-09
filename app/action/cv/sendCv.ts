@@ -1,7 +1,7 @@
 "use server"
 
 import { ad } from "@/types/utils.type"
-import isAuth from "./isAuth"
+import isAuth from "../isAuth"
 
 const sendCv = async (ad: ad) => {
   const { user } = await isAuth()

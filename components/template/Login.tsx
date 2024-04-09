@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react"
 
 import { TypeSignIn, signInSchema } from "@/validation/zod.validations"
-import { getLastMessage } from "@/lib/utils"
+import { getLastMessage } from "@/utils/utils.function"
 
 import { registerAction } from "@/app/action/register"
 

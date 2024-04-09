@@ -3,7 +3,7 @@ import { VariantProps } from "class-variance-authority"
 import { buttonVariants } from "./button"
 import React from "react"
 import { useFormStatus } from "react-dom"
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/utils.function"
 
 export interface ButtonLoadProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,

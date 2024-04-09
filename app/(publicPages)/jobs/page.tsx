@@ -14,12 +14,10 @@ export type TypeSearchParams = {
 }
 
 const page = async ({ searchParams }: { searchParams: TypeSearchParams }) => {
-  const provinces = await prisma.province.findMany({ include: { cities: true } })
-  const categories = await prisma.category.findMany({ include: { category_collections: true } })
   return (
     <div className="mb-3">
       <div className="w-full pb-4 mb-4 border-b-2 border-solid lg:h-28">
-        <JobsFillter provinces={provinces} categories={categories} />
+        <JobsFillter />
       </div>
       <div className="h-fit overflow-hidden grid grid-cols-3 gap-6 lg:h-current-job">
         <div className="col-span-3 overflow-y-auto lg:col-span-1">

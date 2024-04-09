@@ -1,6 +1,6 @@
 "use server"
 
-import { generateToken, hashPassword, verifyPassword } from "@/lib/utils"
+import { generateToken, hashPassword, verifyPassword } from "@/utils/utils.function"
 import { cookies } from "next/headers"
 import { isNull } from "lodash"
 

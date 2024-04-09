@@ -1,6 +1,8 @@
 "use client"
+
 import React, { useEffect, useState } from "react"
-import { cn } from "@/lib/utils"
+import useSWR from "swr"
+import { cn } from "@/utils/utils.function"
 
 import { useRouter, useSearchParams } from "next/navigation"
 
@@ -13,22 +15,21 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./
 import { Button } from "@/components/modules/ui/button"
 import SingleSelect from "./SingleSelect"
 import { Input } from "./ui/input"
+import { filterName } from "@/types/utils.variable"
+import { fetchProvinceAndCategory } from "@/utils/utils.fetch"
 
 export type SearchFormProps = {
-  provinces: provinceWithCity[]
-  categories: categoryWithCollection[]
   redirectAsap?: boolean
   path?: string
 }
 type StateProvinceOrCity = { mode: "Province"; province: province } | { mode: "City"; city: city }
 
 const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
-  provinces,
-  categories,
   children,
   redirectAsap,
   path,
 }) => {
+  const { data } = useSWR("/api/fetchProvinceAndCategory", fetchProvinceAndCategory)
   const [isCategoryOpen, setIsCategoryOpen] = useState(false)
   const [isprovinceOpen, setIsProvinceOpen] = useState(false)
 
@@ -55,41 +56,47 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
 
   useEffect(() => {
     const categoryFetchAction = async () => {
-      const queryCollection = searchParams.get("collection") || ""
+      const queryCollection = searchParams.get(filterName.collection) || ""
       if (queryCollection) {
-        const res = await fetch(`/api/category?collection=${queryCollection}`)
-        const collectionData: category_collection = await res.json()
-        setCollection(collectionData)
+        data?.categories.find((category) =>
+          category.category_collections.find(
+            (collection) => collection.id === queryCollection && setCollection(collection)
+          )
+        )
       }
     }
     const provinceFetchAction = async () => {
-      const queryCity = searchParams.get("city") || ""
-      const queryProvince = searchParams.get("province") || ""
+      const queryCity = searchParams.get(filterName.city) || ""
+      const queryProvince = searchParams.get(filterName.province) || ""
 
       if (queryCity) {
-        const res = await fetch(`/api/province?cityId=${queryCity}`)
-        const cityData: city = await res.json()
-        setCityOrProvince({ mode: "City", city: cityData })
+        data?.provinces.find((province) =>
+          province.cities.find(
+            (city) => city.id === queryCity && setCityOrProvince({ mode: "City", city })
+          )
+        )
         return
       }
 
       if (queryProvince) {
-        const res = await fetch(`/api/province?provinceId=${queryProvince}`)
-        const provinceData: province = await res.json()
-        setCityOrProvince({ mode: "Province", province: provinceData })
+        data?.provinces.find(
+          (province) =>
+            province.id === queryProvince && setCityOrProvince({ mode: "Province", province })
+        )
+        return
       }
     }
 
-    if (searchParams.get("collection")?.length) categoryFetchAction()
-    if (searchParams.get("province")?.length || searchParams.get("city")?.length)
+    if (searchParams.get(filterName.collection)?.length) categoryFetchAction()
+    if (searchParams.get(filterName.province)?.length || searchParams.get(filterName.city)?.length)
       provinceFetchAction()
-  }, [searchParams.get("province"), searchParams.get("city"), searchParams.get("collection")])
+  }, [data])
 
   return (
     <div className="w-full flex flex-col gap-3 items-center justify-between lg:flex-row">
       <Input
         onChange={(e) => handelSearch(e.target.value.trim(), "job")}
-        defaultValue={searchParams.get("job"?.toString()) || ""}
+        defaultValue={searchParams.get(filterName.search?.toString()) || ""}
         wrapperClassName="w-full"
         icon={<Search className="icon" />}
         placeholder="عنوان شغلی یا شرکت..."
@@ -127,7 +134,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
         }
       >
         <Accordion type="single" collapsible className="w-full">
-          {categories.map((cateogry) => (
+          {data?.categories.map((cateogry) => (
             <AccordionItem
               key={`accordion-cateogry-item-${cateogry.id}`}
               value={`accordion-cateogry-item-${cateogry.id}`}
@@ -205,7 +212,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
         }
       >
         <Accordion type="single" collapsible className="w-full">
-          {provinces.map((province) => (
+          {data?.provinces.map((province) => (
             <AccordionItem
               key={`accordion-province-item-${province.id}`}
               value={`accordion-province-item-${province.id}`}

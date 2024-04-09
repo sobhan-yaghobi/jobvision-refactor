@@ -1,6 +1,6 @@
 import React, { ReactNode, useRef } from "react"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/utils.function"
 
 export type SingleSelectProps = {
   isOpen?: boolean

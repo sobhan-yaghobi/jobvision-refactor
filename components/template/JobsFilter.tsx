@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/utils.function"
 
 import useFilterQuery, { TypePath } from "@/hook/useFilterQuery"
 import {
@@ -15,12 +15,9 @@ import {
 
 import { CheckIcon, X } from "lucide-react"
 
-import SearchForm, { SearchFormProps } from "../modules/SearchForm"
+import SearchForm from "../modules/SearchForm"
 import { Button } from "../modules/ui/button"
-import { Drawer, DrawerContent, DrawerTrigger } from "../modules/ui/drawer"
 import ResponsiveSingleSelect from "../modules/ResponsiveSingleSelect"
-
-interface JobsFillterProps extends SearchFormProps {}
 
 type TypeEnumDatas = {
   seniorityLevel: TypeSeniorityLevel
@@ -46,7 +43,7 @@ const booleanTypeItems: { name: string; type: TypePath }[] = [
   { name: "امریه سربازی", type: "militaryOrder" },
 ]
 
-const JobsFillter: React.FC<JobsFillterProps> = ({ categories, provinces }) => {
+const JobsFillter: React.FC = () => {
   const { searchParams, queryAction, isExsist, get } = useFilterQuery()
   const [enumDatas, setEnumDatas] = useState<TypeEnumDatas>({
     seniorityLevel: {} as TypeSeniorityLevel,
@@ -116,7 +113,7 @@ const JobsFillter: React.FC<JobsFillterProps> = ({ categories, provinces }) => {
 
   return (
     <div>
-      <SearchForm provinces={provinces} categories={categories} />
+      <SearchForm />
       <ul className="w-full flex mt-4 text-sm gap-3 overflow-x-auto">
         {booleanTypeItems.map((item) => (
           <Button

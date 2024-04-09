@@ -1,3 +1,4 @@
+import { provinceWithCity } from "@/types/utils.type"
 import { city, province } from "@prisma/client"
 
 import { NextRequest } from "next/server"
@@ -20,4 +21,6 @@ export const GET = async (request: NextRequest) => {
     })
     return Response.json(province !== null ? province : ({} as province))
   }
+  const provinces = await prisma.province.findMany({ include: { cities: true } })
+  return Response.json(provinces ? provinces : ([] as provinceWithCity[]))
 }

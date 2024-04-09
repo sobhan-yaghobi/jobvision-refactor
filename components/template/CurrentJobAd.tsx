@@ -6,7 +6,7 @@ import useSize from "@/hook/useSize"
 
 import TimeGenerator from "../modules/TimeGenerator"
 import { v4 as uuid } from "uuid"
-import { getTime } from "@/lib/utils"
+import { getTime } from "@/utils/utils.function"
 
 import { ad } from "@/types/utils.type"
 

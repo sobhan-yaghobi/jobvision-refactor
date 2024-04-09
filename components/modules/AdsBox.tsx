@@ -4,9 +4,9 @@ import React from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "./ui/use-toast"
 
-import sendCv from "@/app/action/sendCv"
+import sendCv from "@/app/action/cv/sendCv"
 
-import { cn, getTime } from "@/lib/utils"
+import { cn, getTime } from "@/utils/utils.function"
 
 import { ad } from "@/types/utils.type"
 

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react"
 import { isEqual, keys, pick } from "lodash"
-import { cn, getLastMessage } from "@/lib/utils"
+import { cn, getLastMessage } from "@/utils/utils.function"
 import { toast } from "@/components/modules/ui/use-toast"
 
 import { companyWithLocation, provinceWithCity } from "@/types/utils.type"

@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers"
 
-import { validateTokenResualt } from "@/lib/utils"
+import { validateTokenResualt } from "@/utils/utils.function"
 import { user } from "@prisma/client"
 
 const isAuth = async (): Promise<{ isUser: boolean; user: null | user }> => {

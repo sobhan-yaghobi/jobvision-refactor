@@ -39,3 +39,10 @@ export const priceItems: TypePrice[] = [
   { name: "بین 12 تا 20 میلیون", type: "RIGHT_BETWEEN-12-20" },
   { name: "بالای 20 میلیون تومان", type: "RIGHT_HIGHER-20" },
 ]
+
+export const filterName = {
+  search: "search",
+  city: "city",
+  collection: "collection",
+  province: "province",
+}

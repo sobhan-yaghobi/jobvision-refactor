@@ -1,11 +1,11 @@
 "use client"
 import React, { useState } from "react"
-import { getTime } from "@/lib/utils"
+import { getTime } from "@/utils/utils.function"
 import { toast } from "../ui/use-toast"
 import { cva } from "class-variance-authority"
 
-import rejectCv from "@/app/action/rejectCv"
-import acceptCv from "@/app/action/acceptCv"
+import rejectCv from "@/app/action/cv/rejectCv"
+import acceptCv from "@/app/action/cv/acceptCv"
 
 import { status } from "@prisma/client"
 import { cvWithAdWithUser } from "@/types/utils.type"

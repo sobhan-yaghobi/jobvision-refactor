@@ -1,4 +1,4 @@
-import { validateTokenResualt } from "@/lib/utils"
+import { validateTokenResualt } from "@/utils/utils.function"
 import { cookies } from "next/headers"
 
 export const dynamic = "force-dynamic"
