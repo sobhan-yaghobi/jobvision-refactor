@@ -1,17 +1,9 @@
 "use client"
 
+import { TypeFilterAd } from "@/types/utils.variable"
 import { useRouter, useSearchParams } from "next/navigation"
 
-export type TypePath =
-  | "itren"
-  | "telecommuting"
-  | "disabledPeople"
-  | "militaryOrder"
-  | "seniority_level"
-  | "cooperation_type"
-  | "price"
-
-const VariablePath: TypePath[] = [
+const VariablePath: TypeFilterAd[] = [
   "itren",
   "telecommuting",
   "disabledPeople",
@@ -25,7 +17,7 @@ const useFilterQuery = () => {
   const searchParams = useSearchParams()
   const { replace } = useRouter()
 
-  const queryAction = (path: TypePath, value: string, deletePath?: string) => {
+  const queryAction = (path: TypeFilterAd, value: string, deletePath?: string) => {
     const params = new URLSearchParams(searchParams)
     if (value) {
       params.set(path, value)
@@ -35,8 +27,8 @@ const useFilterQuery = () => {
     deletePath && params.delete(deletePath)
     replace(`?${params.toString()}`)
   }
-  const get = (path: TypePath) => searchParams.get(path)
-  const isExsist = (path: TypePath, value: string) => Boolean(get(path) == value)
+  const get = (path: TypeFilterAd) => searchParams.get(path)
+  const isExsist = (path: TypeFilterAd, value: string) => Boolean(get(path) == value)
   const isAnyFilterExsist = () => VariablePath.some((item) => searchParams.get(item))
   const paramsSize = () => new URLSearchParams(searchParams).size
 
