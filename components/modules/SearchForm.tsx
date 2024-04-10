@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react"
 import useSWR from "swr"
 import { cn } from "@/utils/utils.function"
 import { fetchProvinceAndCategory } from "@/utils/utils.fetch"
-import { filterName } from "@/types/utils.variable"
+import { filterSaerchForm } from "@/types/utils.variable"
 
 import { useRouter, useSearchParams } from "next/navigation"
 
@@ -55,7 +55,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
 
   useEffect(() => {
     const categoryFetchAction = async () => {
-      const queryCollection = searchParams.get(filterName.collection) || ""
+      const queryCollection = searchParams.get(filterSaerchForm.collection) || ""
       if (queryCollection) {
         data?.categories.find((category) =>
           category.category_collections.find(
@@ -65,8 +65,8 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
       }
     }
     const provinceFetchAction = async () => {
-      const queryCity = searchParams.get(filterName.city) || ""
-      const queryProvince = searchParams.get(filterName.province) || ""
+      const queryCity = searchParams.get(filterSaerchForm.city) || ""
+      const queryProvince = searchParams.get(filterSaerchForm.province) || ""
 
       if (queryCity) {
         data?.provinces.find((province) =>
@@ -86,8 +86,11 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
       }
     }
 
-    if (searchParams.get(filterName.collection)?.length) categoryFetchAction()
-    if (searchParams.get(filterName.province)?.length || searchParams.get(filterName.city)?.length)
+    if (searchParams.get(filterSaerchForm.collection)?.length) categoryFetchAction()
+    if (
+      searchParams.get(filterSaerchForm.province)?.length ||
+      searchParams.get(filterSaerchForm.city)?.length
+    )
       provinceFetchAction()
   }, [data])
 
@@ -95,7 +98,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
     <div className="w-full flex flex-col gap-3 items-center justify-between lg:flex-row">
       <Input
         onChange={(e) => handelSearch(e.target.value.trim(), "job")}
-        defaultValue={searchParams.get(filterName.search?.toString()) || ""}
+        defaultValue={searchParams.get(filterSaerchForm.search?.toString()) || ""}
         wrapperClassName="w-full"
         icon={<Search className="icon" />}
         placeholder="عنوان شغلی یا شرکت..."

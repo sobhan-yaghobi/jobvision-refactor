@@ -40,7 +40,7 @@ export const priceItems: TypePrice[] = [
   { name: "بالای 20 میلیون تومان", type: "RIGHT_HIGHER-20" },
 ]
 
-export const filterName = {
+export const filterSaerchForm = {
   search: "search",
   city: "city",
   collection: "collection",
