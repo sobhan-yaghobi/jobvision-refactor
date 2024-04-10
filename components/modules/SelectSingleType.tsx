@@ -1,7 +1,7 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
-import { TypeFilterAd, filterAd } from "@/types/utils.variable"
+import React, { useEffect } from "react"
+import { TypeFilterAd } from "@/types/utils.variable"
 import { cn } from "@/utils/utils.function"
 
 import useFilterQuery from "@/hook/useFilterQuery"
@@ -21,35 +21,36 @@ type SelectSingleTypeProps = {
 
 const SelectSingleType: React.FC<SelectSingleTypeProps> = ({ placeholder, type, items }) => {
   const { searchParams, queryAction, isExsist } = useFilterQuery()
-  const [mainType, setMainType] = useState<TypeItem>({} as TypeItem)
 
   useEffect(() => {
-    if (searchParams.get(filterAd[type])) {
-      const newMainType = items.find((item) => item.type === searchParams.get(filterAd[type]))
-      newMainType ? setMainType(newMainType) : setMainType({} as TypeItem)
+    if (searchParams.get(type)) {
+      const newMainType = items.find((item) => item.type === searchParams.get(type))
+      !newMainType && queryAction(type, "")
     }
-  }, [searchParams.get(filterAd[type])])
+  }, [searchParams.get(type)])
+
+  const getType = (mainType: string): TypeItem =>
+    items.find((item) => item.type === mainType) || ({} as TypeItem)
 
   return (
     <ResponsiveSingleSelect
-      key={mainType.type ?? type}
+      //   key={getType(searchParams.get(type) as string).type ?? type}
       contentClassName="!w-80"
       trigger={
         <Button
           className={`px-2 py-1 border border-solid rounded-sm ${
-            mainType.type
+            searchParams.get(type)
               ? "bg-primary/30 text-black hover:bg-primary/30"
               : "bg-transparent text-muted-foreground hover:bg-muted"
           }`}
         >
-          {mainType.type ? (
+          {getType(searchParams.get(type) as string).type ? (
             <>
-              {mainType.name}
+              {getType(searchParams.get(type) as string).name}
               <X
                 onClick={(e) => {
                   e.stopPropagation()
                   queryAction(type, "")
-                  setMainType({} as TypeItem)
                 }}
                 className="bg-primary stroke-primary-foreground icon btn-icon-r rounded-sm"
               />
@@ -67,13 +68,14 @@ const SelectSingleType: React.FC<SelectSingleTypeProps> = ({ placeholder, type, 
             className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
             onClick={() => {
               queryAction(type, item.type)
-              setMainType(item)
             }}
           >
             <CheckIcon
               className={cn(
                 "icon btn-icon btn-icon-l",
-                isExsist(type, item.name) ? "opacity-100" : "opacity-0"
+                getType(searchParams.get(type) as string).type === item.type
+                  ? "opacity-100"
+                  : "opacity-0"
               )}
             />
             {item.name}
