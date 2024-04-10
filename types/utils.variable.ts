@@ -46,3 +46,22 @@ export const filterSaerchForm = {
   collection: "collection",
   province: "province",
 }
+
+export type TypeFilterAd =
+  | "itren"
+  | "telecommuting"
+  | "disabledPeople"
+  | "militaryOrder"
+  | "seniority_level"
+  | "cooperation_type"
+  | "price"
+
+export const filterAd = {
+  itren: "itren",
+  telecommuting: "telecommuting",
+  disabledPeople: "disabledPeople",
+  militaryOrder: "militaryOrder",
+  seniority_level: "seniority_level",
+  cooperation_type: "cooperation_type",
+  price: "price",
+}
