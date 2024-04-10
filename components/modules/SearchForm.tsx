@@ -106,8 +106,8 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
 
       {isLoading ? (
         <>
-          <div className="h-8 w-full animate-pulse bg-muted"></div>
-          <div className="h-8 w-full animate-pulse bg-muted"></div>
+          <div className="h-11 w-full animate-pulse bg-muted"></div>
+          <div className="h-11 w-full animate-pulse bg-muted"></div>
         </>
       ) : (
         <>
