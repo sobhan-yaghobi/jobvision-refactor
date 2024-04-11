@@ -18,7 +18,8 @@ export const fetchFilterAd = async () => {
   const params = new URLSearchParams(location.search)
 
   const search = params.get(filterSaerchForm.search)
-  if (search) adFilter = adFilter.filter((ad) => [ad.name, ad.company].includes(search))
+  if (search)
+    adFilter = adFilter.filter((ad) => ad.name.includes(search) || ad.company.name.includes(search))
 
   const city = params.get(filterSaerchForm.city)
   if (city) adFilter = adFilter.filter((ad) => ad.company.location.city_id === city)
