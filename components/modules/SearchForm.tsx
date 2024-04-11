@@ -97,7 +97,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
   return (
     <div className="w-full flex flex-col gap-3 items-center justify-between lg:flex-row">
       <Input
-        onChange={(e) => handelSearch(e.target.value.trim(), "job")}
+        onChange={(e) => handelSearch(e.target.value.trim(), filterSaerchForm.search)}
         defaultValue={searchParams.get(filterSaerchForm.search?.toString()) || ""}
         wrapperClassName="w-full"
         icon={<Search className="icon" />}
@@ -130,7 +130,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
                         onClick={(e) => {
                           e.preventDefault()
                           setCollection({} as category_collection)
-                          handelSearch("", "collection")
+                          handelSearch("", filterSaerchForm.collection)
                         }}
                         className="icon"
                       />
@@ -159,7 +159,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
                           className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
                           onClick={() => {
                             setCollection(collect)
-                            handelSearch(collect.id, "collection")
+                            handelSearch(collect.id, filterSaerchForm.collection)
                             setIsCategoryOpen(false)
                           }}
                         >
@@ -207,8 +207,8 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
                           e.preventDefault()
                           setCityOrProvince({} as StateProvinceOrCity)
                           cityOrProvince.mode === "City"
-                            ? handelSearch("", "city")
-                            : handelSearch("", "province")
+                            ? handelSearch("", filterSaerchForm.city)
+                            : handelSearch("", filterSaerchForm.province)
                         }}
                         className="icon"
                       />
@@ -234,7 +234,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
                       className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
                       onClick={() => {
                         setCityOrProvince({ mode: "Province", province })
-                        handelSearch(province.id, "province", "city")
+                        handelSearch(province.id, filterSaerchForm.province, filterSaerchForm.city)
                         setIsProvinceOpen(false)
                       }}
                     >
