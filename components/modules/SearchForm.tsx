@@ -92,7 +92,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
       searchParams.get(filterSaerchForm.city)?.length
     )
       provinceFetchAction()
-  }, [data])
+  }, [data, searchParams])
 
   return (
     <div className="w-full flex flex-col gap-3 items-center justify-between lg:flex-row">
