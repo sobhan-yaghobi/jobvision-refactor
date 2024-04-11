@@ -62,7 +62,7 @@ const UserDropDown = () => {
               <DropdownMenuLabel>{username}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem className="p-0">
+                <DropdownMenuItem asChild className="p-0 cursor-pointer">
                   <Link className="px-2 py-1.5 inline-block" href={"/dashboard"}>
                     داشبورد
                   </Link>
