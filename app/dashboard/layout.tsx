@@ -26,7 +26,7 @@ const layout: React.FC<React.PropsWithChildren> = async ({ children }) => {
   return (
     <div className="w-full max-h-screen h-screen relative flex flex-col lg:flex-row">
       <div className="lg:hidden">
-        <Navbar />
+        <Navbar company={company} />
       </div>
       <div className="hidden w-2/12 p-3 lg:block">
         <Sidebar />
