@@ -16,6 +16,7 @@ import { Button } from "@/components/modules/ui/button"
 import { Card } from "@/components/modules/ui/card"
 import Title from "@/components/modules/Title"
 import Image from "next/image"
+import Link from "next/link"
 
 export type TypeSidebarItem = {
   label: string
@@ -65,9 +66,11 @@ const Sidebar: React.FC = () => {
   return (
     <div className="h-full flex flex-col justify-between">
       <Accordion type="single" collapsible>
-        <Title size={"md"} className="text-primary mb-6">
-          <h2>جاب ویژن</h2>
-        </Title>
+        <Link href={"/"}>
+          <Title size={"md"} className="text-primary mb-6">
+            <h2>جاب ویژن</h2>
+          </Title>
+        </Link>
         <ul className="flex flex-col gap-1.5">
           {sidebarItems.map((item) => (
             <Fragment key={item.href}>

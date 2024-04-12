@@ -7,6 +7,7 @@ import isAuth from "../action/isAuth"
 
 import Sidebar from "@/components/template/dashboard/Sidebar/Sidebar"
 import QuickAccess from "@/components/template/dashboard/QuickAccess"
+import Navbar from "@/components/template/dashboard/Navbar"
 
 const layout: React.FC<React.PropsWithChildren> = async ({ children }) => {
   const { user, isUser } = await isAuth()
@@ -23,12 +24,15 @@ const layout: React.FC<React.PropsWithChildren> = async ({ children }) => {
   }
 
   return (
-    <div className="w-full max-h-screen h-screen flex">
-      <div className="w-2/12 p-3">
+    <div className="w-full max-h-screen h-screen relative flex flex-col lg:flex-row">
+      <div className="lg:hidden">
+        <Navbar />
+      </div>
+      <div className="hidden w-2/12 p-3 lg:block">
         <Sidebar />
       </div>
-      <div className="bg-muted w-7/12 my-3 p-3 rounded-sm overflow-y-auto">{children}</div>
-      <div className="w-3/12 p-3">
+      <div className="bg-muted flex-1 p-3 rounded-sm overflow-y-auto lg:my-3">{children}</div>
+      <div className="hidden w-3/12 p-3 lg:block">
         <QuickAccess company={company} />
       </div>
     </div>
