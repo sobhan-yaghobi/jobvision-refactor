@@ -24,7 +24,9 @@ const LastCv: React.FC = () => {
       <div className="mt-3">
         {typeof lastCv !== "undefined" ? (
           lastCv.length ? (
-            lastCv.map((item) => <CvRequest cv={item} status={item.status} key={item.id} />)
+            lastCv.map((item) => (
+              <CvRequest cv={item} status={item.status} key={item.id} setState={setLastCv} />
+            ))
           ) : (
             <>درخواستی وجود ندارد</>
           )

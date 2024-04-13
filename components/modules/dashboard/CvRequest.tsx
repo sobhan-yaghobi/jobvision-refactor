@@ -33,15 +33,28 @@ type CvRequestProps = {
   setState?: React.Dispatch<React.SetStateAction<cvWithAdWithUser[] | undefined>>
   cv: cvWithAdWithUser
   status: status
+  isSort?: boolean
 }
 
-const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, setState }) => {
+const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, setState, isSort }) => {
+  const acceptFunctionAction = (stat: status) =>
+    isSort
+      ? setState!((prev) => prev?.filter((item) => (item.id === cv.id ? null : item)))
+      : setState!((prev) =>
+          prev?.map((item) => {
+            if (item.id === cv.id) {
+              item.status = stat
+            }
+            return item
+          })
+        )
+
   const acceptClientAction = async () => {
     if (cvStatus !== "accept") {
       const cvResault = await acceptCv(cv.id)
       if (cvResault.status) {
-        typeof setState !== "undefined" &&
-          setState((prev) => prev?.filter((item) => (item.id === cv.id ? null : item)))
+        typeof setState !== "undefined" && acceptFunctionAction("accept")
+        // setState((prev) => prev?.filter((item) => (item.id === cv.id ? null : item)))
         return toast({ title: cvResault.message, variant: "default" })
       }
       return toast({ title: cvResault.message, variant: "destructive" })
@@ -51,8 +64,8 @@ const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, setState })
     if (cvStatus !== "reject") {
       const cvResault = await rejectCv(cv.id)
       if (cvResault.status) {
-        typeof setState !== "undefined" &&
-          setState((prev) => prev?.filter((item) => (item.id === cv.id ? null : item)))
+        typeof setState !== "undefined" && acceptFunctionAction("reject")
+        // setState((prev) => prev?.filter((item) => (item.id === cv.id ? null : item)))
         return toast({ title: cvResault.message, variant: "default" })
       }
       return toast({ title: cvResault.message, variant: "destructive" })

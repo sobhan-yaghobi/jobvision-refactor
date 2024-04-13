@@ -25,7 +25,13 @@ const page = () => {
         {typeof acceptCv !== "undefined" ? (
           acceptCv.length ? (
             acceptCv.map((item) => (
-              <CvRequest setState={setAcceptCv} cv={item} status={item.status} key={item.id} />
+              <CvRequest
+                setState={setAcceptCv}
+                cv={item}
+                status={item.status}
+                key={item.id}
+                isSort
+              />
             ))
           ) : (
             <>درخواستی وجود ندارد</>

@@ -1,18 +1,39 @@
-import isAuth from "@/app/action/isAuth"
+"use client"
+
+import Title from "@/components/modules/Title"
 import CvRequest from "@/components/modules/dashboard/CvRequest"
 import { cvWithAdWithUser } from "@/types/utils.type"
-import React from "react"
+import React, { useEffect, useState } from "react"
 
-const page = async () => {
-  const cv: cvWithAdWithUser[] =
-    ((await prisma.cv.findMany({ include: { user: true, ad: true } })) as cvWithAdWithUser[]) ??
-    ([] as cvWithAdWithUser[])
+const page = () => {
+  const [allCv, setAllCv] = useState<undefined | cvWithAdWithUser[]>()
+  useEffect(() => {
+    const fetchAction = async () => {
+      const res = await fetch("/api/cv")
+      const cvData: cvWithAdWithUser[] = await res.json()
+      setAllCv(cvData)
+    }
 
+    fetchAction()
+  }, [])
   return (
     <div>
-      {cv.map((item) => (
-        <CvRequest key={item.id} cv={item} status={item.status} />
-      ))}
+      <Title>
+        <h3>تمامی درخواست ها</h3>
+      </Title>
+      <div className="mt-3">
+        {typeof allCv !== "undefined" ? (
+          allCv.length ? (
+            allCv.map((item) => (
+              <CvRequest setState={setAllCv} cv={item} status={item.status} key={item.id} />
+            ))
+          ) : (
+            <>درخواستی وجود ندارد</>
+          )
+        ) : (
+          <>در حال بارگذاری</>
+        )}
+      </div>
     </div>
   )
 }
