@@ -39,7 +39,15 @@ const UserDropDown = () => {
       }
     }
     getMeAction()
+    return () => {
+      getMeAction()
+    }
   }, [])
+
+  useEffect(() => {
+    setIsDropdownUser(false)
+    return () => setIsDropdownUser(false)
+  }, [user])
 
   const username = user !== null ? user.email.substring(0, user.email.lastIndexOf("@")) : ""
   const [isDropdownUser, setIsDropdownUser] = useState(false)
@@ -47,7 +55,12 @@ const UserDropDown = () => {
     <>
       {user !== null ? (
         <>
-          <DropdownMenu dir="rtl" open={isDropdownUser} onOpenChange={setIsDropdownUser}>
+          <DropdownMenu
+            dir="rtl"
+            open={isDropdownUser}
+            onOpenChange={setIsDropdownUser}
+            modal={false}
+          >
             <DropdownMenuTrigger asChild>
               <Button variant="default" className="outline-none">
                 <span className="max-w-20 truncate">{username}</span>
