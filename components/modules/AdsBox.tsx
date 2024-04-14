@@ -1,7 +1,8 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import useUser from "@/hook/store/useUser"
 import { toast } from "./ui/use-toast"
 
 import sendCv from "@/app/action/cv/sendCv"
@@ -24,11 +25,20 @@ type AdsBoxProps = {
 }
 
 const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
+  const { user } = useUser()
+  const [isCvSend, setIsCvSend] = useState(false)
   const router = useRouter()
+
+  useEffect(() => {
+    const isActive = user?.cv.some((cvItem) => cvItem.ad_id === ad.id)
+    setIsCvSend(isActive || false)
+  }, [user])
+
   const clientAction = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.stopPropagation()
     const cvResault = await sendCv(ad)
     if (cvResault.status) {
+      setIsCvSend(true)
       return toast({ title: cvResault.message, variant: "default" })
     }
     return toast({ title: cvResault.message, variant: "destructive" })
@@ -91,9 +101,13 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
               <span className="text-sm">
                 <TimeGenerator dateInfo={getTime(ad.created_at)} />
               </span>
-              <Button onClick={clientAction} variant={"default"}>
-                ارسال رزومه
-              </Button>
+              {isCvSend ? (
+                <Button variant={"fill"}>رزومه ارسال شده</Button>
+              ) : (
+                <Button onClick={clientAction} variant={"default"}>
+                  ارسال رزومه
+                </Button>
+              )}
             </CardFooter>
           </>
         ) : null}
