@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react"
 
-import { user } from "@prisma/client"
+import { user } from "@/types/utils.type"
 
 import useUser from "@/hook/store/useUser"
 import { useToast } from "../../modules/ui/use-toast"
@@ -51,6 +51,8 @@ const UserDropDown = () => {
 
   const username = user !== null ? user.email.substring(0, user.email.lastIndexOf("@")) : ""
   const [isDropdownUser, setIsDropdownUser] = useState(false)
+  console.log("user", user)
+
   return (
     <>
       {user !== null ? (

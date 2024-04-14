@@ -5,7 +5,7 @@ import { cookies } from "next/headers"
 import { isNull } from "lodash"
 
 import prisma from "@/lib/prisma"
-import { user } from "@prisma/client"
+import { user } from "@/types/utils.type"
 
 import { TypeSignIn } from "@/validation/zod.validations"
 
@@ -15,7 +15,7 @@ const registerAction = async ({
 }: TypeSignIn): Promise<
   { status: "error"; message: string } | { status: "success"; message: string; user: user }
 > => {
-  const user = await prisma.user.findFirst({ where: { email } })
+  const user = await prisma.user.findFirst({ where: { email }, include: { cv: true } })
   if (Boolean(user) && !isNull(user)) {
     const isValidPassword =
       password === user.password || (await verifyPassword(password, user?.password))
@@ -29,7 +29,10 @@ const registerAction = async ({
     const token = generateToken({ email })
     const hashedPassword = await hashPassword(password)
 
-    const userStatus = await prisma.user.create({ data: { email, password: hashedPassword } })
+    const userStatus = await prisma.user.create({
+      data: { email, password: hashedPassword },
+      include: { cv: true },
+    })
     if (Boolean(userStatus)) {
       setTokenCookieAction(token)
       return { status: "success", message: "ثبت نام با موفقیت انجام شد", user: userStatus }

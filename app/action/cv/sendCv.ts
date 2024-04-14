@@ -12,7 +12,6 @@ const sendCv = async (ad: ad) => {
     const cvResault = await prisma.cv.findMany({ where: { ad_id: ad.id } })
 
     const isExsist = cvResault.find((cv) => cv.user_id === user.id)
-    console.log("is cvResault ", cvResault)
 
     if (typeof isExsist === "undefined") {
       const cvCreateResault = await prisma.cv.create({

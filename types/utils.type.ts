@@ -8,8 +8,12 @@ import {
   company,
   location,
   cv,
-  user,
+  user as userPrisma,
 } from "@prisma/client"
+
+export type user = userPrisma & {
+  cv: cv[]
+}
 
 export type provinceWithCity = province & {
   cities: city[]

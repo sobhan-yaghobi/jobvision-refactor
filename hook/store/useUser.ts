@@ -1,4 +1,4 @@
-import { user } from "@prisma/client"
+import { user } from "@/types/utils.type"
 import { create } from "zustand"
 
 type TypeUseUser = {
