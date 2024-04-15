@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { companiesWithFollower } from "@/types/utils.type"
 
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
@@ -11,6 +12,7 @@ import CompanyBox from "../modules/CompanyBox"
 import "keen-slider/keen-slider.min.css"
 
 const CompnaySlider: React.FC = () => {
+  const [companies, setCompanies] = useState([] as companiesWithFollower[])
   const [currentSlide, setCurrentSlide] = useState(0)
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>(
     {
@@ -43,7 +45,11 @@ const CompnaySlider: React.FC = () => {
           clearTimeout(timeout)
           if (mouseOver) return
           timeout = setTimeout(() => {
-            slider.next()
+            try {
+              slider.next()
+            } catch (error) {
+              console.log("error in slider", error)
+            }
           }, 2000)
         }
         slider.on("created", () => {
@@ -63,28 +69,38 @@ const CompnaySlider: React.FC = () => {
       },
     ]
   )
+
+  useEffect(() => {
+    const fetchAction = async () => {
+      const res = await fetch("/api/company")
+      const companiesData = await res.json()
+      setCompanies(companiesData)
+    }
+
+    fetchAction()
+  }, [])
   return (
     <div className="navigation-wrapper">
       <div ref={sliderRef} className="keen-slider py-6">
-        {Array(10)
-          .fill("")
-          .map((_, index) => (
-            <CompanyBox key={`slider-company-box-${index + 1}`} className="keen-slider__slide" />
-          ))}
+        {companies.map((company) => (
+          <CompanyBox key={company.id} company={company} className="keen-slider__slide" />
+        ))}
       </div>
       {instanceRef.current && (
         <>
           <Button
             className="ml-3"
             onClick={(e: any) => e.stopPropagation() || instanceRef.current?.next()}
-            disabled={currentSlide === instanceRef.current.track.details.slides.length - 1}
+            disabled={
+              currentSlide === instanceRef.current.track.details?.slides?.length - 1 ?? true
+            }
           >
             <ChevronRight />
           </Button>
           <Button
             className=""
             onClick={(e: any) => e.stopPropagation() || instanceRef.current?.prev()}
-            disabled={currentSlide === 0}
+            disabled={currentSlide === 0 ?? true}
           >
             <ChevronLeft />
           </Button>

@@ -9,6 +9,7 @@ import {
   location,
   cv,
   user as userPrisma,
+  Prisma,
 } from "@prisma/client"
 
 export type user = userPrisma & {
@@ -49,3 +50,10 @@ export type cvWithAdWithUser = cv & {
   user: user
   ad: ad
 }
+
+const companyInclude = Prisma.validator<Prisma.companyInclude>()({
+  followers: true,
+})
+export type companiesWithFollower = Prisma.companyGetPayload<{
+  include: typeof companyInclude
+}>

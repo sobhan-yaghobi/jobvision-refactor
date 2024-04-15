@@ -38,13 +38,25 @@ model city {
 }
 
 model user {
-  id         String   @id @default(uuid())
-  email      String   @unique @db.VarChar(255)
-  password   String   @db.Text
-  created_at DateTime @default(now())
-  company    company? @relation(fields: [company_id], references: [id])
+  id         String              @id @default(uuid())
+  email      String              @unique @db.VarChar(255)
+  password   String              @db.Text
+  created_at DateTime            @default(now())
+  company    company?            @relation(fields: [company_id], references: [id])
   company_id String?
   cv         cv[]
+  companies  UserCompanyFollow[]
+  followers  followers[]
+}
+
+model followers {
+  id         String @id @default(uuid())
+  user_id    String
+  company_id String
+
+  user              user?               @relation(fields: [user_id], references: [id])
+  company           company?            @relation(fields: [company_id], references: [id])
+  UserCompanyFollow UserCompanyFollow[]
 }
 
 model location {
@@ -56,26 +68,40 @@ model location {
 }
 
 model company {
-  id                              String   @id @default(uuid())
-  created_at                      DateTime @default(now())
-  name                            String   @unique @db.VarChar(255)
-  location                        location @relation(fields: [location_id], references: [id])
-  logo                            String   @db.Text
-  score_company                   Float    @db.Float
-  score_popularity                Float    @db.Float
-  score_experience_of_job_seekers Float    @db.Float
-  score_responsiveness            Float    @db.Float
-  website                         String   @db.Text
-  description                     String   @db.Text
-  slogan                          String   @db.Text
+  id                              String              @id @default(uuid())
+  created_at                      DateTime            @default(now())
+  name                            String              @unique @db.VarChar(255)
+  location                        location            @relation(fields: [location_id], references: [id])
+  logo                            String              @db.Text
+  score_company                   Float               @db.Float
+  score_popularity                Float               @db.Float
+  score_experience_of_job_seekers Float               @db.Float
+  score_responsiveness            Float               @db.Float
+  website                         String              @db.Text
+  description                     String              @db.Text
+  slogan                          String              @db.Text
   organization_employ             Int
-  type_of_activity                String   @db.Text
-  industry                        String   @db.Text
-  established_year                DateTime @db.DateTime
-  users                           user[]
+  type_of_activity                String              @db.Text
+  industry                        String              @db.Text
+  established_year                DateTime            @db.DateTime
+  user                            user[]
   ads                             ad[]
   location_id                     String
   cv                              cv[]
+  followers                       followers[]
+  UserCompanyFollow               UserCompanyFollow[]
+}
+
+model UserCompanyFollow {
+  user    user   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  company     company    @relation(fields: [company_id], references: [id])
+  company_id  String
+  followers   followers? @relation(fields: [followersId], references: [id])
+  followersId String?
+
+  @@unique([user_id, company_id])
 }
 
 model advantage {
