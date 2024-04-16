@@ -7,10 +7,9 @@ import { MoveLeft, Star } from "lucide-react"
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Button } from "./ui/button"
-import Image from "next/image"
 import Link from "next/link"
 import useUser from "@/hook/store/useUser"
-import { createFollower } from "@/app/action/follower"
+import { createFollower, removeFollower } from "@/app/action/follower"
 import { toast } from "./ui/use-toast"
 
 type CompanyBoxType = {
@@ -21,8 +20,16 @@ type CompanyBoxType = {
 const CompanyBox: React.FC<CompanyBoxType> = ({ className, company }) => {
   const { user } = useUser()
 
-  const clientAction = async () => {
+  const followAction = async () => {
     const cvResault = await createFollower(company.id)
+    if (cvResault.status) {
+      return toast({ title: cvResault.message, variant: "default" })
+    }
+    return toast({ title: cvResault.message, variant: "destructive" })
+  }
+
+  const unFollowAction = async () => {
+    const cvResault = await removeFollower(company.id)
     if (cvResault.status) {
       return toast({ title: cvResault.message, variant: "default" })
     }
@@ -50,18 +57,15 @@ const CompanyBox: React.FC<CompanyBoxType> = ({ className, company }) => {
           <Star className="icon-lg fill-yellow-500 stroke-black stroke-1" stroke="1px" />
           <span className="text-lg">{company.score_company}</span>
         </div>
-        <Link href={"/jobs"} className="w-full flex items-center gap-3 mt-3">
-          آگهی شغل فعال
-          <MoveLeft />
-        </Link>
+        <p className="truncate">{company.description}</p>
       </CardContent>
       <CardFooter className="mt-3 p-0">
         {company.followers.some((follower) => follower.user_id === user?.id) ? (
-          <Button variant={"outline"} className="w-full">
-            دنبال کرده اید
+          <Button onClick={unFollowAction} variant={"outline"} className="w-full">
+            لغو دنبال کردن
           </Button>
         ) : (
-          <Button onClick={clientAction} className="w-full">
+          <Button onClick={followAction} className="w-full">
             دنبال کنید
           </Button>
         )}
