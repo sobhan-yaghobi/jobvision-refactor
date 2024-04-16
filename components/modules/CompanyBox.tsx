@@ -1,16 +1,18 @@
-import React from "react"
+"use client"
+
+import React, { useState } from "react"
 import { cn } from "@/utils/utils.function"
+import useUser from "@/hook/store/useUser"
+import { toast } from "./ui/use-toast"
+
+import { createFollower, removeFollower } from "@/app/action/follower"
 
 import { companiesWithFollower } from "@/types/utils.type"
 
-import { MoveLeft, Star } from "lucide-react"
+import { Star } from "lucide-react"
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Button } from "./ui/button"
-import Link from "next/link"
-import useUser from "@/hook/store/useUser"
-import { createFollower, removeFollower } from "@/app/action/follower"
-import { toast } from "./ui/use-toast"
 
 type CompanyBoxType = {
   className?: string
@@ -19,10 +21,14 @@ type CompanyBoxType = {
 
 const CompanyBox: React.FC<CompanyBoxType> = ({ className, company }) => {
   const { user } = useUser()
+  const [isFollow, setIsFollow] = useState(
+    company.followers.some((follower) => follower.user_id === user?.id)
+  )
 
   const followAction = async () => {
     const cvResault = await createFollower(company.id)
     if (cvResault.status) {
+      setIsFollow(true)
       return toast({ title: cvResault.message, variant: "default" })
     }
     return toast({ title: cvResault.message, variant: "destructive" })
@@ -31,6 +37,7 @@ const CompanyBox: React.FC<CompanyBoxType> = ({ className, company }) => {
   const unFollowAction = async () => {
     const cvResault = await removeFollower(company.id)
     if (cvResault.status) {
+      setIsFollow(false)
       return toast({ title: cvResault.message, variant: "default" })
     }
     return toast({ title: cvResault.message, variant: "destructive" })
@@ -60,7 +67,7 @@ const CompanyBox: React.FC<CompanyBoxType> = ({ className, company }) => {
         <p className="truncate">{company.description}</p>
       </CardContent>
       <CardFooter className="mt-3 p-0">
-        {company.followers.some((follower) => follower.user_id === user?.id) ? (
+        {isFollow ? (
           <Button onClick={unFollowAction} variant={"outline"} className="w-full">
             لغو دنبال کردن
           </Button>
