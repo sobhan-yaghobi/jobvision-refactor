@@ -92,7 +92,9 @@ const CompnaySlider: React.FC = () => {
             className="ml-3"
             onClick={(e: any) => e.stopPropagation() || instanceRef.current?.next()}
             disabled={
-              currentSlide === instanceRef.current.track.details?.slides?.length - 1 ?? true
+              instanceRef.current.track.details?.slides?.length
+                ? currentSlide === instanceRef.current.track.details?.slides?.length - 1
+                : true
             }
           >
             <ChevronRight />
