@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation"
 import useUser from "@/hook/store/useUser"
 import { toast } from "./ui/use-toast"
 
-import sendCv from "@/app/action/cv/sendCv"
-
 import { cn, getTime } from "@/utils/utils.function"
 
 import { ad } from "@/types/utils.type"
@@ -36,7 +34,14 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
 
   const clientAction = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.stopPropagation()
-    const cvResault = await sendCv(ad)
+    const res = await fetch("/api/cv/action?query=send", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(ad),
+    })
+    const cvResault = await res.json()
     if (cvResault.status) {
       setIsCvSend(true)
       return toast({ title: cvResault.message, variant: "default" })

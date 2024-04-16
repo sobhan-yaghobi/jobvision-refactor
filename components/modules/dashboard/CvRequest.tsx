@@ -4,9 +4,6 @@ import { getTime } from "@/utils/utils.function"
 import { toast } from "../ui/use-toast"
 import { cva } from "class-variance-authority"
 
-import rejectCv from "@/app/action/cv/rejectCv"
-import acceptCv from "@/app/action/cv/acceptCv"
-
 import { status } from "@prisma/client"
 import { cvWithAdWithUser } from "@/types/utils.type"
 
@@ -51,10 +48,10 @@ const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, setState, i
 
   const acceptClientAction = async () => {
     if (cvStatus !== "accept") {
-      const cvResault = await acceptCv(cv.id)
+      const res = await fetch(`/api/cv/action?query=accept&id=${cv.id}`, { method: "POST" })
+      const cvResault = await res.json()
       if (cvResault.status) {
         typeof setState !== "undefined" && acceptFunctionAction("accept")
-        // setState((prev) => prev?.filter((item) => (item.id === cv.id ? null : item)))
         return toast({ title: cvResault.message, variant: "default" })
       }
       return toast({ title: cvResault.message, variant: "destructive" })
@@ -62,10 +59,10 @@ const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, setState, i
   }
   const rejectClientAction = async () => {
     if (cvStatus !== "reject") {
-      const cvResault = await rejectCv(cv.id)
+      const res = await fetch(`/api/cv/action?query=reject&id=${cv.id}`, { method: "POST" })
+      const cvResault = await res.json()
       if (cvResault.status) {
         typeof setState !== "undefined" && acceptFunctionAction("reject")
-        // setState((prev) => prev?.filter((item) => (item.id === cv.id ? null : item)))
         return toast({ title: cvResault.message, variant: "default" })
       }
       return toast({ title: cvResault.message, variant: "destructive" })

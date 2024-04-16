@@ -25,7 +25,13 @@ const page = () => {
         {typeof waitingCv !== "undefined" ? (
           waitingCv.length ? (
             waitingCv.map((item) => (
-              <CvRequest setState={setWaitingCv} cv={item} status={item.status} key={item.id} />
+              <CvRequest
+                setState={setWaitingCv}
+                cv={item}
+                status={item.status}
+                key={item.id}
+                isSort
+              />
             ))
           ) : (
             <>درخواستی وجود ندارد</>
