@@ -2,6 +2,8 @@
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 
+import logout from "@/app/action/logout"
+
 import useUser from "@/hook/store/useUser"
 import { useToast } from "./ui/use-toast"
 
@@ -26,19 +28,16 @@ const LogOutButtonAction: React.FC<React.PropsWithChildren<LogOutButtonActionPro
   const [isLogoutDialog, setIsLogoutDialog] = useState(false)
 
   const logOutAction = async () => {
-    const res = await fetch("/api/logOut", {
-      method: "POST",
-    })
-    const data = await res.json()
-    if (res.status === 201) {
+    const resault = logout()
+    if (resault.status) {
       setUser(null)
       setIsLogoutDialog(false)
       if (props.redirectPath) {
         router.replace(props.redirectPath)
       }
-      toast({ title: data.message, variant: "default" })
+      toast({ title: resault.message, variant: "default" })
     }
-    toast({ title: data.message, variant: "destructive" })
+    toast({ title: resault.message, variant: "destructive" })
   }
   return (
     <>
