@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from "react"
 import useUser from "@/hook/store/useUser"
 
@@ -44,7 +45,12 @@ const SendCvButton: React.FC<SendCvButtonProps> = ({ ad }) => {
   return isCvSend ? (
     <Button variant={"fill"}>رزومه ارسال شده</Button>
   ) : (
-    <LoadButton isLoading={isLoading} onClick={clientAction} variant={"default"}>
+    <LoadButton
+      disabled={isLoading}
+      isLoading={isLoading}
+      onClick={clientAction}
+      variant={"default"}
+    >
       ارسال رزومه
     </LoadButton>
   )

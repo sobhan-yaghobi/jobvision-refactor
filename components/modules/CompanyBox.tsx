@@ -1,18 +1,12 @@
-"use client"
-
-import React, { useState } from "react"
+import React from "react"
 import { cn } from "@/utils/utils.function"
-import useUser from "@/hook/store/useUser"
-import { toast } from "./ui/use-toast"
-
-import { createFollower, removeFollower } from "@/app/action/follower"
 
 import { companiesWithFollower } from "@/types/utils.type"
 
 import { Star } from "lucide-react"
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
-import { Button } from "./ui/button"
+import FollowButton from "./FollowButton"
 
 type CompanyBoxType = {
   className?: string
@@ -20,28 +14,6 @@ type CompanyBoxType = {
 }
 
 const CompanyBox: React.FC<CompanyBoxType> = ({ className, company }) => {
-  const { user } = useUser()
-  const [isFollow, setIsFollow] = useState(
-    company.followers.some((follower) => follower.user_id === user?.id)
-  )
-
-  const followAction = async () => {
-    const cvResault = await createFollower(company.id)
-    if (cvResault.status) {
-      setIsFollow(true)
-      return toast({ title: cvResault.message, variant: "default" })
-    }
-    return toast({ title: cvResault.message, variant: "destructive" })
-  }
-
-  const unFollowAction = async () => {
-    const cvResault = await removeFollower(company.id)
-    if (cvResault.status) {
-      setIsFollow(false)
-      return toast({ title: cvResault.message, variant: "default" })
-    }
-    return toast({ title: cvResault.message, variant: "destructive" })
-  }
   return (
     <Card
       className={cn(
@@ -67,15 +39,7 @@ const CompanyBox: React.FC<CompanyBoxType> = ({ className, company }) => {
         <p className="truncate">{company.description}</p>
       </CardContent>
       <CardFooter className="mt-3 p-0">
-        {isFollow ? (
-          <Button onClick={unFollowAction} variant={"outline"} className="w-full">
-            لغو دنبال کردن
-          </Button>
-        ) : (
-          <Button onClick={followAction} className="w-full">
-            دنبال کنید
-          </Button>
-        )}
+        <FollowButton company={company} />
       </CardFooter>
     </Card>
   )
