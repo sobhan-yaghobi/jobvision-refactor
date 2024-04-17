@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react"
+import React from "react"
 import { getTime } from "@/utils/utils.function"
 import { toast } from "../ui/use-toast"
 import { cva } from "class-variance-authority"
@@ -11,6 +11,7 @@ import { User } from "lucide-react"
 
 import { Button } from "../ui/button"
 import TimeGenerator from "../TimeGenerator"
+import CvButton from "../CvButton"
 
 const cvVaraiant = cva("mb-2 h-36 bg-jv-white py-4 px-3 rounded-lg border-solid border-[1px]", {
   variants: {
@@ -26,7 +27,7 @@ const cvVaraiant = cva("mb-2 h-36 bg-jv-white py-4 px-3 rounded-lg border-solid 
   },
 })
 
-type CvRequestProps = {
+export type CvRequestProps = {
   setState?: React.Dispatch<React.SetStateAction<cvWithAdWithUser[] | undefined>>
   cv: cvWithAdWithUser
   status: status
@@ -34,40 +35,6 @@ type CvRequestProps = {
 }
 
 const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, setState, isSort }) => {
-  const acceptFunctionAction = (stat: status) =>
-    isSort
-      ? setState!((prev) => prev?.filter((item) => (item.id === cv.id ? null : item)))
-      : setState!((prev) =>
-          prev?.map((item) => {
-            if (item.id === cv.id) {
-              item.status = stat
-            }
-            return item
-          })
-        )
-
-  const acceptClientAction = async () => {
-    if (cvStatus !== "accept") {
-      const res = await fetch(`/api/cv/action?query=accept&id=${cv.id}`, { method: "POST" })
-      const cvResault = await res.json()
-      if (cvResault.status) {
-        typeof setState !== "undefined" && acceptFunctionAction("accept")
-        return toast({ title: cvResault.message, variant: "default" })
-      }
-      return toast({ title: cvResault.message, variant: "destructive" })
-    }
-  }
-  const rejectClientAction = async () => {
-    if (cvStatus !== "reject") {
-      const res = await fetch(`/api/cv/action?query=reject&id=${cv.id}`, { method: "POST" })
-      const cvResault = await res.json()
-      if (cvResault.status) {
-        typeof setState !== "undefined" && acceptFunctionAction("reject")
-        return toast({ title: cvResault.message, variant: "default" })
-      }
-      return toast({ title: cvResault.message, variant: "destructive" })
-    }
-  }
   return (
     <div className={cvVaraiant({ status: cvStatus })}>
       <div className="h-1/3 flex justify-between">
@@ -89,17 +56,7 @@ const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, setState, i
       </div>
       <div className="h-2/3 flex flex-col mt-3 text-xs">
         <div className="flex items-center justify-end gap-3">
-          <Button disabled={cvStatus === "accept"} onClick={acceptClientAction} size={"sm"}>
-            قبول
-          </Button>
-          <Button
-            disabled={cvStatus === "reject"}
-            onClick={rejectClientAction}
-            size={"sm"}
-            variant={"destructiveOutline"}
-          >
-            رد
-          </Button>
+          <CvButton cv={cv} status={cvStatus} setState={setState} isSort={isSort} />
         </div>
       </div>
     </div>
