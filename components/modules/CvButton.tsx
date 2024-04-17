@@ -1,8 +1,12 @@
 "use client"
 import React, { useState } from "react"
-import { status } from "@prisma/client"
 import { toast } from "./ui/use-toast"
+
+import { acceptCv, rejectCv } from "@/app/action/cv"
+
+import { status } from "@prisma/client"
 import { CvRequestProps } from "./dashboard/CvRequest"
+
 import LoadButton from "./ui/LoadButton"
 
 type CvButtonProps = CvRequestProps
@@ -25,8 +29,7 @@ const CvButton: React.FC<CvButtonProps> = ({ cv, status: cvStatus, setState, isS
   const acceptClientAction = async () => {
     if (cvStatus !== "accept") {
       setIsAccpetLoading(true)
-      const res = await fetch(`/api/cv/action?query=accept&id=${cv.id}`, { method: "POST" })
-      const cvResault = await res.json()
+      const cvResault = await acceptCv(cv.id)
       if (cvResault.status) {
         typeof setState !== "undefined" && acceptFunctionAction("accept")
         setIsAccpetLoading(false)
@@ -39,8 +42,7 @@ const CvButton: React.FC<CvButtonProps> = ({ cv, status: cvStatus, setState, isS
   const rejectClientAction = async () => {
     if (cvStatus !== "reject") {
       setIsRejectLoading(true)
-      const res = await fetch(`/api/cv/action?query=reject&id=${cv.id}`, { method: "POST" })
-      const cvResault = await res.json()
+      const cvResault = await rejectCv(cv.id)
       if (cvResault.status) {
         typeof setState !== "undefined" && acceptFunctionAction("reject")
         setIsRejectLoading(false)

@@ -9,6 +9,8 @@ import { v4 as uuid } from "uuid"
 import { getTime } from "@/utils/utils.function"
 import { toast } from "../modules/ui/use-toast"
 
+import { sendCv } from "@/app/action/cv"
+
 import { ad } from "@/types/utils.type"
 
 import { ExternalLink, Heart, Inbox, Speech, Users } from "lucide-react"
@@ -83,14 +85,7 @@ const CurrentJobAd: React.FC = () => {
   const clientAction = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (current) {
       event.stopPropagation()
-      const res = await fetch("/api/cv/action?query=send", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(current),
-      })
-      const cvResault = await res.json()
+      const cvResault = await sendCv(current)
       if (cvResault.status) {
         return toast({ title: cvResault.message, variant: "default" })
       }

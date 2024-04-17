@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react"
 import useUser from "@/hook/store/useUser"
 
+import { sendCv } from "@/app/action/cv"
+
 import { ad } from "@/types/utils.type"
 
 import { Button } from "./ui/button"
@@ -25,14 +27,7 @@ const SendCvButton: React.FC<SendCvButtonProps> = ({ ad }) => {
   const clientAction = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setIsLoading(true)
     event.stopPropagation()
-    const res = await fetch("/api/cv/action?query=send", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(ad),
-    })
-    const cvResault = await res.json()
+    const cvResault = await sendCv(ad)
     if (cvResault.status) {
       setIsCvSend(true)
       setIsLoading(false)
