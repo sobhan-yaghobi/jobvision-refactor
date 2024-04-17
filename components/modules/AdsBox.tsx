@@ -1,7 +1,5 @@
-"use client"
-
 import React from "react"
-import { useRouter } from "next/navigation"
+import { redirect } from "next/navigation"
 
 import { cn, getTime } from "@/utils/utils.function"
 
@@ -21,13 +19,11 @@ type AdsBoxProps = {
 }
 
 const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
-  const router = useRouter()
-
   return (
     <div
       title="مشاهده آگهی"
       className="cursor-pointer"
-      onClick={() => router.push(`/jobs?id=${ad.id}`)}
+      onClick={() => redirect(`/jobs?id=${ad.id}`)}
     >
       <Card
         className={cn(
