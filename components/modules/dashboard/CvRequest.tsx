@@ -1,7 +1,5 @@
-"use client"
 import React from "react"
 import { getTime } from "@/utils/utils.function"
-import { toast } from "../ui/use-toast"
 import { cva } from "class-variance-authority"
 
 import { status } from "@prisma/client"
@@ -9,7 +7,6 @@ import { cvWithAdWithUser } from "@/types/utils.type"
 
 import { User } from "lucide-react"
 
-import { Button } from "../ui/button"
 import TimeGenerator from "../TimeGenerator"
 import CvButton from "../CvButton"
 
