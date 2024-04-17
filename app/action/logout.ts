@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers"
 
-const logout = () => {
+const logout = async () => {
   try {
     cookies().delete("token")
     return { message: "خروج با موفقیت به اتمام رسید", status: true }

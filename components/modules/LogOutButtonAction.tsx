@@ -28,7 +28,7 @@ const LogOutButtonAction: React.FC<React.PropsWithChildren<LogOutButtonActionPro
   const [isLogoutDialog, setIsLogoutDialog] = useState(false)
 
   const logOutAction = async () => {
-    const resault = logout()
+    const resault = await logout()
     if (resault.status) {
       setUser(null)
       setIsLogoutDialog(false)
