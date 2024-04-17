@@ -7,18 +7,21 @@ import { cn } from "@/utils/utils.function"
 
 export interface ButtonLoadProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+    VariantProps<typeof buttonVariants> {
+  isLoading?: boolean
+}
 
 const LoadButton = React.forwardRef<HTMLButtonElement, ButtonLoadProps>(
-  ({ className, variant, size, children, ...props }, ref) => {
+  ({ className, variant, size, children, isLoading, ...props }, ref) => {
     const { pending } = useFormStatus()
     return (
       <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
-        {pending ? (
+        {children}
+        {pending || isLoading ? (
           <>
             <svg
               aria-hidden="true"
-              className="icon-sm btn-icon-l text-gray-200 animate-spin fill-primary"
+              className="icon-sm btn-icon-r text-gray-200 animate-spin fill-primary"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +38,6 @@ const LoadButton = React.forwardRef<HTMLButtonElement, ButtonLoadProps>(
             <span className="sr-only">Loading...</span>
           </>
         ) : null}
-        {children}
       </button>
     )
   }

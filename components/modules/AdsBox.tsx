@@ -1,9 +1,7 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { useRouter } from "next/navigation"
-import useUser from "@/hook/store/useUser"
-import { toast } from "./ui/use-toast"
 
 import { cn, getTime } from "@/utils/utils.function"
 
@@ -11,9 +9,9 @@ import { ad } from "@/types/utils.type"
 
 import { Card, CardFooter, CardHeader } from "./ui/card"
 import { Separator } from "./ui/separator"
-import { Button } from "./ui/button"
 import PriceGenerator from "./PriceGenerator"
 import TimeGenerator from "./TimeGenerator"
+import SendCvButton from "./SendCvButton"
 
 type AdsBoxProps = {
   ad: ad
@@ -23,31 +21,7 @@ type AdsBoxProps = {
 }
 
 const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
-  const { user } = useUser()
-  const [isCvSend, setIsCvSend] = useState(false)
   const router = useRouter()
-
-  useEffect(() => {
-    const isActive = user?.cv.some((cvItem) => cvItem.ad_id === ad.id)
-    setIsCvSend(isActive || false)
-  }, [user])
-
-  const clientAction = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.stopPropagation()
-    const res = await fetch("/api/cv/action?query=send", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(ad),
-    })
-    const cvResault = await res.json()
-    if (cvResault.status) {
-      setIsCvSend(true)
-      return toast({ title: cvResault.message, variant: "default" })
-    }
-    return toast({ title: cvResault.message, variant: "destructive" })
-  }
 
   return (
     <div
@@ -106,13 +80,7 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
               <span className="text-sm">
                 <TimeGenerator dateInfo={getTime(ad.created_at)} />
               </span>
-              {isCvSend ? (
-                <Button variant={"fill"}>رزومه ارسال شده</Button>
-              ) : (
-                <Button onClick={clientAction} variant={"default"}>
-                  ارسال رزومه
-                </Button>
-              )}
+              <SendCvButton ad={ad} />
             </CardFooter>
           </>
         ) : null}
