@@ -1,4 +1,9 @@
-import { ad, categoryWithCollection, provinceWithCity } from "@/types/utils.type"
+import {
+  ad,
+  categoryWithCollection,
+  companyWithLocation,
+  provinceWithCity,
+} from "@/types/utils.type"
 import { filterAd, filterSaerchForm } from "@/types/utils.variable"
 
 export const fetchProvinceAndCategory = async () => {
@@ -67,4 +72,16 @@ export const fetchFilterAd = async () => {
   if (cooperation_type) adFilter = adFilter.filter((ad) => ad.cooperation_type === cooperation_type)
 
   return adFilter
+}
+
+export const getMyCompany = async () => {
+  const res = await fetch("/api/company?query=me")
+  const data: companyWithLocation | null = await res.json()
+  return data ? data : null
+}
+
+export const getProvinces = async () => {
+  const res = await fetch("/api/province")
+  const data: provinceWithCity[] = await res.json()
+  return data ? data : ([] as provinceWithCity[])
 }

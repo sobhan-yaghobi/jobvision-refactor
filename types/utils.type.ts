@@ -16,10 +16,6 @@ export type user = userPrisma & {
   cv: cv[]
 }
 
-export type provinceWithCity = province & {
-  cities: city[]
-}
-
 export type categoryWithCollection = category & {
   category_collections: category_collection[]
 }
@@ -56,4 +52,9 @@ const companyInclude = Prisma.validator<Prisma.companyInclude>()({
 })
 export type companiesWithFollower = Prisma.companyGetPayload<{
   include: typeof companyInclude
+}>
+
+const provinceInclude = Prisma.validator<Prisma.provinceInclude>()({ cities: true })
+export type provinceWithCity = Prisma.provinceGetPayload<{
+  include: typeof provinceInclude
 }>
