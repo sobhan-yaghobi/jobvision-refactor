@@ -12,9 +12,16 @@ import Link from "next/link"
 import useSWR from "swr"
 import { getMyCompany } from "@/utils/utils.fetch"
 import Image from "next/image"
+import { followerWithUser } from "@/types/utils.type"
 
 const QuickAccess: React.FC = () => {
   const { data: company, isLoading } = useSWR("api/myCompany", getMyCompany)
+  const { data: followers, isLoading: isFollowerLoading } = useSWR("api/follower", async () => {
+    const res = await fetch("/api/follower")
+    const data: followerWithUser[] = await res.json()
+    return data
+  })
+
   return (
     <div className="h-full flex-col">
       <div className="flex justify-end gap-3">
@@ -82,7 +89,19 @@ const QuickAccess: React.FC = () => {
           <h3 className="morabba text-xl">درخواست های اخیر</h3>
         </CardHeader>
         <CardContent className="mt-3 p-0">
-          <h5 className="text-white bg-destructive/50 py-2 px-1 rounded-sm">درخواستی پیدا نشد</h5>
+          {isLoading ? (
+            <>در حال بارگذاری</>
+          ) : followers?.length ? (
+            <ul>
+              {followers.map((follower) => (
+                <li className="bg-muted p-3" key={follower.id}>
+                  {follower.user?.email}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <h5 className="text-white bg-destructive/50 py-2 px-1 rounded-sm">درخواستی پیدا نشد</h5>
+          )}
         </CardContent>
       </Card>
     </div>

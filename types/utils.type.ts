@@ -58,3 +58,8 @@ const provinceInclude = Prisma.validator<Prisma.provinceInclude>()({ cities: tru
 export type provinceWithCity = Prisma.provinceGetPayload<{
   include: typeof provinceInclude
 }>
+
+const followerInclude = Prisma.validator<Prisma.followersInclude>()({ user: true })
+export type followerWithUser = Prisma.followersGetPayload<{
+  include: typeof followerInclude
+}>
