@@ -15,7 +15,7 @@ const setImageCompany = async (logoFile: File) => {
     writeFile(path.join(process.cwd(), "public/uploads/" + fileName), buffer, async (err) => {
       if (!err) {
         if (company?.logo) {
-          unlink(path.join(process.cwd(), "public/", company.logo || ""), (err) => {
+          unlink(path.join(process.cwd(), "public/uploads", company.logo), (err) => {
             console.error("error on unlink a file in [changeProfile.ts]", err)
           })
         }
