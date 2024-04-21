@@ -1,20 +1,19 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
-import { isEqual, keys, pick } from "lodash"
-import { cn, getLastMessage } from "@/utils/utils.function"
+import { isEqual, keys, omit, pick } from "lodash"
+import { cn, dateGenerate, getLastMessage } from "@/utils/utils.function"
 import { toast } from "@/components/modules/ui/use-toast"
 import useSWR from "swr"
 
 import { getMyCompany, getProvinces } from "@/utils/utils.fetch"
 import { TypeCompany } from "@/validation/zod.validations"
 
-import registerCompany from "@/app/action/registerCompany"
+import { registerCompany, validateCompany } from "@/app/action/registerCompany"
 
 import { DateObject } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
-import gregorian_en from "react-date-object/locales/gregorian_en"
 
 import {
   Building,
@@ -59,16 +58,6 @@ const Company: React.FC = () => {
     if (companyState?.location?.city_id) setCityID(companyState?.location.city_id)
   }, [companyState?.location?.city_id])
 
-  // const { location, ...companyPick } = company ?? ({} as companyWithLocation)
-  // const [companyState, setCompanyState] = useState<TypeCompany>(
-  //   company && "id" in company
-  //     ? {
-  //         ...companyPick,
-  //         location: { address: company.location.address, city_id: company.location.city_id },
-  //       }
-  //     : ({} as TypeCompany)
-  // )
-
   const clientAction = async (formData: FormData) => {
     const companyObject: TypeCompany = {
       name: formData.get("name") as string,
@@ -83,43 +72,41 @@ const Company: React.FC = () => {
       slogan: formData.get("slogan") as string,
       organization_employ: Number(formData.get("organization_employ")),
       industry: formData.get("industry") as string,
-      established_year: new Date(
-        new DateObject({
-          date: formData.get("established_year") as string,
-          calendar: persian,
-          locale: persian_fa,
-        })
-          .convert(undefined, gregorian_en)
-          .format()
-      ),
+      established_year: dateGenerate(formData.get("established_year") as string),
       type_of_activity: formData.get("type_of_activity") as string,
     }
+
     if (companyState === null) {
-      const resualt = companySchema.safeParse(companyObject)
-      if (!resualt.success) {
+      const validateResault = await validateCompany(companyObject)
+      if (!validateResault.success) {
         setErrs(
-          resualt.error.issues.map((err) => ({
+          validateResault.error.issues.map((err) => ({
             message: err.message as string,
             path: err.path.at(0) as string,
           }))
         )
       }
-      const resault = await registerCompany(companyObject)
+      const registerResault = await registerCompany(companyObject)
 
-      if (resault.status) {
-        toast({ title: "شرکت با موفقیت ساخته شد" })
+      if (registerResault.status) {
+        toast({ title: registerResault.message })
       }
-      toast({ title: resault.message, variant: "destructive" })
+      toast({ title: registerResault.message, variant: "destructive" })
     } else {
-      const companyPick = pick(companyState, keys(companyObject))
+      const companyPick = pick(
+        {
+          ...omit(companyState, ["location.city", "location.id"]),
+          established_year: dateGenerate(companyState?.established_year ?? ""),
+        },
+        keys(companyObject)
+      )
       const isEq = isEqual(companyObject, companyPick)
 
       if (!isEq) {
         const resualt = await registerCompany(companyObject)
 
         if (resualt.status) {
-          toast({ title: "اطلاعات جدید با موفقیت آپدیت شدند" })
-          // setCompanyState(companyObject)
+          toast({ title: resualt.message })
         } else toast({ title: resualt.message, variant: "destructive" })
       } else {
         toast({ title: "نخست فیلد مورد نظر خود را بروز کنید" })
@@ -135,7 +122,7 @@ const Company: React.FC = () => {
       {isLoading ? (
         <div className="mt-3">در حال بارگذاری</div>
       ) : (
-        <form ref={formRef}>
+        <form ref={formRef} action={clientAction}>
           <div className="flex mt-6">
             <div className="bg-muted w-24 h-24 center ml-3 rounded-sm shadow-lg">
               <span className="text-primary morabba">جاب ویژن</span>

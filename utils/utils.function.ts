@@ -4,6 +4,11 @@ import { compare, hash } from "bcryptjs"
 import { sign, verify } from "jsonwebtoken"
 import prisma from "../lib/prisma"
 
+import { DateObject } from "react-multi-date-picker"
+import persian from "react-date-object/calendars/persian"
+import persian_fa from "react-date-object/locales/persian_fa"
+import gregorian_en from "react-date-object/locales/gregorian_en"
+
 const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
 }
@@ -95,6 +100,17 @@ const getTime = (date: Date | string): TimeType => {
     : { date: 0, type: "NotValid" }
 }
 
+const dateGenerate = (date: string | Date) =>
+  new Date(
+    new DateObject({
+      date,
+      calendar: persian,
+      locale: persian_fa,
+    })
+      .convert(undefined, gregorian_en)
+      .format()
+  )
+
 export {
   cn,
   getLastMessage,
@@ -104,4 +120,5 @@ export {
   verifyToken,
   validateTokenResualt,
   getTime,
+  dateGenerate,
 }

@@ -2,10 +2,10 @@
 
 import isAuth from "./isAuth"
 
-import { TypeCompany } from "@/validation/zod.validations"
+import { TypeCompany, companySchema } from "@/validation/zod.validations"
 import prisma from "@/lib/prisma"
 
-const registerCompany = async (company: TypeCompany) => {
+export const registerCompany = async (company: TypeCompany) => {
   const { user } = await isAuth()
 
   if (user !== null) {
@@ -25,9 +25,10 @@ const registerCompany = async (company: TypeCompany) => {
       if (companyResualt && locationResault) {
         return {
           status: true,
+          message: "اطلاعات شرکت با موفقیت آپدیت شد",
         }
       }
-      return { status: false }
+      return { status: false, message: "مشکلی در بروزرسانی شرکت به وجود آمد" }
     } else {
       const locationResault = await prisma.location.create({ data: company.location })
 
@@ -54,4 +55,7 @@ const registerCompany = async (company: TypeCompany) => {
   return { message: "مشکلی در ثبت یا بروزرسانی شرکت به وجود آمد", status: false }
 }
 
-export default registerCompany
+export const validateCompany = async (company: TypeCompany) => {
+  const resault = companySchema.safeParse(company)
+  return resault
+}
