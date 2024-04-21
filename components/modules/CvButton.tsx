@@ -11,27 +11,16 @@ import LoadButton from "./ui/LoadButton"
 
 type CvButtonProps = CvRequestProps
 
-const CvButton: React.FC<CvButtonProps> = ({ cv, status: cvStatus, setState, isSort }) => {
+const CvButton: React.FC<CvButtonProps> = ({ cv, status: cvStatus, mutate, isSort }) => {
   const [isRejectLoading, setIsRejectLoading] = useState(false)
   const [isAccpetLoading, setIsAccpetLoading] = useState(false)
-  const acceptFunctionAction = (stat: status) =>
-    isSort
-      ? setState!((prev) => prev?.filter((item) => (item.id === cv.id ? null : item)))
-      : setState!((prev) =>
-          prev?.map((item) => {
-            if (item.id === cv.id) {
-              item.status = stat
-            }
-            return item
-          })
-        )
 
   const acceptClientAction = async () => {
     if (cvStatus !== "accept") {
       setIsAccpetLoading(true)
       const cvResault = await acceptCv(cv.id)
       if (cvResault.status) {
-        typeof setState !== "undefined" && acceptFunctionAction("accept")
+        typeof mutate !== "undefined" && mutate()
         setIsAccpetLoading(false)
         return toast({ title: cvResault.message, variant: "default" })
       }
@@ -44,7 +33,7 @@ const CvButton: React.FC<CvButtonProps> = ({ cv, status: cvStatus, setState, isS
       setIsRejectLoading(true)
       const cvResault = await rejectCv(cv.id)
       if (cvResault.status) {
-        typeof setState !== "undefined" && acceptFunctionAction("reject")
+        typeof mutate !== "undefined" && mutate()
         setIsRejectLoading(false)
         return toast({ title: cvResault.message, variant: "default" })
       }
