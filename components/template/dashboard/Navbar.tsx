@@ -14,11 +14,7 @@ import { Button } from "@/components/modules/ui/button"
 import Title from "@/components/modules/Title"
 import Link from "next/link"
 
-type NavbarProps = {
-  company: companyWithLocation | null
-}
-
-const Navbar: React.FC<NavbarProps> = ({ company }) => {
+const Navbar: React.FC = () => {
   const [isMenu, setIsMenu] = useState(false)
   const [isQuick, setIsQuick] = useState(false)
   const pathname = usePathname()
@@ -59,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({ company }) => {
           </Button>
         </SheetTrigger>
         <SheetContent side={"left"}>
-          <QuickAccess company={company} />
+          <QuickAccess />
         </SheetContent>
       </Sheet>
     </div>

@@ -1,6 +1,6 @@
-import React from "react"
+"use client"
 
-import { companyWithLocation } from "@/types/utils.type"
+import React from "react"
 
 import { DoorOpen, FilePlus2, GitPullRequestArrow, LogOut, Pencil } from "lucide-react"
 
@@ -9,11 +9,12 @@ import LogOutButtonAction from "@/components/modules/LogOutButtonAction"
 import { Button } from "@/components/modules/ui/button"
 import Link from "next/link"
 
-type QuickAccessProps = {
-  company: companyWithLocation | null
-}
+import useSWR from "swr"
+import { getMyCompany } from "@/utils/utils.fetch"
+import Image from "next/image"
 
-const QuickAccess: React.FC<QuickAccessProps> = ({ company }) => {
+const QuickAccess: React.FC = () => {
+  const { data: company, isLoading } = useSWR("api/myCompany", getMyCompany)
   return (
     <div className="h-full flex-col">
       <div className="flex justify-end gap-3">
@@ -30,16 +31,16 @@ const QuickAccess: React.FC<QuickAccessProps> = ({ company }) => {
       </div>
       <Card className="border-none shadow-lg my-3 p-3">
         <CardHeader className="center pt-0">
-          {company?.logo ? (
-            <img
-              width={100}
-              height={100}
-              src={company?.logo}
+          {company?.logo || !isLoading ? (
+            <Image
+              width={96}
+              height={96}
+              src={`/uploads/${company?.logo}`}
               alt="company-logo"
-              className="p-1 bg-muted rounded-full"
+              className="bg-muted w-24 h-24 p-1 rounded-full"
             />
           ) : (
-            <div className="w-16 h-16 bg-muted rounded-full"></div>
+            <div className="w-24 h-24 bg-muted rounded-full"></div>
           )}
         </CardHeader>
         <CardTitle className="center text-center morabba">
