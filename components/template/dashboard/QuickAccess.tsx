@@ -89,7 +89,7 @@ const QuickAccess: React.FC = () => {
           <h3 className="morabba text-xl">درخواست های اخیر</h3>
         </CardHeader>
         <CardContent className="mt-3 p-0">
-          {isLoading ? (
+          {isFollowerLoading ? (
             <>در حال بارگذاری</>
           ) : followers?.length ? (
             <ul>
