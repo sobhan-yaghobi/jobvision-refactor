@@ -4,8 +4,9 @@ import isAuth from "./isAuth"
 
 import { TypeCompany, companySchema } from "@/validation/zod.validations"
 import prisma from "@/lib/prisma"
+import setImageCompany from "./setImageCompany"
 
-export const registerCompany = async (company: TypeCompany) => {
+export const registerCompany = async (company: TypeCompany, formData: FormData) => {
   const { user } = await isAuth()
 
   if (user !== null) {
@@ -17,9 +18,11 @@ export const registerCompany = async (company: TypeCompany) => {
         data: location,
       })
 
+      const logo = await setImageCompany(formData.get("logo") as File)
+
       const companyResualt = await prisma.company.update({
         where: { id: user.company_id },
-        data: { ...companyModify },
+        data: { ...companyModify, logo },
       })
 
       if (companyResualt && locationResault) {
@@ -33,20 +36,25 @@ export const registerCompany = async (company: TypeCompany) => {
       const locationResault = await prisma.location.create({ data: company.location })
 
       const { location, ...companyModify } = company
-      const companyResualt = await prisma.company.create({
-        data: { ...companyModify, location_id: locationResault.id },
-      })
-      if (companyResualt && locationResault) {
-        const userResault = await prisma.user.update({
-          where: { id: user?.id },
-          data: { company_id: companyResualt.id },
+
+      const logo = await setImageCompany(formData.get("logo") as File)
+
+      if (logo) {
+        const companyResualt = await prisma.company.create({
+          data: { ...companyModify, location_id: locationResault.id, logo },
         })
-        if (userResault) {
-          return {
-            message: "شرکت با موفقیت ثبت شد",
-            status: true,
-            company: companyResualt,
-            user: userResault,
+        if (companyResualt && locationResault) {
+          const userResault = await prisma.user.update({
+            where: { id: user?.id },
+            data: { company_id: companyResualt.id },
+          })
+          if (userResault) {
+            return {
+              message: "شرکت با موفقیت ثبت شد",
+              status: true,
+              company: companyResualt,
+              user: userResault,
+            }
           }
         }
       }

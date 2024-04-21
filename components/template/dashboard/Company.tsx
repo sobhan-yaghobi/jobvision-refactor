@@ -20,7 +20,8 @@ import {
   Building2,
   CalendarIcon,
   CheckIcon,
-  Image,
+  FileImage,
+  ImageIcon,
   Link,
   MapPin,
   MonitorDot,
@@ -42,13 +43,14 @@ import {
   AccordionTrigger,
 } from "@/components/modules/ui/accordion"
 import LoadButton from "@/components/modules/ui/LoadButton"
+import Image from "next/image"
 
 const Company: React.FC = () => {
   const formRef = useRef<HTMLFormElement>(null)
   const [cityID, setCityID] = useState("")
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
 
-  const { data: companyState, isLoading } = useSWR("api/myCompany", getMyCompany)
+  const { data: companyState, isLoading, mutate } = useSWR("api/myCompany", getMyCompany)
   const { data: provinces } = useSWR("/api/provinces", getProvinces)
   const { data: city } = useSWR(["/api/post", cityID], () =>
     fetch(`/api/province?cityId=${cityID}`).then((res) => res.json())
@@ -62,7 +64,6 @@ const Company: React.FC = () => {
     const companyObject: TypeCompany = {
       name: formData.get("name") as string,
       location: { address: formData.get("address") as string, city_id: city.id },
-      logo: formData.get("logo") as string,
       score_company: 4.3,
       score_popularity: 4.6,
       score_experience_of_job_seekers: 5,
@@ -75,6 +76,7 @@ const Company: React.FC = () => {
       established_year: dateGenerate(formData.get("established_year") as string),
       type_of_activity: formData.get("type_of_activity") as string,
     }
+    const logo = formData.get("logo") as File
 
     if (companyState === null) {
       const validateResault = await validateCompany(companyObject)
@@ -86,10 +88,11 @@ const Company: React.FC = () => {
           }))
         )
       }
-      const registerResault = await registerCompany(companyObject)
+      const registerResault = await registerCompany(companyObject, formData)
 
       if (registerResault.status) {
         toast({ title: registerResault.message })
+        mutate()
       }
       toast({ title: registerResault.message, variant: "destructive" })
     } else {
@@ -102,8 +105,9 @@ const Company: React.FC = () => {
       )
       const isEq = isEqual(companyObject, companyPick)
 
-      if (!isEq) {
-        const resualt = await registerCompany(companyObject)
+      if (!isEq || logo.name) {
+        const resualt = await registerCompany(companyObject, formData)
+        mutate()
 
         if (resualt.status) {
           toast({ title: resualt.message })
@@ -124,13 +128,24 @@ const Company: React.FC = () => {
       ) : (
         <form ref={formRef} action={clientAction}>
           <div className="flex mt-6">
-            <div className="bg-muted w-24 h-24 center ml-3 rounded-sm shadow-lg">
-              <span className="text-primary morabba">جاب ویژن</span>
-            </div>
+            {companyState?.logo ? (
+              <Image
+                width={96}
+                height={96}
+                className="ml-3 rounded-sm shadow-lg"
+                src={`/uploads/${companyState?.logo}`}
+                alt="company-logo"
+              />
+            ) : (
+              <div className="bg-muted w-24 h-24 center ml-3 rounded-sm shadow-lg">
+                <ImageIcon className="icon-stroke-light icon-lg" />
+              </div>
+            )}
+
             <div className="flex-1">
               <InputMessage
-                defaultValue={companyState?.logo}
-                icon={<Image className="icon-stroke-light" />}
+                type="file"
+                icon={<FileImage className="icon-stroke-light" />}
                 wrapperClassName="w-full flex-row-reverse"
                 placeholder="لینک لوگو شرکت.."
                 name="logo"

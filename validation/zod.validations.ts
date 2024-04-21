@@ -17,7 +17,6 @@ export const companySchema = z.object({
     address: z.string(),
     city_id: z.string(),
   }),
-  logo: z.string().url().trim().min(1, "لینک لوگو اجباری میباشد"),
   score_company: z.number(),
   score_popularity: z.number(),
   score_experience_of_job_seekers: z.number(),
