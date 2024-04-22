@@ -4,7 +4,6 @@ import { companiesWithFollower } from "@/types/utils.type"
 import { createFollower, removeFollower } from "@/app/action/follower"
 
 import { toast } from "./ui/use-toast"
-import { Button } from "./ui/button"
 import useUser from "@/hook/store/useUser"
 import LoadButton from "./ui/LoadButton"
 
