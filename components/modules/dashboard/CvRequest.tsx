@@ -28,10 +28,9 @@ export type CvRequestProps = {
   mutate?: () => void
   cv: cvWithAdWithUser
   status: status
-  isSort?: boolean
 }
 
-const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, mutate, isSort }) => {
+const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, mutate }) => {
   return (
     <div className={cvVaraiant({ status: cvStatus })}>
       <div className="h-1/3 flex justify-between">
@@ -53,7 +52,7 @@ const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, mutate, isS
       </div>
       <div className="h-2/3 flex flex-col mt-3 text-xs">
         <div className="flex items-center justify-end gap-3">
-          <CvButton cv={cv} status={cvStatus} mutate={mutate} isSort={isSort} />
+          <CvButton cv={cv} status={cvStatus} mutate={mutate} />
         </div>
       </div>
     </div>

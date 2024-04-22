@@ -4,14 +4,13 @@ import { toast } from "./ui/use-toast"
 
 import { acceptCv, rejectCv } from "@/app/action/cv"
 
-import { status } from "@prisma/client"
 import { CvRequestProps } from "./dashboard/CvRequest"
 
 import LoadButton from "./ui/LoadButton"
 
 type CvButtonProps = CvRequestProps
 
-const CvButton: React.FC<CvButtonProps> = ({ cv, status: cvStatus, mutate, isSort }) => {
+const CvButton: React.FC<CvButtonProps> = ({ cv, status: cvStatus, mutate }) => {
   const [isRejectLoading, setIsRejectLoading] = useState(false)
   const [isAccpetLoading, setIsAccpetLoading] = useState(false)
 
