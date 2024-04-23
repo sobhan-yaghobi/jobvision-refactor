@@ -7,6 +7,7 @@ import { Star } from "lucide-react"
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import FollowButton from "./FollowButton"
+import Image from "next/image"
 
 type CompanyBoxType = {
   className?: string
@@ -16,16 +17,14 @@ type CompanyBoxType = {
 const CompanyBox: React.FC<CompanyBoxType> = ({ className, company }) => {
   return (
     <Card
-      className={cn(
-        "bg-muted w-[300px] h-[280px] flex flex-col justify-between p-3 shadow-md",
-        className
-      )}
+      className={cn("bg-muted w-full h-72 flex flex-col justify-between p-3 shadow-md", className)}
+      // w-[300px]
     >
       <CardHeader className="h-16 center items-start p-0">
-        <img
+        <Image
           width={190}
           height={100}
-          src={company.logo}
+          src={`/uploads/${company.logo}`}
           className="w-auto h-full"
           alt="company-image"
         />
