@@ -10,10 +10,10 @@ export const SwiperNavButtons = () => {
 
   return (
     <div className="swiper-nav-btns mt-3">
-      <Button className="ml-3" onClick={() => swiper.slidePrev()}>
+      <Button variant={"fill"} className="ml-3" onClick={() => swiper.slidePrev()}>
         <ChevronRight className="icon" />
       </Button>
-      <Button onClick={() => swiper.slideNext()}>
+      <Button variant={"fill"} onClick={() => swiper.slideNext()}>
         <ChevronLeft className="icon" />
       </Button>
     </div>

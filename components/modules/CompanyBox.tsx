@@ -18,7 +18,6 @@ const CompanyBox: React.FC<CompanyBoxType> = ({ className, company }) => {
   return (
     <Card
       className={cn("bg-muted w-full h-72 flex flex-col justify-between p-3 shadow-md", className)}
-      // w-[300px]
     >
       <CardHeader className="h-16 center items-start p-0">
         <Image

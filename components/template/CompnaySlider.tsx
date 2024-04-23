@@ -50,8 +50,8 @@ const CompnaySlider: React.FC = () => {
           ? Array(9)
               .fill("")
               .map((_, index) => (
-                <SwiperSlide className="w-full">
-                  <div className="w-full h-72 bg-muted animate-pulse rounded-lg">{index}</div>
+                <SwiperSlide className="w-full" key={`swiper-slider-${index}`}>
+                  <div className="w-full h-72 bg-muted animate-pulse rounded-lg"></div>
                 </SwiperSlide>
               ))
           : companies?.map((company) => (

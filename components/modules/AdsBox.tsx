@@ -10,6 +10,7 @@ import PriceGenerator from "./PriceGenerator"
 import TimeGenerator from "./TimeGenerator"
 import SendCvButton from "./SendCvButton"
 import Link from "next/link"
+import Image from "next/image"
 
 type AdsBoxProps = {
   ad: ad
@@ -31,11 +32,11 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
       >
         <Link href={`/jobs?id=${ad.id}`}>
           <CardHeader className="flex flex-row items-start">
-            <img
+            <Image
               width={190}
               height={100}
-              src={ad.company.logo}
-              className="rounded-sm w-20"
+              src={`/uploads/${ad.company.logo}`}
+              className="rounded-sm h-16 w-auto"
               alt="logo-compnay"
             />
             <div className="flex flex-col !mt-0 !mr-3">
