@@ -3,8 +3,6 @@
 import React, { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 
-import { companyWithLocation } from "@/types/utils.type"
-
 import { Menu, Rocket } from "lucide-react"
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/modules/ui/sheet"
