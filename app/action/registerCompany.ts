@@ -18,7 +18,7 @@ export const registerCompany = async (company: TypeCompany, formData: FormData) 
         data: location,
       })
 
-      const logo = await setImageCompany(formData.get("logo") as File)
+      const logo = await setImageCompany(formData.get("logo") as File, companyResponse?.logo)
 
       const companyResualt = await prisma.company.update({
         where: { id: user.company_id },

@@ -14,7 +14,7 @@ export const GET = async (request: NextRequest) => {
       })
       return Response.json(company)
     }
-    return Response.json(undefined)
+    return Response.json({})
   }
   const companies: companiesWithFollower[] =
     ((await prisma.company.findMany({

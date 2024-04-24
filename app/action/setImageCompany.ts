@@ -5,17 +5,17 @@ import path from "path"
 import { v4 as uuid } from "uuid"
 import isAuth from "./isAuth"
 
-const setImageCompany = async (logoFile: File) => {
+const setImageCompany = async (logoFile: File, logoName?: string) => {
   const { user } = await isAuth()
   let fileName = ""
   if (logoFile && logoFile.size && user) {
-    const company = await prisma.company.findFirst({ where: { id: user.company_id as string } })
+    // const company = await prisma.company.findFirst({ where: { id: user.company_id as string } })
     const buffer = Buffer.from(await logoFile.arrayBuffer())
     fileName = uuid() + "_" + logoFile.name
     writeFile(path.join(process.cwd(), "public/uploads/" + fileName), buffer, async (err) => {
       if (!err) {
-        if (company?.logo) {
-          unlink(path.join(process.cwd(), "public/uploads", company.logo), (err) => {
+        if (logoName) {
+          unlink(path.join(process.cwd(), "public/uploads", logoName), (err) => {
             console.error("error on unlink a file in [changeProfile.ts]", err)
           })
         }

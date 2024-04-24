@@ -61,6 +61,8 @@ const Company: React.FC = () => {
   }, [companyState?.location?.city_id])
 
   const clientAction = async (formData: FormData) => {
+    console.log("action running")
+
     const companyObject: TypeCompany = {
       name: formData.get("name") as string,
       location: { address: formData.get("address") as string, city_id: city.id },
