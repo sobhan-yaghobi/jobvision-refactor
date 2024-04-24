@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
+import { cn } from "@/utils/utils.function"
 
 import logout from "@/app/action/logout"
 
@@ -21,7 +22,10 @@ type LogOutButtonActionProps = {
   redirectPath?: string
 }
 
-const LogOutButtonAction: React.FC<React.PropsWithChildren<LogOutButtonActionProps>> = (props) => {
+const LogOutButtonAction = React.forwardRef<
+  HTMLButtonElement,
+  React.PropsWithChildren<LogOutButtonActionProps>
+>((props, forwardedRef) => {
   const router = useRouter()
   const { setUser } = useUser()
   const { toast } = useToast()
@@ -41,9 +45,14 @@ const LogOutButtonAction: React.FC<React.PropsWithChildren<LogOutButtonActionPro
   }
   return (
     <>
-      <div onClick={() => setIsLogoutDialog(true)} className={props.className}>
+      <Button
+        variant={"none"}
+        ref={forwardedRef}
+        onClick={() => setIsLogoutDialog(true)}
+        className={cn("h-10 focus:!text-current", props.className)}
+      >
         {props.children}
-      </div>
+      </Button>
       <Dialog open={isLogoutDialog} onOpenChange={() => setIsLogoutDialog(false)}>
         <DialogContent isDirectionCloseLeft>
           <DialogHeader className="mb-3">
@@ -66,6 +75,6 @@ const LogOutButtonAction: React.FC<React.PropsWithChildren<LogOutButtonActionPro
       </Dialog>
     </>
   )
-}
+})
 
 export default LogOutButtonAction

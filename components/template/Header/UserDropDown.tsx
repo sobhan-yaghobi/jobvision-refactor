@@ -51,7 +51,6 @@ const UserDropDown = () => {
 
   const username = user !== null ? user.email.substring(0, user.email.lastIndexOf("@")) : ""
   const [isDropdownUser, setIsDropdownUser] = useState(false)
-  console.log("user", user)
 
   return (
     <>
