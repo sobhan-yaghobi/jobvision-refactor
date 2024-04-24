@@ -31,7 +31,7 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
         )}
       >
         <Link href={`/jobs?id=${ad.id}`}>
-          <CardHeader className="flex flex-row items-start">
+          <CardHeader className="flex flex-row items-start p-0 px-3">
             <Image
               width={190}
               height={100}
