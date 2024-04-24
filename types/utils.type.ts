@@ -66,8 +66,7 @@ export type followerWithUser = Prisma.followersGetPayload<{
 
 export type paginationReturnType = {
   current: number
-  pageNumbers: number
-  pageArray: number[]
   next_page: number | null
   prev_page: number | null
+  pageArray: (number | null)[]
 }

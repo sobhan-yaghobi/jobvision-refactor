@@ -2,6 +2,7 @@ import {
   ad,
   categoryWithCollection,
   companyWithLocation,
+  paginationReturnType,
   provinceWithCity,
 } from "@/types/utils.type"
 import { filterAd, filterSaerchForm } from "@/types/utils.variable"
@@ -16,7 +17,10 @@ export const fetchProvinceAndCategory = async () => {
   return { categories, provinces }
 }
 
-export const fetchFilterAd = async () => {
+export const fetchFilterAd = async (): Promise<{
+  store: ad[]
+  pagination: paginationReturnType
+}> => {
   const params = new URLSearchParams(location.search)
   const current = params.get("current")
   const storeCount = params.get("storeCount") ?? 2
@@ -74,7 +78,7 @@ export const fetchFilterAd = async () => {
   const cooperation_type = params.get(filterAd.cooperation_type)
   if (cooperation_type) adFilter = adFilter.filter((ad) => ad.cooperation_type === cooperation_type)
 
-  return adFilter
+  return { store: adFilter, pagination: data.pagination }
 }
 
 export const getMyCompany = async () => {
