@@ -38,7 +38,9 @@ const QuickAccess: React.FC = () => {
       </div>
       <Card className="border-none shadow-lg my-3 p-3">
         <CardHeader className="center pt-0">
-          {company?.logo || !isLoading ? (
+          {isLoading || !company?.logo ? (
+            <div className="w-24 h-24 bg-muted rounded-full"></div>
+          ) : (
             <Image
               width={96}
               height={96}
@@ -46,8 +48,6 @@ const QuickAccess: React.FC = () => {
               alt="company-logo"
               className="bg-muted w-24 h-24 p-1 rounded-full"
             />
-          ) : (
-            <div className="w-24 h-24 bg-muted rounded-full"></div>
           )}
         </CardHeader>
         <CardTitle className="center text-center morabba">
