@@ -63,3 +63,11 @@ const followerInclude = Prisma.validator<Prisma.followersInclude>()({ user: true
 export type followerWithUser = Prisma.followersGetPayload<{
   include: typeof followerInclude
 }>
+
+export type paginationReturnType = {
+  current: number
+  pageNumbers: number
+  pageArray: number[]
+  next_page: number | null
+  prev_page: number | null
+}

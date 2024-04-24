@@ -8,6 +8,7 @@ import { DateObject } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
 import gregorian_en from "react-date-object/locales/gregorian_en"
+import { paginationReturnType } from "@/types/utils.type"
 
 const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
@@ -111,6 +112,40 @@ const dateGenerate = (date: string | Date) =>
       .format()
   )
 
+const paginationFilter = (
+  current: string | number | null,
+  storeCount: string | number | null,
+  store: unknown[]
+): { store: unknown[]; pagination: paginationReturnType } => {
+  const updatePagination = () => {
+    const endIndex = currentNumber * storeNumber
+    const startIndex = endIndex - storeNumber
+    filterStore = store?.slice(startIndex, endIndex)
+    pageNum = Math.ceil(store?.length / storeNumber)
+    pageArray = Array.from(Array(pageNum).keys())
+    next_page = currentNumber < pageNum ? currentNumber + 1 : null
+    prev_page = currentNumber > 1 ? currentNumber - 1 : null
+
+    if (currentNumber > pageNum) {
+      currentNumber = 1
+      updatePagination()
+    }
+  }
+  let currentNumber = Number(current) || 1
+  let storeNumber = Number(storeCount) || 1
+  let pageNum: number = 0
+  let pageArray: number[] = []
+  let filterStore = [] as unknown[]
+  let prev_page: number | null = null
+  let next_page: number | null = null
+
+  updatePagination()
+  return {
+    store: filterStore,
+    pagination: { current: currentNumber, pageArray, pageNumbers: pageNum, prev_page, next_page },
+  }
+}
+
 export {
   cn,
   getLastMessage,
@@ -121,4 +156,5 @@ export {
   validateTokenResualt,
   getTime,
   dateGenerate,
+  paginationFilter,
 }

@@ -17,10 +17,13 @@ export const fetchProvinceAndCategory = async () => {
 }
 
 export const fetchFilterAd = async () => {
-  const res = await fetch("/api/ad")
-  let adFilter: ad[] = await res.json()
-
   const params = new URLSearchParams(location.search)
+  const current = params.get("current")
+  const storeCount = params.get("storeCount") ?? 2
+  const res = await fetch(`/api/ad?current=${current}&storeCount=${storeCount}`)
+  const data = await res.json()
+
+  let adFilter: ad[] = data.store
 
   const search = params.get(filterSaerchForm.search)
   if (search)

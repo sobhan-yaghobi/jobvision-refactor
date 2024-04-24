@@ -2,6 +2,7 @@ import isAuth from "@/app/action/isAuth"
 import { NextRequest } from "next/server"
 
 import { ad } from "@/types/utils.type"
+import { paginationFilter } from "@/utils/utils.function"
 
 export const dynamic = "force-dynamic"
 
@@ -9,14 +10,17 @@ export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams
   const query = searchParams.get("query")
   const id = searchParams.get("id")
+  const current = searchParams.get("current")
+  const storeCount = searchParams.get("storeCount")
 
   if (query === "me") {
     const { user } = await isAuth()
-    const adItems: ad[] =
+
+    const ads: ad[] =
       user && "email" in user && user?.company_id
         ? ((await prisma.ad.findMany({ where: { company_id: user?.company_id } })) as ad[])
         : ([] as ad[])
-    return Response.json(adItems)
+    return Response.json(paginationFilter(current, storeCount, ads))
   }
   if (id) {
     const ad = await prisma.ad.findFirst({
@@ -28,7 +32,8 @@ export const GET = async (request: NextRequest) => {
   const ads = await prisma.ad.findMany({
     include: { company: { include: { location: { include: { city: true } } } } },
   })
-  return Response.json(ads)
+
+  return Response.json(paginationFilter(current, storeCount, ads))
 }
 
 export const DELETE = async (request: NextRequest) => {
