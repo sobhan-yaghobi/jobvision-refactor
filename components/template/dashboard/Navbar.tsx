@@ -1,34 +1,34 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState } from "react"
-import { usePathname } from "next/navigation"
+import React, { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
-import { Menu, Rocket } from "lucide-react"
+import { Menu, Rocket } from "lucide-react";
 
-import { Sheet, SheetContent, SheetTrigger } from "@/components/modules/ui/sheet"
-import QuickAccess from "./QuickAccess"
-import Sidebar from "./Sidebar/Sidebar"
-import { Button } from "@/components/modules/ui/button"
-import Title from "@/components/modules/Title"
-import Link from "next/link"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/modules/ui/sheet";
+import QuickAccess from "./QuickAccess";
+import Sidebar from "./Sidebar/Sidebar";
+import { Button } from "@/components/modules/ui/button";
+import Title from "@/components/modules/Title";
+import Link from "next/link";
 
 const Navbar: React.FC = () => {
-  const [isMenu, setIsMenu] = useState(false)
-  const [isQuick, setIsQuick] = useState(false)
-  const pathname = usePathname()
+  const [isMenu, setIsMenu] = useState(false);
+  const [isQuick, setIsQuick] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
-    closeSheet()
+    closeSheet();
 
     return () => {
-      closeSheet()
-    }
-  }, [pathname])
+      closeSheet();
+    };
+  }, [pathname]);
 
   const closeSheet = () => {
-    setIsMenu(false)
-    setIsQuick(false)
-  }
+    setIsMenu(false);
+    setIsQuick(false);
+  };
   return (
     <div className="flex items-center justify-between p-3 shadow-lg relative z-20">
       <Sheet open={isMenu} onOpenChange={setIsMenu}>
@@ -57,7 +57,7 @@ const Navbar: React.FC = () => {
         </SheetContent>
       </Sheet>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

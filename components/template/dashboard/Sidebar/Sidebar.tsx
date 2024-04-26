@@ -1,5 +1,5 @@
-import React, { Fragment, ReactNode } from "react"
-import { Route, MultipleItem } from "./Item"
+import React, { Fragment, ReactNode } from "react";
+import { Route, MultipleItem } from "./Item";
 
 import {
   GitPullRequestClosed,
@@ -9,23 +9,23 @@ import {
   AlarmClock,
   CheckCheck,
   Home,
-} from "lucide-react"
+} from "lucide-react";
 
-import { Accordion } from "@/components/modules/ui/accordion"
-import { Button } from "@/components/modules/ui/button"
-import { Card } from "@/components/modules/ui/card"
-import Title from "@/components/modules/Title"
-import Image from "next/image"
-import Link from "next/link"
+import { Accordion } from "@/components/modules/ui/accordion";
+import { Button } from "@/components/modules/ui/button";
+import { Card } from "@/components/modules/ui/card";
+import Title from "@/components/modules/Title";
+import Image from "next/image";
+import Link from "next/link";
 
 export type TypeSidebarItem = {
-  label: string
-  icon: ReactNode
-  href: string
+  label: string;
+  icon: ReactNode;
+  href: string;
   children?: (TypeSidebarItem & {
-    parent_href: TypeSidebarItem["href"]
-  })[]
-}
+    parent_href: TypeSidebarItem["href"];
+  })[];
+};
 const sidebarItems: TypeSidebarItem[] = [
   { label: "خانه", icon: <Home className="icon" />, href: "dashboard" },
   { label: "آگهی ها", icon: <FileSpreadsheet className="icon" />, href: "ads" },
@@ -60,14 +60,14 @@ const sidebarItems: TypeSidebarItem[] = [
       },
     ],
   },
-]
+];
 
 const Sidebar: React.FC = () => {
   return (
-    <div className="h-full flex flex-col justify-between">
+    <div className="h-full flex flex-col justify-between overflow-y-auto hidden-scrollbar relative">
       <Accordion type="single" collapsible>
-        <Link href={"/"}>
-          <Title size={"md"} className="text-primary mb-6">
+        <Link href={"/"} className="sticky top-0">
+          <Title size={"md"} className="text-primary pb-2 mb-4 bg-background">
             <h2>جاب ویژن</h2>
           </Title>
         </Link>
@@ -88,7 +88,7 @@ const Sidebar: React.FC = () => {
         <Button size={"sm"}>دانلود</Button>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
