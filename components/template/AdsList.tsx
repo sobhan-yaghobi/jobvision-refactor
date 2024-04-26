@@ -43,7 +43,7 @@ const AdsList: React.FC<AdsListPorps> = () => {
             <AdsBox key={ad.id} ad={{ ...ad }} active={ad.id === currentAd()} isFooter></AdsBox>
           ))
         )
-      }, [data])}
+      }, [data, currentAd])}
       {data?.pagination && data.pagination.pageNum > 1 ? (
         <div className="mt-3">
           <PaginationButtons currentParam={currentParam} pagination={data.pagination} />
