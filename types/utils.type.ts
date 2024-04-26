@@ -69,4 +69,5 @@ export type paginationReturnType = {
   next_page: number | null
   prev_page: number | null
   pageArray: (number | null)[]
+  pageNum: number
 }

@@ -121,7 +121,7 @@ const paginationFilter = (
     const endIndex = currentNumber * storeNumber
     const startIndex = endIndex - storeNumber
     filterStore = store?.slice(startIndex, endIndex)
-    let pageNum = Math.ceil(store?.length / storeNumber)
+    pageNum = Math.ceil(store?.length / storeNumber)
     next_page = currentNumber < pageNum ? currentNumber + 1 : null
     prev_page = currentNumber > 1 ? currentNumber - 1 : null
     pageArray = [prev_page, currentNumber, next_page]
@@ -137,11 +137,12 @@ const paginationFilter = (
   let prev_page: number | null = null
   let next_page: number | null = null
   let pageArray: (number | null)[] = []
+  let pageNum: number = 0
 
   updatePagination()
   return {
     store: filterStore,
-    pagination: { current: currentNumber, prev_page, next_page, pageArray },
+    pagination: { current: currentNumber, prev_page, next_page, pageArray, pageNum },
   }
 }
 

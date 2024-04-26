@@ -23,7 +23,8 @@ export const fetchFilterAd = async (): Promise<{
 }> => {
   const params = new URLSearchParams(location.search)
   const current = params.get("current")
-  const storeCount = params.get("storeCount") ?? 2
+  const storeCount = params.get("storeCount") ?? 3
+
   const res = await fetch(`/api/ad?current=${current}&storeCount=${storeCount}`)
   const data = await res.json()
 

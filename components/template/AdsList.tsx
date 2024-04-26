@@ -20,8 +20,8 @@ type AdsListPorps = {
 const AdsList: React.FC<AdsListPorps> = () => {
   const searchParams = useSearchParams()
   const pathname = usePathname()
-  const [currentPage, setCurrnetPage] = useState(1)
-  const { data, isLoading } = useSWR(`/ad?current=${currentPage}`, fetchFilterAd)
+  const currentParam = Number(searchParams.get("current")) || 1
+  const { data, isLoading } = useSWR(`/ad?current=${currentParam}`, fetchFilterAd)
   const { mutate } = useSWRConfig()
   const { currentAd } = useCurrentAdQuery()
 
@@ -30,7 +30,7 @@ const AdsList: React.FC<AdsListPorps> = () => {
   }, [pathname, searchParams])
 
   return (
-    <div className="bg-muted w-full h-full flex flex-col gap-1 p-3 rounded-sm">
+    <div className="bg-muted w-full h-full flex flex-col gap-1 p-3 rounded-sm overflow-y-auto">
       {useMemo(() => {
         return isLoading ? (
           <>در حال بارگذاری</>
@@ -44,13 +44,9 @@ const AdsList: React.FC<AdsListPorps> = () => {
           ))
         )
       }, [data])}
-      {data?.pagination ? (
-        <div className="my-3">
-          <PaginationButtons
-            currnetPage={currentPage}
-            setCurrnetPage={setCurrnetPage}
-            pagination={data.pagination}
-          />
+      {data?.pagination && data.pagination.pageNum > 1 ? (
+        <div className="mt-3">
+          <PaginationButtons currentParam={currentParam} pagination={data.pagination} />
         </div>
       ) : null}
     </div>
