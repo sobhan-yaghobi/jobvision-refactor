@@ -6,6 +6,7 @@ import {
   provinceWithCity,
 } from "@/types/utils.type"
 import { filterAd, filterSaerchForm } from "@/types/utils.variable"
+import { paginationFilter } from "./utils.function"
 
 export const fetchProvinceAndCategory = async () => {
   const categories = await fetch("/api/category")
@@ -25,10 +26,8 @@ export const fetchFilterAd = async (): Promise<{
   const current = params.get("current")
   const storeCount = params.get("storeCount") ?? 3
 
-  const res = await fetch(`/api/ad?current=${current}&storeCount=${storeCount}`)
-  const data = await res.json()
-
-  let adFilter: ad[] = data.store
+  const res = await fetch(`/api/ad`)
+  let adFilter: ad[] = await res.json()
 
   const search = params.get(filterSaerchForm.search)
   if (search)
@@ -79,7 +78,11 @@ export const fetchFilterAd = async (): Promise<{
   const cooperation_type = params.get(filterAd.cooperation_type)
   if (cooperation_type) adFilter = adFilter.filter((ad) => ad.cooperation_type === cooperation_type)
 
-  return { store: adFilter, pagination: data.pagination }
+  console.log("adFilter", adFilter)
+
+  const paginatedResault = paginationFilter(current, storeCount, adFilter)
+
+  return { store: paginatedResault.store as ad[], pagination: paginatedResault.pagination }
 }
 
 export const getMyCompany = async () => {
