@@ -74,6 +74,7 @@ export type paginationReturnType = {
 
 export type filterAds = {
   current: string | number | null
+  storeCount?: number
   search: string | null
   city: string | null
   province: string | null

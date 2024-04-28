@@ -132,7 +132,6 @@ const paginationFilter = (
   next_page = currentNumber < pageNum ? currentNumber + 1 : null
   prev_page = currentNumber > 1 ? currentNumber - 1 : null
   pageArray = [prev_page, currentNumber, next_page]
-  console.log("pageArray", pageArray)
 
   if (currentNumber > pageNum) {
     currentNumber = 1
