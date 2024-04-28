@@ -1,7 +1,8 @@
 import isAuth from "@/app/action/isAuth"
 import { NextRequest } from "next/server"
 
-import { ad } from "@/types/utils.type"
+import { ad, filterAds } from "@/types/utils.type"
+import { paginationFilter } from "@/utils/utils.function"
 
 export const dynamic = "force-dynamic"
 
@@ -31,6 +32,70 @@ export const GET = async (request: NextRequest) => {
   })
 
   return Response.json(ads)
+}
+
+export const POST = async (request: NextRequest) => {
+  let adFilter: ad[] =
+    ((await prisma.ad.findMany({
+      include: { company: { include: { location: { include: { city: true } } } } },
+    })) as ad[]) ?? ([] as ad[])
+
+  const {
+    current,
+    search,
+    city,
+    province,
+    collection,
+    itern,
+    telecommuting,
+    disabledPeople,
+    militaryOrder,
+    price,
+    seniority_level,
+    cooperation_type,
+  }: filterAds = await request.json()
+
+  if (search !== null)
+    adFilter = adFilter.filter(
+      (ad) => ad.name.includes(search) || ad.company?.name.includes(search)
+    )
+
+  if (city) adFilter = adFilter.filter((ad) => ad?.company?.location.city_id === city)
+
+  if (province)
+    adFilter = adFilter.filter((ad) => ad?.company?.location.city.province_id === province)
+
+  if (collection) adFilter = adFilter.filter((ad) => ad.tags?.some((tag) => tag.id === collection))
+
+  if (itern) adFilter = adFilter.filter((ad) => ad.itern)
+
+  if (telecommuting) adFilter = adFilter.filter((ad) => ad.telecommuting)
+
+  if (disabledPeople) adFilter = adFilter.filter((ad) => ad.disabledPeople)
+
+  if (militaryOrder) adFilter = adFilter.filter((ad) => ad.militaryOrder)
+
+  if (price)
+    adFilter = adFilter.filter((ad) => {
+      const { min, max } = ad.price
+      const splitfilter = price.split("-")
+      const mode = splitfilter.at(0)
+      const currentPrice = (value: string | number | undefined) => Number(value) * 1_000_000
+      if (mode === "RIGHT_UNDER") {
+        return currentPrice(splitfilter.at(1)) >= min
+      } else if (mode === "RIGHT_BETWEEN") {
+        return currentPrice(splitfilter.at(1)) > min && currentPrice(splitfilter.at(1)) < max
+      } else if (mode === "RIGHT_HIGHER") {
+        return currentPrice(splitfilter.at(1)) <= max || currentPrice(splitfilter.at(1)) <= min
+      }
+      return false
+    })
+
+  if (seniority_level) adFilter = adFilter.filter((ad) => ad.seniority_level === seniority_level)
+
+  if (cooperation_type) adFilter = adFilter.filter((ad) => ad.cooperation_type === cooperation_type)
+
+  return Response.json(paginationFilter(current, 1, adFilter))
 }
 
 export const DELETE = async (request: NextRequest) => {

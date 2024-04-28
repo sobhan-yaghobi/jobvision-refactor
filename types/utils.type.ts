@@ -71,3 +71,18 @@ export type paginationReturnType = {
   pageArray: (number | null)[]
   pageNum: number
 }
+
+export type filterAds = {
+  current: string | number | null
+  search: string | null
+  city: string | null
+  province: string | null
+  collection: string | null
+  itern: string | null
+  telecommuting: string | null
+  disabledPeople: string | null
+  militaryOrder: string | null
+  price: string | null
+  seniority_level: string | null
+  cooperation_type: string | null
+}

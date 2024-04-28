@@ -21,7 +21,7 @@ const AdsList: React.FC<AdsListPorps> = () => {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const currentParam = Number(searchParams.get("current")) || 1
-  const { data, isLoading } = useSWR(`/ad`, fetchFilterAd)
+  const { data, isLoading } = useSWR(`/ad`, async () => fetchFilterAd(currentParam))
   const { mutate } = useSWRConfig()
   const { currentAd } = useCurrentAdQuery()
 
