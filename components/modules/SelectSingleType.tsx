@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { TypeFilterAd } from "@/types/utils.variable"
 import { cn } from "@/utils/utils.function"
 
@@ -20,7 +20,7 @@ type SelectSingleTypeProps = {
 }
 
 const SelectSingleType: React.FC<SelectSingleTypeProps> = ({ placeholder, type, items }) => {
-  const { searchParams, queryAction, isExsist } = useFilterQuery()
+  const { searchParams, queryAction } = useFilterQuery()
 
   useEffect(() => {
     if (searchParams.get(type)) {
@@ -34,7 +34,7 @@ const SelectSingleType: React.FC<SelectSingleTypeProps> = ({ placeholder, type, 
 
   return (
     <ResponsiveSingleSelect
-      //   key={getType(searchParams.get(type) as string).type ?? type}
+      key={getType(searchParams.get(type) as string).type ?? type}
       contentClassName="!w-80"
       trigger={
         <Button

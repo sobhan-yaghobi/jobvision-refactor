@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 import useSWR, { useSWRConfig } from "swr"
 import useCurrentAdQuery from "@/hook/useCurrentAdQuery"
