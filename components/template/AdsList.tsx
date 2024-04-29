@@ -1,56 +1,113 @@
 "use client"
 
-import React, { useEffect, useMemo } from "react"
-import { usePathname, useSearchParams } from "next/navigation"
-import useSWR, { useSWRConfig } from "swr"
-import useCurrentAdQuery from "@/hook/useCurrentAdQuery"
+import React, { useEffect, useRef, useState } from "react"
 
 import { fetchFilterAd } from "@/utils/utils.fetch"
 
-import { TypeSearchParams } from "@/app/(publicPages)/jobs/page"
-
-import Title from "../modules/Title"
 import AdsBox from "../modules/AdsBox"
-import PaginationButtons from "../modules/PaginationButtons"
 
-type AdsListPorps = {
-  searchParams: TypeSearchParams
-}
+import InfiniteScroll from "react-infinite-scroll-component"
+import { ad } from "@/types/utils.type"
+import { debounce, uniqBy } from "lodash"
+import useCurrentAdQuery from "@/hook/useCurrentAdQuery"
 
-const AdsList: React.FC<AdsListPorps> = () => {
-  const searchParams = useSearchParams()
-  const pathname = usePathname()
-  const currentParam = Number(searchParams.get("current")) || 1
-  const { data, isLoading } = useSWR(`/ad`, async () => fetchFilterAd(currentParam))
-  const { mutate } = useSWRConfig()
+const AdsList: React.FC = () => {
+  const [state, setState] = useState({ ads: [] as ad[], hasMore: true, index: 1 })
   const { currentAd } = useCurrentAdQuery()
 
-  useEffect(() => {
-    mutate("/ad")
-  }, [pathname, searchParams])
+  const listRef = useRef<HTMLDivElement>(null)
 
+  const callBackFunc = (entries: IntersectionObserverEntry[]) => {
+    const [entry] = entries
+    if (!entry.isIntersecting) return
+    fetchMoreData()
+  }
+
+  const fetchMoreData = () => {
+    if (!state.ads.length) {
+      setState((prev) => ({ ...prev, hasMore: false }))
+      return
+    } else {
+      const fetchAction = async () => {
+        const index = state.index + 1
+        const ads = await fetchFilterAd(index)
+        ads.length && setState((prev) => ({ ...prev, ads: [...prev.ads, ...ads], index: index }))
+      }
+      fetchAction()
+    }
+  }
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(callBackFunc, {
+      root: null,
+      threshold: 0.8,
+      rootMargin: "0px",
+    })
+    listRef.current && observer.observe(listRef.current)
+
+    return () => {
+      listRef.current && observer.unobserve(listRef.current)
+    }
+  }, [listRef, fetchMoreData])
+
+  useEffect(() => {
+    const fetchAction = async () => {
+      const ads = await fetchFilterAd(state.index)
+      setState((prev) => ({ ...prev, ads: ads }))
+    }
+    fetchAction()
+  }, [])
   return (
-    <div className="bg-muted w-full h-full flex flex-col gap-1 p-3 rounded-sm overflow-y-auto">
-      {useMemo(() => {
-        return isLoading ? (
-          <>در حال بارگذاری</>
-        ) : !data?.store || !data.store.length ? (
-          <Title className="bg-muted h-full text-yellow-500 p-2.5 rounded-sm">
-            <h3>آگهی وجود ندارد</h3>
-          </Title>
-        ) : (
-          data.store.map((ad) => (
-            <AdsBox key={ad.id} ad={{ ...ad }} active={ad.id === currentAd()} isFooter></AdsBox>
-          ))
-        )
-      }, [data, currentAd])}
-      {data?.pagination && data.pagination.pageNum > 1 ? (
-        <div className="mt-3">
-          <PaginationButtons currentParam={currentParam} pagination={data.pagination} />
-        </div>
-      ) : null}
+    <div className="bg-muted w-full h-full p-3 overflow-y-auto">
+      <InfiniteScroll
+        dataLength={state.ads.length}
+        next={fetchMoreData}
+        hasMore={state.hasMore}
+        className="flex flex-col gap-1 rounded-sm"
+        style={{ overflow: "visible" }}
+        loader={<h4>در حال پردازش...</h4>}
+      >
+        {uniqBy(state.ads, "id").map((ad) => (
+          <AdsBox key={`ads-list-${ad.id}`} ad={ad} isFooter active={ad.id === currentAd()} />
+        ))}
+        <div ref={listRef}></div>
+      </InfiniteScroll>
     </div>
   )
+}
+
+export const useScrollToFetchData = (FetchMoreData: () => void) => {
+  const debouncedFetchMoreData = debounce(FetchMoreData, 2000)
+  const bottom = useRef(null)
+
+  useEffect(() => {
+    const bottomCurrent = bottom.current
+    const options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.8,
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          return
+        }
+        debouncedFetchMoreData()
+      })
+    }, options)
+
+    if (bottomCurrent) {
+      observer.observe(bottomCurrent)
+    }
+
+    return () => {
+      if (bottomCurrent) {
+        observer.unobserve(bottomCurrent)
+      }
+    }
+  }, [FetchMoreData])
+
+  return bottom
 }
 
 export default AdsList

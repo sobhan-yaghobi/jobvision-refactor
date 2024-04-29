@@ -18,16 +18,12 @@ export const fetchProvinceAndCategory = async () => {
   return { categories, provinces }
 }
 
-export const fetchFilterAd = async (
-  current: string | number
-): Promise<{
-  store: ad[]
-  pagination: paginationReturnType
-}> => {
+export const fetchFilterAd = async (current: string | number): Promise<ad[]> => {
   const params = new URLSearchParams(location.search)
 
   const parms: filterAds = {
     current,
+    storeCount: 5,
     search: params.get(filterSaerchForm.search),
     city: params.get(filterSaerchForm.city),
     province: params.get(filterSaerchForm.province),
@@ -48,10 +44,7 @@ export const fetchFilterAd = async (
     },
     body: JSON.stringify(parms),
   })
-  let data: {
-    store: ad[]
-    pagination: paginationReturnType
-  } = await res.json()
+  let data: ad[] = await res.json()
 
   return data
 }
