@@ -64,14 +64,6 @@ export type followerWithUser = Prisma.followersGetPayload<{
   include: typeof followerInclude
 }>
 
-export type paginationReturnType = {
-  current: number
-  next_page: number | null
-  prev_page: number | null
-  pageArray: (number | null)[]
-  pageNum: number
-}
-
 export type filterAds = {
   current: string | number | null
   storeCount?: number

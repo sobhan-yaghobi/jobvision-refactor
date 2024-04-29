@@ -3,7 +3,6 @@ import {
   categoryWithCollection,
   companyWithLocation,
   filterAds,
-  paginationReturnType,
   provinceWithCity,
 } from "@/types/utils.type"
 import { filterAd, filterSaerchForm } from "@/types/utils.variable"
