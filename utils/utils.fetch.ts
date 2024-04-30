@@ -3,6 +3,7 @@ import {
   categoryWithCollection,
   companyWithLocation,
   filterAds,
+  paginationFilterReturn,
   provinceWithCity,
 } from "@/types/utils.type"
 import { filterAd, filterSaerchForm } from "@/types/utils.variable"
@@ -17,7 +18,9 @@ export const fetchProvinceAndCategory = async () => {
   return { categories, provinces }
 }
 
-export const fetchFilterAd = async (current: string | number): Promise<ad[]> => {
+export const fetchFilterAd = async (
+  current: string | number
+): Promise<paginationFilterReturn<ad>> => {
   const params = new URLSearchParams(location.search)
 
   const parms: filterAds = {
@@ -43,7 +46,7 @@ export const fetchFilterAd = async (current: string | number): Promise<ad[]> => 
     },
     body: JSON.stringify(parms),
   })
-  let data: ad[] = await res.json()
+  let data: paginationFilterReturn<ad> = await res.json()
 
   return data
 }

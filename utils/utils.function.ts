@@ -8,6 +8,7 @@ import { DateObject } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
 import gregorian_en from "react-date-object/locales/gregorian_en"
+import { paginationFilterReturn } from "@/types/utils.type"
 
 const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
@@ -111,17 +112,15 @@ const dateGenerate = (date: string | Date) =>
       .format()
   )
 
-const paginationFilter = (
+const paginationFilter = <T>(
   current: string | number | null,
   storeCount: string | number | null,
-  store: unknown[]
-): unknown[] => {
+  store: T[]
+): paginationFilterReturn<T> => {
   let currentNumber = Number(current) || 1
   let storeNumber = Number(storeCount) || 1
-  let filterStore = [] as unknown[]
-  let prev_page: number | null = null
+  let filterStore = [] as T[]
   let next_page: number | null = null
-  let pageArray: (number | null)[] = []
   let pageNum: number = 0
 
   pageNum = Math.ceil(store?.length / storeNumber)
@@ -129,13 +128,11 @@ const paginationFilter = (
   const startIndex = endIndex - storeNumber
   filterStore = store?.slice(startIndex, endIndex)
   next_page = currentNumber < pageNum ? currentNumber + 1 : null
-  prev_page = currentNumber > 1 ? currentNumber - 1 : null
-  pageArray = [prev_page, currentNumber, next_page]
 
   if (currentNumber > pageNum) {
-    filterStore = []
+    filterStore = [] as T[]
   }
-  return filterStore
+  return { store: filterStore, next_page }
 }
 
 export {
