@@ -1,7 +1,9 @@
 "use client"
+import { compact } from "lodash"
+
+import { useRouter, useSearchParams } from "next/navigation"
 
 import { TypeFilterAd } from "@/types/utils.variable"
-import { useRouter, useSearchParams } from "next/navigation"
 
 const VariablePath: TypeFilterAd[] = [
   "itren",
@@ -29,10 +31,17 @@ const useFilterQuery = () => {
   }
   const get = (path: TypeFilterAd) => searchParams.get(path)
   const isExsist = (path: TypeFilterAd, value: string) => Boolean(get(path) == value)
-  const isAnyFilterExsist = () => VariablePath.some((item) => searchParams.get(item))
-  const paramsSize = () => new URLSearchParams(searchParams).size
 
-  return { queryAction, get, isExsist, paramsSize, isAnyFilterExsist, searchParams }
+  const paramsSize = () =>
+    compact(VariablePath.map((variable) => (get(variable) ? variable : undefined))).length
+
+  const removeAllAction = () => {
+    const params = new URLSearchParams(searchParams)
+    VariablePath.map((variable) => params.delete(variable))
+    replace(`?${params.toString()}`)
+  }
+
+  return { queryAction, get, isExsist, paramsSize, removeAllAction, searchParams }
 }
 
 export default useFilterQuery
