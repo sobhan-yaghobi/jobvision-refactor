@@ -4,7 +4,7 @@ import { toast } from "@/components/modules/ui/use-toast"
 
 import { ad } from "@/types/utils.type"
 
-import AdsBox from "@/components/modules/dashboard/AdsBox"
+import ADBox from "@/components/modules/dashboard/ADBox"
 import Title from "@/components/modules/Title"
 import useSWR from "swr"
 
@@ -37,7 +37,7 @@ const Ads: React.FC = () => {
       {isLoading ? (
         <>در حال بارگذاری</>
       ) : adItems?.length ? (
-        adItems.map((item) => <AdsBox key={item.id} ad={item} remove={removeAction} />)
+        adItems.map((item) => <ADBox key={item.id} ad={item} remove={removeAction} />)
       ) : (
         <p className="bg-destructive-foreground text-destructive p-2 rounded-sm">آگهی وجود ندارد</p>
       )}

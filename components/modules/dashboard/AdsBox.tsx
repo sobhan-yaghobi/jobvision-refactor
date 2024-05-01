@@ -18,12 +18,12 @@ import {
   DialogTrigger,
 } from "../ui/dialog"
 
-type AdsBoxProps = {
+type ADBoxProps = {
   ad: ad
   remove: (id: string) => Promise<void>
 }
 
-const AdsBox: React.FC<AdsBoxProps> = ({ ad, remove }) => {
+const ADBox: React.FC<ADBoxProps> = ({ ad, remove }) => {
   const [isLogoutDialog, setIsLogoutDialog] = useState(false)
   return (
     <Card>
@@ -164,4 +164,4 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, remove }) => {
   )
 }
 
-export default AdsBox
+export default ADBox

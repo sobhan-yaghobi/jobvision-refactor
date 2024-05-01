@@ -1,75 +1,50 @@
 "use client"
 
-import React, { useEffect, useMemo, useState } from "react"
-import { uniqBy } from "lodash"
+import React, { useEffect, useMemo } from "react"
+import { usePathname, useSearchParams } from "next/navigation"
+import useSWR, { useSWRConfig } from "swr"
+import useCurrentAdQuery from "@/hook/useCurrentAdQuery"
 
 import { fetchFilterAd } from "@/utils/utils.fetch"
 
-import useCurrentAdQuery from "@/hook/useCurrentAdQuery"
-import useScrollADsList from "@/hook/useScrollADsList"
+import Title from "../modules/Title"
+import ADBox from "../modules/ADBox"
+import ADBoxSkeleton from "../modules/skeleton/ADBox.skeleton"
 
-import AdsBox from "../modules/AdsBox"
-import InfiniteScroll from "react-infinite-scroll-component"
-import LoadButton from "../modules/ui/LoadButton"
-
-const AdsList: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const fetchMoreData = async () => {
-    if (state.hasMore) {
-      setIsLoading(true)
-      const index = state.index + 1
-      const ads = await fetchFilterAd(index)
-      if (ads.store.length) {
-        setState((prev) => ({
-          ...prev,
-          ads: [...prev.ads, ...ads.store],
-          index: index,
-          hasMore: Boolean(ads.next_page),
-        }))
-      }
-      setIsLoading(false)
-    }
-  }
-  const { state, setState, listRef } = useScrollADsList(fetchMoreData)
+const ADsList: React.FC = () => {
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const { data, isLoading } = useSWR(`/ad`, fetchFilterAd)
+  const { mutate } = useSWRConfig()
   const { currentAd } = useCurrentAdQuery()
 
   useEffect(() => {
-    const fetchAction = async () => {
-      const ads = await fetchFilterAd(state.index)
-      setState((prev) => ({ ...prev, ads: ads.store }))
-    }
-    fetchAction()
-  }, [])
+    mutate("/ad")
+  }, [pathname, searchParams])
 
   return (
-    <div className="bg-muted w-full h-full p-3 overflow-y-auto">
-      {useMemo(
-        () => (
-          <InfiniteScroll
-            dataLength={state.ads.length}
-            next={fetchMoreData}
-            hasMore={state.hasMore}
-            className="flex flex-col gap-1 rounded-sm"
-            style={{ overflow: "visible" }}
-            loader
-          >
-            {state.ads.length ? (
-              uniqBy(state.ads, "id").map((ad) => (
-                <AdsBox key={`ads-list-${ad.id}`} ad={ad} isFooter active={ad.id === currentAd()} />
-              ))
-            ) : (
-              <>آگهی یافت نشد</>
-            )}
-            <div ref={listRef}></div>
-          </InfiniteScroll>
-        ),
-        [state.ads]
-      )}
-      {isLoading && (
-        <LoadButton isLoading={isLoading} variant={"none"} className="w-full h-auto pt-4" />
-      )}
+    <div className="bg-muted w-full h-full flex flex-col gap-1 p-3 rounded-sm overflow-y-auto">
+      {useMemo(() => {
+        return isLoading ? (
+          <>
+            {Array(3)
+              .fill("")
+              .map((_, index) => (
+                <ADBoxSkeleton key={`skeleton-AD-box-${index}`} isFooter />
+              ))}
+          </>
+        ) : !data?.store || !data.store.length ? (
+          <Title className="bg-muted h-full text-yellow-500 p-2.5 rounded-sm">
+            <h3>آگهی وجود ندارد</h3>
+          </Title>
+        ) : (
+          data.store.map((ad) => (
+            <ADBox key={ad.id} ad={{ ...ad }} active={ad.id === currentAd()} isFooter></ADBox>
+          ))
+        )
+      }, [data])}
     </div>
   )
 }
 
-export default AdsList
+export default ADsList

@@ -12,14 +12,14 @@ import SendCvButton from "./SendCvButton"
 import Link from "next/link"
 import Image from "next/image"
 
-type AdsBoxProps = {
+type ADBoxProps = {
   ad: ad
   className?: string
   isFooter?: boolean
   active?: boolean
 }
 
-const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
+const ADBox: React.FC<ADBoxProps> = ({ ad, className, isFooter, active }) => {
   return (
     <div title="مشاهده آگهی" className="cursor-pointer">
       <Card
@@ -84,4 +84,4 @@ const AdsBox: React.FC<AdsBoxProps> = ({ ad, className, isFooter, active }) => {
   )
 }
 
-export default AdsBox
+export default ADBox

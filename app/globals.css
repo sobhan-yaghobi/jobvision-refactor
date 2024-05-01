@@ -183,7 +183,7 @@
   }
 
   .box-info-type {
-    @apply text-xs ml-1 mt-2 px-2 py-1 border-2 border-solid border-muted rounded-sm;
+    @apply text-xs ml-1 mt-2 px-2 py-1 border-2 border-solid border-muted rounded-sm truncate;
   }
 
   .hidden-scrollbar::-webkit-scrollbar {
