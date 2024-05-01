@@ -42,7 +42,7 @@ const ADsList: React.FC = () => {
             <ADBox key={ad.id} ad={{ ...ad }} active={ad.id === currentAd()} isFooter></ADBox>
           ))
         )
-      }, [data])}
+      }, [data, currentAd()])}
     </div>
   )
 }

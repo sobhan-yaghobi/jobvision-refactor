@@ -11,10 +11,10 @@ const page = async () => {
         <JobsFillter />
       </div>
       <div className="h-fit grid grid-cols-3 gap-6 overflow-hidden lg:h-current-job">
-        <div className="bg-muted col-span-3 rounded-lg overflow-y-auto lg:col-span-1">
+        <div className="col-span-3 overflow-y-auto lg:col-span-1">
           <ADsList />
         </div>
-        <div className="h-full hidden col-span-2 overflow-y-auto lg:block">
+        <div className="h-full hidden  col-span-2 overflow-y-auto lg:block">
           <CurrentJobAd />
         </div>
       </div>
