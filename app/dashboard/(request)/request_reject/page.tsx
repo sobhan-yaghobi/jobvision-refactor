@@ -7,6 +7,7 @@ import { cvWithAdWithUser } from "@/types/utils.type"
 
 import Title from "@/components/modules/Title"
 import CvRequest from "@/components/modules/dashboard/CvRequest"
+import CVREquestSkeleton from "@/components/modules/skeleton/CVREquest.skeleton"
 
 const page = () => {
   const {
@@ -25,13 +26,15 @@ const page = () => {
       </Title>
       <div className="mt-3">
         {isLoading ? (
-          <>در حال بارگذاری</>
+          Array(5)
+            .fill("")
+            .map((_, index) => <CVREquestSkeleton key={`last-cv-skeleton-${index}`} />)
         ) : rejectCv?.length ? (
           rejectCv.map((item) => (
             <CvRequest mutate={mutate} cv={item} status={item.status} key={item.id} />
           ))
         ) : (
-          <>درحواستی وجود ندارد</>
+          <>درخواستی وجود ندارد</>
         )}
       </div>
     </div>

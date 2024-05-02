@@ -9,20 +9,25 @@ import { User } from "lucide-react"
 
 import TimeGenerator from "../TimeGenerator"
 import CvButton from "../CvButton"
+import Link from "next/link"
 
-const cvVaraiant = cva("mb-2 h-36 bg-jv-white py-4 px-3 rounded-lg border-solid border-[1px]", {
-  variants: {
-    status: {
-      default: "border-yellow-500/50",
-      accept: "border-green-500/50",
-      waiting: "border-yellow-500/50",
-      reject: "border-destructive",
+export const cvVaraiant = cva(
+  "mb-2 h-36 bg-jv-white py-4 px-3 rounded-lg border-solid border-[1px]",
+  {
+    variants: {
+      status: {
+        default: "border-yellow-500/50",
+        accept: "border-green-500/50",
+        waiting: "border-yellow-500/50",
+        reject: "border-destructive",
+        none: "",
+      },
     },
-  },
-  defaultVariants: {
-    status: "default",
-  },
-})
+    defaultVariants: {
+      status: "default",
+    },
+  }
+)
 
 export type CvRequestProps = {
   mutate?: () => void
@@ -38,10 +43,15 @@ const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, mutate }) =
           <span className="ml-2 text-2xl text-secondary w-10 h-10 border-2 border-solid border-muted rounded-full flex items-center justify-center">
             <User />
           </span>
-          <span className="text-muted-foreground">
-            <p className="text-base">{cv?.user.email}</p>
-            <p className="text-xs">توسعه دهنده فرانت اند</p>
-            <p className="w-full mt-3 text-base text-primary  truncate">{cv.ad.name}</p>
+          <span className="text-muted-foreground text-sm">
+            <p>{cv?.user.email}</p>
+            <Link
+              href={`/jobs?id=${cv.ad.id}`}
+              target="_blank"
+              className="w-full text-primary truncate hover:underline"
+            >
+              {cv.ad.name}
+            </Link>
           </span>
         </section>
         <section className="h-full">
@@ -50,7 +60,7 @@ const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, mutate }) =
           </p>
         </section>
       </div>
-      <div className="h-2/3 flex flex-col mt-3 text-xs">
+      <div className="h-2/3 flex flex-col justify-end pb-3 mt-3 text-xs">
         <div className="flex items-center justify-end gap-3">
           <CvButton cv={cv} status={cvStatus} mutate={mutate} />
         </div>

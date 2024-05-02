@@ -9,14 +9,15 @@ export interface ButtonLoadProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   isLoading?: boolean
+  isReplace?: boolean
 }
 
 const LoadButton = React.forwardRef<HTMLButtonElement, ButtonLoadProps>(
-  ({ className, variant, size, children, isLoading, ...props }, ref) => {
+  ({ className, variant, size, children, isLoading, isReplace, ...props }, ref) => {
     const { pending } = useFormStatus()
     return (
       <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
-        {children}
+        {(pending || isLoading) && isReplace ? null : children}
         {pending || isLoading ? (
           <>
             <svg

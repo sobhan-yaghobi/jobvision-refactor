@@ -7,6 +7,7 @@ import { acceptCv, rejectCv } from "@/app/action/cv"
 import { CvRequestProps } from "./dashboard/CvRequest"
 
 import LoadButton from "./ui/LoadButton"
+import { MailCheck, MailMinus } from "lucide-react"
 
 type CvButtonProps = CvRequestProps
 
@@ -43,21 +44,28 @@ const CvButton: React.FC<CvButtonProps> = ({ cv, status: cvStatus, mutate }) => 
   return (
     <>
       <LoadButton
+        isReplace
         isLoading={isAccpetLoading}
         disabled={cvStatus === "accept" || isAccpetLoading}
         onClick={acceptClientAction}
+        variant={"success"}
         size={"sm"}
+        title="تایید رزومه"
+        aria-label="تایید رزومه"
       >
-        قبول
+        <MailCheck className="icon" />
       </LoadButton>
       <LoadButton
+        isReplace
         isLoading={isRejectLoading}
         disabled={cvStatus === "reject" || isRejectLoading}
         onClick={rejectClientAction}
         size={"sm"}
-        variant={"destructiveOutline"}
+        variant={"destructiveLight"}
+        title="رد رزومه"
+        aria-label="رد رزومه"
       >
-        رد
+        <MailMinus className="icon" />
       </LoadButton>
     </>
   )
