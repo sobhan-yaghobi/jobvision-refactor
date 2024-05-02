@@ -30,10 +30,13 @@ const QuickAccess: React.FC = () => {
             <DoorOpen className="icon" />
           </Button>
         </Link>
-        <LogOutButtonAction redirectPath="/">
-          <Button variant={"destructiveOutline"} aria-label="خروج از حساب" title="خروج از حساب">
-            <LogOut className="icon rotate-180" />
-          </Button>
+        <LogOutButtonAction
+          variant={"destructiveOutline"}
+          redirectPath="/"
+          aria-label="خروج از حساب"
+          title="خروج از حساب"
+        >
+          <LogOut className="icon rotate-180" />
         </LogOutButtonAction>
       </div>
       <Card className="border-none shadow-lg my-3 p-3">
