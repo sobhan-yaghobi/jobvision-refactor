@@ -31,6 +31,7 @@ const QuickAccess: React.FC = () => {
           </Button>
         </Link>
         <LogOutButtonAction
+          includeProps
           variant={"destructiveOutline"}
           redirectPath="/"
           aria-label="خروج از حساب"
