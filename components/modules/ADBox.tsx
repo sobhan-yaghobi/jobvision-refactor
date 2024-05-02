@@ -36,7 +36,7 @@ const ADBox: React.FC<ADBoxProps> = ({ ad, className, isFooter, active }) => {
               width={190}
               height={100}
               src={`/uploads/${ad.company.logo}`}
-              className="rounded-sm h-16 w-auto"
+              className="rounded-sm w-16 h-auto"
               alt="logo-compnay"
             />
             <div className="flex flex-col !mt-0 !mr-3">
