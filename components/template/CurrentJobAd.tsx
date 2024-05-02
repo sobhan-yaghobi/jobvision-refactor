@@ -178,7 +178,11 @@ const CurrentJobAd: React.FC = () => {
               </TabsList>
               <div className="bg-background p-3">
                 {mainItemsBoxInfos.map((item) => (
-                  <TabsContent className="h-full" key={`content-${item.type}`} value={item.type}>
+                  <TabsContent
+                    className="h-full mb-3"
+                    key={`content-${item.type}`}
+                    value={item.type}
+                  >
                     {item.component}
                   </TabsContent>
                 ))}
