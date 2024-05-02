@@ -13,6 +13,7 @@ import useSWR from "swr"
 import { getMyCompany } from "@/utils/utils.fetch"
 import Image from "next/image"
 import { followerWithUser } from "@/types/utils.type"
+import FollowerNotifSkeleton from "@/components/modules/skeleton/FollowerNotif.skeleton"
 
 const QuickAccess: React.FC = () => {
   const { data: company, isLoading } = useSWR("api/myCompany", getMyCompany)
@@ -23,7 +24,7 @@ const QuickAccess: React.FC = () => {
   })
 
   return (
-    <div className="h-full flex-col">
+    <div className="h-full flex flex-col">
       <div className="flex justify-end gap-3">
         <Link href={"/"}>
           <Button variant={"outline"} aria-label="خررج از داشبورد" title="خروج از داشبورد">
@@ -54,19 +55,17 @@ const QuickAccess: React.FC = () => {
             />
           )}
         </CardHeader>
-        <CardTitle className="center text-center morabba">
-          {company?.name ? (
-            <span>{company.name}</span>
-          ) : (
-            <div className="flex flex-col">
-              <span>شرکتی یافت نشد</span>
+        <CardTitle className="h-20 center text-center morabba">
+          <div className="h-full flex flex-col justify-between">
+            <p className="truncate p-1">{company?.name ? company.name : "شرکتی یافت نشد"}</p>
+            {!company?.name ? (
               <Button variant={"link"}>
-                <Link className="mt-3 text-sm dana" href={"/dashboard?page=company"}>
+                <Link className="text-sm dana" href={"/dashboard?page=company"}>
                   ثبت شرکت
                 </Link>
               </Button>
-            </div>
-          )}
+            ) : null}
+          </div>
         </CardTitle>
         {company !== null ? (
           <CardContent className="w-full flex justify-around mt-6 p-0">
@@ -88,23 +87,28 @@ const QuickAccess: React.FC = () => {
           </CardContent>
         ) : null}
       </Card>
-      <Card className="flex-1 p-3 border-none shadow-lg">
+      <Card className="p-3 border-none shadow-lg">
         <CardHeader className="p-0">
           <h3 className="morabba text-xl">درخواست های اخیر</h3>
         </CardHeader>
         <CardContent className="mt-3 p-0">
           {isFollowerLoading ? (
-            <>در حال بارگذاری</>
+            <FollowerNotifSkeleton />
           ) : followers?.length ? (
             <ul>
               {followers.map((follower) => (
-                <li className="bg-muted p-3" key={follower.id}>
+                <li
+                  className="bg-muted h-10 center justify-start px-1 rounded-sm"
+                  key={follower.id}
+                >
                   {follower.user?.email}
                 </li>
               ))}
             </ul>
           ) : (
-            <h5 className="text-white bg-destructive/50 py-2 px-1 rounded-sm">درخواستی پیدا نشد</h5>
+            <h5 className="text-white bg-destructive/50 h-10 center justify-start px-1 rounded-sm">
+              درخواستی پیدا نشد
+            </h5>
           )}
         </CardContent>
       </Card>
