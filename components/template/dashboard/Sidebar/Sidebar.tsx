@@ -1,5 +1,5 @@
-import React, { Fragment, ReactNode } from "react";
-import { Route, MultipleItem } from "./Item";
+import React, { Fragment, ReactNode } from "react"
+import { Route, MultipleItem } from "./Item"
 
 import {
   GitPullRequestClosed,
@@ -9,23 +9,23 @@ import {
   AlarmClock,
   CheckCheck,
   Home,
-} from "lucide-react";
+} from "lucide-react"
 
-import { Accordion } from "@/components/modules/ui/accordion";
-import { Button } from "@/components/modules/ui/button";
-import { Card } from "@/components/modules/ui/card";
-import Title from "@/components/modules/Title";
-import Image from "next/image";
-import Link from "next/link";
+import { Accordion } from "@/components/modules/ui/accordion"
+import { Button } from "@/components/modules/ui/button"
+import { Card } from "@/components/modules/ui/card"
+import Title from "@/components/modules/Title"
+import Image from "next/image"
+import Link from "next/link"
 
 export type TypeSidebarItem = {
-  label: string;
-  icon: ReactNode;
-  href: string;
+  label: string
+  icon: ReactNode
+  href: string
   children?: (TypeSidebarItem & {
-    parent_href: TypeSidebarItem["href"];
-  })[];
-};
+    parent_href: TypeSidebarItem["href"]
+  })[]
+}
 const sidebarItems: TypeSidebarItem[] = [
   { label: "خانه", icon: <Home className="icon" />, href: "dashboard" },
   { label: "آگهی ها", icon: <FileSpreadsheet className="icon" />, href: "ads" },
@@ -60,7 +60,7 @@ const sidebarItems: TypeSidebarItem[] = [
       },
     ],
   },
-];
+]
 
 const Sidebar: React.FC = () => {
   return (
@@ -80,7 +80,14 @@ const Sidebar: React.FC = () => {
         </ul>
       </Accordion>
       <Card className="center flex-col py-2 px-3">
-        <Image width={150} height={150} src={"/images/report.webp"} alt="report-image" />
+        <Image
+          width={150}
+          height={150}
+          priority
+          className="w-36 h-36"
+          src={"/images/report.webp"}
+          alt="report-image"
+        />
         <Title className="w-auto">
           <h4>گزارش سالانه</h4>
         </Title>
@@ -88,7 +95,7 @@ const Sidebar: React.FC = () => {
         <Button size={"sm"}>دانلود</Button>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar
