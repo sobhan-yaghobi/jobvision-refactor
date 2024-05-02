@@ -22,7 +22,7 @@ export interface LogOutButtonActionProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   className?: string
-  redirectPath?: string
+  redirect?: string
   includeProps?: boolean
 }
 
@@ -38,8 +38,8 @@ const LogOutButtonAction = React.forwardRef<HTMLButtonElement, LogOutButtonActio
       if (resault.status) {
         setUser(null)
         setIsLogoutDialog(false)
-        if (props.redirectPath) {
-          router.replace(props.redirectPath)
+        if (props.redirect) {
+          router.replace(props.redirect)
         }
         toast({ title: resault.message, variant: "default" })
       }

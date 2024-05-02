@@ -34,7 +34,7 @@ const QuickAccess: React.FC = () => {
         <LogOutButtonAction
           includeProps
           variant={"destructiveOutline"}
-          redirectPath="/"
+          redirect="/"
           aria-label="خروج از حساب"
           title="خروج از حساب"
         >
@@ -46,13 +46,15 @@ const QuickAccess: React.FC = () => {
           {isLoading || !company?.logo ? (
             <div className="w-24 h-24 bg-muted rounded-full"></div>
           ) : (
-            <Image
-              width={96}
-              height={96}
-              src={`/uploads/${company?.logo}`}
-              alt="company-logo"
-              className="bg-muted w-24 h-24 p-1 rounded-full"
-            />
+            <div className="w-24 h-24 center">
+              <Image
+                width={500}
+                height={500}
+                src={`/uploads/${company?.logo}`}
+                alt="company-logo"
+                className="w-24 h-auto max-h-24"
+              />
+            </div>
           )}
         </CardHeader>
         <CardTitle className="h-20 center text-center morabba">
@@ -68,7 +70,7 @@ const QuickAccess: React.FC = () => {
           </div>
         </CardTitle>
         {company !== null ? (
-          <CardContent className="w-full flex justify-around mt-6 p-0">
+          <CardContent className="w-full flex justify-around p-0">
             <Link href={"/dashboard/ads?page=add-ads"}>
               <Button variant={"fill"} size={"sm"} title="آگهی جدید" aria-label="آگهی جدید">
                 <FilePlus2 className="icon-sm" />

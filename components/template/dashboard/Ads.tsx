@@ -7,6 +7,7 @@ import { ad } from "@/types/utils.type"
 import ADBox from "@/components/modules/dashboard/ADBox"
 import Title from "@/components/modules/Title"
 import useSWR from "swr"
+import ADBoxDashboardSkeleton from "@/components/modules/skeleton/ADBoxDashboard.skeleton"
 
 const Ads: React.FC = () => {
   const {
@@ -35,9 +36,19 @@ const Ads: React.FC = () => {
         <h3>آگهی ها</h3>
       </Title>
       {isLoading ? (
-        <>در حال بارگذاری</>
+        Array(3)
+          .fill("")
+          .map((_, index) => (
+            <div className="mb-2 last:mb-0">
+              <ADBoxDashboardSkeleton key={`dashboard-ad-list-${index}`} />
+            </div>
+          ))
       ) : adItems?.length ? (
-        adItems.map((item) => <ADBox key={item.id} ad={item} remove={removeAction} />)
+        adItems.map((item) => (
+          <div key={item.id} className="mb-2 last:mb-0">
+            <ADBox ad={item} remove={removeAction} />
+          </div>
+        ))
       ) : (
         <p className="bg-destructive-foreground text-destructive p-2 rounded-sm">آگهی وجود ندارد</p>
       )}
