@@ -14,7 +14,7 @@ const page = async () => {
         <div className="col-span-3 overflow-y-auto lg:col-span-1">
           <ADsList />
         </div>
-        <div className="h-full hidden  col-span-2 overflow-y-auto lg:block">
+        <div className="h-full hidden col-span-2 overflow-y-auto lg:block">
           <CurrentJobAd />
         </div>
       </div>
