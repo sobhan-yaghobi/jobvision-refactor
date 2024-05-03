@@ -57,7 +57,7 @@ const SelectSingleType: React.FC<SelectSingleTypeProps> = ({ placeholder, type, 
                   e.stopPropagation()
                   queryAction(type, "")
                 }}
-                className="bg-primary stroke-primary-foreground rounded-sm icon btn-icon-r"
+                className="icon btn-icon-r bg-primary stroke-primary-foreground rounded-sm"
               />
             </>
           ) : (
@@ -79,7 +79,7 @@ const SelectSingleType: React.FC<SelectSingleTypeProps> = ({ placeholder, type, 
           >
             <CheckIcon
               className={cn(
-                "mr-2 icon btn-icon-l",
+                "icon btn-icon-l mr-2",
                 isType(item.type) ? "opacity-100" : "opacity-0"
               )}
             />

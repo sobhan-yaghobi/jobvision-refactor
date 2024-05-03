@@ -34,7 +34,7 @@ const SingleType: React.FC<SingleTypeProps> = ({ name, type }) => {
             e.stopPropagation()
             queryAction(type, "")
           }}
-          className="bg-primary stroke-primary-foreground rounded-sm icon btn-icon-r"
+          className="icon btn-icon-r bg-primary stroke-primary-foreground rounded-sm"
         />
       ) : null}
     </Button>
