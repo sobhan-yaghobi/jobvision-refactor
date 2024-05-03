@@ -2,19 +2,18 @@
 
 import React, { useEffect, useState } from "react"
 import useSWR from "swr"
+import { useRouter, useSearchParams } from "next/navigation"
 import { cn } from "@/utils/utils.function"
 import { fetchProvinceAndCategory } from "@/utils/utils.fetch"
+
 import { filterSaerchForm } from "@/types/utils.variable"
-
-import { useRouter, useSearchParams } from "next/navigation"
-
 import { category_collection, city, province } from "@prisma/client"
 
 import { Briefcase, CheckIcon, MapPin, Search, X } from "lucide-react"
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
-import { Button } from "@/components/modules/ui/button"
 import SingleSelect from "./SingleSelect"
+import { Button } from "@/components/modules/ui/button"
 import { Input } from "./ui/input"
 
 export type SearchFormProps = {
@@ -28,25 +27,19 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
   redirectAsap,
   path,
 }) => {
-  const { data, isLoading } = useSWR("/api/fetchProvinceAndCategory", fetchProvinceAndCategory)
   const [isCategoryOpen, setIsCategoryOpen] = useState(false)
   const [isprovinceOpen, setIsProvinceOpen] = useState(false)
-
+  const searchParams = useSearchParams()
+  const { replace } = useRouter()
   const [collection, setCollection] = useState<category_collection>({} as category_collection)
   const [cityOrProvince, setCityOrProvince] = useState<StateProvinceOrCity>(
     {} as StateProvinceOrCity
   )
-
-  const searchParams = useSearchParams()
-  const { replace } = useRouter()
-
+  const { data, isLoading } = useSWR("/api/fetchProvinceAndCategory", fetchProvinceAndCategory)
   const handelSearch = (value: string, path: string, deletePath?: string) => {
     const params = new URLSearchParams(searchParams)
-    if (value) {
-      params.set(path, value)
-    } else {
-      params.delete(path)
-    }
+    value ? params.set(path, value) : params.delete(path)
+
     deletePath && params.delete(deletePath)
     redirectAsap
       ? replace(`${typeof path !== "undefined" && path}?${params.toString()}`)
@@ -55,18 +48,19 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
 
   useEffect(() => {
     const categoryFetchAction = async () => {
-      const queryCollection = searchParams.get(filterSaerchForm.collection) || ""
+      const queryCollection = searchParams.get(filterSaerchForm.collection)
       if (queryCollection) {
         data?.categories.find((category) =>
           category.category_collections.find(
             (collection) => collection.id === queryCollection && setCollection(collection)
           )
         )
+        return
       }
     }
     const provinceFetchAction = async () => {
-      const queryCity = searchParams.get(filterSaerchForm.city) || ""
-      const queryProvince = searchParams.get(filterSaerchForm.province) || ""
+      const queryCity = searchParams.get(filterSaerchForm.city)
+      const queryProvince = searchParams.get(filterSaerchForm.province)
 
       if (queryCity) {
         data?.provinces.find((province) =>
@@ -92,34 +86,37 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
       searchParams.get(filterSaerchForm.city)?.length
     )
       provinceFetchAction()
+
+    setCityOrProvince({} as StateProvinceOrCity)
+    setCollection({} as category_collection)
   }, [data, searchParams])
 
   return (
     <div className="w-full flex flex-col gap-3 items-center justify-between lg:flex-row">
       <Input
-        onChange={(e) => handelSearch(e.target.value.trim(), filterSaerchForm.search)}
         defaultValue={searchParams.get(filterSaerchForm.search?.toString()) || ""}
         wrapperClassName="w-full"
         icon={<Search className="icon" />}
         placeholder="عنوان شغلی یا شرکت..."
+        onChange={(e) => handelSearch(e.target.value.trim(), filterSaerchForm.search)}
       />
 
       {isLoading ? (
         <>
-          <div className="h-11 w-full animate-pulse bg-muted"></div>
-          <div className="h-11 w-full animate-pulse bg-muted"></div>
+          <div className="bg-muted h-11 w-full animate-pulse"></div>
+          <div className="bg-muted h-11 w-full animate-pulse"></div>
         </>
       ) : (
         <>
           <SingleSelect
+            className="w-full"
             isOpen={isCategoryOpen}
             setIsOpen={setIsCategoryOpen}
-            className="w-full"
             trigger={
               <div
                 className={`min-h-10 relative flex items-center flex-wrap gap-1 p-1 pr-12 border-2 border-muted rounded-sm cursor-pointer`}
               >
-                <div className="absolute right-3 center">
+                <div className="center absolute right-3">
                   <Briefcase className="icon" />
                 </div>
                 {collection.id ? (
@@ -156,7 +153,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
                       cateogry.category_collections.map((collect) => (
                         <div
                           key={`accordion-collection-item-${collect.id}`}
-                          className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
+                          className="flex my-1 py-2 rounded-md cursor-pointer hover:bg-muted"
                           onClick={() => {
                             setCollection(collect)
                             handelSearch(collect.id, filterSaerchForm.collection)
@@ -184,14 +181,14 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
           </SingleSelect>
 
           <SingleSelect
+            className="w-full"
             isOpen={isprovinceOpen}
             setIsOpen={setIsProvinceOpen}
-            className="w-full"
             trigger={
               <div
                 className={`min-h-10 relative flex items-center flex-wrap gap-1 p-1 pr-12 border-2 border-muted rounded-sm cursor-pointer`}
               >
-                <div className="absolute right-3 center">
+                <div className="center absolute right-3">
                   <MapPin className="icon" />
                 </div>
                 {cityOrProvince.mode ? (
@@ -231,7 +228,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
                   </AccordionTrigger>
                   <AccordionContent className="flex flex-col">
                     <div
-                      className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
+                      className="flex my-1 py-2 rounded-md cursor-pointer hover:bg-muted"
                       onClick={() => {
                         setCityOrProvince({ mode: "Province", province })
                         handelSearch(province.id, filterSaerchForm.province, filterSaerchForm.city)
@@ -253,7 +250,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
                       ? province.cities.map((city) => (
                           <div
                             key={`accordion-city-item-${city.id}`}
-                            className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
+                            className="flex my-1 py-2 rounded-md cursor-pointer hover:bg-muted"
                             onClick={() => {
                               setCityOrProvince({ mode: "City", city })
                               handelSearch(city.id, "city", "province")
@@ -281,11 +278,11 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
       )}
 
       <Button
+        asChild
         onClick={() => {
           const params = new URLSearchParams(searchParams)
           replace(`${path}?${params.toString()}`)
         }}
-        asChild
       >
         {children}
       </Button>
