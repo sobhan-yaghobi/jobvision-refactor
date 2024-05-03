@@ -1,11 +1,10 @@
 "use client"
 
 import React, { ReactNode, useEffect, useState } from "react"
+import { v4 as uuid } from "uuid"
+
 import { useRouter, useSearchParams } from "next/navigation"
 import useSize from "@/hook/useSize"
-
-import TimeGenerator from "../modules/TimeGenerator"
-import { v4 as uuid } from "uuid"
 
 import { ad } from "@/types/utils.type"
 
@@ -21,6 +20,7 @@ import Info from "./jobs/Info"
 import useSWR from "swr"
 import CurrentSkeleton from "../modules/skeleton/Current.skeleton"
 import SendCvButton from "../modules/SendCvButton"
+import TimeGenerator from "../modules/TimeGenerator"
 
 type InfoTypes = "INFO_JOB" | "ABOUT_COMPANY" | "RELATED_ADS" | "RESUME_RECRRDS"
 export interface TypeItemBox {
@@ -31,24 +31,15 @@ export interface TypeItemBox {
 }
 
 const CurrentJobAd: React.FC = () => {
+  const searchParams = useSearchParams()
+  const id = searchParams.get("id")
   const { replace } = useRouter()
   const { width } = useSize()
-  const searchParams = useSearchParams()
   const [isShow, setIsShow] = useState(false)
-
-  const id = searchParams.get("id")
   const { data: ad, isLoading } = useSWR(
     id ? `/ad/current?id=${id}` : null,
     async (): Promise<ad> => await fetch(`/api/ad?id=${id}`).then((res) => res.json())
   )
-
-  useEffect(() => {
-    if (ad) setIsShow(true)
-    else {
-      setIsShow(false)
-    }
-  }, [ad])
-
   const mainItemsBoxInfos: TypeItemBox[] = [
     {
       id: uuid(),
@@ -73,14 +64,12 @@ const CurrentJobAd: React.FC = () => {
       ),
     },
   ]
-
   const closeAction = () => {
     const params = new URLSearchParams(searchParams)
     params.delete("id")
     replace(`?${params.toString()}`)
     setIsShow(false)
   }
-
   const Wrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
     return width >= 1024 ? (
       <>{children}</>
@@ -93,13 +82,20 @@ const CurrentJobAd: React.FC = () => {
     )
   }
 
+  useEffect(() => {
+    if (ad) setIsShow(true)
+    else {
+      setIsShow(false)
+    }
+  }, [ad])
+
   return (
     <>
       {isLoading ? (
         <CurrentSkeleton />
       ) : ad ? (
         <Wrapper>
-          <div className="w-full h-full overflow-y-auto bg-muted px-3 rounded-sm">
+          <div className="bg-muted w-full h-full px-3 rounded-sm overflow-y-auto">
             <div className="pt-3">
               <div
                 style={{
@@ -121,7 +117,7 @@ const CurrentJobAd: React.FC = () => {
             <div className="w-full">
               <div className="w-full flex flex-col text-sm">
                 <p>{`${ad.company.location.city.name} , ${ad.company.location.address}`}</p>
-                <div className="mb-2 flex flex-wrap *:text-sm">
+                <div className="*:text-sm flex flex-wrap mb-2">
                   {ad.itern ? (
                     <div className="box-info-type !mr-1 !p-0">امکان جذب کارآموز</div>
                   ) : null}
@@ -140,16 +136,16 @@ const CurrentJobAd: React.FC = () => {
                     <TimeGenerator date={ad.created_at} />
                     <Button variant={"outline"}>مشاهده حقوق دریافتی افراد در مشاغل مشابه</Button>
                   </div>
-                  <div className="flex text-2xl text-jv-primary">
-                    <ExternalLink className="icon-stroke-light btn-icon-l" />
+                  <div className="text-jv-primary text-2xl flex">
+                    <ExternalLink className="btn-icon-l icon-stroke-light" />
                     <Heart className="icon-stroke-light" />
                   </div>
                 </div>
               </div>
             </div>
             <Separator className="my-3" />
-            <div className="w-full flex items-center justify-start text-sm">
-              <div className="w-4/12 flex items-center fill-jv-lightGray2x">
+            <div className="w-full text-sm flex items-center justify-start">
+              <div className="fill-jv-lightGray2x w-4/12 flex items-center">
                 <Users className="icon-stroke-light" />
                 <p className="mr-3 truncate">{ad.company.organization_employ} نفر</p>
               </div>
@@ -161,7 +157,7 @@ const CurrentJobAd: React.FC = () => {
             <Tabs
               dir="rtl"
               defaultValue={mainItemsBoxInfos.at(0)?.type}
-              className="h-full my-3 p-0 flex flex-col"
+              className="h-full flex flex-col my-3 p-0"
             >
               <TabsList variant={"secondary"} className="w-full sticky top-24 z-20">
                 {mainItemsBoxInfos.map((item) => (
@@ -191,8 +187,8 @@ const CurrentJobAd: React.FC = () => {
         </Wrapper>
       ) : (
         <div className="bg-muted h-full w-full center flex-col p-3 rounded-sm">
-          <Inbox className="w-52 h-52 stroke-muted-foreground stroke-1" />
-          <Title className="w-2/4 text-center text-muted-foreground select-none">
+          <Inbox className="stroke-muted-foreground w-52 h-52 stroke-1" />
+          <Title className="text-muted-foreground w-2/4 text-center select-none">
             <h3>جهت مشاهده اطلاعات آگهی شغلی یکی از موارد را از سمت راست انتخاب کنید</h3>
           </Title>
         </div>
