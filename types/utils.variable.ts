@@ -3,8 +3,8 @@ import { TypeMenuItem } from "./utils.type"
 
 export const menuItem: TypeMenuItem[] = [
   { id: 1, name: "فرصت های شغلی", link: "/jobs", isMegaMenu: true },
-  { id: 2, name: "رده بندی شرکت ها", link: "/", isMegaMenu: false },
-  { id: 3, name: "رزومه ساز", link: "/", isMegaMenu: false },
+  { id: 2, name: "رده بندی شرکت ها", link: "#", isMegaMenu: false },
+  { id: 3, name: "رزومه ساز", link: "#", isMegaMenu: false },
 ]
 
 export const genderItems: { type: gender; name: string }[] = [

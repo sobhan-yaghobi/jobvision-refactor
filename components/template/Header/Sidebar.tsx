@@ -44,11 +44,13 @@ const Sidebar: React.FC<SidebarProps> = ({ className, category, province }) => {
           <Menu className="icon" />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-3/4 px-6">
+      <DrawerContent touchClassName="mb-3" className="h-3/4 px-6">
         {page.currentPage === "list" ? (
           menuItem.map((item) => (
             <div
-              onClick={() => setPage((prev) => ({ ...prev, currentPage: "item" }))}
+              onClick={() =>
+                item.isMegaMenu && setPage((prev) => ({ ...prev, currentPage: "item" }))
+              }
               key={item.id}
               className="flex items-center justify-between px-2 py-3 rounded-md hover:bg-muted"
             >
