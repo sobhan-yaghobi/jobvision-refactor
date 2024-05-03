@@ -24,8 +24,8 @@ const CompanyBox: React.FC<CompanyBoxType> = ({ className, company }) => {
           width={190}
           height={100}
           src={`/uploads/${company.logo}`}
-          className="w-auto h-full"
-          alt="company-image"
+          className="rounded-sm w-16 h-auto"
+          alt="logo-compnay"
         />
       </CardHeader>
       <CardTitle className="my-3">{company.name}</CardTitle>
