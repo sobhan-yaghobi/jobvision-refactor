@@ -39,7 +39,7 @@ const CurrentJobAd: React.FC = () => {
 
   const id = searchParams.get("id")
   const { data: ad, isLoading } = useSWR(
-    `/ad/current?id=${id}`,
+    id ? `/ad/current?id=${id}` : null,
     async (): Promise<ad> => await fetch(`/api/ad?id=${id}`).then((res) => res.json())
   )
 
