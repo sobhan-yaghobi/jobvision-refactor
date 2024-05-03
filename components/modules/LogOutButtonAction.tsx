@@ -6,8 +6,8 @@ import { VariantProps } from "class-variance-authority"
 import logout from "@/app/action/logout"
 
 import { useRouter } from "next/navigation"
-import useUser from "@/hook/store/useUser"
 import { useToast } from "./ui/use-toast"
+import useUser from "@/hook/store/useUser"
 
 import {
   Dialog,

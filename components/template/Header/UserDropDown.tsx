@@ -55,12 +55,7 @@ const UserDropDown = () => {
     <>
       {user !== null ? (
         <>
-          <DropdownMenu
-            dir="rtl"
-            open={isDropdownUser}
-            onOpenChange={setIsDropdownUser}
-            modal={false}
-          >
+          <DropdownMenu dir="rtl" open={isDropdownUser} onOpenChange={setIsDropdownUser}>
             <DropdownMenuTrigger asChild>
               <Button variant="default" className="outline-none">
                 <span className="max-w-20 truncate">{username}</span>
@@ -72,7 +67,7 @@ const UserDropDown = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 ml-3 mt-2">
-              <DropdownMenuLabel>{username}</DropdownMenuLabel>
+              <DropdownMenuLabel className="text-left truncate">{user.email}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem asChild className="p-0 cursor-pointer">
