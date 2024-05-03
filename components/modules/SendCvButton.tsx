@@ -38,7 +38,7 @@ const SendCvButton: React.FC<SendCvButtonProps> = ({ ad }) => {
   }
 
   return isCvSend ? (
-    <Button variant={"fill"}>رزومه ارسال شده</Button>
+    <Button variant={"outline"}>رزومه ارسال شده</Button>
   ) : (
     <LoadButton
       disabled={isLoading}
