@@ -49,6 +49,7 @@ const Company: React.FC = () => {
   const formRef = useRef<HTMLFormElement>(null)
   const [cityID, setCityID] = useState("")
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
+  const [logoSrc, setLogoSrc] = useState("")
 
   const { data: companyState, isLoading, mutate } = useSWR("api/myCompany", getMyCompany)
   const { data: provinces } = useSWR("/api/provinces", getProvinces)
@@ -118,6 +119,15 @@ const Company: React.FC = () => {
     }
   }
 
+  const readSrcImgAction = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.currentTarget.files?.length ? e.currentTarget.files[0] : null
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (event) => setLogoSrc(event.target?.result as string)
+      reader.readAsDataURL(file)
+    }
+  }
+
   return (
     <>
       <Title>
@@ -128,21 +138,15 @@ const Company: React.FC = () => {
       ) : (
         <form ref={formRef} action={clientAction}>
           <div className="flex mt-6">
-            {companyState?.logo ? (
+            {logoSrc || companyState?.logo ? (
               <div className="w-24 h-24 center items-start">
                 <Image
                   width={500}
                   height={500}
-                  src={`/uploads/${companyState?.logo}`}
+                  src={`${logoSrc ? logoSrc : `/uploads/${companyState?.logo}`}`}
                   alt="company-logo"
                   className="w-full h-auto max-h-24 ml-3 rounded-sm"
                 />
-                {/* <Image
-                  width={96}
-                  height={96}
-                  className=""
-                  alt="company-logo"
-                /> */}
               </div>
             ) : (
               <div className="bg-muted w-24 h-24 center ml-3 rounded-sm shadow-lg">
@@ -152,7 +156,9 @@ const Company: React.FC = () => {
 
             <div className="flex-1">
               <InputMessage
+                onChange={readSrcImgAction}
                 type="file"
+                accept="image/*"
                 icon={<FileImage className="icon-stroke-light" />}
                 wrapperClassName="w-full flex-row-reverse"
                 placeholder="لینک لوگو شرکت.."
