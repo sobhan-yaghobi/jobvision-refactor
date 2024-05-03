@@ -2,9 +2,9 @@
 
 import React, { useRef, useState } from "react"
 
-import { registerAction } from "@/app/action/register"
+import { registerAction, validateRegister } from "@/app/action/register"
 
-import { TypeSignIn, signInSchema } from "@/validation/zod.validations"
+import { TypeSignIn } from "@/validation/zod.validations"
 import { getLastMessage } from "@/utils/utils.function"
 
 import { useToast } from "../modules/ui/use-toast"
@@ -40,16 +40,16 @@ const Login = () => {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
     }
-    const resault = signInSchema.safeParse(newUser)
-    if (!resault.success) {
-      const errMessage = resault.error.issues.map((is) => ({
+    const registerResault = await validateRegister(newUser)
+    if (!registerResault.success) {
+      const errMessage = registerResault.error.issues.map((is) => ({
         path: is.path.at(0) as string,
         message: is.message,
       }))
       setErrs(errMessage)
       return
     }
-    const sign = await registerAction(resault.data)
+    const sign = await registerAction(registerResault.data)
 
     const toastId = toast({
       title: sign.message,
