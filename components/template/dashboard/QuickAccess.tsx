@@ -2,7 +2,7 @@
 
 import React from "react"
 
-import { DoorOpen, FilePlus2, GitPullRequestArrow, LogOut, Pencil } from "lucide-react"
+import { DoorOpen, FilePlus2, GitPullRequestArrow, ImageDown, LogOut, Pencil } from "lucide-react"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/modules/ui/card"
 import LogOutButtonAction from "@/components/modules/LogOutButtonAction"
@@ -42,22 +42,43 @@ const QuickAccess: React.FC = () => {
         </LogOutButtonAction>
       </div>
       <Card className="border-none shadow-lg my-3 p-3">
-        <CardHeader className="center pt-0">
-          {isLoading || !company?.logo ? (
-            <div className="w-24 h-24 bg-muted rounded-full"></div>
-          ) : (
-            <div className="w-24 h-24 center">
-              <Image
-                width={500}
-                height={500}
-                src={`/uploads/${company?.logo}`}
-                alt="company-logo"
-                className="w-24 h-auto max-h-24"
-              />
-            </div>
-          )}
+        <CardHeader className="center p-0">
+          <div className="w-24 h-44 mb-3 center">
+            {isLoading ? (
+              <div className="center flex-col">
+                <div className="bg-muted w-24 h-24 rounded-full animate-pulse"></div>
+                <p className="bg-muted w-32 h-7 mt-3 animate-pulse"></p>
+                <p className="bg-muted w-14 h-5 mt-3 animate-pulse"></p>
+              </div>
+            ) : company?.logo ? (
+              <div className="center flex-col">
+                <div className="w-24 h-24 center">
+                  <Image
+                    width={500}
+                    height={500}
+                    src={`/uploads/${company?.logo}`}
+                    alt="company-logo"
+                    className="w-24 h-auto max-h-24"
+                  />
+                </div>
+                <p className="truncate p-1 my-3 morabba text-xl">{company?.name}</p>
+              </div>
+            ) : (
+              <div className="center flex-col">
+                <div className="bg-muted w-24 h-24 center rounded-full">
+                  <ImageDown className="icon-lg" />
+                </div>
+                <p className="truncate p-1 mt-3 morabba text-xl">شرکتی یافت نشد</p>
+                <Button variant={"link"}>
+                  <Link className="text-sm dana" href={"/dashboard?page=company"}>
+                    ثبت شرکت
+                  </Link>
+                </Button>
+              </div>
+            )}
+          </div>
         </CardHeader>
-        <CardTitle className="h-20 center text-center morabba">
+        {/* <CardTitle className="h-20 center text-center morabba">
           <div className="h-full flex flex-col justify-between">
             <p className="truncate p-1">{company?.name ? company.name : "شرکتی یافت نشد"}</p>
             {!company?.name ? (
@@ -68,7 +89,7 @@ const QuickAccess: React.FC = () => {
               </Button>
             ) : null}
           </div>
-        </CardTitle>
+        </CardTitle> */}
         {company !== null ? (
           <CardContent className="w-full flex justify-around p-0">
             <Link href={"/dashboard/ads?page=add-ads"}>
