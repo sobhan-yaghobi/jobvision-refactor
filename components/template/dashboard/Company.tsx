@@ -129,13 +129,21 @@ const Company: React.FC = () => {
         <form ref={formRef} action={clientAction}>
           <div className="flex mt-6">
             {companyState?.logo ? (
-              <Image
-                width={96}
-                height={96}
-                className="ml-3 rounded-sm shadow-lg"
-                src={`/uploads/${companyState?.logo}`}
-                alt="company-logo"
-              />
+              <div className="w-24 h-24 center items-start">
+                <Image
+                  width={500}
+                  height={500}
+                  src={`/uploads/${companyState?.logo}`}
+                  alt="company-logo"
+                  className="w-full h-auto max-h-24 ml-3 rounded-sm"
+                />
+                {/* <Image
+                  width={96}
+                  height={96}
+                  className=""
+                  alt="company-logo"
+                /> */}
+              </div>
             ) : (
               <div className="bg-muted w-24 h-24 center ml-3 rounded-sm shadow-lg">
                 <ImageIcon className="icon-stroke-light icon-lg" />
