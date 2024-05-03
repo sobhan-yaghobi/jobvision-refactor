@@ -1,8 +1,9 @@
 "use client"
 import React, { useEffect, useState } from "react"
-import useUser from "@/hook/store/useUser"
 
 import { sendCv } from "@/app/action/cv"
+
+import useUser from "@/hook/store/useUser"
 
 import { ad } from "@/types/utils.type"
 
@@ -15,14 +16,9 @@ type SendCvButtonProps = {
 }
 
 const SendCvButton: React.FC<SendCvButtonProps> = ({ ad }) => {
-  const { user } = useUser()
-  const [isCvSend, setIsCvSend] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-
-  useEffect(() => {
-    const isActive = user?.cv.some((cvItem) => cvItem.ad_id === ad.id)
-    setIsCvSend(isActive || false)
-  }, [user])
+  const [isCvSend, setIsCvSend] = useState(false)
+  const { user } = useUser()
 
   const clientAction = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setIsLoading(true)
@@ -36,6 +32,11 @@ const SendCvButton: React.FC<SendCvButtonProps> = ({ ad }) => {
     setIsLoading(false)
     return toast({ title: cvResault.message, variant: "destructive" })
   }
+
+  useEffect(() => {
+    const isActive = user?.cv.some((cvItem) => cvItem.ad_id === ad.id)
+    setIsCvSend(isActive || false)
+  }, [user])
 
   return isCvSend ? (
     <Button variant={"outline"}>رزومه ارسال شده</Button>

@@ -1,5 +1,4 @@
 import React from "react"
-import { getTime } from "@/utils/utils.function"
 import { cva } from "class-variance-authority"
 
 import { status } from "@prisma/client"
@@ -56,7 +55,7 @@ const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, mutate }) =
         </section>
         <section className="h-full">
           <p className="box-info-type m-0">
-            <TimeGenerator dateInfo={getTime(cv.created_at)} />
+            <TimeGenerator date={cv.created_at} />
           </p>
         </section>
       </div>

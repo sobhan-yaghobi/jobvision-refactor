@@ -15,8 +15,8 @@ const ADsList: React.FC = () => {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { data, isLoading } = useSWR(`/ad`, fetchFilterAd)
-  const { mutate } = useSWRConfig()
   const { currentAd } = useCurrentAdQuery()
+  const { mutate } = useSWRConfig()
 
   useEffect(() => {
     mutate("/ad")
@@ -34,7 +34,7 @@ const ADsList: React.FC = () => {
               ))}
           </>
         ) : !data?.store || !data.store.length ? (
-          <Title className="bg-muted h-full text-yellow-500 p-2.5 rounded-sm">
+          <Title className="bg-muted text-yellow-500 h-full p-2.5 rounded-sm">
             <h3>آگهی وجود ندارد</h3>
           </Title>
         ) : (

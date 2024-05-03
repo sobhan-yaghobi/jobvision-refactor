@@ -6,7 +6,6 @@ import useSize from "@/hook/useSize"
 
 import TimeGenerator from "../modules/TimeGenerator"
 import { v4 as uuid } from "uuid"
-import { getTime } from "@/utils/utils.function"
 
 import { ad } from "@/types/utils.type"
 
@@ -138,7 +137,7 @@ const CurrentJobAd: React.FC = () => {
                       } `}
                       تومان
                     </p>
-                    <TimeGenerator dateInfo={getTime(ad.created_at)} />
+                    <TimeGenerator date={ad.created_at} />
                     <Button variant={"outline"}>مشاهده حقوق دریافتی افراد در مشاغل مشابه</Button>
                   </div>
                   <div className="flex text-2xl text-jv-primary">
