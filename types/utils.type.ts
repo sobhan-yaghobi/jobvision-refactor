@@ -1,5 +1,4 @@
 import {
-  province,
   city,
   category,
   category_collection,
@@ -11,6 +10,13 @@ import {
   user as userPrisma,
   Prisma,
 } from "@prisma/client"
+
+export type TypeMenuItem = {
+  id: number
+  name: string
+  link: string
+  isMegaMenu: boolean
+}
 
 export type user = userPrisma & {
   cv: cv[]

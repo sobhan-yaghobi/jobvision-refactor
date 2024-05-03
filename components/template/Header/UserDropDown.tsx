@@ -25,6 +25,8 @@ import Link from "next/link"
 const UserDropDown = () => {
   const { user, setUser } = useUser()
   const { toast } = useToast()
+  const username = user !== null ? user.email.substring(0, user.email.lastIndexOf("@")) : ""
+  const [isDropdownUser, setIsDropdownUser] = useState(false)
 
   useEffect(() => {
     const getMeAction = async () => {
@@ -48,9 +50,6 @@ const UserDropDown = () => {
     setIsDropdownUser(false)
     return () => setIsDropdownUser(false)
   }, [user])
-
-  const username = user !== null ? user.email.substring(0, user.email.lastIndexOf("@")) : ""
-  const [isDropdownUser, setIsDropdownUser] = useState(false)
 
   return (
     <>

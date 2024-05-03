@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from "react"
-import { TypeMenuItem } from "./Header"
+import { menuItem } from "@/types/utils.variable"
+
 import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
 
 import { ArrowRight, ChevronLeft, Menu } from "lucide-react"
@@ -19,14 +20,12 @@ type TypeBackButton = {
 }
 
 type SidebarProps = {
-  menuItem: TypeMenuItem[]
   className?: string
   category: categoryWithCollection[]
   province: provinceWithCity[]
 }
-const Sidebar: React.FC<SidebarProps> = ({ menuItem, className, category, province }) => {
+const Sidebar: React.FC<SidebarProps> = ({ className, category, province }) => {
   const [page, setPage] = useState<TypePage>({ currentPage: "list", itemPage: undefined })
-
   const BackButton: React.FC<TypeBackButton> = ({ destination }) => (
     <Button
       variant={"default"}

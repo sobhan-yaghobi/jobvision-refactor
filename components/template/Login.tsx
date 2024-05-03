@@ -2,10 +2,10 @@
 
 import React, { useRef, useState } from "react"
 
+import { registerAction } from "@/app/action/register"
+
 import { TypeSignIn, signInSchema } from "@/validation/zod.validations"
 import { getLastMessage } from "@/utils/utils.function"
-
-import { registerAction } from "@/app/action/register"
 
 import { useToast } from "../modules/ui/use-toast"
 import useUser from "@/hook/store/useUser"
@@ -31,9 +31,7 @@ const Login = () => {
   const router = useRouter()
   const { toast } = useToast()
   const { setUser } = useUser()
-
   const formRef = useRef<HTMLFormElement>(null)
-
   const [open, setOpen] = useState(false)
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
 
@@ -83,11 +81,11 @@ const Login = () => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button>
-            <User className="md:btn-icon-l icon" />
+            <User className="icon md:btn-icon-l" />
             <span className="hidden md:block">ورود | ثبت نام</span>
           </Button>
         </DialogTrigger>
-        <DialogContent className="w-11/12 lg:w-96 rounded-sm">
+        <DialogContent className="w-11/12 rounded-sm lg:w-96">
           <DialogHeader>
             <DialogTitle className="text-center">
               <Title size="lg" className="text-center mb-6">

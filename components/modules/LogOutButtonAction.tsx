@@ -1,10 +1,11 @@
 "use client"
 import React, { useState } from "react"
-import { useRouter } from "next/navigation"
 import { cn } from "@/utils/utils.function"
+import { VariantProps } from "class-variance-authority"
 
 import logout from "@/app/action/logout"
 
+import { useRouter } from "next/navigation"
 import useUser from "@/hook/store/useUser"
 import { useToast } from "./ui/use-toast"
 
@@ -16,7 +17,6 @@ import {
   DialogTitle,
 } from "@/components/modules/ui/dialog"
 import { Button, buttonVariants } from "@/components/modules/ui/button"
-import { VariantProps } from "class-variance-authority"
 
 export interface LogOutButtonActionProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -45,6 +45,7 @@ const LogOutButtonAction = React.forwardRef<HTMLButtonElement, LogOutButtonActio
       }
       toast({ title: resault.message, variant: "destructive" })
     }
+
     return (
       <>
         <Button
