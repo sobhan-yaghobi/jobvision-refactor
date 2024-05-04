@@ -1,12 +1,13 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import useSWR from "swr"
-import { useRouter, useSearchParams } from "next/navigation"
-import { cn } from "@/utils/utils.function"
 import { fetchProvinceAndCategory } from "@/utils/utils.fetch"
-
+import { cn } from "@/utils/utils.function"
 import { filterSaerchForm } from "@/types/utils.variable"
+
+import { useRouter, useSearchParams } from "next/navigation"
+import useSWR from "swr"
+
 import { category_collection, city, province } from "@prisma/client"
 
 import { Briefcase, CheckIcon, MapPin, Search, X } from "lucide-react"
@@ -20,6 +21,7 @@ export type SearchFormProps = {
   redirectAsap?: boolean
   path?: string
 }
+
 type StateProvinceOrCity = { mode: "Province"; province: province } | { mode: "City"; city: city }
 
 const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
