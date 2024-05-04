@@ -4,9 +4,9 @@ import React from "react"
 import { cn } from "@/utils/utils.function"
 import { lastIndexOf } from "lodash"
 
-import { TypeSidebarItem } from "./Sidebar"
-
 import { usePathname } from "next/navigation"
+
+import { TypeSidebarItem } from "@/types/utils.type"
 
 import Link from "next/link"
 import {

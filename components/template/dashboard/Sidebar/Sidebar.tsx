@@ -1,5 +1,4 @@
 import React, { Fragment, ReactNode } from "react"
-import { Route, MultipleItem } from "./Item"
 
 import {
   GitPullRequestClosed,
@@ -11,21 +10,15 @@ import {
   Home,
 } from "lucide-react"
 
+import { Route, MultipleItem } from "./Item"
 import { Accordion } from "@/components/modules/ui/accordion"
 import { Button } from "@/components/modules/ui/button"
 import { Card } from "@/components/modules/ui/card"
 import Title from "@/components/modules/Title"
 import Image from "next/image"
 import Link from "next/link"
+import { TypeSidebarItem } from "@/types/utils.type"
 
-export type TypeSidebarItem = {
-  label: string
-  icon: ReactNode
-  href: string
-  children?: (TypeSidebarItem & {
-    parent_href: TypeSidebarItem["href"]
-  })[]
-}
 const sidebarItems: TypeSidebarItem[] = [
   { label: "خانه", icon: <Home className="icon" />, href: "dashboard" },
   { label: "آگهی ها", icon: <FileSpreadsheet className="icon" />, href: "ads" },
@@ -64,10 +57,10 @@ const sidebarItems: TypeSidebarItem[] = [
 
 const Sidebar: React.FC = () => {
   return (
-    <div className="h-full flex flex-col justify-between overflow-y-auto hidden-scrollbar relative">
+    <div className="h-full flex flex-col justify-between relative overflow-y-auto hidden-scrollbar">
       <Accordion type="single" collapsible>
         <Link href={"/"} className="sticky top-0">
-          <Title size={"md"} className="text-primary pb-2 mb-4 bg-background">
+          <Title size={"md"} className="bg-background text-primary pb-2 mb-4">
             <h2>جاب ویژن</h2>
           </Title>
         </Link>

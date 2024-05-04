@@ -10,6 +10,7 @@ import {
   user as userPrisma,
   Prisma,
 } from "@prisma/client"
+import { ReactNode } from "react"
 
 export type TypeMenuItem = {
   id: number
@@ -43,6 +44,15 @@ export type TypeStatus = {
   disabledPeople: boolean
   militaryOrder: boolean
   [key: string]: boolean
+}
+
+export type TypeSidebarItem = {
+  label: string
+  icon: ReactNode
+  href: string
+  children?: (TypeSidebarItem & {
+    parent_href: TypeSidebarItem["href"]
+  })[]
 }
 
 export type user = userPrisma & {

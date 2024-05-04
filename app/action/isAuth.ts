@@ -1,8 +1,8 @@
 "use server"
 
 import { cookies } from "next/headers"
-
 import { validateTokenResualt } from "@/utils/utils.function"
+
 import { user } from "@/types/utils.type"
 
 const isAuth = async (): Promise<{ isUser: boolean; user: null | user }> => {

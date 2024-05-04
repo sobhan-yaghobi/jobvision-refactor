@@ -1,19 +1,42 @@
 "use client"
 
 import React from "react"
+import { getMyCompany } from "@/utils/utils.fetch"
+
+import useSWR from "swr"
+
+import { followerWithUser } from "@/types/utils.type"
 
 import { DoorOpen, FilePlus2, GitPullRequestArrow, ImageDown, LogOut, Pencil } from "lucide-react"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/modules/ui/card"
+import { Card, CardContent, CardHeader } from "@/components/modules/ui/card"
+import FollowerNotifSkeleton from "@/components/modules/skeleton/FollowerNotif.skeleton"
+import QuickAccessCompany from "@/components/modules/skeleton/QuickAccessCompany"
 import LogOutButtonAction from "@/components/modules/LogOutButtonAction"
 import { Button } from "@/components/modules/ui/button"
+import Image from "next/image"
 import Link from "next/link"
 
-import useSWR from "swr"
-import { getMyCompany } from "@/utils/utils.fetch"
-import Image from "next/image"
-import { followerWithUser } from "@/types/utils.type"
-import FollowerNotifSkeleton from "@/components/modules/skeleton/FollowerNotif.skeleton"
+const quickLinks = [
+  {
+    id: 1,
+    name: "آگهی جدید",
+    href: "/dashboard/ads?page=add-ads",
+    icon: <FilePlus2 className="icon-sm" />,
+  },
+  {
+    id: 2,
+    name: "درخواست ها",
+    href: "/dashboard/request_all",
+    icon: <GitPullRequestArrow className="icon-sm" />,
+  },
+  {
+    id: 3,
+    name: "ویرایش شرکت",
+    href: "/dashboard?page=company",
+    icon: <Pencil className="icon-sm" />,
+  },
+]
 
 const QuickAccess: React.FC = () => {
   const { data: company, isLoading } = useSWR("api/myCompany", getMyCompany)
@@ -41,15 +64,11 @@ const QuickAccess: React.FC = () => {
           <LogOut className="icon rotate-180" />
         </LogOutButtonAction>
       </div>
-      <Card className="border-none shadow-lg my-3 p-3">
+      <Card className="my-3 p-3 border-none shadow-lg">
         <CardHeader className="center p-0">
-          <div className="w-24 h-44 mb-3 center">
+          <div className="w-24 h-44 center mb-3">
             {isLoading ? (
-              <div className="center flex-col">
-                <div className="bg-muted w-24 h-24 rounded-full animate-pulse"></div>
-                <p className="bg-muted w-32 h-7 mt-3 animate-pulse"></p>
-                <p className="bg-muted w-14 h-5 mt-3 animate-pulse"></p>
-              </div>
+              <QuickAccessCompany />
             ) : company?.logo ? (
               <div className="center flex-col">
                 <div className="w-24 h-24 center">
@@ -68,7 +87,7 @@ const QuickAccess: React.FC = () => {
                 <div className="bg-muted w-24 h-24 center rounded-full">
                   <ImageDown className="icon-lg" />
                 </div>
-                <p className="truncate p-1 mt-3 morabba text-xl">شرکتی یافت نشد</p>
+                <p className="text-xl p-1 mt-3 morabba truncate">شرکتی یافت نشد</p>
                 <Button variant={"link"}>
                   <Link className="text-sm dana" href={"/dashboard?page=company"}>
                     ثبت شرکت
@@ -80,28 +99,20 @@ const QuickAccess: React.FC = () => {
         </CardHeader>
         {company !== null ? (
           <CardContent className="w-full flex justify-around p-0">
-            <Link href={"/dashboard/ads?page=add-ads"}>
-              <Button variant={"fill"} size={"sm"} title="آگهی جدید" aria-label="آگهی جدید">
-                <FilePlus2 className="icon-sm" />
-              </Button>
-            </Link>
-            <Link href={"/dashboard/request_all"}>
-              <Button variant={"fill"} size={"sm"} title="درخواست ها" aria-label="درخواست ها">
-                <GitPullRequestArrow className="icon-sm" />
-              </Button>
-            </Link>
-            <Link href={"/dashboard?page=company"}>
-              <Button variant={"fill"} size={"sm"} title="ویرایش شرکت" aria-label="ویرایش شرکت">
-                <Pencil className="icon-sm" />
-              </Button>
-            </Link>
+            {quickLinks.map((item) => (
+              <Link key={`quick-link-${item.id}`} href={item.href}>
+                <Button variant={"fill"} size={"sm"} title={item.name} aria-label={item.name}>
+                  {item.icon}
+                </Button>
+              </Link>
+            ))}
           </CardContent>
         ) : null}
       </Card>
       <div className="flex-1 overflow-hidden">
-        <Card className="h-fit max-h-full p-3 overflow-y-auto border-none shadow-lg">
+        <Card className="h-fit max-h-full p-3 border-none shadow-lg overflow-y-auto">
           <CardHeader className="p-0">
-            <h3 className="morabba text-xl">درخواست های اخیر</h3>
+            <h3 className="text-xl morabba">درخواست های اخیر</h3>
           </CardHeader>
           <CardContent className="mt-3 p-0">
             {isFollowerLoading ? (
