@@ -8,7 +8,7 @@ import LastCv from "./Sidebar/LastCv"
 const Home: React.FC = () => {
   return (
     <>
-      <section className="bg-primary text-primary-foreground w-full h-fit relative flex flex-col-reverse p-3 rounded-lg group md:h-48">
+      <section className="bg-primary text-primary-foreground w-full h-fit flex flex-col-reverse relative p-3 rounded-lg group md:h-48">
         <div className="w-full flex flex-row-reverse bottom-0 left-4 overflow-hidden group md:w-5/12 md:absolute">
           <Image
             width={400}

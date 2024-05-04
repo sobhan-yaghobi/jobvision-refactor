@@ -4,16 +4,15 @@ import React, { useEffect, useRef, useState } from "react"
 import { isEqual, keys, omit, pick } from "lodash"
 import { cn, dateGenerate, getLastMessage } from "@/utils/utils.function"
 import { toast } from "@/components/modules/ui/use-toast"
+import { registerCompany, validateCompany } from "@/app/action/registerCompany"
+import { DateObject } from "react-multi-date-picker"
+import persian from "react-date-object/calendars/persian"
+import persian_fa from "react-date-object/locales/persian_fa"
+
 import useSWR from "swr"
 
 import { getMyCompany, getProvinces } from "@/utils/utils.fetch"
 import { TypeCompany } from "@/validation/zod.validations"
-
-import { registerCompany, validateCompany } from "@/app/action/registerCompany"
-
-import { DateObject } from "react-multi-date-picker"
-import persian from "react-date-object/calendars/persian"
-import persian_fa from "react-date-object/locales/persian_fa"
 
 import {
   Building,
@@ -46,21 +45,18 @@ import LoadButton from "@/components/modules/ui/LoadButton"
 import Image from "next/image"
 
 const Company: React.FC = () => {
+  //! ---------- States
   const formRef = useRef<HTMLFormElement>(null)
   const [cityID, setCityID] = useState("")
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
   const [logoSrc, setLogoSrc] = useState("")
-
+  //! ---------- SWR Variables
   const { data: companyState, isLoading, mutate } = useSWR("api/myCompany", getMyCompany)
   const { data: provinces } = useSWR("/api/provinces", getProvinces)
   const { data: city } = useSWR(["/api/post", cityID], () =>
     fetch(`/api/province?cityId=${cityID}`).then((res) => res.json())
   )
-
-  useEffect(() => {
-    if (companyState?.location?.city_id) setCityID(companyState?.location.city_id)
-  }, [companyState?.location?.city_id])
-
+  //! ---------- Actions
   const clientAction = async (formData: FormData) => {
     const companyObject: TypeCompany = {
       name: formData.get("name") as string,
@@ -80,6 +76,7 @@ const Company: React.FC = () => {
     const logo = formData.get("logo") as File
 
     if (companyState === null) {
+      //! ---------- Register
       const validateResault = await validateCompany(companyObject)
       if (!validateResault.success) {
         setErrs(
@@ -97,6 +94,7 @@ const Company: React.FC = () => {
       }
       toast({ title: registerResault.message, variant: "destructive" })
     } else {
+      //! ---------- Update
       const companyPick = pick(
         {
           ...omit(companyState, ["location.city", "location.id"]),
@@ -118,7 +116,6 @@ const Company: React.FC = () => {
       }
     }
   }
-
   const readSrcImgAction = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.currentTarget.files?.length ? e.currentTarget.files[0] : null
     if (file) {
@@ -127,6 +124,10 @@ const Company: React.FC = () => {
       reader.readAsDataURL(file)
     }
   }
+  //! ---------- SideEffect
+  useEffect(() => {
+    if (companyState?.location?.city_id) setCityID(companyState?.location.city_id)
+  }, [companyState?.location?.city_id])
 
   return (
     <>
@@ -171,7 +172,7 @@ const Company: React.FC = () => {
                   })?.message
                 }
               />
-              <p className="text-muted-foreground w-1/2 mt-3 text-xs">
+              <p className="text-muted-foreground text-xs w-1/2 mt-3">
                 پیشنهاد میشود مقدار پیکسل لوگو شرکت 800 * 800 و فرمت عکس JPG یا PNG باشد و همچنین
                 فرمت GIF نامعتبر میباشد
               </p>
@@ -308,7 +309,7 @@ const Company: React.FC = () => {
               placeholder="سخنی از سمت شرکت شما برای جویندگان شغل ..."
               name="description"
             />
-            <p className="mt-2 text-destructive text-xs">
+            <p className="text-destructive text-xs mt-2">
               {
                 getLastMessage({
                   array: errs,
