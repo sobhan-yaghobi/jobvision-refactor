@@ -1,8 +1,11 @@
 "use client"
+
 import React, { ReactNode, useCallback } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/modules/ui/tabs"
 import { some } from "lodash"
+
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/modules/ui/tabs"
 
 export type TypePage = { id: string; name: string; content: ReactNode }
 
@@ -15,7 +18,6 @@ const TabsPage: React.FC<TabsPageProps> = ({ pageItems }) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const defPage = searchParams.get("page")
-
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString())
@@ -25,6 +27,7 @@ const TabsPage: React.FC<TabsPageProps> = ({ pageItems }) => {
     },
     [searchParams]
   )
+
   return (
     <Tabs
       dir="rtl"
@@ -32,7 +35,7 @@ const TabsPage: React.FC<TabsPageProps> = ({ pageItems }) => {
       defaultValue={
         defPage && some(pageItems, (item) => item.id === defPage) ? defPage : pageItems[0].id
       }
-      className="h-full m-0 p-0 flex flex-col"
+      className="h-full flex flex-col m-0 p-0"
     >
       <TabsList className="bg-transparent justify-start px-0">
         {pageItems.map((item) => (

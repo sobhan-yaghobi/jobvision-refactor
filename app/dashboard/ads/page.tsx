@@ -1,8 +1,8 @@
 import React from "react"
 
 import TabsPage, { TypePage } from "@/components/modules/dashboard/TabsPage"
-import Ads from "@/components/template/dashboard/Ads"
-import AddAds from "@/components/template/dashboard/AddAds"
+import ADs from "@/components/template/dashboard/ADs"
+import AddADs from "@/components/template/dashboard/AddADs"
 
 const page = async () => {
   const categories = await prisma.category.findMany({
@@ -13,12 +13,12 @@ const page = async () => {
     {
       id: "ads",
       name: "آگهی ها",
-      content: <Ads />,
+      content: <ADs />,
     },
     {
       id: "add-ads",
       name: "آگهی جدید",
-      content: <AddAds categories={categories} advantages={advantages} />,
+      content: <AddADs categories={categories} advantages={advantages} />,
     },
   ]
   return (

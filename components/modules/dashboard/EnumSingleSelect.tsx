@@ -1,9 +1,9 @@
-import { ReactNode, useRef, useState } from "react"
+import { ReactNode, useState } from "react"
 import { cn } from "@/utils/utils.function"
 
-import { CheckIcon } from "lucide-react"
-
 import { cooperation_type, gender, seniority_level } from "@prisma/client"
+
+import { CheckIcon } from "lucide-react"
 
 import SingleSelect from "../SingleSelect"
 
@@ -15,10 +15,12 @@ type EnumSingleSelectProps = {
   placeholder: string
   message?: string | ReactNode
 }
+
 export type TypeMainSelect = {
   type: gender | seniority_level | cooperation_type
   name: string
 }
+
 const EnumSingleSelect: React.FC<EnumSingleSelectProps> = ({
   state,
   setState,
@@ -48,7 +50,7 @@ const EnumSingleSelect: React.FC<EnumSingleSelectProps> = ({
         {items.map((item) => (
           <div
             key={item.type}
-            className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
+            className="flex my-1 py-2 rounded-md cursor-pointer hover:bg-muted"
             onClick={() => {
               setState(item)
               setIsOpen(false)

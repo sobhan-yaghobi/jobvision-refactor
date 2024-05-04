@@ -48,16 +48,52 @@ const cooperationTypeEnums = [
 
 export const adSchema = z.object({
   name: z.string().trim().min(1, "نام آگهی اجباری میباشد"),
-  price: z.object({
-    min: z.number().min(1, "حداقل قیمت آگهی اجباری میباشد"),
-    max: z.number(),
-  }),
+  price: z
+    .object({
+      min: z.number().min(500000, "حداقل قیمت آگهی 500 هزار تومان میباشد"),
+      max: z.number(),
+      is_price_max: z.boolean(),
+    })
+    .superRefine((val, ctx) => {
+      if (Boolean(val.is_price_max && val.min === val.max)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "حداقل حقوق نمیتواند برابر با حداکثر حقوق باشد",
+          path: ["price"],
+        })
+      }
+      if (Boolean(val.is_price_max && val.min > val.max)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "حداقل حقوق نمیتواند از حداکثر حقوق بیشتر باشد",
+          path: ["price"],
+        })
+      }
+    }),
   work_time: z.string().trim().min(1, "زمان کار آگهی اجباری میباشد"),
   travel_benefits: z.string().trim(),
-  age: z.object({
-    min: z.number().min(1, "حداقل سن اجباری میباشد"),
-    max: z.number(),
-  }),
+  age: z
+    .object({
+      min: z.number().min(16, "حداقل سن اجباری 16 سال میباشد"),
+      max: z.number(),
+      is_age_max: z.boolean(),
+    })
+    .superRefine((val, ctx) => {
+      if (Boolean(val.is_age_max && val.min === val.max)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "حداقل سن نمیتواند برابر با حداکثر سن باشد",
+          path: ["price"],
+        })
+      }
+      if (Boolean(val.is_age_max && val.min > val.max)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "حداقل سن نمیتواند از حداکثر سن بیشتر باشد",
+          path: ["price"],
+        })
+      }
+    }),
   edicational_level: z.array(z.string()).min(1, "میزان تحصیلات اجباری میباشد"),
   key_indicator: z.array(z.string()).min(1, "شاخص های کلیدی اجباری میباشد"),
   software_skills: z.array(z.string()).min(1, "مهارت های نرم افزاری اجباری میباشد"),

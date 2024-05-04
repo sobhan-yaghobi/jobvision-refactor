@@ -46,9 +46,9 @@ const MultipleTextInput: React.FC<MultipleTextInputProps> = ({
     <div className="flex flex-col gap-2">
       <div
         onClick={() => myInput.current?.focus()}
-        className="min-h-10 relative flex flex-wrap items-center py-1 pr-12 border-2 border-muted rounded-sm cursor-text focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary m-0 gap-1"
+        className="min-h-10 relative flex flex-wrap items-center gap-1 m-0 py-1 pr-12 border-2 border-muted rounded-sm cursor-text focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary"
       >
-        <span className="absolute right-3 center">
+        <span className="center absolute right-3">
           {value.length ? (
             <Button
               title="اضافه کن"

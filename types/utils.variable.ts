@@ -1,5 +1,5 @@
 import { seniority_level, gender, cooperation_type } from "@prisma/client"
-import { TypeMenuItem, quickAccessItemType } from "./utils.type"
+import { TypeMenuItem, TypeStatus, quickAccessItemType } from "./utils.type"
 
 export const menuItem: TypeMenuItem[] = [
   { id: 1, name: "فرصت های شغلی", link: "/jobs", isMegaMenu: true },
@@ -253,6 +253,42 @@ export const quickAccessItems: quickAccessItemType[] = [
     ],
   },
 ]
+
+export const statusLabelItems = [
+  {
+    name: "militaryOrder",
+    value: "امریه سربازی",
+  },
+  {
+    name: "disabledPeople",
+    value: "امکان استخدام معلولین",
+  },
+  {
+    name: "itern",
+    value: "امکان دورکاری",
+  },
+  {
+    name: "telecommuting",
+    value: "امکان دریافت کارآموز",
+  },
+  {
+    name: "response",
+    value: "پاسخگویی در اصرع وقت",
+  },
+  {
+    name: "important",
+    value: "این آگهی فوری میباشد",
+  },
+]
+
+export const initialStatusData: TypeStatus = {
+  important: false,
+  response: false,
+  itern: false,
+  telecommuting: false,
+  disabledPeople: false,
+  militaryOrder: false,
+}
 
 export const relatedLinks = [
   { name: "استخدام کارگزاری", href: "/" },

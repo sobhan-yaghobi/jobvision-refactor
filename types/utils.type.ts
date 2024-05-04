@@ -35,6 +35,16 @@ export type quickAccessItemType = {
   links: quickAccessLinkType[]
 }
 
+export type TypeStatus = {
+  important: boolean
+  response: boolean
+  itern: boolean
+  telecommuting: boolean
+  disabledPeople: boolean
+  militaryOrder: boolean
+  [key: string]: boolean
+}
+
 export type user = userPrisma & {
   cv: cv[]
 }

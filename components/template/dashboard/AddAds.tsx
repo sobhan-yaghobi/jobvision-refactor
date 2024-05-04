@@ -3,9 +3,17 @@
 import React, { useRef, useState } from "react"
 import { cn, getLastMessage } from "@/utils/utils.function"
 import { filter } from "lodash"
-import addAds from "@/app/action/addAds"
+import { addAD, validateAD } from "@/app/action/addADs"
+import {
+  cooperationTypeItems,
+  genderItems,
+  initialStatusData,
+  seniorityLevelItems,
+  statusLabelItems,
+} from "@/types/utils.variable"
+import { toast } from "@/components/modules/ui/use-toast"
 
-import { categoryWithCollection } from "@/types/utils.type"
+import { TypeStatus, categoryWithCollection } from "@/types/utils.type"
 import {
   advantage,
   category_collection,
@@ -14,9 +22,6 @@ import {
   seniority_level,
 } from "@prisma/client"
 import { TypeAd, adSchema } from "@/validation/zod.validations"
-
-import { cooperationTypeItems, genderItems, seniorityLevelItems } from "@/types/utils.variable"
-import { toast } from "@/components/modules/ui/use-toast"
 
 import {
   BriefcaseBusiness,
@@ -49,90 +54,41 @@ import {
 } from "@/components/modules/ui/accordion"
 import LoadButton from "@/components/modules/ui/LoadButton"
 
-type AddAdsProps = {
+type AddADsProps = {
   categories: categoryWithCollection[]
   advantages: advantage[]
 }
 
-const statusLabelItems = [
-  {
-    name: "militaryOrder",
-    value: "امریه سربازی",
-  },
-  {
-    name: "disabledPeople",
-    value: "امکان استخدام معلولین",
-  },
-  {
-    name: "itern",
-    value: "امکان دورکاری",
-  },
-  {
-    name: "telecommuting",
-    value: "امکان دریافت کارآموز",
-  },
-  {
-    name: "response",
-    value: "پاسخگویی در اصرع وقت",
-  },
-  {
-    name: "important",
-    value: "این آگهی فوری میباشد",
-  },
-]
-
-type TypeStatus = {
-  important: boolean
-  response: boolean
-  itern: boolean
-  telecommuting: boolean
-  disabledPeople: boolean
-  militaryOrder: boolean
-  [key: string]: boolean
-}
-
-const initialStatusData: TypeStatus = {
-  important: false,
-  response: false,
-  itern: false,
-  telecommuting: false,
-  disabledPeople: false,
-  militaryOrder: false,
-}
-
-const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
+const AddAds: React.FC<AddADsProps> = ({ categories, advantages }) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
-
   const [gender, setGender] = useState<TypeMainSelect>({} as TypeMainSelect)
   const [seniorityLevel, setSeniorityLevel] = useState<TypeMainSelect>({} as TypeMainSelect)
   const [cooperationType, setCooperationType] = useState<TypeMainSelect>({} as TypeMainSelect)
   const [tags, setTags] = useState<category_collection[]>([] as category_collection[])
-
   const [softwareSkills, setSoftwareSkills] = useState<string[]>([] as string[])
   const [keyIndicator, setKeyIndicator] = useState<string[]>([] as string[])
   const [edicationalLevel, setEdicationalLevel] = useState<string[]>([] as string[])
   const [facilities, setFacilities] = useState<advantage[]>([] as advantage[])
-
   const [status, setStatus] = useState<TypeStatus>(initialStatusData)
-
   const [checked, setChecked] = useState({
     is_price_max: false,
     is_age_max: false,
   })
-
   const clientAction = async (formData: FormData) => {
     const newAd: TypeAd = {
       name: formData.get("name") as string,
       price: {
         min: Number(formData.get("min_price")),
         max: Number(formData.get("max_price")),
+        is_price_max: checked.is_price_max,
       },
       work_time: formData.get("work_time") as string,
       travel_benefits: formData.get("travel_benefits") as string,
       age: {
         min: Number(formData.get("min_age")),
         max: Number(formData.get("max_age")),
+        is_age_max: checked.is_age_max,
       },
       edicational_level: edicationalLevel,
       key_indicator: keyIndicator,
@@ -150,16 +106,16 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
       militaryOrder: status.militaryOrder,
     }
 
-    const resualt = adSchema.safeParse(newAd)
-    if (!resualt.success) {
-      const newErrs = resualt.error.issues.map((item) => ({
+    const resault = await validateAD(newAd)
+    if (!resault.success) {
+      const newErrs = resault.error.issues.map((item) => ({
         path: item.path.at(0) as string,
         message: item.message,
       }))
       setErrs(newErrs)
       return
     }
-    const createResault = await addAds(newAd)
+    const createResault = await addAD(newAd)
     if (createResault.status) {
       toast({ title: createResault.message, variant: "default" })
       clearForm()
@@ -167,7 +123,6 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
     }
     toast({ title: createResault.message, variant: "destructive" })
   }
-
   const clearForm = () => {
     formRef.current?.reset()
     setGender({} as TypeMainSelect)
@@ -201,7 +156,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
         <div className="mt-6">
           <span className="morabba">حقوق ماهانه</span>
           <div className="w-full">
-            <div className="w-full flex items-center gap-3">
+            <div className="w-full flex items-start gap-3">
               <InputMessage
                 type="number"
                 icon={<MinimizeIcon className="icon-stroke-light" />}
@@ -228,7 +183,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
                 className="select-none"
                 name="is_max_price"
               />
-              <label htmlFor="check" className="text-sm text-muted-foreground">
+              <label htmlFor="check" className="text-muted-foreground text-sm">
                 حقوق
               </label>
             </span>
@@ -447,7 +402,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
             {advantages.map((advantage) => (
               <div
                 key={advantage.id}
-                className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
+                className="flex my-1 py-2 rounded-md cursor-pointer hover:bg-muted"
                 onClick={() => {
                   setFacilities((prev) =>
                     prev.some((prevItem) => advantage.id === prevItem.id)
@@ -519,6 +474,7 @@ const AddAds: React.FC<AddAdsProps> = ({ categories, advantages }) => {
           >
             {statusLabelItems.map((item) => (
               <ToggleGroupItem
+                key={`status-${item.value}`}
                 data-state={status[item.name] ? "on" : "off"}
                 onClick={(e) => {
                   const is = e.currentTarget.dataset.state === "off" ? true : false

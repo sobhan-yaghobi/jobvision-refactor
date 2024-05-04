@@ -2,14 +2,15 @@
 import React from "react"
 import { toast } from "@/components/modules/ui/use-toast"
 
+import useSWR from "swr"
+
 import { ad } from "@/types/utils.type"
 
 import ADBox from "@/components/modules/dashboard/ADBox"
 import Title from "@/components/modules/Title"
-import useSWR from "swr"
 import ADBoxDashboardSkeleton from "@/components/modules/skeleton/ADBoxDashboard.skeleton"
 
-const Ads: React.FC = () => {
+const ADs: React.FC = () => {
   const {
     data: adItems,
     isLoading,
@@ -19,7 +20,6 @@ const Ads: React.FC = () => {
     const adsData: ad[] = await res.json()
     return adsData
   })
-
   const removeAction = async (id: string) => {
     const res = await fetch("/api/ad", { method: "DELETE", body: JSON.stringify(id) })
     const data = await res.json()
@@ -30,6 +30,7 @@ const Ads: React.FC = () => {
     }
     toast({ title: data.message, variant: "destructive" })
   }
+
   return (
     <div>
       <Title className="mb-6">
@@ -56,4 +57,4 @@ const Ads: React.FC = () => {
   )
 }
 
-export default Ads
+export default ADs

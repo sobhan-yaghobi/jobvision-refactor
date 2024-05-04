@@ -1,9 +1,10 @@
 "use server"
 
-import { TypeAd } from "@/validation/zod.validations"
 import isAuth from "./isAuth"
 
-const addAds = async (ad: TypeAd) => {
+import { TypeAd, adSchema } from "@/validation/zod.validations"
+
+export const addAD = async (ad: TypeAd) => {
   const { user } = await isAuth()
 
   if (user !== null) {
@@ -25,4 +26,7 @@ const addAds = async (ad: TypeAd) => {
   return { message: "مشکلی در ساخت آگهی به وجود آمد", status: false }
 }
 
-export default addAds
+export const validateAD = async (ad: TypeAd) => {
+  const resault = adSchema.safeParse(ad)
+  return resault
+}
