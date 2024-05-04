@@ -179,7 +179,19 @@ const quickAccessItems: quickAccessItemType[] = [
   },
 ]
 
-const Footer = () => {
+const relatedLinks = [
+  { name: "استخدام کارگزاری", href: "/" },
+  { name: "استخدام بیمه", href: "/" },
+  { name: "استخدام خودرو", href: "/" },
+]
+
+const lastBlogs = [
+  { name: "راهنمای جامع استخدام", href: "/" },
+  { name: "راهنمای جامع رزومه نویسی برای کارجویان", href: "/" },
+  { name: "گزارش افزایش حقوق 1402 کارگران", href: "/" },
+]
+
+const Footer: React.FC = () => {
   return (
     <footer className="bg-secondary text-secondary-foreground overflow-hidden py-6">
       <div className="container">
@@ -196,7 +208,7 @@ const Footer = () => {
                 >
                   <AccordionTrigger className="hover:no-underline">
                     <div className="flex morabba">
-                      <p className="dana w-7 h-7 center ml-3 border border-muted rounded-full">
+                      <p className="w-7 h-7 center ml-3 border border-muted rounded-full dana">
                         {index + 1}
                       </p>
                       <span className="text-right">{item.title}</span>
@@ -255,36 +267,18 @@ const Footer = () => {
                       <h3>لینک‌های مرتبط</h3>
                     </Title>
                     <ul className="flex mt-3">
-                      <li className="ml-5">
-                        <Link href={"/"}>
-                          <Button
-                            variant={"link"}
-                            className="text-muted text-xs underline hover:text-muted/70 lg:text-sm"
-                          >
-                            استخدام کارگزاری
-                          </Button>
-                        </Link>
-                      </li>
-                      <li className="ml-5">
-                        <Link href={"/"}>
-                          <Button
-                            variant={"link"}
-                            className="text-muted text-xs underline hover:text-muted/70 lg:text-sm"
-                          >
-                            استخدام بیمه
-                          </Button>
-                        </Link>
-                      </li>
-                      <li className="ml-5">
-                        <Link href={"/"}>
-                          <Button
-                            variant={"link"}
-                            className="text-muted text-xs underline hover:text-muted/70 lg:text-sm"
-                          >
-                            استخدام خودرو
-                          </Button>
-                        </Link>
-                      </li>
+                      {relatedLinks.map((item, index) => (
+                        <li key={`relateed-link-${index}`} className="ml-5">
+                          <Link href={item.href}>
+                            <Button
+                              variant={"link"}
+                              className="text-muted text-xs underline hover:text-muted/70 lg:text-sm"
+                            >
+                              {item.name}
+                            </Button>
+                          </Link>
+                        </li>
+                      ))}
                     </ul>
                   </section>
 
@@ -293,36 +287,18 @@ const Footer = () => {
                       <h3>آخرین مطالب بلاگ</h3>
                     </Title>
                     <ul className="flex mt-3">
-                      <li className="ml-5">
-                        <Link href={"/"}>
-                          <Button
-                            variant={"link"}
-                            className="text-muted text-xs underline hover:text-muted/70 lg:text-sm"
-                          >
-                            راهنمای جامع استخدام
-                          </Button>
-                        </Link>
-                      </li>
-                      <li className="ml-5">
-                        <Link href={"/"}>
-                          <Button
-                            variant={"link"}
-                            className="text-muted text-xs underline hover:text-muted/70 lg:text-sm"
-                          >
-                            راهنمای جامع رزومه نویسی برای کارجویان
-                          </Button>
-                        </Link>
-                      </li>
-                      <li className="ml-5">
-                        <Link href={"/"}>
-                          <Button
-                            variant={"link"}
-                            className="text-muted text-xs underline hover:text-muted/70 lg:text-sm"
-                          >
-                            گزارش افزایش حقوق 1402 کارگران
-                          </Button>
-                        </Link>
-                      </li>
+                      {lastBlogs.map((item, index) => (
+                        <li key={`last-blog-${index}`} className="ml-5">
+                          <Link href={item.href}>
+                            <Button
+                              variant={"link"}
+                              className="text-muted text-xs underline hover:text-muted/70 lg:text-sm"
+                            >
+                              {item.name}
+                            </Button>
+                          </Link>
+                        </li>
+                      ))}
                     </ul>
                   </section>
                 </div>
@@ -363,8 +339,8 @@ const Footer = () => {
                 </Accordion>
               </ul>
             </div>
-            <div className="w-full my-5 flex items-center justify-center md:my-0 md:w-4/12 md:justify-end">
-              <div className="h-36 p-2 m-1 rounded-xl bg-muted flex items-center justify-center">
+            <div className="w-full flex items-center justify-center my-5  md:w-4/12 md:justify-end md:my-0">
+              <div className="bg-muted h-36 p-2 flex items-center justify-center m-1 rounded-xl">
                 <Image
                   width={118}
                   height={128}
@@ -373,7 +349,7 @@ const Footer = () => {
                   alt=""
                 />
               </div>
-              <div className="h-36 p-2 m-1 rounded-xl bg-muted flex items-center justify-center">
+              <div className="bg-muted h-36 flex items-center justify-center p-2 m-1 rounded-xl">
                 <Image
                   width={85}
                   height={128}
@@ -394,6 +370,7 @@ type quickAccessItemProps = {
   item: quickAccessItemType["links"]
   type: string
 }
+
 const QuickAccessItem: React.FC<quickAccessItemProps> = ({ item, type }) => {
   return (
     <>
