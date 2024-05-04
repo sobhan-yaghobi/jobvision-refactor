@@ -1,13 +1,14 @@
-import Title from "@/components/modules/Title"
+import React from "react"
+
 import { Button } from "@/components/modules/ui/button"
+import Title from "@/components/modules/Title"
 import Image from "next/image"
 import Link from "next/link"
-import React from "react"
 
 const NotFound = () => {
   return (
-    <div className="text-secondary w-full h-full relative center">
-      <div className="w-full h-full absolute center blur-sm">
+    <div className="text-secondary w-full h-full center relative">
+      <div className="w-full h-full center absolute blur-sm">
         <Image
           className="w-full md:w-auto"
           width={700}
