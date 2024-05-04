@@ -1,9 +1,8 @@
 import type { Metadata } from "next"
-import "./globals.css"
 import addInitalDataAction from "./action/addInitalDataToDb"
-
 import { Toaster } from "@/components/modules/ui/toaster"
-import isAuth from "./action/isAuth"
+
+import "./globals.css"
 
 export const metadata: Metadata = {
   title: "Clone Jobvison Website",
