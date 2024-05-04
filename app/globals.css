@@ -129,6 +129,19 @@
   }
 }
 
+.about-us-box-1 {
+  @apply from-[#f8f9fa] to-[#ec8386] shadow-[-10px_10px_30px_-9px_#ff979a,10px_10px_30px_-9px_#c96f72];
+}
+.about-us-box-2 {
+  @apply from-[#f8f9fa] to-[#A5A8F2] shadow-[-10px_10px_30px_-9px_#9396d7,10px_10px_30px_-9px_#b7baff];
+}
+.about-us-box-3 {
+  @apply from-[#f8f9fa] to-[#90D1F4] shadow-[-10px_10px_30px_-9px_#80bad9,10px_10px_30px_-9px_#a0e8ff];
+}
+.about-us-box-4 {
+  @apply from-[#f8f9fa] to-[#F5CD8D] shadow-[-10px_10px_30px_-9px_#dab67d,10px_10px_30px_-9px_#ffe49d];
+}
+
 @layer components {
   .center {
     @apply flex items-center justify-center;

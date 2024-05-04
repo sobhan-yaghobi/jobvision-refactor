@@ -1,16 +1,16 @@
 "use client"
 
 import React from "react"
-import { companiesWithFollower } from "@/types/utils.type"
-
 import { Swiper, SwiperSlide } from "swiper/react"
+import { Pagination, Navigation, A11y, Autoplay } from "swiper/modules"
 import "swiper/css"
 import "swiper/css/pagination"
-import { Pagination, Navigation, A11y, Autoplay } from "swiper/modules"
-
-import CompanyBox from "../modules/CompanyBox"
 
 import useSWR from "swr"
+
+import { companiesWithFollower } from "@/types/utils.type"
+
+import CompanyBox from "../modules/CompanyBox"
 import { SwiperNavButtons } from "../modules/SwiperNavButtons"
 
 const CompnaySlider: React.FC = () => {
@@ -51,7 +51,7 @@ const CompnaySlider: React.FC = () => {
               .fill("")
               .map((_, index) => (
                 <SwiperSlide className="w-full" key={`swiper-slider-${index}`}>
-                  <div className="w-full h-72 bg-muted animate-pulse rounded-lg"></div>
+                  <div className="bg-muted w-full h-72 animate-pulse rounded-lg"></div>
                 </SwiperSlide>
               ))
           : companies?.map((company) => (
