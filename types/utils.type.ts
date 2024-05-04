@@ -18,6 +18,23 @@ export type TypeMenuItem = {
   isMegaMenu: boolean
 }
 
+export type quickAccessSubLinkType = {
+  id: number
+  title: string
+  link: string
+}
+export type quickAccessLinkType = {
+  id: number
+  title: string
+  link: string
+  sublink: quickAccessSubLinkType[]
+}
+export type quickAccessItemType = {
+  id: number
+  title: string
+  links: quickAccessLinkType[]
+}
+
 export type user = userPrisma & {
   cv: cv[]
 }
