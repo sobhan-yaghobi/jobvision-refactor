@@ -45,7 +45,7 @@ const CurrentJobAD: React.FC = () => {
   const mainItemsBoxInfos: TypeItemBox[] = [
     {
       id: uuid(),
-      title: "درباره شغddddddddddddddddddddddddل",
+      title: "درباره شغل",
       type: "INFO_JOB",
       component: <Info ad={ad ?? ({} as ad)} />,
     },

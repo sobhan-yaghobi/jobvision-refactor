@@ -38,7 +38,7 @@ const ADBox: React.FC<ADBoxProps> = ({ isFooter, active, className, ad }) => {
               className="w-16 h-auto rounded-sm"
               alt="logo-compnay"
             />
-            <div className="flex flex-col !mt-0 !mr-3">
+            <div className="flex-1 flex flex-col !mt-0 !mr-3 overflow-x-hidden">
               <p className="text-sm dana-bold">{ad.name}</p>
               <span className="text-sm">{ad.company.name}</span>
               <div className="text-secondary text-sm flex items-center">
@@ -53,7 +53,7 @@ const ADBox: React.FC<ADBoxProps> = ({ isFooter, active, className, ad }) => {
                   ) : null}
                 </p>
               </div>
-              <div className="text-muted-foreground h-9 text-xs flex gap-1.5 !mt-2 overflow-x-auto">
+              <div className="text-muted-foreground w-full h-9 text-xs flex gap-1.5 !mt-2 overflow-x-auto">
                 {ad.itern ? <div className="box-info-type !ml-1">امکان جذب کارآموز</div> : null}
                 {ad.telecommuting ? <div className="box-info-type !ml-1">امکان دورکاری</div> : null}
               </div>
