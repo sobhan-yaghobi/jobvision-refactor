@@ -1,17 +1,20 @@
-import Title from "@/components/modules/Title"
-import { Button } from "@/components/modules/ui/button"
-import { ad } from "@/types/utils.type"
-import Link from "next/link"
 import React from "react"
 import { DateObject } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian"
+
+import { ad } from "@/types/utils.type"
+
+import { Star } from "lucide-react"
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/modules/ui/accordion"
-import { Star } from "lucide-react"
+import Title from "@/components/modules/Title"
+import Link from "next/link"
+import { Button } from "@/components/modules/ui/button"
 
 type CompanyProps = {
   ad: ad
@@ -35,22 +38,22 @@ const Company: React.FC<CompanyProps> = ({ ad }) => {
             <AccordionContent>
               <div className="flex flex-wrap">
                 <div className="w-full mb-3 lg:w-1/2 lg:mb-0">
-                  <span className="morabba ml-2">
-                    <Star className="fill-yellow-500 stroke-none inline-block" />
+                  <span className="ml-2 morabba">
+                    <Star className="fill-yellow-500 inline-block stroke-none" />
                     {ad.company.score_popularity.toFixed(1)}
                   </span>
                   <span>محبوبیت (براساس بازدید کارجویان)</span>
                 </div>
                 <div className="w-full mb-3 lg:w-1/2 lg:mb-0">
-                  <span className="morabba ml-2">
-                    <Star className="fill-yellow-500 stroke-none inline-block" />
+                  <span className="ml-2 morabba">
+                    <Star className="fill-yellow-500 inline-block stroke-none" />
                     {ad.company.score_responsiveness.toFixed(1)}
                   </span>
                   <span>پاسخگویی به رزومه‌های دریافتی</span>
                 </div>
                 <div className="w-full mb-3 lg:w-1/2 lg:mb-0">
-                  <span className="morabba ml-2">
-                    <Star className="fill-yellow-500 stroke-none inline-block" />
+                  <span className="ml-2 morabba">
+                    <Star className="fill-yellow-500 inline-block stroke-none" />
                     {ad.company.score_experience_of_job_seekers.toFixed(1)}
                   </span>
                   <span>تجربه کارجویان از جلسه مصاحبه</span>
@@ -71,7 +74,7 @@ const Company: React.FC<CompanyProps> = ({ ad }) => {
             {ad.company.website}
           </Link>
         </div>
-        <div className="my-6 text-sm">
+        <div className="text-sm my-6">
           <p>{ad.company.description}</p>
         </div>
         <Button variant={"outline"}>مشاهده سایر موقعیت های شغلی این سازمان</Button>
@@ -92,9 +95,9 @@ const Company: React.FC<CompanyProps> = ({ ad }) => {
         <Title>
           <h3>در یک نگاه</h3>
         </Title>
-        <div className="text-sm pr-3 flex flex-wrap">
-          <div className="min-w-[50%] pl-3 mt-6">
-            <h5 className="morabba text-base">سال تاسیس</h5>
+        <div className="text-sm flex flex-wrap pr-3">
+          <div className="w-full pl-3 mt-6 sm:min-w-[50%]">
+            <h5 className="text-base morabba">سال تاسیس</h5>
             <p className="truncate">
               {new DateObject({
                 date: new Date(ad.company?.established_year),
@@ -102,16 +105,16 @@ const Company: React.FC<CompanyProps> = ({ ad }) => {
               }).format()}
             </p>
           </div>
-          <div className="min-w-[50%] mt-6">
-            <h5 className="morabba text-base">اندازه سازمان</h5>
+          <div className="w-full mt-6 sm:min-w-[50%]">
+            <h5 className="text-base morabba">اندازه سازمان</h5>
             <p className="truncate">{ad.company.organization_employ}</p>
           </div>
-          <div className="min-w-[50%] mt-6">
-            <h5 className="morabba text-base">نوع فعالیت</h5>
+          <div className="w-full mt-6 sm:min-w-[50%]">
+            <h5 className="text-base morabba">نوع فعالیت</h5>
             <p className="truncate">{ad.company.type_of_activity}</p>
           </div>
-          <div className="min-w-[50%] mt-6">
-            <h5 className="morabba text-base">صنعت</h5>
+          <div className="w-full mt-6 sm:min-w-[50%]">
+            <h5 className="text-base morabba">صنعت</h5>
             <p className="truncate">{ad.company.industry}</p>
           </div>
         </div>
@@ -126,7 +129,7 @@ const ScoreIconGenerator: React.FC<{ score: number }> = ({ score }) => {
       {Array(Math.ceil(score))
         .fill("")
         .map((_, index) => (
-          <Star className="stroke-none fill-yellow-500" key={index + 1} />
+          <Star className="fill-yellow-500 stroke-none" key={index + 1} />
         ))}
       {Array(5 - Math.ceil(score))
         .fill("")

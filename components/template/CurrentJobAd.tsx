@@ -30,11 +30,13 @@ export interface TypeItemBox {
   component: ReactNode
 }
 
-const CurrentJobAd: React.FC = () => {
+const CurrentJobAD: React.FC = () => {
+  //! ---------- Hooks
   const searchParams = useSearchParams()
-  const id = searchParams.get("id")
   const { replace } = useRouter()
   const { width } = useSize()
+  //! ---------- State
+  const id = searchParams.get("id")
   const [isShow, setIsShow] = useState(false)
   const { data: ad, isLoading } = useSWR(
     id ? `/ad/current?id=${id}` : null,
@@ -43,7 +45,7 @@ const CurrentJobAd: React.FC = () => {
   const mainItemsBoxInfos: TypeItemBox[] = [
     {
       id: uuid(),
-      title: "درباره شغل",
+      title: "درباره شغddddddddddddddddddddddddل",
       type: "INFO_JOB",
       component: <Info ad={ad ?? ({} as ad)} />,
     },
@@ -64,12 +66,16 @@ const CurrentJobAd: React.FC = () => {
       ),
     },
   ]
+
+  //! ---------- Action
   const closeAction = () => {
     const params = new URLSearchParams(searchParams)
     params.delete("id")
     replace(`?${params.toString()}`)
     setIsShow(false)
   }
+
+  //! ---------- Jsx Responsive View
   const Wrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
     return width >= 1024 ? (
       <>{children}</>
@@ -82,6 +88,7 @@ const CurrentJobAd: React.FC = () => {
     )
   }
 
+  //! ---------- SideEffect
   useEffect(() => {
     if (ad) setIsShow(true)
     else {
@@ -95,7 +102,7 @@ const CurrentJobAd: React.FC = () => {
         <CurrentSkeleton />
       ) : ad ? (
         <Wrapper>
-          <div className="bg-muted w-full h-full px-3 rounded-sm overflow-y-auto">
+          <div className="bg-muted w-full h-full px-3 rounded-sm overflow-x-hidden overflow-y-auto">
             <div className="pt-3">
               <div
                 style={{
@@ -104,7 +111,7 @@ const CurrentJobAd: React.FC = () => {
                 className="bg-[#11111165] bg-blend-multiply w-full h-36 rounded-sm bg-fixed bg-center bg-no-repeat bg-cover"
               ></div>
             </div>
-            <div className="bg-muted w-full h-28 flex justify-between sticky top-0 py-3 z-20">
+            <div className="bg-muted w-full h-16 flex justify-between sticky top-0 py-3 z-20">
               <div className="w-9/12">
                 <Title>
                   <h3 className="mb-3">{ad.name}</h3>
@@ -119,26 +126,31 @@ const CurrentJobAd: React.FC = () => {
                 <p>{`${ad.company.location.city.name} , ${ad.company.location.address}`}</p>
                 <div className="*:text-sm flex flex-wrap mb-2">
                   {ad.itern ? (
-                    <div className="box-info-type !mr-1 !p-0">امکان جذب کارآموز</div>
+                    <div className="box-info-type border-background !mr-1">امکان جذب کارآموز</div>
                   ) : null}
                   {ad.telecommuting ? (
-                    <div className="box-info-type !mr-1 !p-0">امکان دورکاری</div>
+                    <div className="box-info-type border-background !mr-1">امکان دورکاری</div>
                   ) : null}
                 </div>
                 <div className="my-2 flex items-start justify-between">
                   <div className="flex flex-col gap-3">
-                    <p>
-                      {`${ad.price.min.toLocaleString("fa-ir")}${
-                        ad.price.max ? ` - ${ad.price.max.toLocaleString("fa-ir")}` : ""
-                      } `}
-                      تومان
-                    </p>
-                    <TimeGenerator date={ad.created_at} />
+                    <div>
+                      <span className="text-xs">
+                        <TimeGenerator date={ad.created_at} />
+                      </span>
+                      <p className="inline-block mx-2">/</p>
+                      <p className="inline-block">
+                        {`${ad.price.min.toLocaleString("fa-ir")}${
+                          ad.price.max ? ` - ${ad.price.max.toLocaleString("fa-ir")}` : ""
+                        } `}
+                        تومان
+                      </p>
+                    </div>
                     <Button variant={"outline"}>مشاهده حقوق دریافتی افراد در مشاغل مشابه</Button>
                   </div>
                   <div className="text-jv-primary text-2xl flex">
-                    <ExternalLink className="btn-icon-l icon-stroke-light" />
-                    <Heart className="icon-stroke-light" />
+                    <ExternalLink className="btn-icon-l icon-stroke-light icon" />
+                    <Heart className="icon-stroke-light icon" />
                   </div>
                 </div>
               </div>
@@ -151,7 +163,7 @@ const CurrentJobAd: React.FC = () => {
               </div>
               <div className="w-8/12 flex items-center">
                 <Speech className="icon-stroke-light" />
-                <p className="w-10/12 mr-3 truncate">{ad.company.slogan}</p>
+                <p className="min-w-10/12 mr-3 truncate">{ad.company.slogan}</p>
               </div>
             </div>
             <Tabs
@@ -159,17 +171,18 @@ const CurrentJobAd: React.FC = () => {
               defaultValue={mainItemsBoxInfos.at(0)?.type}
               className="h-full flex flex-col my-3 p-0"
             >
-              <TabsList variant={"secondary"} className="w-full sticky top-24 z-20">
-                {mainItemsBoxInfos.map((item) => (
-                  <TabsTrigger
-                    className="p-5"
-                    key={`trigger-${item.type}`}
-                    variant={"secondary"}
-                    value={item.type}
-                  >
-                    {item.title}
-                  </TabsTrigger>
-                ))}
+              <TabsList variant={"secondary"} className="w-full h-10 sticky top-16 z-20">
+                <div className="w-full h-full flex overflow-x-auto hidden-scrollbar">
+                  {mainItemsBoxInfos.map((item) => (
+                    <TabsTrigger
+                      key={`trigger-${item.type}`}
+                      variant={"secondary"}
+                      value={item.type}
+                    >
+                      {item.title}
+                    </TabsTrigger>
+                  ))}
+                </div>
               </TabsList>
               <div className="bg-background p-3">
                 {mainItemsBoxInfos.map((item) => (
@@ -197,4 +210,4 @@ const CurrentJobAd: React.FC = () => {
   )
 }
 
-export default CurrentJobAd
+export default CurrentJobAD

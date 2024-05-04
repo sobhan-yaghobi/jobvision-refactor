@@ -1,7 +1,7 @@
 import React from "react"
 
 import JobsFillter from "@/components/template/JobsFilter"
-import CurrentJobAd from "@/components/template/CurrentJobAd"
+import CurrentJobAD from "@/components/template/CurrentJobAD"
 import ADsList from "@/components/template/ADsList"
 
 const page = async () => {
@@ -15,7 +15,7 @@ const page = async () => {
           <ADsList />
         </div>
         <div className="h-full hidden col-span-2 overflow-y-auto lg:block">
-          <CurrentJobAd />
+          <CurrentJobAD />
         </div>
       </div>
     </div>
