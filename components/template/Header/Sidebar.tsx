@@ -1,6 +1,6 @@
 "use client"
-import React, { useState } from "react"
-import { menuItem } from "@/types/utils.variable"
+import React, { useEffect, useState } from "react"
+import { filterSaerchForm, menuItem } from "@/types/utils.variable"
 
 import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
 
@@ -9,6 +9,7 @@ import { ArrowRight, ChevronLeft, Menu } from "lucide-react"
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/modules/ui/drawer"
 import { Button } from "../../modules/ui/button"
 import { CategoryItem, ProvinceItem } from "./Item"
+import { usePathname, useSearchParams } from "next/navigation"
 
 type TypePage = {
   currentPage: "list" | "item" | "sub"
@@ -25,6 +26,9 @@ type SidebarProps = {
   province: provinceWithCity[]
 }
 const Sidebar: React.FC<SidebarProps> = ({ className, category, province }) => {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const [isOpen, setIsOpen] = useState(false)
   const [page, setPage] = useState<TypePage>({ currentPage: "list", itemPage: undefined })
   const BackButton: React.FC<TypeBackButton> = ({ destination }) => (
     <Button
@@ -37,8 +41,16 @@ const Sidebar: React.FC<SidebarProps> = ({ className, category, province }) => {
     </Button>
   )
 
+  useEffect(() => {
+    setIsOpen(false)
+
+    return () => {
+      setIsOpen(false)
+    }
+  }, [pathname, searchParams])
+
   return (
-    <Drawer>
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
         <Button variant={"fill"} className={className}>
           <Menu className="icon" />

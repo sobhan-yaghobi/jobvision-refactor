@@ -40,7 +40,8 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
   const { data, isLoading } = useSWR("/api/fetchProvinceAndCategory", fetchProvinceAndCategory)
   const handelSearch = (value: string, path: string, deletePath?: string) => {
     const params = new URLSearchParams(searchParams)
-    value ? params.set(path, value) : params.delete(path)
+    if (value) params.set(path, value)
+    else params.delete(path)
 
     deletePath && params.delete(deletePath)
     redirectAsap
@@ -57,8 +58,8 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
             (collection) => collection.id === queryCollection && setCollection(collection)
           )
         )
-        return
       }
+      return
     }
     const provinceFetchAction = async () => {
       const queryCity = searchParams.get(filterSaerchForm.city)
@@ -80,6 +81,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
         )
         return
       }
+      return
     }
 
     if (searchParams.get(filterSaerchForm.collection)?.length) categoryFetchAction()
@@ -88,9 +90,6 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
       searchParams.get(filterSaerchForm.city)?.length
     )
       provinceFetchAction()
-
-    setCityOrProvince({} as StateProvinceOrCity)
-    setCollection({} as category_collection)
   }, [data, searchParams])
 
   return (

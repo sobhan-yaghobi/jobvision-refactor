@@ -71,7 +71,7 @@ type ListProps =
 
 export const List: React.FC<ListProps> = ({ mode, array }) => {
   return array.length ? (
-    <ul className="text-sm bg-white w-full columns-4 absolute top-12 bottom-0 left-0 right-0 rounded-b-xl cursor-default overflow-y-auto">
+    <ul className="bg-white text-sm w-full columns-4 absolute top-12 bottom-0 left-0 right-0 rounded-b-xl cursor-default overflow-y-auto">
       {mode === "cities"
         ? array.map((province) => (
             <ProvinceItem key={`list-item-${province.id}`} province={province} />
