@@ -11,7 +11,7 @@ import CVRequestSkeleton from "@/components/modules/skeleton/CVRequest.skeleton"
 
 const page = () => {
   const {
-    data: acceptCv,
+    data: acceptCV,
     mutate,
     isLoading,
   } = useSWR("api/request_accept", async () => {
@@ -29,8 +29,8 @@ const page = () => {
           Array(5)
             .fill("")
             .map((_, index) => <CVRequestSkeleton key={`last-cv-skeleton-${index}`} />)
-        ) : acceptCv?.length ? (
-          acceptCv.map((item) => (
+        ) : acceptCV?.length ? (
+          acceptCV.map((item) => (
             <CVRequest mutate={mutate} cv={item} status={item.status} key={item.id} />
           ))
         ) : (

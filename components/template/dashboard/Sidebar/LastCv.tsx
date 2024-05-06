@@ -8,9 +8,9 @@ import Title from "@/components/modules/Title"
 import CVRequest from "@/components/modules/dashboard/CVRequest"
 import CVRequestSkeleton from "@/components/modules/skeleton/CVRequest.skeleton"
 
-const LastCv: React.FC = () => {
+const LastCV: React.FC = () => {
   const {
-    data: lastCv,
+    data: lastCV,
     mutate,
     isLoading,
   } = useSWR("api/request_all", async () => {
@@ -28,8 +28,8 @@ const LastCv: React.FC = () => {
           Array(5)
             .fill("")
             .map((_, index) => <CVRequestSkeleton isLight key={`last-cv-skeleton-${index}`} />)
-        ) : lastCv?.length ? (
-          lastCv
+        ) : lastCV?.length ? (
+          lastCV
             .reverse()
             .slice(0, 5)
             .map((item) => (
@@ -43,4 +43,4 @@ const LastCv: React.FC = () => {
   )
 }
 
-export default LastCv
+export default LastCV

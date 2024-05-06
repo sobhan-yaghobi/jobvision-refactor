@@ -1,7 +1,8 @@
 "use client"
+
 import React, { useEffect, useState } from "react"
 
-import { sendCv } from "@/app/action/cv"
+import { sendCV } from "@/app/action/cv"
 
 import useUser from "@/hook/store/useUser"
 
@@ -11,19 +12,20 @@ import { Button } from "./ui/button"
 import { toast } from "./ui/use-toast"
 import LoadButton from "./ui/LoadButton"
 
-type SendCvButtonProps = {
+type SendCVButtonProps = {
   ad: ad
 }
 
-const SendCvButton: React.FC<SendCvButtonProps> = ({ ad }) => {
+const SendCVButton: React.FC<SendCVButtonProps> = ({ ad }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isCvSend, setIsCvSend] = useState(false)
   const { user } = useUser()
 
+  //! ---------- Send CV Action
   const clientAction = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setIsLoading(true)
     event.stopPropagation()
-    const cvResault = await sendCv(ad)
+    const cvResault = await sendCV(ad)
     if (cvResault.status) {
       setIsCvSend(true)
       setIsLoading(false)
@@ -33,6 +35,7 @@ const SendCvButton: React.FC<SendCvButtonProps> = ({ ad }) => {
     return toast({ title: cvResault.message, variant: "destructive" })
   }
 
+  //! ---------- Check CV Is Send Before
   useEffect(() => {
     const isActive = user?.cv.some((cvItem) => cvItem.ad_id === ad.id)
     setIsCvSend(isActive || false)
@@ -52,4 +55,4 @@ const SendCvButton: React.FC<SendCvButtonProps> = ({ ad }) => {
   )
 }
 
-export default SendCvButton
+export default SendCVButton

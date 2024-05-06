@@ -19,7 +19,7 @@ import Title from "../modules/Title"
 import Info from "./jobs/Info"
 import useSWR from "swr"
 import CurrentSkeleton from "../modules/skeleton/Current.skeleton"
-import SendCvButton from "../modules/SendCvButton"
+import sendCVButton from "../modules/SendCVButton"
 import TimeGenerator from "../modules/TimeGenerator"
 
 type InfoTypes = "INFO_JOB" | "ABOUT_COMPANY" | "RELATED_ADS" | "RESUME_RECRRDS"
@@ -118,7 +118,7 @@ const CurrentJobAD: React.FC = () => {
                 </Title>
               </div>
               <div className="w-2/12 flex items-start justify-end">
-                <SendCvButton ad={ad} />
+                <sendCVButton ad={ad} />
               </div>
             </div>
             <div className="w-full">

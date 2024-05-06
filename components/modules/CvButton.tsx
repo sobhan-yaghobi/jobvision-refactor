@@ -1,24 +1,26 @@
 "use client"
+
 import React, { useState } from "react"
 import { toast } from "./ui/use-toast"
 
-import { acceptCv, rejectCv } from "@/app/action/cv"
+import { acceptCV, rejectCV } from "@/app/action/cv"
 
 import { CVRequestProps } from "./dashboard/CVRequest"
 
 import LoadButton from "./ui/LoadButton"
 import { MailCheck, MailMinus } from "lucide-react"
 
-type CvButtonProps = CVRequestProps
+type CVButtonProps = CVRequestProps
 
-const CvButton: React.FC<CvButtonProps> = ({ cv, status: cvStatus, mutate }) => {
+const CVButton: React.FC<CVButtonProps> = ({ cv, status: cvStatus, mutate }) => {
   const [isRejectLoading, setIsRejectLoading] = useState(false)
   const [isAccpetLoading, setIsAccpetLoading] = useState(false)
 
+  //! ---------- Accept CV
   const acceptClientAction = async () => {
     if (cvStatus !== "accept") {
       setIsAccpetLoading(true)
-      const cvResault = await acceptCv(cv.id)
+      const cvResault = await acceptCV(cv.id)
       if (cvResault.status) {
         typeof mutate !== "undefined" && mutate()
         setIsAccpetLoading(false)
@@ -28,10 +30,12 @@ const CvButton: React.FC<CvButtonProps> = ({ cv, status: cvStatus, mutate }) => 
       return toast({ title: cvResault.message, variant: "destructive" })
     }
   }
+
+  //! ---------- Reject CV
   const rejectClientAction = async () => {
     if (cvStatus !== "reject") {
       setIsRejectLoading(true)
-      const cvResault = await rejectCv(cv.id)
+      const cvResault = await rejectCV(cv.id)
       if (cvResault.status) {
         typeof mutate !== "undefined" && mutate()
         setIsRejectLoading(false)
@@ -41,6 +45,7 @@ const CvButton: React.FC<CvButtonProps> = ({ cv, status: cvStatus, mutate }) => 
       return toast({ title: cvResault.message, variant: "destructive" })
     }
   }
+
   return (
     <>
       <LoadButton
@@ -55,6 +60,7 @@ const CvButton: React.FC<CvButtonProps> = ({ cv, status: cvStatus, mutate }) => 
       >
         <MailCheck className="icon" />
       </LoadButton>
+
       <LoadButton
         isReplace
         isLoading={isRejectLoading}
@@ -71,4 +77,4 @@ const CvButton: React.FC<CvButtonProps> = ({ cv, status: cvStatus, mutate }) => 
   )
 }
 
-export default CvButton
+export default CVButton

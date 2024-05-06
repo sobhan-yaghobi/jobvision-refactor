@@ -3,7 +3,7 @@
 import { ad } from "@/types/utils.type"
 import isAuth from "./isAuth"
 
-export const acceptCv = async (id: string) => {
+export const acceptCV = async (id: string) => {
   const cvResualt = await prisma.cv.update({ where: { id }, data: { status: "accept" } })
   if (cvResualt) {
     return { message: "درخواست با موفقیت قبول شد", status: true }
@@ -11,7 +11,7 @@ export const acceptCv = async (id: string) => {
   return { message: "مشکلی در قبول کردن درخواست به وجود آمد", status: false }
 }
 
-export const rejectCv = async (id: string) => {
+export const rejectCV = async (id: string) => {
   const cvResualt = await prisma.cv.update({ where: { id }, data: { status: "reject" } })
   if (cvResualt) {
     return { message: "درخواست با موفقیت رد شد", status: true }
@@ -19,7 +19,7 @@ export const rejectCv = async (id: string) => {
   return { message: "مشکلی در رد کردن درخواست به وجود آمد", status: false }
 }
 
-export const sendCv = async (ad: ad) => {
+export const sendCV = async (ad: ad) => {
   const { user } = await isAuth()
   if (user?.company_id === ad.company_id) {
     return { message: "ارسال رزومه به آگهی شرکت خود ممکن نمیباشد", status: false }
