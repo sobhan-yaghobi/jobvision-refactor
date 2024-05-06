@@ -1,12 +1,12 @@
 import { seniority_level, gender, cooperation_type } from "@prisma/client"
 import { TypeMenuItem, TypeStatus, quickAccessItemType } from "../types/utils.type"
 
+//! ---------- Header Variables
 export const menuItem: TypeMenuItem[] = [
   { id: 1, name: "فرصت های شغلی", link: "/jobs", isMegaMenu: true },
   { id: 2, name: "رده بندی شرکت ها", link: "#", isMegaMenu: false },
   { id: 3, name: "رزومه ساز", link: "#", isMegaMenu: false },
 ]
-
 export const AboutUsItemArray = [
   {
     id: 1,
@@ -37,7 +37,6 @@ export const AboutUsItemArray = [
     customClass: "about-us-box-4",
   },
 ]
-
 export const whyUsArray = [
   {
     id: 1,
@@ -97,6 +96,7 @@ export const whyUsArray = [
   },
 ]
 
+//! ---------- Footer Variables
 export const faqItems = [
   {
     id: 1,
@@ -135,7 +135,6 @@ export const faqItems = [
       "خیر؛ شما می‌توانید رزومه خودتان را به صورت کاملا رایگان برای تعداد نامحدودی از آگهی‌های استخدام ارسال کنید.",
   },
 ]
-
 export const MoreItems = [
   {
     id: 1,
@@ -181,7 +180,6 @@ export const MoreItems = [
     ],
   },
 ]
-
 export const quickAccessItems: quickAccessItemType[] = [
   {
     id: 1,
@@ -253,7 +251,18 @@ export const quickAccessItems: quickAccessItemType[] = [
     ],
   },
 ]
+export const relatedLinks = [
+  { name: "استخدام کارگزاری", href: "/" },
+  { name: "استخدام بیمه", href: "/" },
+  { name: "استخدام خودرو", href: "/" },
+]
+export const lastBlogs = [
+  { name: "راهنمای جامع استخدام", href: "/" },
+  { name: "راهنمای جامع رزومه نویسی برای کارجویان", href: "/" },
+  { name: "گزارش افزایش حقوق 1402 کارگران", href: "/" },
+]
 
+//! ---------- Add AD Variables
 export const statusLabelItems = [
   {
     name: "militaryOrder",
@@ -280,7 +289,6 @@ export const statusLabelItems = [
     value: "این آگهی فوری میباشد",
   },
 ]
-
 export const initialStatusData: TypeStatus = {
   important: false,
   response: false,
@@ -289,27 +297,12 @@ export const initialStatusData: TypeStatus = {
   disabledPeople: false,
   militaryOrder: false,
 }
-
-export const relatedLinks = [
-  { name: "استخدام کارگزاری", href: "/" },
-  { name: "استخدام بیمه", href: "/" },
-  { name: "استخدام خودرو", href: "/" },
-]
-
-export const lastBlogs = [
-  { name: "راهنمای جامع استخدام", href: "/" },
-  { name: "راهنمای جامع رزومه نویسی برای کارجویان", href: "/" },
-  { name: "گزارش افزایش حقوق 1402 کارگران", href: "/" },
-]
-
 export const genderItems: { type: gender; name: string }[] = [
   { name: "آقا", type: "MALE" },
   { name: "خانوم", type: "FEMALE" },
   { name: "تفاوتی ندارد", type: "NOT_IMPORTANT" },
 ]
-
-export type TypeSeniorityLevel = { type: seniority_level; name: string }
-export const seniorityLevelItems: TypeSeniorityLevel[] = [
+export const seniorityLevelItems: { type: seniority_level; name: string }[] = [
   { name: "کارگر", type: "WORKER" },
   { name: "کارمند", type: "EMPLOYEE" },
   { name: "کارشناس", type: "EXPERT" },
@@ -317,14 +310,11 @@ export const seniorityLevelItems: TypeSeniorityLevel[] = [
   { name: "معاونت", type: "ASSISTANCE" },
   { name: "مدیر ارشد", type: "CHIEF" },
 ]
-
-export type TypeCooperationType = { type: cooperation_type; name: string }
-export const cooperationTypeItems: TypeCooperationType[] = [
+export const cooperationTypeItems: { type: cooperation_type; name: string }[] = [
   { name: "تمام وقت", type: "FULL_TIME" },
   { name: "پاره وقت", type: "PART_TIME" },
   { name: "قراردادی", type: "CONTRACT" },
 ]
-
 export type TypePrice = {
   type:
     | "RIGHT_UNDER-4"
@@ -342,13 +332,13 @@ export const priceItems: TypePrice[] = [
   { name: "بالای 20 میلیون تومان", type: "RIGHT_HIGHER-20" },
 ]
 
+//! ---------- Search Form Variables
 export const filterSaerchForm = {
   search: "search",
   city: "city",
   collection: "collection",
   province: "province",
 }
-
 export type TypeFilterAd =
   | "itren"
   | "telecommuting"
@@ -357,7 +347,6 @@ export type TypeFilterAd =
   | "seniority_level"
   | "cooperation_type"
   | "price"
-
 export const filterAd = {
   itren: "itren",
   telecommuting: "telecommuting",
