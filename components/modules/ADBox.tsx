@@ -11,7 +11,7 @@ import { Card, CardFooter, CardHeader } from "./ui/card"
 import { Separator } from "./ui/separator"
 import PriceGenerator from "./PriceGenerator"
 import TimeGenerator from "./TimeGenerator"
-import sendCVButton from "./SendCVButton"
+import SendCVButton from "./SendCVButton"
 import Image from "next/image"
 
 type ADBoxProps = {
@@ -85,7 +85,7 @@ const ADBox: React.FC<ADBoxProps> = ({ isFooter, active, className, ad }) => {
               <span className="text-sm">
                 <TimeGenerator date={ad.created_at} />
               </span>
-              <sendCVButton ad={ad} />
+              <SendCVButton ad={ad} />
             </CardFooter>
           </>
         ) : null}
