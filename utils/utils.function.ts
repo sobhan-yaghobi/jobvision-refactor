@@ -3,7 +3,6 @@ import { twMerge } from "tailwind-merge"
 import { compare, hash } from "bcryptjs"
 import { sign, verify } from "jsonwebtoken"
 import prisma from "../lib/prisma"
-
 import { DateObject } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
@@ -26,18 +25,25 @@ const getLastMessage = <T>({
   return messages?.length ? messages[messages.length - 1] : undefined
 }
 
+const dateGenerate = (date: string | Date) =>
+  new Date(
+    new DateObject({
+      date,
+      calendar: persian,
+      locale: persian_fa,
+    })
+      .convert(undefined, gregorian_en)
+      .format()
+  )
+
 //! ---------- Auth Funcs
-
 const hashPassword = (password: string): Promise<string> => hash(password, 12)
-
 const generateToken = (data: any) =>
   sign({ ...data }, process.env.privateKey ?? "", {
     expiresIn: "72h",
   })
-
 const verifyPassword = (password: string, hashedPassword: string) =>
   compare(password, hashedPassword)
-
 const verifyToken = (token: string | undefined) => {
   if (typeof token === "undefined") {
     return false
@@ -50,7 +56,6 @@ const verifyToken = (token: string | undefined) => {
     return false
   }
 }
-
 const validateTokenResualt = async (token: string | undefined) => {
   const tokenResualt = verifyToken(token)
 
@@ -70,24 +75,13 @@ const validateTokenResualt = async (token: string | undefined) => {
   return Response.json({ message: "user not found :(" }, { status: 404 })
 }
 
-const dateGenerate = (date: string | Date) =>
-  new Date(
-    new DateObject({
-      date,
-      calendar: persian,
-      locale: persian_fa,
-    })
-      .convert(undefined, gregorian_en)
-      .format()
-  )
-
 export {
   cn,
   getLastMessage,
+  dateGenerate,
   hashPassword,
   generateToken,
   verifyPassword,
   verifyToken,
   validateTokenResualt,
-  dateGenerate,
 }
