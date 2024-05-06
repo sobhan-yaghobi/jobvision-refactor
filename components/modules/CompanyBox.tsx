@@ -1,7 +1,7 @@
 import React from "react"
 import { cn } from "@/utils/utils.function"
 
-import { companiesWithFollower } from "@/types/utils.type"
+import { CompaniesWithFollower } from "@/types/utils.type"
 
 import { Star } from "lucide-react"
 
@@ -11,7 +11,7 @@ import Image from "next/image"
 
 type CompanyBoxType = {
   className?: string
-  company: companiesWithFollower
+  company: CompaniesWithFollower
 }
 
 const CompanyBox: React.FC<CompanyBoxType> = ({ className, company }) => {

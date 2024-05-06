@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from "react"
-import { companiesWithFollower } from "@/types/utils.type"
+import { CompaniesWithFollower } from "@/types/utils.type"
 import { createFollower, removeFollower } from "@/app/action/follower"
 
 import { toast } from "./ui/use-toast"
@@ -8,7 +8,7 @@ import useUser from "@/hook/store/useUser"
 import LoadButton from "./ui/LoadButton"
 
 type FollowButtonProps = {
-  company: companiesWithFollower
+  company: CompaniesWithFollower
 }
 
 const FollowButton: React.FC<FollowButtonProps> = ({ company }) => {

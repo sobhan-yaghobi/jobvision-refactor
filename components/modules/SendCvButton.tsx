@@ -6,14 +6,14 @@ import { sendCV } from "@/app/action/cv"
 
 import useUser from "@/hook/store/useUser"
 
-import { ad } from "@/types/utils.type"
+import { AD } from "@/types/utils.type"
 
 import { Button } from "./ui/button"
 import { toast } from "./ui/use-toast"
 import LoadButton from "./ui/LoadButton"
 
 type SendCVButtonProps = {
-  ad: ad
+  ad: AD
 }
 
 const SendCVButton: React.FC<SendCVButtonProps> = ({ ad }) => {

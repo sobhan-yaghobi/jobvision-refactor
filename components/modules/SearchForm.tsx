@@ -8,7 +8,11 @@ import { filterSaerchForm } from "@/utils/utils.variable"
 import { useRouter, useSearchParams } from "next/navigation"
 import useSWR from "swr"
 
-import { category_collection, city, province } from "@prisma/client"
+import {
+  category_collection as Category_collection,
+  city as City,
+  province as Province,
+} from "@prisma/client"
 
 import { Briefcase, CheckIcon, MapPin, Search, X } from "lucide-react"
 
@@ -22,7 +26,7 @@ export type SearchFormProps = {
   path?: string
 }
 
-type StateProvinceOrCity = { mode: "Province"; province: province } | { mode: "City"; city: city }
+type StateProvinceOrCity = { mode: "Province"; province: Province } | { mode: "City"; city: City }
 
 const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
   children,
@@ -33,7 +37,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
   const [isprovinceOpen, setIsProvinceOpen] = useState(false)
   const searchParams = useSearchParams()
   const { replace } = useRouter()
-  const [collection, setCollection] = useState<category_collection>({} as category_collection)
+  const [collection, setCollection] = useState<Category_collection>({} as Category_collection)
   const [cityOrProvince, setCityOrProvince] = useState<StateProvinceOrCity>(
     {} as StateProvinceOrCity
   )
@@ -127,7 +131,7 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
                       <X
                         onClick={(e) => {
                           e.preventDefault()
-                          setCollection({} as category_collection)
+                          setCollection({} as Category_collection)
                           handelSearch("", filterSaerchForm.collection)
                         }}
                         className="icon"

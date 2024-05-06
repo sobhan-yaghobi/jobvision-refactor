@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react"
 
-import { user } from "@/types/utils.type"
+import { User } from "@/types/utils.type"
 
 import useUser from "@/hook/store/useUser"
 import { useToast } from "../../modules/ui/use-toast"
@@ -32,7 +32,7 @@ const UserDropDown = () => {
     const getMeAction = async () => {
       const res = await fetch("/api/getMe")
       if (res.status === 201) {
-        const data: user | { message: string } = await res.json()
+        const data: User | { message: string } = await res.json()
         if ("id" in data) {
           setUser(data)
         } else {

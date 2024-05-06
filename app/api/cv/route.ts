@@ -1,6 +1,6 @@
 import isAuth from "@/app/action/isAuth"
 
-import { cvWithAdWithUser } from "@/types/utils.type"
+import { CVWithAdWithUser } from "@/types/utils.type"
 import { status } from "@prisma/client"
 import { NextRequest } from "next/server"
 
@@ -16,7 +16,7 @@ export const GET = async (request: NextRequest) => {
     ? ((await prisma.cv.findMany({
         include: { user: true, ad: true },
         where: { company_id: user?.company_id, status: query },
-      })) as cvWithAdWithUser[])
-    : ([] as cvWithAdWithUser[])
+      })) as CVWithAdWithUser[])
+    : ([] as CVWithAdWithUser[])
   return Response.json(lastCv)
 }

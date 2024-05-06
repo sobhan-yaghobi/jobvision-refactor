@@ -1,8 +1,8 @@
-import { user } from "@/types/utils.type"
+import { User } from "@/types/utils.type"
 import { create } from "zustand"
 
 type TypeUseUser = {
-  user: user | null
+  user: User | null
   setUser: (user: TypeUseUser["user"]) => void
 }
 

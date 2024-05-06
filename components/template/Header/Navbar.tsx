@@ -2,7 +2,7 @@ import React from "react"
 import { cn } from "@/utils/utils.function"
 import { menuItem } from "@/utils/utils.variable"
 
-import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
+import { CategoryWithCollection, provinceWithCity } from "@/types/utils.type"
 
 import { ChevronDown } from "lucide-react"
 
@@ -13,7 +13,7 @@ import Link from "next/link"
 
 type NavbarProps = {
   className?: string
-  category: categoryWithCollection[]
+  category: CategoryWithCollection[]
   province: provinceWithCity[]
 }
 
@@ -67,7 +67,7 @@ const Navbar: React.FC<NavbarProps> = async ({ className, category, province }) 
 
 type ListProps =
   | { mode: "cities"; array: provinceWithCity[] }
-  | { mode: "visitedJobs"; array: categoryWithCollection[] }
+  | { mode: "visitedJobs"; array: CategoryWithCollection[] }
 
 export const List: React.FC<ListProps> = ({ mode, array }) => {
   return array.length ? (

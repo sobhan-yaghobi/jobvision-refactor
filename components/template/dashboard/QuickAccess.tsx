@@ -5,7 +5,7 @@ import { getMyCompany } from "@/utils/utils.fetch"
 
 import useSWR from "swr"
 
-import { followerWithUser } from "@/types/utils.type"
+import { FollowerWithUser } from "@/types/utils.type"
 
 import { DoorOpen, FilePlus2, GitPullRequestArrow, ImageDown, LogOut, Pencil } from "lucide-react"
 
@@ -42,7 +42,7 @@ const QuickAccess: React.FC = () => {
   const { data: company, isLoading } = useSWR("api/myCompany", getMyCompany)
   const { data: followers, isLoading: isFollowerLoading } = useSWR("api/follower", async () => {
     const res = await fetch("/api/follower")
-    const data: followerWithUser[] = await res.json()
+    const data: FollowerWithUser[] = await res.json()
     return data
   })
 

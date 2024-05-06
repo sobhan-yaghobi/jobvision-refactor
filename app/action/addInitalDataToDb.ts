@@ -4,20 +4,20 @@ import { DateObject } from "react-multi-date-picker"
 import { v4 as uuid } from "uuid"
 
 import {
-  company,
-  ad,
-  category,
-  category_collection,
-  city,
-  province,
-  user,
+  company as Company,
+  ad as AD,
+  category as Category,
+  category_collection as Category_collection,
+  city as City,
+  province as Province,
+  user as User,
   PrismaClient,
-  advantage,
-  location,
+  advantage as Advantage,
+  location as Location,
 } from "@prisma/client"
 import prisma from "@/lib/prisma"
 
-const CategoriesData: category[] = [
+const CategoriesData: Category[] = [
   { id: uuid(), name: "حسابدار / مالی و..", link: "accounting" },
   { id: uuid(), name: "معامله گر و تحلیل بازار های مالی", link: "trader" },
   { id: uuid(), name: "منابع انسانی", link: "humen-resources" },
@@ -26,7 +26,7 @@ const CategoriesData: category[] = [
   { id: uuid(), name: "برنامه نویس و توسعه نرم افزار", link: "developer" },
 ]
 
-const CategoryCollectionData: category_collection[] = [
+const CategoryCollectionData: Category_collection[] = [
   {
     id: uuid(),
     category_id: CategoriesData[0].id,
@@ -62,13 +62,13 @@ const CategoryCollectionData: category_collection[] = [
   },
 ]
 
-const ProvincesData: province[] = [
+const ProvincesData: Province[] = [
   { id: uuid(), name: "تهران" },
   { id: uuid(), name: "خراسان رضوی" },
   { id: uuid(), name: "مازندران" },
 ]
 
-const CitiesData: city[] = [
+const CitiesData: City[] = [
   { id: uuid(), province_id: ProvincesData[0].id, name: "شهریار" },
   { id: uuid(), province_id: ProvincesData[0].id, name: "کمالشهر" },
   { id: uuid(), province_id: ProvincesData[0].id, name: "پرند" },
@@ -80,9 +80,9 @@ const CitiesData: city[] = [
   { id: uuid(), province_id: ProvincesData[2].id, name: "چالوس" },
 ]
 
-const LocationsData: location[] = [{ id: uuid(), city_id: CitiesData[3].id, address: "سعادت آباد" }]
+const LocationsData: Location[] = [{ id: uuid(), city_id: CitiesData[3].id, address: "سعادت آباد" }]
 
-const CompaniesData: company[] = [
+const CompaniesData: Company[] = [
   {
     id: uuid(),
     created_at: new Date(),
@@ -103,7 +103,7 @@ const CompaniesData: company[] = [
   },
 ]
 
-const UsersData: user[] = [
+const UsersData: User[] = [
   {
     id: uuid(),
     company_id: CompaniesData[0].id,
@@ -113,14 +113,14 @@ const UsersData: user[] = [
   },
 ]
 
-const AdvantageData: advantage[] = [
+const AdvantageData: Advantage[] = [
   { id: uuid(), type: "وام" },
   { id: uuid(), type: "پارکینگ" },
   { id: uuid(), type: "پاداش" },
   { id: uuid(), type: "سرویس رفت و برگشت" },
 ]
 
-const AdsData: ad[] = [
+const AdsData: AD[] = [
   {
     company_id: CompaniesData[0].id,
     id: uuid(),
@@ -254,15 +254,15 @@ const AdsData: ad[] = [
 
 interface InitialData {
   data:
-    | category[]
-    | category_collection[]
-    | province[]
-    | city[]
-    | company[]
-    | user[]
-    | advantage[]
-    | ad[]
-    | location[]
+    | Category[]
+    | Category_collection[]
+    | Province[]
+    | City[]
+    | Company[]
+    | User[]
+    | Advantage[]
+    | AD[]
+    | Location[]
   successMessage: string
 }
 async function addInitialData(

@@ -8,7 +8,7 @@ import "swiper/css/pagination"
 
 import useSWR from "swr"
 
-import { companiesWithFollower } from "@/types/utils.type"
+import { CompaniesWithFollower } from "@/types/utils.type"
 
 import CompanyBox from "../modules/CompanyBox"
 import { SwiperNavButtons } from "../modules/SwiperNavButtons"
@@ -16,7 +16,7 @@ import { SwiperNavButtons } from "../modules/SwiperNavButtons"
 const CompnaySlider: React.FC = () => {
   const { data: companies, isLoading } = useSWR("/api/companies", async () => {
     const res = await fetch("/api/company")
-    const companiesData: companiesWithFollower[] = await res.json()
+    const companiesData: CompaniesWithFollower[] = await res.json()
     return companiesData
   })
 

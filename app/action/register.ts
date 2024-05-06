@@ -5,7 +5,7 @@ import { cookies } from "next/headers"
 import { isNull } from "lodash"
 
 import prisma from "@/lib/prisma"
-import { user } from "@/types/utils.type"
+import { User } from "@/types/utils.type"
 
 import { TypeSignIn, signInSchema } from "@/validation/zod.validations"
 
@@ -13,7 +13,7 @@ export const registerAction = async ({
   email,
   password,
 }: TypeSignIn): Promise<
-  { status: "error"; message: string } | { status: "success"; message: string; user: user }
+  { status: "error"; message: string } | { status: "success"; message: string; user: User }
 > => {
   const user = await prisma.user.findFirst({ where: { email }, include: { cv: true } })
   if (Boolean(user) && !isNull(user)) {

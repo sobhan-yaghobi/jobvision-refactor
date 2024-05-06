@@ -2,7 +2,7 @@
 import React, { useState } from "react"
 import { find } from "lodash"
 
-import { ad } from "@/types/utils.type"
+import { AD } from "@/types/utils.type"
 import { cooperationTypeItems, genderItems, seniorityLevelItems } from "@/utils/utils.variable"
 
 import { Trash } from "lucide-react"
@@ -19,7 +19,7 @@ import {
 } from "../ui/dialog"
 
 type ADBoxProps = {
-  ad: ad
+  ad: AD
   remove: (id: string) => Promise<void>
 }
 

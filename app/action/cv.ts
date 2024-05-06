@@ -1,6 +1,6 @@
 "use server"
 
-import { ad } from "@/types/utils.type"
+import { AD } from "@/types/utils.type"
 import isAuth from "./isAuth"
 
 export const acceptCV = async (id: string) => {
@@ -19,7 +19,7 @@ export const rejectCV = async (id: string) => {
   return { message: "مشکلی در رد کردن درخواست به وجود آمد", status: false }
 }
 
-export const sendCV = async (ad: ad) => {
+export const sendCV = async (ad: AD) => {
   const { user } = await isAuth()
   if (user?.company_id === ad.company_id) {
     return { message: "ارسال رزومه به آگهی شرکت خود ممکن نمیباشد", status: false }

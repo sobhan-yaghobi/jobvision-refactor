@@ -1,5 +1,5 @@
 import { seniority_level, gender, cooperation_type } from "@prisma/client"
-import { TypeMenuItem, TypeStatus, quickAccessItemType } from "../types/utils.type"
+import { TypeMenuItem, TypeStatus, QuickAccessItemType } from "../types/utils.type"
 
 //! ---------- Header Variables
 export const menuItem: TypeMenuItem[] = [
@@ -180,7 +180,7 @@ export const MoreItems = [
     ],
   },
 ]
-export const quickAccessItems: quickAccessItemType[] = [
+export const quickAccessItems: QuickAccessItemType[] = [
   {
     id: 1,
     title: "کارجویان",

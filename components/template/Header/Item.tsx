@@ -1,5 +1,5 @@
-import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
-import { category_collection, city } from "@prisma/client"
+import { CategoryWithCollection, provinceWithCity } from "@/types/utils.type"
+import { category_collection as Category_collection, city as City } from "@prisma/client"
 import Link from "next/link"
 import React from "react"
 
@@ -21,12 +21,12 @@ const Item: React.FC<React.PropsWithChildren<ItemProps>> = ({ itemHref, itemName
   </li>
 )
 
-type CategoryItemProps = { category: categoryWithCollection }
+type CategoryItemProps = { category: CategoryWithCollection }
 const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => (
   <Item key={`list-item-${category.id}`} itemHref={`jobs`} itemName={category.name}>
     {category.category_collections.length ? (
       <ul className="w-full px-3 cursor-default dana">
-        {category.category_collections.map((collection: category_collection) => (
+        {category.category_collections.map((collection: Category_collection) => (
           <li
             key={`collection-item-${collection.id}`}
             className="w-full flex items-center mt-2 first:mt-0"
@@ -49,7 +49,7 @@ const ProvinceItem: React.FC<ProvinceItemProps> = ({ province }) => (
   <Item itemHref={`jobs?province=${province.id}`} itemName={province.name}>
     {province.cities.length ? (
       <ul className="w-full px-3 cursor-default dana">
-        {province.cities.map((city: city) => (
+        {province.cities.map((city: City) => (
           <li key={city.id} className="w-full flex items-center mt-2 first:mt-0">
             <Link
               href={`jobs?city=${city.id}`}

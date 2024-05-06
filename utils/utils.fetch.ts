@@ -1,8 +1,8 @@
 import {
-  ad,
-  categoryWithCollection,
-  companyWithLocation,
-  filterAds,
+  AD,
+  CategoryWithCollection,
+  CompanyWithLocation,
+  FilterAds,
   provinceWithCity,
 } from "@/types/utils.type"
 import { filterAd, filterSaerchForm } from "@/utils/utils.variable"
@@ -11,7 +11,7 @@ import { filterAd, filterSaerchForm } from "@/utils/utils.variable"
 export const fetchProvinceAndCategory = async () => {
   const categories = await fetch("/api/category")
     .then((res) => res.json())
-    .then((data) => data as categoryWithCollection[])
+    .then((data) => data as CategoryWithCollection[])
   const provinces = await fetch("/api/province")
     .then((res) => res.json())
     .then((data) => data as provinceWithCity[])
@@ -19,9 +19,9 @@ export const fetchProvinceAndCategory = async () => {
 }
 
 //! ---------- Fetch Filter AD
-export const fetchFilterAd = async (): Promise<ad[]> => {
+export const fetchFilterAd = async (): Promise<AD[]> => {
   const params = new URLSearchParams(location.search)
-  const parms: filterAds = {
+  const parms: FilterAds = {
     search: params.get(filterSaerchForm.search),
     city: params.get(filterSaerchForm.city),
     province: params.get(filterSaerchForm.province),
@@ -42,7 +42,7 @@ export const fetchFilterAd = async (): Promise<ad[]> => {
     },
     body: JSON.stringify(parms),
   })
-  let data: ad[] = await res.json()
+  let data: AD[] = await res.json()
 
   return data
 }
@@ -50,7 +50,7 @@ export const fetchFilterAd = async (): Promise<ad[]> => {
 //! ---------- Fetch My Company
 export const getMyCompany = async () => {
   const res = await fetch("/api/company?query=me")
-  const data: companyWithLocation | null = await res.json()
+  const data: CompanyWithLocation | null = await res.json()
   return data ? data : null
 }
 

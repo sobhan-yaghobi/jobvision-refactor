@@ -3,7 +3,7 @@
 import React from "react"
 import useSWR from "swr"
 
-import { cvWithAdWithUser } from "@/types/utils.type"
+import { CVWithAdWithUser } from "@/types/utils.type"
 
 import Title from "@/components/modules/Title"
 import CVRequest from "@/components/modules/dashboard/CVRequest"
@@ -16,7 +16,7 @@ const page = () => {
     isLoading,
   } = useSWR("api/request_all", async () => {
     const res = await fetch("/api/cv?status=reject")
-    const cvData: cvWithAdWithUser[] = await res.json()
+    const cvData: CVWithAdWithUser[] = await res.json()
     return cvData
   })
   return (

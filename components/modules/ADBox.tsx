@@ -5,7 +5,7 @@ import { cn } from "@/utils/utils.function"
 
 import { useRouter, useSearchParams } from "next/navigation"
 
-import { ad } from "@/types/utils.type"
+import { AD } from "@/types/utils.type"
 
 import { Card, CardFooter, CardHeader } from "./ui/card"
 import { Separator } from "./ui/separator"
@@ -18,7 +18,7 @@ type ADBoxProps = {
   isFooter?: boolean
   active?: boolean
   className?: string
-  ad: ad
+  ad: AD
 }
 
 const ADBox: React.FC<ADBoxProps> = ({ isFooter, active, className, ad }) => {

@@ -1,7 +1,7 @@
 import isAuth from "@/app/action/isAuth"
 import { NextRequest } from "next/server"
 
-import { ad, filterAds } from "@/types/utils.type"
+import { AD, FilterAds } from "@/types/utils.type"
 
 export const dynamic = "force-dynamic"
 
@@ -13,10 +13,10 @@ export const GET = async (request: NextRequest) => {
   if (query === "me") {
     const { user } = await isAuth()
 
-    const ads: ad[] =
+    const ads: AD[] =
       user && "email" in user && user?.company_id
-        ? ((await prisma.ad.findMany({ where: { company_id: user?.company_id } })) as ad[])
-        : ([] as ad[])
+        ? ((await prisma.ad.findMany({ where: { company_id: user?.company_id } })) as AD[])
+        : ([] as AD[])
     return Response.json(ads)
   }
   if (id) {
@@ -34,10 +34,10 @@ export const GET = async (request: NextRequest) => {
 }
 
 export const POST = async (request: NextRequest) => {
-  let adFilter: ad[] =
+  let adFilter: AD[] =
     ((await prisma.ad.findMany({
       include: { company: { include: { location: { include: { city: true } } } } },
-    })) as ad[]) ?? ([] as ad[])
+    })) as AD[]) ?? ([] as AD[])
 
   const {
     search,
@@ -51,7 +51,7 @@ export const POST = async (request: NextRequest) => {
     price,
     seniority_level,
     cooperation_type,
-  }: filterAds = await request.json()
+  }: FilterAds = await request.json()
 
   if (search !== null)
     adFilter = adFilter.filter(

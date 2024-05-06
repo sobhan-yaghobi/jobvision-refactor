@@ -6,7 +6,7 @@ import { v4 as uuid } from "uuid"
 import { useRouter, useSearchParams } from "next/navigation"
 import useSize from "@/hook/useSize"
 
-import { ad } from "@/types/utils.type"
+import { AD } from "@/types/utils.type"
 
 import { ExternalLink, Heart, Inbox, Speech, Users } from "lucide-react"
 
@@ -19,7 +19,7 @@ import Title from "../modules/Title"
 import Info from "./jobs/Info"
 import useSWR from "swr"
 import CurrentSkeleton from "../modules/skeleton/Current.skeleton"
-import sendCVButton from "../modules/SendCVButton"
+import SendCVButton from "../modules/SendCVButton"
 import TimeGenerator from "../modules/TimeGenerator"
 
 type InfoTypes = "INFO_JOB" | "ABOUT_COMPANY" | "RELATED_ADS" | "RESUME_RECRRDS"
@@ -40,20 +40,20 @@ const CurrentJobAD: React.FC = () => {
   const [isShow, setIsShow] = useState(false)
   const { data: ad, isLoading } = useSWR(
     id ? `/ad/current?id=${id}` : null,
-    async (): Promise<ad> => await fetch(`/api/ad?id=${id}`).then((res) => res.json())
+    async (): Promise<AD> => await fetch(`/api/ad?id=${id}`).then((res) => res.json())
   )
   const mainItemsBoxInfos: TypeItemBox[] = [
     {
       id: uuid(),
       title: "درباره شغل",
       type: "INFO_JOB",
-      component: <Info ad={ad ?? ({} as ad)} />,
+      component: <Info ad={ad ?? ({} as AD)} />,
     },
     {
       id: uuid(),
       title: "درباره شرکت",
       type: "ABOUT_COMPANY",
-      component: <Company ad={ad ?? ({} as ad)} />,
+      component: <Company ad={ad ?? ({} as AD)} />,
     },
     {
       id: uuid(),
@@ -118,12 +118,12 @@ const CurrentJobAD: React.FC = () => {
                 </Title>
               </div>
               <div className="w-2/12 flex items-start justify-end">
-                <sendCVButton ad={ad} />
+                <SendCVButton ad={ad} />
               </div>
             </div>
             <div className="w-full">
               <div className="w-full flex flex-col text-sm">
-                <p>{`${ad.company.location.city.name} , ${ad.company.location.address}`}</p>
+                <p>{`${ad?.company?.location.city.name} , ${ad?.company?.location.address}`}</p>
                 <div className="*:text-sm flex flex-wrap mb-2">
                   {ad.itern ? (
                     <div className="box-info-type border-background !mr-1">امکان جذب کارآموز</div>
@@ -159,11 +159,11 @@ const CurrentJobAD: React.FC = () => {
             <div className="w-full text-sm flex items-center justify-start">
               <div className="fill-jv-lightGray2x w-4/12 flex items-center">
                 <Users className="icon-stroke-light" />
-                <p className="mr-3 truncate">{ad.company.organization_employ} نفر</p>
+                <p className="mr-3 truncate">{ad?.company?.organization_employ} نفر</p>
               </div>
               <div className="w-8/12 flex items-center">
                 <Speech className="icon-stroke-light" />
-                <p className="min-w-10/12 mr-3 truncate">{ad.company.slogan}</p>
+                <p className="min-w-10/12 mr-3 truncate">{ad?.company?.slogan}</p>
               </div>
             </div>
             <Tabs

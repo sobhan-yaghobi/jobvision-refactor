@@ -13,7 +13,7 @@ import { Button } from "./ui/button"
 import Title from "./Title"
 import Image from "next/image"
 import Link from "next/link"
-import { quickAccessItemType } from "@/types/utils.type"
+import { QuickAccessItemType } from "@/types/utils.type"
 
 const Footer: React.FC = () => {
   return (
@@ -190,12 +190,12 @@ const Footer: React.FC = () => {
   )
 }
 
-type quickAccessItemProps = {
-  item: quickAccessItemType["links"]
+type QuickAccessItemProps = {
+  item: QuickAccessItemType["links"]
   type: string
 }
 
-const QuickAccessItem: React.FC<quickAccessItemProps> = ({ item, type }) => {
+const QuickAccessItem: React.FC<QuickAccessItemProps> = ({ item, type }) => {
   return (
     <>
       {item.length ? (

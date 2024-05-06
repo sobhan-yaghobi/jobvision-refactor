@@ -4,7 +4,7 @@ import { toast } from "@/components/modules/ui/use-toast"
 
 import useSWR from "swr"
 
-import { ad } from "@/types/utils.type"
+import { AD } from "@/types/utils.type"
 
 import ADBox from "@/components/modules/dashboard/ADBox"
 import Title from "@/components/modules/Title"
@@ -17,7 +17,7 @@ const ADs: React.FC = () => {
     mutate,
   } = useSWR("/api/ads/me", async () => {
     const res = await fetch("/api/ad?query=me")
-    const adsData: ad[] = await res.json()
+    const adsData: AD[] = await res.json()
     return adsData
   })
   const removeAction = async (id: string) => {

@@ -1,5 +1,5 @@
 import isAuth from "@/app/action/isAuth"
-import { companiesWithFollower } from "@/types/utils.type"
+import { CompaniesWithFollower } from "@/types/utils.type"
 import { NextRequest } from "next/server"
 
 export const GET = async (request: NextRequest) => {
@@ -16,10 +16,10 @@ export const GET = async (request: NextRequest) => {
     }
     return Response.json({})
   }
-  const companies: companiesWithFollower[] =
+  const companies: CompaniesWithFollower[] =
     ((await prisma.company.findMany({
       include: { followers: true },
-    })) as companiesWithFollower[]) ?? ([] as companiesWithFollower[])
+    })) as CompaniesWithFollower[]) ?? ([] as CompaniesWithFollower[])
 
   return Response.json(companies)
 }

@@ -13,15 +13,15 @@ import {
 } from "@/utils/utils.variable"
 import { toast } from "@/components/modules/ui/use-toast"
 
-import { TypeStatus, categoryWithCollection } from "@/types/utils.type"
+import { TypeStatus, CategoryWithCollection } from "@/types/utils.type"
 import {
-  advantage,
-  category_collection,
+  advantage as Advantage,
+  category_collection as Category_collection,
   cooperation_type,
   gender,
   seniority_level,
 } from "@prisma/client"
-import { TypeAd, adSchema } from "@/validation/zod.validations"
+import { TypeAd } from "@/validation/zod.validations"
 
 import {
   BriefcaseBusiness,
@@ -55,8 +55,8 @@ import {
 import LoadButton from "@/components/modules/ui/LoadButton"
 
 type AddADsProps = {
-  categories: categoryWithCollection[]
-  advantages: advantage[]
+  categories: CategoryWithCollection[]
+  advantages: Advantage[]
 }
 
 const AddAds: React.FC<AddADsProps> = ({ categories, advantages }) => {
@@ -65,11 +65,11 @@ const AddAds: React.FC<AddADsProps> = ({ categories, advantages }) => {
   const [gender, setGender] = useState<TypeMainSelect>({} as TypeMainSelect)
   const [seniorityLevel, setSeniorityLevel] = useState<TypeMainSelect>({} as TypeMainSelect)
   const [cooperationType, setCooperationType] = useState<TypeMainSelect>({} as TypeMainSelect)
-  const [tags, setTags] = useState<category_collection[]>([] as category_collection[])
+  const [tags, setTags] = useState<Category_collection[]>([] as Category_collection[])
   const [softwareSkills, setSoftwareSkills] = useState<string[]>([] as string[])
   const [keyIndicator, setKeyIndicator] = useState<string[]>([] as string[])
   const [edicationalLevel, setEdicationalLevel] = useState<string[]>([] as string[])
-  const [facilities, setFacilities] = useState<advantage[]>([] as advantage[])
+  const [facilities, setFacilities] = useState<Advantage[]>([] as Advantage[])
   const [status, setStatus] = useState<TypeStatus>(initialStatusData)
   const [checked, setChecked] = useState({
     is_price_max: false,
@@ -128,11 +128,11 @@ const AddAds: React.FC<AddADsProps> = ({ categories, advantages }) => {
     setGender({} as TypeMainSelect)
     setSeniorityLevel({} as TypeMainSelect)
     setCooperationType({} as TypeMainSelect)
-    setTags([] as category_collection[])
+    setTags([] as Category_collection[])
     setSoftwareSkills([] as string[])
     setKeyIndicator([] as string[])
     setEdicationalLevel([] as string[])
-    setFacilities([] as advantage[])
+    setFacilities([] as Advantage[])
     setStatus(initialStatusData)
   }
 

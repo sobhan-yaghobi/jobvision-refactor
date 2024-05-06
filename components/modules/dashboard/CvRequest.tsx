@@ -2,7 +2,7 @@ import React from "react"
 import { cva } from "class-variance-authority"
 
 import { status } from "@prisma/client"
-import { cvWithAdWithUser } from "@/types/utils.type"
+import { CVWithAdWithUser } from "@/types/utils.type"
 
 import { User } from "lucide-react"
 
@@ -30,7 +30,7 @@ export const cvVaraiant = cva(
 
 export type CVRequestProps = {
   mutate?: () => void
-  cv: cvWithAdWithUser
+  cv: CVWithAdWithUser
   status: status
 }
 

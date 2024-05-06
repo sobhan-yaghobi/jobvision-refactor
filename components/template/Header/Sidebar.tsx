@@ -1,8 +1,8 @@
 "use client"
 import React, { useEffect, useState } from "react"
-import { filterSaerchForm, menuItem } from "@/utils/utils.variable"
+import { menuItem } from "@/utils/utils.variable"
 
-import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
+import { CategoryWithCollection, provinceWithCity } from "@/types/utils.type"
 
 import { ArrowRight, ChevronLeft, Menu } from "lucide-react"
 
@@ -22,7 +22,7 @@ type TypeBackButton = {
 
 type SidebarProps = {
   className?: string
-  category: categoryWithCollection[]
+  category: CategoryWithCollection[]
   province: provinceWithCity[]
 }
 const Sidebar: React.FC<SidebarProps> = ({ className, category, province }) => {

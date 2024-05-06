@@ -1,5 +1,5 @@
 import isAuth from "@/app/action/isAuth"
-import { followerWithUser } from "@/types/utils.type"
+import { FollowerWithUser } from "@/types/utils.type"
 
 export const GET = async () => {
   const { user } = await isAuth()
@@ -10,6 +10,6 @@ export const GET = async () => {
         where: { company_id: user?.company_id },
         include: { user: true },
       })
-    : ([] as followerWithUser[])
+    : ([] as FollowerWithUser[])
   return Response.json(follower)
 }

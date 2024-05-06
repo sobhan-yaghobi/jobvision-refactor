@@ -1,12 +1,12 @@
 import React from "react"
 import { cooperationTypeItems, genderItems } from "@/utils/utils.variable"
 
-import { ad } from "@/types/utils.type"
+import { AD } from "@/types/utils.type"
 
 import Title from "@/components/modules/Title"
 
 type InfoProps = {
-  ad: ad
+  ad: AD
 }
 
 const Info: React.FC<InfoProps> = ({ ad }) => {

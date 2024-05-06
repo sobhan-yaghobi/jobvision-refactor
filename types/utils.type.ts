@@ -1,4 +1,8 @@
-import { Prisma, category_collection, advantage } from "@prisma/client"
+import {
+  Prisma,
+  category_collection as Category_collection,
+  advantage as Advantage,
+} from "@prisma/client"
 import { ReactNode } from "react"
 
 //! ---------- Header Types
@@ -10,7 +14,7 @@ export type TypeMenuItem = {
 }
 
 //! ---------- Footer Types
-export type quickAccessItemType = {
+export type QuickAccessItemType = {
   id: number
   title: string
   links: {
@@ -39,17 +43,17 @@ export type TypeStatus = {
 const adInclude = Prisma.validator<Prisma.adInclude>()({
   company: { include: { location: { include: { city: true } } } },
 })
-export type adWithCompanyLoaction = Prisma.adGetPayload<{
+export type ADWithCompanyLoaction = Prisma.adGetPayload<{
   include: typeof adInclude
 }>
 
-export interface ad extends adWithCompanyLoaction {
+export interface AD extends ADWithCompanyLoaction {
   age: { min: number; max: number }
   price: { min: number; max: number }
-  tags: category_collection[]
+  tags: Category_collection[]
   key_indicator: string[]
   software_skills: string[]
-  facilities: advantage[]
+  facilities: Advantage[]
   edicational_level: string[]
 }
 
@@ -67,7 +71,7 @@ export type TypeSidebarItem = {
 const userInclude = Prisma.validator<Prisma.userInclude>()({
   cv: true,
 })
-export type user = Prisma.userGetPayload<{
+export type User = Prisma.userGetPayload<{
   include: typeof userInclude
 }>
 
@@ -75,30 +79,22 @@ export type user = Prisma.userGetPayload<{
 const categoryInclude = Prisma.validator<Prisma.categoryInclude>()({
   category_collections: true,
 })
-export type categoryWithCollection = Prisma.categoryGetPayload<{
+export type CategoryWithCollection = Prisma.categoryGetPayload<{
   include: typeof categoryInclude
-}>
-
-//! ---------- Location Type
-const locationInclude = Prisma.validator<Prisma.locationInclude>()({
-  city: true,
-})
-export type locationWithCity = Prisma.locationGetPayload<{
-  include: typeof locationInclude
 }>
 
 //! ---------- Company Types
 const compInclude = Prisma.validator<Prisma.companyInclude>()({
   location: true,
 })
-export type companyWithLocation = Prisma.companyGetPayload<{
+export type CompanyWithLocation = Prisma.companyGetPayload<{
   include: typeof compInclude
 }>
 
 const companyInclude = Prisma.validator<Prisma.companyInclude>()({
   followers: true,
 })
-export type companiesWithFollower = Prisma.companyGetPayload<{
+export type CompaniesWithFollower = Prisma.companyGetPayload<{
   include: typeof companyInclude
 }>
 
@@ -107,7 +103,7 @@ const cvInclude = Prisma.validator<Prisma.cvInclude>()({
   user: true,
   ad: true,
 })
-export type cvWithAdWithUser = Prisma.cvGetPayload<{
+export type CVWithAdWithUser = Prisma.cvGetPayload<{
   include: typeof cvInclude
 }>
 
@@ -119,12 +115,12 @@ export type provinceWithCity = Prisma.provinceGetPayload<{
 
 //! ---------- Follower Type
 const followerInclude = Prisma.validator<Prisma.followersInclude>()({ user: true })
-export type followerWithUser = Prisma.followersGetPayload<{
+export type FollowerWithUser = Prisma.followersGetPayload<{
   include: typeof followerInclude
 }>
 
 //! ---------- Filter Type
-export type filterAds = {
+export type FilterAds = {
   search: string | null
   city: string | null
   province: string | null
