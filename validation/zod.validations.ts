@@ -1,6 +1,7 @@
 import { $Enums } from "@prisma/client"
 import { z } from "zod"
 
+//! ---------- Sign In Schema
 export const signInSchema = z.object({
   email: z.string().trim().email("ایمیل معتبر نیست").min(1, "ایمیل اجباری میباشد"),
   password: z
@@ -11,6 +12,7 @@ export const signInSchema = z.object({
 })
 export type TypeSignIn = z.infer<typeof signInSchema>
 
+//! ---------- Company Schema
 export const companySchema = z.object({
   name: z.string().trim().min(1, "نام اجباری میباشد"),
   location: z.object({
@@ -31,6 +33,7 @@ export const companySchema = z.object({
 })
 export type TypeCompany = z.infer<typeof companySchema>
 
+//! ---------- AD Schema
 const genderEnums = [$Enums.gender.FEMALE, $Enums.gender.MALE, $Enums.gender.NOT_IMPORTANT] as const
 const seniorityLevelEnums = [
   $Enums.seniority_level.WORKER,
