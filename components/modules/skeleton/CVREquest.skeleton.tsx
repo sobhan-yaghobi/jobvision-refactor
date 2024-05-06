@@ -1,7 +1,7 @@
 import React from "react"
-import { cvVaraiant } from "../dashboard/CvRequest"
+import { cvVaraiant } from "../dashboard/CVRequest"
 
-const CVREquestSkeleton: React.FC<{ isLight?: boolean }> = ({ isLight }) => {
+const CVRequestSkeleton: React.FC<{ isLight?: boolean }> = ({ isLight }) => {
   const background = isLight ? "bg-muted" : "bg-background"
   return (
     <div className={cvVaraiant({ status: "none" })}>
@@ -27,4 +27,4 @@ const CVREquestSkeleton: React.FC<{ isLight?: boolean }> = ({ isLight }) => {
   )
 }
 
-export default CVREquestSkeleton
+export default CVRequestSkeleton

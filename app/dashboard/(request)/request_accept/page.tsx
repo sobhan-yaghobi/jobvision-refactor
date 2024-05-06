@@ -6,8 +6,8 @@ import useSWR from "swr"
 import { cvWithAdWithUser } from "@/types/utils.type"
 
 import Title from "@/components/modules/Title"
-import CvRequest from "@/components/modules/dashboard/CvRequest"
-import CVREquestSkeleton from "@/components/modules/skeleton/CVREquest.skeleton"
+import CVRequest from "@/components/modules/dashboard/CVRequest"
+import CVRequestSkeleton from "@/components/modules/skeleton/CVRequest.skeleton"
 
 const page = () => {
   const {
@@ -28,10 +28,10 @@ const page = () => {
         {isLoading ? (
           Array(5)
             .fill("")
-            .map((_, index) => <CVREquestSkeleton key={`last-cv-skeleton-${index}`} />)
+            .map((_, index) => <CVRequestSkeleton key={`last-cv-skeleton-${index}`} />)
         ) : acceptCv?.length ? (
           acceptCv.map((item) => (
-            <CvRequest mutate={mutate} cv={item} status={item.status} key={item.id} />
+            <CVRequest mutate={mutate} cv={item} status={item.status} key={item.id} />
           ))
         ) : (
           <>درخواستی وجود ندارد</>

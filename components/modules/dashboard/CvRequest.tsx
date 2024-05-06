@@ -28,13 +28,13 @@ export const cvVaraiant = cva(
   }
 )
 
-export type CvRequestProps = {
+export type CVRequestProps = {
   mutate?: () => void
   cv: cvWithAdWithUser
   status: status
 }
 
-const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, mutate }) => {
+const CVRequest: React.FC<CVRequestProps> = ({ cv, status: cvStatus, mutate }) => {
   return (
     <div className={cvVaraiant({ status: cvStatus })}>
       <div className="h-1/3 flex justify-between">
@@ -43,13 +43,13 @@ const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, mutate }) =
             <User />
           </span>
           <span className="text-muted-foreground text-sm">
-            <p>{cv?.user.email}</p>
+            <p>{cv?.user?.email}</p>
             <Link
-              href={`/jobs?id=${cv.ad.id}`}
+              href={`/jobs?id=${cv?.ad?.id}`}
               target="_blank"
               className="w-full text-primary truncate hover:underline"
             >
-              {cv.ad.name}
+              {cv?.ad?.name}
             </Link>
           </span>
         </section>
@@ -68,4 +68,4 @@ const CvRequest: React.FC<CvRequestProps> = ({ cv, status: cvStatus, mutate }) =
   )
 }
 
-export default CvRequest
+export default CVRequest

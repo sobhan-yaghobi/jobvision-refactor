@@ -4,12 +4,12 @@ import { toast } from "./ui/use-toast"
 
 import { acceptCv, rejectCv } from "@/app/action/cv"
 
-import { CvRequestProps } from "./dashboard/CvRequest"
+import { CVRequestProps } from "./dashboard/CVRequest"
 
 import LoadButton from "./ui/LoadButton"
 import { MailCheck, MailMinus } from "lucide-react"
 
-type CvButtonProps = CvRequestProps
+type CvButtonProps = CVRequestProps
 
 const CvButton: React.FC<CvButtonProps> = ({ cv, status: cvStatus, mutate }) => {
   const [isRejectLoading, setIsRejectLoading] = useState(false)
