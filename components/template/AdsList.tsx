@@ -33,12 +33,12 @@ const ADsList: React.FC = () => {
                 <ADBoxSkeleton key={`skeleton-AD-box-${index}`} isFooter />
               ))}
           </>
-        ) : !data?.store || !data.store.length ? (
+        ) : !data || !data.length ? (
           <Title className="bg-muted text-yellow-500 h-full p-2.5 rounded-sm">
             <h3>آگهی وجود ندارد</h3>
           </Title>
         ) : (
-          data.store.map((ad) => (
+          data.map((ad) => (
             <ADBox key={ad.id} ad={{ ...ad }} active={ad.id === currentAd()} isFooter></ADBox>
           ))
         )

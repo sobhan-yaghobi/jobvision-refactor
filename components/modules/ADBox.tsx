@@ -1,5 +1,9 @@
+"use client"
+
 import React from "react"
 import { cn } from "@/utils/utils.function"
+
+import { useRouter, useSearchParams } from "next/navigation"
 
 import { ad } from "@/types/utils.type"
 
@@ -8,7 +12,6 @@ import { Separator } from "./ui/separator"
 import PriceGenerator from "./PriceGenerator"
 import TimeGenerator from "./TimeGenerator"
 import SendCvButton from "./SendCvButton"
-import Link from "next/link"
 import Image from "next/image"
 
 type ADBoxProps = {
@@ -19,6 +22,14 @@ type ADBoxProps = {
 }
 
 const ADBox: React.FC<ADBoxProps> = ({ isFooter, active, className, ad }) => {
+  const searchParams = useSearchParams()
+  const { replace } = useRouter()
+  const routeAction = () => {
+    const params = new URLSearchParams(searchParams)
+    params.set("id", ad.id)
+    replace(`/jobs?${params.toString()}`)
+  }
+
   return (
     <div title="مشاهده آگهی" className="cursor-pointer">
       <Card
@@ -29,20 +40,20 @@ const ADBox: React.FC<ADBoxProps> = ({ isFooter, active, className, ad }) => {
           className
         )}
       >
-        <Link href={`/jobs?id=${ad.id}`}>
+        <div onClick={routeAction}>
           <CardHeader className="flex flex-row items-start p-0 px-3">
             <Image
               width={190}
               height={100}
-              src={`/uploads/${ad.company.logo}`}
+              src={`/uploads/${ad?.company?.logo}`}
               className="w-16 h-auto rounded-sm"
               alt="logo-compnay"
             />
             <div className="flex-1 flex flex-col !mt-0 !mr-3 overflow-hidden">
               <p className="text-sm dana-bold">{ad.name}</p>
-              <span className="text-sm">{ad.company.name}</span>
+              <span className="text-sm">{ad?.company?.name}</span>
               <div className="text-secondary text-sm flex items-center flex-wrap gap-y-1">
-                <p className="ml-1.5">{`${ad.company.location.city.name} , ${ad.company.location.address}`}</p>
+                <p className="ml-1.5">{`${ad?.company?.location.city.name} , ${ad?.company?.location.address}`}</p>
                 <p className="text-primary text-xs pr-1.5 border-r">
                   <PriceGenerator price={ad.price.min} />
                   {ad.price.max ? (
@@ -64,7 +75,7 @@ const ADBox: React.FC<ADBoxProps> = ({ isFooter, active, className, ad }) => {
               ) : null}
             </div>
           </CardHeader>
-        </Link>
+        </div>
         {!isFooter ? (
           <>
             <div>
