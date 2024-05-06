@@ -38,10 +38,10 @@ const ADBox: React.FC<ADBoxProps> = ({ isFooter, active, className, ad }) => {
               className="w-16 h-auto rounded-sm"
               alt="logo-compnay"
             />
-            <div className="flex-1 flex flex-col !mt-0 !mr-3 overflow-x-hidden">
+            <div className="flex-1 flex flex-col !mt-0 !mr-3 overflow-hidden">
               <p className="text-sm dana-bold">{ad.name}</p>
               <span className="text-sm">{ad.company.name}</span>
-              <div className="text-secondary text-sm flex items-center">
+              <div className="text-secondary text-sm flex items-center flex-wrap gap-y-1">
                 <p className="ml-1.5">{`${ad.company.location.city.name} , ${ad.company.location.address}`}</p>
                 <p className="text-primary text-xs pr-1.5 border-r">
                   <PriceGenerator price={ad.price.min} />
