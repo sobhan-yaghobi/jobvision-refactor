@@ -1,8 +1,8 @@
-import { ExternalLink, Heart } from "lucide-react"
 import React from "react"
+
 import { Separator } from "../ui/separator"
 
-const CurrentSkeleton = () => {
+const CurrentSkeleton: React.FC = () => {
   return (
     <div className="w-full h-full overflow-y-auto bg-muted px-3 pt-3 rounded-sm flex flex-col">
       <div>

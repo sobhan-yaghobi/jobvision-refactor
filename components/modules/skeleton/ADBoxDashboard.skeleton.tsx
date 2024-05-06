@@ -1,7 +1,7 @@
 import React from "react"
 import { Card, CardContent, CardHeader } from "../ui/card"
 
-const ADBoxDashboardSkeleton = () => {
+const ADBoxDashboardSkeleton: React.FC = () => {
   return (
     <Card>
       <CardHeader className="flex justify-between flex-row p-3">
@@ -12,7 +12,7 @@ const ADBoxDashboardSkeleton = () => {
               .fill("")
               .map((_, index) => (
                 <p
-                  key={`ads-status-skeleton${index}`}
+                  key={`ads-status-skeleton-${index}`}
                   className="bg-muted w-20 h-7 animate-pulse mt-3 ml-3"
                 ></p>
               ))}
@@ -33,7 +33,7 @@ const ADBoxDashboardSkeleton = () => {
               .fill("")
               .map((_, index) => (
                 <p
-                  key={`ads-key-indicator-skeleton${index}`}
+                  key={`ads-key-indicator-skeleton-${index}`}
                   className="bg-muted w-20 h-7 inline-block ml-1 animate-pulse"
                 ></p>
               ))}
@@ -58,7 +58,7 @@ const ADBoxDashboardSkeleton = () => {
               .fill("")
               .map((_, index) => (
                 <p
-                  key={`ads-facilities-skeleton${index}`}
+                  key={`ads-facilities-skeleton-${index}`}
                   className="bg-muted w-20 h-7 inline-block ml-1 animate-pulse"
                 ></p>
               ))}
@@ -71,7 +71,7 @@ const ADBoxDashboardSkeleton = () => {
               .fill("")
               .map((_, index) => (
                 <p
-                  key={`ads-tags-skeleton${index}`}
+                  key={`ads-tags-skeleton-${index}`}
                   className="bg-muted w-20 h-7 inline-block ml-1 animate-pulse"
                 ></p>
               ))}
@@ -84,7 +84,7 @@ const ADBoxDashboardSkeleton = () => {
               .fill("")
               .map((_, index) => (
                 <p
-                  key={`ads-edicational-level-skeleton${index}`}
+                  key={`ads-edicational-level-skeleton-${index}`}
                   className="bg-muted w-20 h-7 inline-block ml-1 animate-pulse"
                 ></p>
               ))}
@@ -97,7 +97,7 @@ const ADBoxDashboardSkeleton = () => {
               .fill("")
               .map((_, index) => (
                 <p
-                  key={`ads-software-skills-skeleton${index}`}
+                  key={`ads-software-skills-skeleton-${index}`}
                   className="bg-muted w-20 h-7 inline-block ml-1 animate-pulse"
                 ></p>
               ))}

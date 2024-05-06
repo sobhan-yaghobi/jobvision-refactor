@@ -16,7 +16,7 @@ const ADBoxSkeleton: React.FC<{ isFooter?: boolean }> = ({ isFooter }) => {
             {Array(3)
               .fill("")
               .map((_, index) => (
-                <div key={index} className="bg-muted flex-1 h-6"></div>
+                <div key={`card-header-skeleton-${index}`} className="bg-muted flex-1 h-6"></div>
               ))}
           </div>
           {isFooter ? <div className="bg-muted w-20 h-5 mt-3 animate-pulse"></div> : null}
@@ -28,8 +28,14 @@ const ADBoxSkeleton: React.FC<{ isFooter?: boolean }> = ({ isFooter }) => {
             <Separator />
           </div>
           <CardFooter className="flex justify-between">
-            <p className="bg-muted w-24 h-10 animate-pulse"></p>
-            <p className="bg-muted w-24 h-10 animate-pulse"></p>
+            {Array(2)
+              .fill("")
+              .map((_, index) => (
+                <p
+                  key={`card-footer-skeleton-${index}`}
+                  className="bg-muted w-24 h-10 animate-pulse"
+                ></p>
+              ))}
           </CardFooter>
         </>
       ) : null}

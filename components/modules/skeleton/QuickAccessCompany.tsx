@@ -1,6 +1,6 @@
 import React from "react"
 
-const QuickAccessCompany = () => {
+const QuickAccessCompany: React.FC = () => {
   return (
     <div className="center flex-col">
       <div className="bg-muted w-24 h-24 rounded-full animate-pulse"></div>
