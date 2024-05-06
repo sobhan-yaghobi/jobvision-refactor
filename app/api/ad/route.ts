@@ -2,7 +2,6 @@ import isAuth from "@/app/action/isAuth"
 import { NextRequest } from "next/server"
 
 import { ad, filterAds } from "@/types/utils.type"
-import { paginationFilter } from "@/utils/utils.function"
 
 export const dynamic = "force-dynamic"
 
@@ -41,8 +40,6 @@ export const POST = async (request: NextRequest) => {
     })) as ad[]) ?? ([] as ad[])
 
   const {
-    current,
-    storeCount,
     search,
     city,
     province,
@@ -96,7 +93,7 @@ export const POST = async (request: NextRequest) => {
 
   if (cooperation_type) adFilter = adFilter.filter((ad) => ad.cooperation_type === cooperation_type)
 
-  return Response.json(paginationFilter(current, storeCount ?? 3, adFilter))
+  return Response.json(adFilter)
 }
 
 export const DELETE = async (request: NextRequest) => {

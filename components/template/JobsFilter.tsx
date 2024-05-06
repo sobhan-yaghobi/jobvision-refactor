@@ -1,6 +1,6 @@
 import React from "react"
 
-import { cooperationTypeItems, priceItems, seniorityLevelItems } from "@/types/utils.variable"
+import { cooperationTypeItems, priceItems, seniorityLevelItems } from "@/utils/utils.variable"
 
 import RemoveAllFilterButton from "../modules/RemoveAllFilterButton"
 import SelectSingleType from "../modules/SelectSingleType"

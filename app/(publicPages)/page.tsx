@@ -1,4 +1,4 @@
-import { AboutUsItemArray, whyUsArray } from "@/types/utils.variable"
+import { AboutUsItemArray, whyUsArray } from "@/utils/utils.variable"
 
 import Title from "@/components/modules/Title"
 import {

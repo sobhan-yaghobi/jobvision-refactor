@@ -6,7 +6,7 @@ import {
   lastBlogs,
   quickAccessItems,
   relatedLinks,
-} from "@/types/utils.variable"
+} from "@/utils/utils.variable"
 
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "./ui/accordion"
 import { Button } from "./ui/button"

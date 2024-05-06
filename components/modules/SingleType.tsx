@@ -4,7 +4,7 @@ import React from "react"
 
 import useFilterQuery from "@/hook/useFilterQuery"
 
-import { TypeFilterAd } from "@/types/utils.variable"
+import { TypeFilterAd } from "@/utils/utils.variable"
 
 import { X } from "lucide-react"
 

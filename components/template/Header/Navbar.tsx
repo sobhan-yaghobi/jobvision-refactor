@@ -1,6 +1,6 @@
 import React from "react"
 import { cn } from "@/utils/utils.function"
-import { menuItem } from "@/types/utils.variable"
+import { menuItem } from "@/utils/utils.variable"
 
 import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
 

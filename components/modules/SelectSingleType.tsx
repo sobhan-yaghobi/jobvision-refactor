@@ -6,7 +6,7 @@ import { cn } from "@/utils/utils.function"
 
 import useFilterQuery from "@/hook/useFilterQuery"
 
-import { TypeFilterAd } from "@/types/utils.variable"
+import { TypeFilterAd } from "@/utils/utils.variable"
 
 import { CheckIcon, X } from "lucide-react"
 

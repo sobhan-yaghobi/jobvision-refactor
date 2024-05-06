@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react"
-import { filterSaerchForm, menuItem } from "@/types/utils.variable"
+import { filterSaerchForm, menuItem } from "@/utils/utils.variable"
 
 import { categoryWithCollection, provinceWithCity } from "@/types/utils.type"
 

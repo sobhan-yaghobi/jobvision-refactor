@@ -8,7 +8,6 @@ import { DateObject } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
 import gregorian_en from "react-date-object/locales/gregorian_en"
-import { paginationFilterReturn } from "@/types/utils.type"
 
 const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
@@ -26,6 +25,8 @@ const getLastMessage = <T>({
   const messages = array?.filter((item) => item[key] === main_id)
   return messages?.length ? messages[messages.length - 1] : undefined
 }
+
+//! ---------- Auth Funcs
 
 const hashPassword = (password: string): Promise<string> => hash(password, 12)
 
@@ -80,29 +81,6 @@ const dateGenerate = (date: string | Date) =>
       .format()
   )
 
-const paginationFilter = <T>(
-  current: string | number | null,
-  storeCount: string | number | null,
-  store: T[]
-): paginationFilterReturn<T> => {
-  let currentNumber = Number(current) || 1
-  let storeNumber = Number(storeCount) || 1
-  let filterStore = [] as T[]
-  let next_page: number | null = null
-  let pageNum: number = 0
-
-  pageNum = Math.ceil(store?.length / storeNumber)
-  const endIndex = currentNumber * storeNumber
-  const startIndex = endIndex - storeNumber
-  filterStore = store?.slice(startIndex, endIndex)
-  next_page = currentNumber < pageNum ? currentNumber + 1 : null
-
-  if (currentNumber > pageNum) {
-    filterStore = [] as T[]
-  }
-  return { store: filterStore, next_page }
-}
-
 export {
   cn,
   getLastMessage,
@@ -112,5 +90,4 @@ export {
   verifyToken,
   validateTokenResualt,
   dateGenerate,
-  paginationFilter,
 }

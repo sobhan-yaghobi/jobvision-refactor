@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react"
 import { fetchProvinceAndCategory } from "@/utils/utils.fetch"
 import { cn } from "@/utils/utils.function"
-import { filterSaerchForm } from "@/types/utils.variable"
+import { filterSaerchForm } from "@/utils/utils.variable"
 
 import { useRouter, useSearchParams } from "next/navigation"
 import useSWR from "swr"

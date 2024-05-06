@@ -10,7 +10,7 @@ import {
   initialStatusData,
   seniorityLevelItems,
   statusLabelItems,
-} from "@/types/utils.variable"
+} from "@/utils/utils.variable"
 import { toast } from "@/components/modules/ui/use-toast"
 
 import { TypeStatus, categoryWithCollection } from "@/types/utils.type"

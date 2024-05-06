@@ -1,5 +1,5 @@
 import { seniority_level, gender, cooperation_type } from "@prisma/client"
-import { TypeMenuItem, TypeStatus, quickAccessItemType } from "./utils.type"
+import { TypeMenuItem, TypeStatus, quickAccessItemType } from "../types/utils.type"
 
 export const menuItem: TypeMenuItem[] = [
   { id: 1, name: "فرصت های شغلی", link: "/jobs", isMegaMenu: true },

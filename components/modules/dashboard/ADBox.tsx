@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import { find } from "lodash"
 
 import { ad } from "@/types/utils.type"
-import { cooperationTypeItems, genderItems, seniorityLevelItems } from "@/types/utils.variable"
+import { cooperationTypeItems, genderItems, seniorityLevelItems } from "@/utils/utils.variable"
 
 import { Trash } from "lucide-react"
 

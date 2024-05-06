@@ -1,5 +1,5 @@
 import React from "react"
-import { cooperationTypeItems, genderItems } from "@/types/utils.variable"
+import { cooperationTypeItems, genderItems } from "@/utils/utils.variable"
 
 import { ad } from "@/types/utils.type"
 

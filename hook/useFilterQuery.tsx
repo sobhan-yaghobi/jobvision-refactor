@@ -3,7 +3,7 @@ import { compact } from "lodash"
 
 import { useRouter, useSearchParams } from "next/navigation"
 
-import { TypeFilterAd } from "@/types/utils.variable"
+import { TypeFilterAd } from "@/utils/utils.variable"
 
 const VariablePath: TypeFilterAd[] = [
   "itren",
