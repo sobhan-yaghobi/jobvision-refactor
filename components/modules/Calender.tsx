@@ -1,6 +1,4 @@
 import React, { ReactNode } from "react"
-
-// Date Picker
 import DatePicker, { CalendarProps, DatePickerProps } from "react-multi-date-picker"
 import Jalali from "react-date-object/calendars/jalali"
 import persian_fa from "react-date-object/locales/persian_fa"
