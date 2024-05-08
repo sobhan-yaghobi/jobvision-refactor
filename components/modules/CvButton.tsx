@@ -16,7 +16,8 @@ const CVButton: React.FC<CVButtonProps> = ({ cv, status: cvStatus, mutate }) => 
   const [isRejectLoading, setIsRejectLoading] = useState(false)
   const [isAccpetLoading, setIsAccpetLoading] = useState(false)
 
-  //! ---------- Accept CV
+  //! ---------- Actions
+  //! ----- Accept CV
   const acceptClientAction = async () => {
     if (cvStatus !== "accept") {
       setIsAccpetLoading(true)
@@ -31,7 +32,7 @@ const CVButton: React.FC<CVButtonProps> = ({ cv, status: cvStatus, mutate }) => 
     }
   }
 
-  //! ---------- Reject CV
+  //! ----- Reject CV
   const rejectClientAction = async () => {
     if (cvStatus !== "reject") {
       setIsRejectLoading(true)
