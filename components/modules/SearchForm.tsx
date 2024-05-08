@@ -33,15 +33,19 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
   redirectAsap,
   path,
 }) => {
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false)
-  const [isprovinceOpen, setIsProvinceOpen] = useState(false)
+  //! ---------- States
   const searchParams = useSearchParams()
   const { replace } = useRouter()
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false)
+  const [isprovinceOpen, setIsProvinceOpen] = useState(false)
   const [collection, setCollection] = useState<Category_collection>({} as Category_collection)
   const [cityOrProvince, setCityOrProvince] = useState<StateProvinceOrCity>(
     {} as StateProvinceOrCity
   )
+  //! ----- Swr State
   const { data, isLoading } = useSWR("/api/fetchProvinceAndCategory", fetchProvinceAndCategory)
+
+  //! ---------- Action
   const handelSearch = (value: string, path: string, deletePath?: string) => {
     const params = new URLSearchParams(searchParams)
     if (value) params.set(path, value)
@@ -53,7 +57,9 @@ const SearchForm: React.FC<React.PropsWithChildren<SearchFormProps>> = ({
       : replace(`?${params.toString()}`)
   }
 
+  //! ---------- SideEffect
   useEffect(() => {
+    //! ----- Async Actions
     const categoryFetchAction = async () => {
       const queryCollection = searchParams.get(filterSaerchForm.collection)
       if (queryCollection) {
