@@ -5,7 +5,7 @@ import { Separator } from "../ui/separator"
 
 const ADBoxSkeleton: React.FC<{ isFooter?: boolean }> = ({ isFooter }) => {
   return (
-    <Card className="h-full w-full flex flex-col justify-between *:p-3 shadow-md border-2 border-transparent">
+    <Card className="h-full w-full flex flex-col justify-between *:p-3 shadow-md">
       <CardHeader className="flex flex-row items-start p-0 px-3">
         <p className="bg-muted h-16 w-16 animate-pulse"></p>
         <div className="flex-1 flex flex-col !mt-0 !mr-3">
