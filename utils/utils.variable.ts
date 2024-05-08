@@ -96,6 +96,19 @@ export const whyUsArray = [
   },
 ]
 
+//! ---------- Map Variable
+export const MessageArray = [
+  { id: 1, title: "رایان گستر" },
+  { id: 2, title: "صنعت رایان پارس" },
+  { id: 3, title: "از کی وام" },
+  { id: 4, title: "بانک خاورمیانه" },
+  { id: 5, title: "بازرگانی الماس امید" },
+  { id: 6, title: "بینالود" },
+  { id: 7, title: "ستاک" },
+  { id: 8, title: "خوشگوار" },
+  { id: 9, title: "شرکت و صنایع چوبی پاسارگاد" },
+]
+
 //! ---------- Footer Variables
 export const faqItems = [
   {

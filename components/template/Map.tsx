@@ -3,19 +3,9 @@
 import React, { useEffect, useState } from "react"
 import { sample } from "lodash"
 
-const MessageArray = [
-  { id: 1, title: "رایان گستر" },
-  { id: 2, title: "صنعت رایان پارس" },
-  { id: 3, title: "از کی وام" },
-  { id: 4, title: "بانک خاورمیانه" },
-  { id: 5, title: "بازرگانی الماس امید" },
-  { id: 6, title: "بینالود" },
-  { id: 7, title: "ستاک" },
-  { id: 8, title: "خوشگوار" },
-  { id: 9, title: "شرکت و صنایع چوبی پاسارگاد" },
-]
+import { MessageArray } from "@/utils/utils.variable"
 
-export interface TypeMessage {
+type TypeMessage = {
   x: number
   y: number
   title: string
@@ -64,6 +54,7 @@ const Map = () => {
   }
 
   useEffect(() => {
+    animation()
     setTimeout(() => animation(), 1000)
     const interval = setInterval(animation, 6000)
     return () => clearInterval(interval)
@@ -71,7 +62,7 @@ const Map = () => {
 
   return (
     <svg
-      className="relative overflow-visible"
+      className="relative overflow-visible -z-10"
       width="361"
       height="264"
       viewBox="60 35 361 264"
@@ -541,14 +532,15 @@ const Map = () => {
       <foreignObject
         x={message.x}
         y={message.y}
-        className={`w-2 h-2 absolute overflow-visible origin-center bg-primary rounded-full delay-100 transition duration-200 ${
+        className={`w-2 h-2 absolute overflow-visible origin-center delay-100 transition duration-200 ${
           message.isShow ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
+        <div className="bg-primary w-full h-full absolute top-0 left-0 rounded-full"></div>
         <div
-          className={`ShowBox w-36 select-none ${
+          className={`ShowBox bg-muted w-36 text-[10px] text-center p-2 absolute rounded-xl border-2 select-none pointer-events-none border-solid border-[#c1c7cd] ${
             message.ArrowIcon === "Top" ? "ArrowTop" : "ArrowBottom"
-          } pointer-events-none absolute text-[10px] text-center bg-muted p-2 rounded-xl border-2 border-solid border-[#c1c7cd]`}
+          }`}
         >
           یک رزومه در جاب ویژن برای
           <span className="text-primary"> {message.title} </span>
