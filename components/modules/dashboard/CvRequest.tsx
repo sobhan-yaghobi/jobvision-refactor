@@ -1,13 +1,12 @@
 import React from "react"
 import { cva } from "class-variance-authority"
 
-import { status } from "@prisma/client"
-import { CVWithAdWithUser } from "@/types/utils.type"
+import { CVRequestProps } from "@/types/utils.type"
 
 import { User } from "lucide-react"
 
 import TimeGenerator from "../TimeGenerator"
-import CvButton from "../CvButton"
+import CvButton from "../CVButton"
 import Link from "next/link"
 
 export const cvVaraiant = cva(
@@ -27,12 +26,6 @@ export const cvVaraiant = cva(
     },
   }
 )
-
-export type CVRequestProps = {
-  mutate?: () => void
-  cv: CVWithAdWithUser
-  status: status
-}
 
 const CVRequest: React.FC<CVRequestProps> = ({ cv, status: cvStatus, mutate }) => {
   return (

@@ -3,9 +3,9 @@
 import React, { useState } from "react"
 import { toast } from "./ui/use-toast"
 
-import { acceptCV, rejectCV } from "@/app/action/cv"
+import { CVRequestProps } from "@/types/utils.type"
 
-import { CVRequestProps } from "./dashboard/CVRequest"
+import { acceptCV, rejectCV } from "@/app/action/cv"
 
 import LoadButton from "./ui/LoadButton"
 import { MailCheck, MailMinus } from "lucide-react"

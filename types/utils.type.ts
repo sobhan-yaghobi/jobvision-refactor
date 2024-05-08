@@ -2,6 +2,7 @@ import {
   Prisma,
   category_collection as Category_collection,
   advantage as Advantage,
+  status,
 } from "@prisma/client"
 import { ReactNode } from "react"
 
@@ -65,6 +66,12 @@ export type TypeSidebarItem = {
   children?: (TypeSidebarItem & {
     parent_href: TypeSidebarItem["href"]
   })[]
+}
+
+export type CVRequestProps = {
+  mutate?: () => void
+  cv: CVWithAdWithUser
+  status: status
 }
 
 //! ---------- User Type

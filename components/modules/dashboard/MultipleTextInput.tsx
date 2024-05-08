@@ -25,6 +25,8 @@ const MultipleTextInput: React.FC<MultipleTextInputProps> = ({
 }) => {
   const myInput = useRef<HTMLInputElement>(null)
   const [value, setValue] = useState("")
+
+  //! ---------- Actions
   const clickAction = () => {
     const isExsist = some(state, function (stateVal) {
       return stateVal === value
