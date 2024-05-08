@@ -190,6 +190,7 @@ const Footer: React.FC = () => {
   )
 }
 
+//! ---------- Component Of Footer
 type QuickAccessItemProps = {
   item: QuickAccessItemType["links"]
   type: string
