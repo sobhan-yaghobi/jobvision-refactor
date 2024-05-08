@@ -8,10 +8,12 @@ import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
 import gregorian_en from "react-date-object/locales/gregorian_en"
 
+//! ---------- Tailwind Merge Function
 const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
 }
 
+//! ---------- Get Last Message Of InputMessage
 const getLastMessage = <T>({
   main_id,
   array,
@@ -25,6 +27,7 @@ const getLastMessage = <T>({
   return messages?.length ? messages[messages.length - 1] : undefined
 }
 
+//! ---------- Date Persian Formater
 const dateGenerate = (date: string | Date) =>
   new Date(
     new DateObject({
