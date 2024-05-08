@@ -18,6 +18,8 @@ const FollowButton: React.FC<FollowButtonProps> = ({ company }) => {
     company.followers.some((follower) => follower.user_id === user?.id)
   )
 
+  //! ---------- Actions
+  //! ----- Follow Action
   const followAction = async () => {
     setIsLoading(true)
     const cvResault = await createFollower(company.id)
@@ -30,6 +32,7 @@ const FollowButton: React.FC<FollowButtonProps> = ({ company }) => {
     return toast({ title: cvResault.message, variant: "destructive" })
   }
 
+  //! ----- UnFollow Action
   const unFollowAction = async () => {
     setIsLoading(true)
     const cvResault = await removeFollower(company.id)
@@ -41,6 +44,7 @@ const FollowButton: React.FC<FollowButtonProps> = ({ company }) => {
     setIsLoading(false)
     return toast({ title: cvResault.message, variant: "destructive" })
   }
+
   return isFollow ? (
     <LoadButton
       disabled={isLoading}
