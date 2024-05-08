@@ -35,6 +35,7 @@ const Login = () => {
   const [open, setOpen] = useState(false)
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
 
+  //! ---------- Auth Action
   const clientAction = async (formData: FormData) => {
     const newUser: TypeSignIn = {
       email: formData.get("email") as string,
