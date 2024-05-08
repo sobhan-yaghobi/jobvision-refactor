@@ -28,6 +28,8 @@ const UserDropDown = () => {
   const username = user !== null ? user.email.substring(0, user.email.lastIndexOf("@")) : ""
   const [isDropdownUser, setIsDropdownUser] = useState(false)
 
+  //! ---------- SideEffects =>
+  //! ----- Check Login Status Of User
   useEffect(() => {
     const getMeAction = async () => {
       const res = await fetch("/api/getMe")
@@ -45,7 +47,6 @@ const UserDropDown = () => {
       getMeAction()
     }
   }, [])
-
   useEffect(() => {
     setIsDropdownUser(false)
     return () => setIsDropdownUser(false)

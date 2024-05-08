@@ -25,6 +25,7 @@ type SidebarProps = {
   category: CategoryWithCollection[]
   province: provinceWithCity[]
 }
+
 const Sidebar: React.FC<SidebarProps> = ({ className, category, province }) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()

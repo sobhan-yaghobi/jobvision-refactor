@@ -65,6 +65,7 @@ const Navbar: React.FC<NavbarProps> = async ({ className, category, province }) 
   )
 }
 
+//! ---------- Component Of Navbar
 type ListProps =
   | { mode: "cities"; array: provinceWithCity[] }
   | { mode: "visitedJobs"; array: CategoryWithCollection[] }
