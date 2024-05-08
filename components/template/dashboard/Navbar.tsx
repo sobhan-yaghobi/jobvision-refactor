@@ -17,6 +17,11 @@ const Navbar: React.FC = () => {
   const [isQuick, setIsQuick] = useState(false)
   const pathname = usePathname()
 
+  const closeSheet = () => {
+    setIsMenu(false)
+    setIsQuick(false)
+  }
+
   useEffect(() => {
     closeSheet()
 
@@ -25,10 +30,6 @@ const Navbar: React.FC = () => {
     }
   }, [pathname])
 
-  const closeSheet = () => {
-    setIsMenu(false)
-    setIsQuick(false)
-  }
   return (
     <div className="flex items-center justify-between relative p-3 shadow-lg z-20">
       <Sheet open={isMenu} onOpenChange={setIsMenu}>

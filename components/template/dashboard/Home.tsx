@@ -3,7 +3,7 @@ import React from "react"
 import Title from "@/components/modules/Title"
 import Image from "next/image"
 import Link from "next/link"
-import LastCv from "./Sidebar/LastCv"
+import LastCV from "./Sidebar/LastCV"
 
 const Home: React.FC = () => {
   return (
@@ -32,7 +32,7 @@ const Home: React.FC = () => {
         </div>
       </section>
       <div className="mt-6">
-        <LastCv />
+        <LastCV />
       </div>
     </>
   )

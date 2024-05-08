@@ -15,8 +15,9 @@ import {
   AccordionContent,
 } from "@/components/modules/ui/accordion"
 
+//! For Showing One Single Item
 type RouteProps = Omit<TypeSidebarItem, "children">
-const Route: React.FC<RouteProps> = ({ href, icon, label }) => {
+export const Route: React.FC<RouteProps> = ({ href, icon, label }) => {
   const pathName = usePathname()
   const mainRoute = pathName.substring(lastIndexOf(pathName, "/") + 1, pathName.length)
   const route = href === "dashboard" ? `/${href}` : `/dashboard/${href}`
@@ -36,7 +37,8 @@ const Route: React.FC<RouteProps> = ({ href, icon, label }) => {
   )
 }
 
-const MultipleItem: React.FC<TypeSidebarItem> = ({ href, icon, label, children }) => {
+//! For Showing Multiple Item
+export const MultipleItem: React.FC<TypeSidebarItem> = ({ href, icon, label, children }) => {
   return (
     <AccordionItem className="border-none" value={href}>
       <AccordionTrigger className="!no-underline">
@@ -53,5 +55,3 @@ const MultipleItem: React.FC<TypeSidebarItem> = ({ href, icon, label, children }
     </AccordionItem>
   )
 }
-
-export { Route, MultipleItem }

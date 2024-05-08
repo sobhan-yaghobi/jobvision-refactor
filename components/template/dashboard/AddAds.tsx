@@ -61,6 +61,7 @@ type AddADsProps = {
 
 const AddAds: React.FC<AddADsProps> = ({ categories, advantages }) => {
   const formRef = useRef<HTMLFormElement>(null)
+  //! ---------- States
   const [errs, setErrs] = useState<{ path: string; message: string }[]>()
   const [gender, setGender] = useState<TypeMainSelect>({} as TypeMainSelect)
   const [seniorityLevel, setSeniorityLevel] = useState<TypeMainSelect>({} as TypeMainSelect)
@@ -75,6 +76,8 @@ const AddAds: React.FC<AddADsProps> = ({ categories, advantages }) => {
     is_price_max: false,
     is_age_max: false,
   })
+  //! ---------- Actions =>
+  //! ----- Add AD Action
   const clientAction = async (formData: FormData) => {
     const newAd: TypeAd = {
       name: formData.get("name") as string,

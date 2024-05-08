@@ -116,6 +116,7 @@ const Company: React.FC = () => {
       }
     }
   }
+  //! ----- Show Image From FileExplorer
   const readSrcImgAction = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.currentTarget.files?.length ? e.currentTarget.files[0] : null
     if (file) {
