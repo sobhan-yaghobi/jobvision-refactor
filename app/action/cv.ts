@@ -1,8 +1,10 @@
 "use server"
 
-import { AD } from "@/types/utils.type"
 import isAuth from "./isAuth"
 
+import { AD } from "@/types/utils.type"
+
+//! ---------- Accept CV Function
 export const acceptCV = async (id: string) => {
   const cvResualt = await prisma.cv.update({ where: { id }, data: { status: "accept" } })
   if (cvResualt) {
@@ -11,6 +13,7 @@ export const acceptCV = async (id: string) => {
   return { message: "مشکلی در قبول کردن درخواست به وجود آمد", status: false }
 }
 
+//! ---------- Reject CV Function
 export const rejectCV = async (id: string) => {
   const cvResualt = await prisma.cv.update({ where: { id }, data: { status: "reject" } })
   if (cvResualt) {
@@ -19,6 +22,7 @@ export const rejectCV = async (id: string) => {
   return { message: "مشکلی در رد کردن درخواست به وجود آمد", status: false }
 }
 
+//! ---------- Send CV Function
 export const sendCV = async (ad: AD) => {
   const { user } = await isAuth()
   if (user?.company_id === ad.company_id) {

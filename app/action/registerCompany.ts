@@ -1,23 +1,27 @@
 "use server"
 
 import isAuth from "./isAuth"
-
-import { TypeCompany, companySchema } from "@/validation/zod.validations"
 import prisma from "@/lib/prisma"
 import setImageCompany from "./setImageCompany"
 
+import { TypeCompany, companySchema } from "@/validation/zod.validations"
+
+//! ---------- Register And Update Company
 export const registerCompany = async (company: TypeCompany, formData: FormData) => {
   const { user } = await isAuth()
 
   if (user !== null) {
+    //! ---------- Update Company User
     if (user?.company_id !== null) {
       const { location, ...companyModify } = company
-      const companyResponse = await prisma.company.findFirst({ where: { id: user.company_id } })
+      const companyResponse = await prisma.company.findFirst({
+        where: { id: user.company_id },
+        include: {},
+      })
       const locationResault = await prisma.location.update({
         where: { id: companyResponse?.location_id },
         data: location,
       })
-
       const logo = await setImageCompany(formData.get("logo") as File, companyResponse?.logo)
 
       const companyResualt = await prisma.company.update({
@@ -33,10 +37,9 @@ export const registerCompany = async (company: TypeCompany, formData: FormData) 
       }
       return { status: false, message: "مشکلی در بروزرسانی شرکت به وجود آمد" }
     } else {
+      //! ---------- Create Company User
       const locationResault = await prisma.location.create({ data: company.location })
-
       const { location, ...companyModify } = company
-
       const logo = await setImageCompany(formData.get("logo") as File)
 
       if (logo) {
@@ -63,6 +66,7 @@ export const registerCompany = async (company: TypeCompany, formData: FormData) 
   return { message: "مشکلی در ثبت یا بروزرسانی شرکت به وجود آمد", status: false }
 }
 
+//! ---------- Validate Company
 export const validateCompany = async (company: TypeCompany) => {
   const resault = companySchema.safeParse(company)
   return resault

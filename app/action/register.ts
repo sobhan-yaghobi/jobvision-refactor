@@ -6,9 +6,9 @@ import { isNull } from "lodash"
 
 import prisma from "@/lib/prisma"
 import { User } from "@/types/utils.type"
-
 import { TypeSignIn, signInSchema } from "@/validation/zod.validations"
 
+//! ---------- Register User
 export const registerAction = async ({
   email,
   password,
@@ -42,11 +42,13 @@ export const registerAction = async ({
   }
 }
 
+//! ---------- Validate User
 export const validateRegister = async (user: TypeSignIn) => {
   const resault = signInSchema.safeParse(user)
   return resault
 }
 
+//! ---------- Set A TokenCookie Timer
 const setTokenCookieAction = (token: string) => {
   cookies().set({
     name: "token",

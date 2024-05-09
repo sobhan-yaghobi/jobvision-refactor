@@ -9,10 +9,9 @@ const setImageCompany = async (logoFile: File, logoName?: string) => {
   const { user } = await isAuth()
   let fileName = ""
   if (logoFile && logoFile.size && user) {
-    // const company = await prisma.company.findFirst({ where: { id: user.company_id as string } })
     const buffer = Buffer.from(await logoFile.arrayBuffer())
     fileName = uuid() + "_" + logoFile.name
-    writeFile(path.join(process.cwd(), "public/uploads/" + fileName), buffer, async (err) => {
+    writeFile(path.join(process.cwd(), "public/uploads/" + fileName), buffer, (err) => {
       if (!err) {
         if (logoName) {
           unlink(path.join(process.cwd(), "public/uploads", logoName), (err) => {

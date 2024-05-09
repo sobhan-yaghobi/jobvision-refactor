@@ -3,9 +3,9 @@
 import { cookies } from "next/headers"
 import { validateTokenResualt } from "@/utils/utils.function"
 
-import { user } from "@/types/utils.type"
+import { User } from "@/types/utils.type"
 
-const isAuth = async (): Promise<{ isUser: boolean; user: null | user }> => {
+const isAuth = async (): Promise<{ isUser: boolean; user: null | User }> => {
   const token = cookies().get("token")
   const resualt = await (await validateTokenResualt(token?.value)).json()
 

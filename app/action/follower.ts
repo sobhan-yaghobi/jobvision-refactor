@@ -2,6 +2,7 @@
 
 import isAuth from "./isAuth"
 
+//! ---------- Create New Follower
 export const createFollower = async (companyID: string) => {
   const { user } = await isAuth()
   if (user?.company_id === companyID) {
@@ -24,6 +25,7 @@ export const createFollower = async (companyID: string) => {
   return { message: "اول وارد شوید", status: false }
 }
 
+//! ---------- Remove Follower
 export const removeFollower = async (companyID: string) => {
   const { user } = await isAuth()
   if (user) {
