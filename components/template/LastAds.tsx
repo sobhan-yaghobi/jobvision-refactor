@@ -6,6 +6,8 @@ import { AD } from "@/types/utils.type"
 import Title from "../modules/Title"
 import ADBox from "../modules/ADBox"
 
+export const dynamic = "force-dynamic"
+
 const LastAds: React.FC = async () => {
   const ads: AD[] =
     ((await prisma.ad.findMany({

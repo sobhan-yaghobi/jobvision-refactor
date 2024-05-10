@@ -3,6 +3,8 @@ import addInitalDataAction from "./action/addInitalDataToDb"
 import { Toaster } from "@/components/modules/ui/toaster"
 
 import "./globals.css"
+import { Suspense } from "react"
+import Loading from "@/components/modules/Loading"
 
 export const metadata: Metadata = {
   title: "Clone Jobvison Website",
@@ -18,7 +20,7 @@ export default async function RootLayout({
   return (
     <html lang="en" dir="rtl">
       <body>
-        {children}
+        <Suspense fallback={<Loading />}>{children}</Suspense>
         <Toaster />
       </body>
     </html>
