@@ -20,7 +20,7 @@ const ADsList: React.FC = () => {
 
   useEffect(() => {
     mutate("/ad")
-  }, [pathname, searchParams])
+  }, [searchParams, pathname, mutate])
 
   return (
     <div className="bg-muted w-full h-full flex flex-col gap-1 p-3 rounded-sm overflow-y-auto">
@@ -42,7 +42,7 @@ const ADsList: React.FC = () => {
             <ADBox key={ad.id} ad={{ ...ad }} active={ad.id === currentAd()} isFooter></ADBox>
           ))
         )
-      }, [data, currentAd()])}
+      }, [data, isLoading, currentAd])}
     </div>
   )
 }
