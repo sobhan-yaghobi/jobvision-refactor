@@ -46,7 +46,7 @@ const UserDropDown = () => {
     return () => {
       getMeAction()
     }
-  }, [])
+  })
   useEffect(() => {
     setIsDropdownUser(false)
     return () => setIsDropdownUser(false)
