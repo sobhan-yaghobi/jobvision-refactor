@@ -40,8 +40,8 @@ const ADs: React.FC = () => {
         Array(3)
           .fill("")
           .map((_, index) => (
-            <div className="mb-2 last:mb-0">
-              <ADBoxDashboardSkeleton key={`dashboard-ad-list-${index}`} />
+            <div key={`dashboard-ad-list-${index}`} className="mb-2 last:mb-0">
+              <ADBoxDashboardSkeleton />
             </div>
           ))
       ) : adItems?.length ? (
