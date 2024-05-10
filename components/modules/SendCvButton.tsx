@@ -39,7 +39,7 @@ const SendCVButton: React.FC<SendCVButtonProps> = ({ ad }) => {
   useEffect(() => {
     const isActive = user?.cv.some((cvItem) => cvItem.ad_id === ad.id)
     setIsCvSend(isActive || false)
-  }, [user])
+  }, [user, ad.id])
 
   return isCvSend ? (
     <Button variant={"outline"}>رزومه ارسال شده</Button>
