@@ -40,6 +40,7 @@ const EnumSingleSelect: React.FC<EnumSingleSelectProps> = ({
           <div
             role="combobox"
             aria-expanded={isOpen}
+            aria-controls="joketypes"
             className={`h-full relative flex items-center pr-12 border-2 border-muted rounded-sm cursor-pointer`}
           >
             <span className="absolute right-3">{icon}</span>
