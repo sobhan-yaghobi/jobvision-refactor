@@ -46,5 +46,6 @@ const LoadButton = React.forwardRef<HTMLButtonElement, ButtonLoadProps>(
     )
   }
 )
+LoadButton.displayName = "Button"
 
 export default LoadButton
