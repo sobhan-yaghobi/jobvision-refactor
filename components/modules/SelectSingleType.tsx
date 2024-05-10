@@ -22,20 +22,23 @@ type SelectSingleTypeProps = {
 }
 
 const SelectSingleType: React.FC<SelectSingleTypeProps> = ({ placeholder, type, items }) => {
+  //! ---------- States
   const { searchParams, queryAction } = useFilterQuery()
+  const mainType = searchParams.get(type) || ""
 
-  const getType = (mainType: string): TypeItem =>
+  //! ---------- Actions
+  const getType = (mainType: string | null): TypeItem =>
     items.find((item) => item.type === mainType) || ({} as TypeItem)
-
-  const isType = (itemType: string): boolean =>
+  const isType = (itemType: string | null): boolean =>
     getType(searchParams.get(type) as string).type === itemType
 
+  //! ---------- SideEffect
   useEffect(() => {
-    if (searchParams.get(type)) {
+    if (mainType) {
       const newMainType = items.find((item) => item.type === searchParams.get(type))
       !newMainType && queryAction(type, "")
     }
-  }, [searchParams.get(type)])
+  }, [mainType, type, items, queryAction, searchParams])
 
   return (
     <ResponsiveSingleSelect
@@ -44,12 +47,12 @@ const SelectSingleType: React.FC<SelectSingleTypeProps> = ({ placeholder, type, 
       trigger={
         <Button
           className={`px-2 py-1 border border-solid ${
-            searchParams.get(type)
+            isType(searchParams.get(type))
               ? "bg-primary/30 text-black hover:bg-primary/30"
               : "bg-transparent text-muted-foreground hover:bg-muted"
           }`}
         >
-          {getType(searchParams.get(type) as string).type ? (
+          {isType(searchParams.get(type)) ? (
             <>
               {getType(searchParams.get(type) as string).name}
               <X
