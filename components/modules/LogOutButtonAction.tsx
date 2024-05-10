@@ -81,5 +81,6 @@ const LogOutButtonAction = React.forwardRef<HTMLButtonElement, LogOutButtonActio
     )
   }
 )
+LogOutButtonAction.displayName = "Button"
 
 export default LogOutButtonAction
