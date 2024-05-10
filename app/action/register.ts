@@ -3,8 +3,8 @@
 import { generateToken, hashPassword, verifyPassword } from "@/utils/utils.function"
 import { cookies } from "next/headers"
 import { isNull } from "lodash"
-
 import prisma from "@/lib/prisma"
+
 import { User } from "@/types/utils.type"
 import { TypeSignIn, signInSchema } from "@/validation/zod.validations"
 

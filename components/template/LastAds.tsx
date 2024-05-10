@@ -1,4 +1,5 @@
 import React from "react"
+import prisma from "@/lib/prisma"
 
 import { AD } from "@/types/utils.type"
 
@@ -9,7 +10,7 @@ const LastAds: React.FC = async () => {
   const ads: AD[] =
     ((await prisma.ad.findMany({
       include: { company: { include: { location: { include: { city: true } } } } },
-    })) as AD[]) ?? ([] as AD[])
+    })) as AD[]) || ([] as AD[])
 
   return (
     <div>

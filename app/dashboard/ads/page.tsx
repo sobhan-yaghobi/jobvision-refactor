@@ -1,4 +1,5 @@
 import React from "react"
+import prisma from "@/lib/prisma"
 
 import TabsPage, { TypePage } from "@/components/modules/dashboard/TabsPage"
 import ADs from "@/components/template/dashboard/ADs"

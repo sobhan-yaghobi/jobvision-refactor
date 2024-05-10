@@ -1,5 +1,6 @@
 "use server"
 
+import prisma from "@/lib/prisma"
 import isAuth from "./isAuth"
 
 import { TypeAd, adSchema } from "@/validation/zod.validations"

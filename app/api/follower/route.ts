@@ -1,3 +1,4 @@
+import prisma from "@/lib/prisma"
 import isAuth from "@/app/action/isAuth"
 import { FollowerWithUser } from "@/types/utils.type"
 

@@ -1,3 +1,4 @@
+import prisma from "@/lib/prisma"
 import { CategoryWithCollection } from "@/types/utils.type"
 import { category_collection as Category_collection } from "@prisma/client"
 

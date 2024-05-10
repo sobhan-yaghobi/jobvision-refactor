@@ -1,7 +1,7 @@
 "use server"
 
-import isAuth from "./isAuth"
 import prisma from "@/lib/prisma"
+import isAuth from "./isAuth"
 import setImageCompany from "./setImageCompany"
 
 import { TypeCompany, companySchema } from "@/validation/zod.validations"
