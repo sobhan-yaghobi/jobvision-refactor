@@ -58,7 +58,7 @@ const Map = () => {
     setTimeout(() => animation(), 1000)
     const interval = setInterval(animation, 6000)
     return () => clearInterval(interval)
-  }, [])
+  })
 
   return (
     <svg
