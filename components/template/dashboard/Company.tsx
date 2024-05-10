@@ -207,6 +207,8 @@ const Company: React.FC = () => {
                 trigger={
                   <div
                     role="combobox"
+                    aria-expanded={Boolean(cityID)}
+                    aria-controls="joketypes"
                     className={`min-h-10 relative flex items-center flex-wrap gap-1 p-1 pr-12 border-2 border-muted rounded-sm cursor-pointer`}
                   >
                     <div className="absolute right-3 center">
