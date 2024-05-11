@@ -10,7 +10,6 @@ import { fetchFilterAd } from "@/utils/utils.fetch"
 import Title from "../modules/Title"
 import ADBox from "../modules/ADBox"
 import ADBoxSkeleton from "../modules/skeleton/ADBox.skeleton"
-import Loading from "../modules/Loading"
 
 const ADsList: React.FC = () => {
   const searchParams = useSearchParams()
@@ -25,7 +24,6 @@ const ADsList: React.FC = () => {
 
   return (
     <div className="bg-muted w-full h-full flex flex-col gap-1 p-3 rounded-sm overflow-y-auto">
-      <Loading />
       {useMemo(() => {
         return isLoading ? (
           <>

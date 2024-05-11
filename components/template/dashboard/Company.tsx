@@ -139,6 +139,7 @@ const Company: React.FC = () => {
         <div className="mt-3">در حال بارگذاری</div>
       ) : (
         <form ref={formRef} action={clientAction}>
+          <div>logo : {companyState?.logo}</div>
           <div className="flex mt-6">
             {logoSrc || companyState?.logo ? (
               <div className="w-24 h-24 center items-start">
