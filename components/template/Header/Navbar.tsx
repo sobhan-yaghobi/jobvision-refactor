@@ -1,6 +1,10 @@
-import React from "react"
+"use client"
+
+import React, { useEffect, useState } from "react"
 import { cn } from "@/utils/utils.function"
 import { menuItem } from "@/utils/utils.variable"
+
+import { usePathname, useSearchParams } from "next/navigation"
 
 import { CategoryWithCollection, provinceWithCity } from "@/types/utils.type"
 
@@ -17,19 +21,39 @@ type NavbarProps = {
   province: provinceWithCity[]
 }
 
-const Navbar: React.FC<NavbarProps> = async ({ className, category, province }) => {
+const Navbar: React.FC<NavbarProps> = ({ className, category, province }) => {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const [isMegaMenu, setIsMegaMenu] = useState(false)
+  useEffect(() => {
+    setIsMegaMenu(false)
+
+    return () => {
+      setIsMegaMenu(false)
+    }
+  }, [pathname, searchParams])
+
   return (
     <ul className={cn("flex items-center", className)}>
       {menuItem.map((item) =>
         item.isMegaMenu ? (
-          <li key={`navbar-list-item-${item.id}`} className="h-full center group peer">
+          <li
+            key={`navbar-list-item-${item.id}`}
+            onMouseEnter={() => setIsMegaMenu(true)}
+            onMouseLeave={() => setIsMegaMenu(false)}
+            className="h-full center"
+          >
             <Link href={item.link}>
               <Button variant={"ghost"}>
                 {item.name}
                 <ChevronDown className="icon-sm btn-icon-r group-hover:-scale-y-100 transition" />
               </Button>
             </Link>
-            <div className="bg-background w-10/12 h-5/6 absolute left-1/2 top-20 translate-x-full rounded-b-lg overflow-hidden z-40 transition duration-500 group-hover:-translate-x-1/2">
+            <div
+              className={`bg-background w-10/12 h-5/6 absolute left-1/2 -translate-x-1/2 rounded-b-lg overflow-hidden  transition duration-500 ${
+                isMegaMenu ? "top-20 z-40 opacity-100" : "-z-10 opacity-0"
+              }`}
+            >
               <Tabs
                 dir="rtl"
                 defaultValue="mostVisitedJobs"
@@ -60,7 +84,11 @@ const Navbar: React.FC<NavbarProps> = async ({ className, category, province }) 
           </li>
         )
       )}
-      <div className="h-view w-full center fixed top-20 left-0 z-30 opacity-0 invisible duration-150 transition peer-hover:visible peer-hover:opacity-100 peer-hover:bg-black/50"></div>
+      <div
+        className={`h-view w-full center fixed top-20 left-0 z-30 duration-150 transition ${
+          isMegaMenu ? "visible opacity-100 bg-black/50" : "opacity-0 invisible"
+        }`}
+      ></div>
     </ul>
   )
 }

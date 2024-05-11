@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useMemo } from "react"
+import React, { useMemo } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 import useSWR, { useSWRConfig } from "swr"
 import useCurrentAdQuery from "@/hook/useCurrentAdQuery"
@@ -14,13 +14,8 @@ import ADBoxSkeleton from "../modules/skeleton/ADBox.skeleton"
 const ADsList: React.FC = () => {
   const searchParams = useSearchParams()
   const pathname = usePathname()
-  const { data, isLoading } = useSWR(`/ad`, fetchFilterAd)
+  const { data, isLoading } = useSWR(`/ad/${pathname}?${searchParams.toString()}`, fetchFilterAd)
   const { currentAd } = useCurrentAdQuery()
-  const { mutate } = useSWRConfig()
-
-  useEffect(() => {
-    mutate("/ad")
-  }, [searchParams, pathname])
 
   return (
     <div className="bg-muted w-full h-full flex flex-col gap-1 p-3 rounded-sm overflow-y-auto">
