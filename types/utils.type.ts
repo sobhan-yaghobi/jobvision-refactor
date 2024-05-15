@@ -48,7 +48,7 @@ export type ADWithCompanyLoaction = Prisma.adGetPayload<{
   include: typeof adInclude
 }>
 
-export interface AD extends ADWithCompanyLoaction {
+export type AD = {
   age: { min: number; max: number }
   price: { min: number; max: number }
   tags: Category_collection[]
@@ -56,7 +56,7 @@ export interface AD extends ADWithCompanyLoaction {
   software_skills: string[]
   facilities: Advantage[]
   edicational_level: string[]
-}
+} & ADWithCompanyLoaction
 
 //! ---------- Dashboard Types
 export type TypeSidebarItem = {

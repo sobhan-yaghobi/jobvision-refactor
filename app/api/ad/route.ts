@@ -16,7 +16,10 @@ export const GET = async (request: NextRequest) => {
 
     const ads: AD[] =
       user && "email" in user && user?.company_id
-        ? ((await prisma.ad.findMany({ where: { company_id: user?.company_id } })) as AD[])
+        ? ((await prisma.ad.findMany({
+            where: { company_id: user?.company_id },
+            include: { company: { include: { location: { include: { city: true } } } } },
+          })) as AD[])
         : ([] as AD[])
     return Response.json(ads)
   }
@@ -64,7 +67,10 @@ export const POST = async (request: NextRequest) => {
   if (province)
     adFilter = adFilter.filter((ad) => ad?.company?.location.city.province_id === province)
 
-  if (collection) adFilter = adFilter.filter((ad) => ad.tags?.some((tag) => tag.id === collection))
+  if (collection)
+    adFilter = adFilter.filter(
+      (ad) => Array.isArray(ad.tags) && ad.tags.some((tag) => tag.id === collection)
+    )
 
   if (itern) adFilter = adFilter.filter((ad) => ad.itern)
 
