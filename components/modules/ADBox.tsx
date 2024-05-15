@@ -13,6 +13,7 @@ import PriceGenerator from "./PriceGenerator"
 import TimeGenerator from "./TimeGenerator"
 import SendCVButton from "./SendCVButton"
 import Image from "next/image"
+import { supabaseUrl } from "@/utils/utils.variable"
 
 type ADBoxProps = {
   isFooter?: boolean
@@ -45,7 +46,7 @@ const ADBox: React.FC<ADBoxProps> = ({ isFooter, active, className, ad }) => {
             <Image
               width={190}
               height={100}
-              src={`/uploads/${ad?.company?.logo}`}
+              src={supabaseUrl + ad?.company?.logo}
               className="w-16 h-auto rounded-sm"
               alt="logo-compnay"
             />

@@ -16,6 +16,7 @@ import LogOutButtonAction from "@/components/modules/LogOutButtonAction"
 import { Button } from "@/components/modules/ui/button"
 import Image from "next/image"
 import Link from "next/link"
+import { supabaseUrl } from "@/utils/utils.variable"
 
 const quickLinks = [
   {
@@ -75,7 +76,7 @@ const QuickAccess: React.FC = () => {
                   <Image
                     width={500}
                     height={500}
-                    src={`/uploads/${company?.logo}`}
+                    src={supabaseUrl + company.logo}
                     alt="company-logo"
                     className="w-24 h-auto max-h-24"
                   />

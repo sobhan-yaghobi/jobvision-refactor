@@ -9,6 +9,8 @@ import {
   TypeCompanyWithLogo,
 } from "@/validation/zod.validations"
 import { dateGenerate } from "@/utils/utils.function"
+import supabase from "@/lib/supabase"
+import { imageBucket } from "@/utils/utils.variable"
 
 //! ---------- Register And Update Company
 export const registerCompany = async (company: TypeCompany, formData: FormData) => {
@@ -22,33 +24,43 @@ export const registerCompany = async (company: TypeCompany, formData: FormData) 
         where: { id: user.company_id },
         include: {},
       })
-      const locationResault = await prisma.location.update({
-        where: { id: companyResponse?.location_id },
-        data: location,
-      })
+      if (companyResponse && "id" in companyResponse) {
+        const locationResault = await prisma.location.update({
+          where: { id: companyResponse?.location_id },
+          data: location,
+        })
 
-      const companyResualt = await prisma.company.update({
-        where: { id: user.company_id },
-        data: { ...companyModify, logo: "" },
-      })
+        const logo = await updateImage(formData.get("logo") as File, companyResponse?.logo, user.id)
+        if (logo) {
+          const companyResualt = await prisma.company.update({
+            where: { id: user.company_id },
+            data: { ...companyModify, logo },
+          })
 
-      if (companyResualt && locationResault) {
-        return {
-          status: true,
-          message: "اطلاعات شرکت با موفقیت آپدیت شد",
+          if (companyResualt && locationResault) {
+            return {
+              status: true,
+              message: "اطلاعات شرکت با موفقیت آپدیت شد",
+            }
+          }
+          return { status: false, message: "مشکلی در بروزرسانی شرکت به وجود آمد" }
+        } else {
+          return { message: "مشکلی در بروزرسانی لوگو شرکت به وجود آمده", status: false }
         }
+      } else {
+        return { message: "مشکلی در پیدا کردن شرکت به وجود آمده", status: false }
       }
-      return { status: false, message: "مشکلی در بروزرسانی شرکت به وجود آمد" }
     } else {
       //! ---------- Create Company User
       const locationResault = await prisma.location.create({
         data: company.location,
       })
       const { location, ...companyModify } = company
+      const logo = await createImage(formData.get("logo") as File, user.id)
 
-      if (true) {
+      if (logo) {
         const companyResualt = await prisma.company.create({
-          data: { ...companyModify, location_id: locationResault.id, logo: "" },
+          data: { ...companyModify, location_id: locationResault.id, logo },
         })
         if (companyResualt && locationResault) {
           const userResault = await prisma.user.update({
@@ -64,10 +76,27 @@ export const registerCompany = async (company: TypeCompany, formData: FormData) 
             }
           }
         }
+      } else {
+        return { message: "مشکلی در ثبت لوگو شرکت به وجود آمد", status: false }
       }
     }
   }
   return { message: "مشکلی در ثبت یا بروزرسانی شرکت به وجود آمد", status: false }
+}
+
+//! ---------- Action Of Company Image
+const createImage = async (file: File, user_id: string) => {
+  const fileName = user_id + "_" + file.name
+  const { data, error } = await supabase.storage.from(imageBucket).upload(fileName, file)
+  return data && !error ? fileName : false
+}
+const updateImage = async (file: File, fileName: string, user_id: string) => {
+  const removeResault = await supabase.storage.from(imageBucket).remove([fileName])
+  if (!removeResault.error) {
+    const newFileName = await createImage(file, user_id)
+    return newFileName
+  }
+  return false
 }
 
 //! ---------- Validate Company

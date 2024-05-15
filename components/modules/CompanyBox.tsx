@@ -8,6 +8,7 @@ import { Star } from "lucide-react"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import FollowButton from "./FollowButton"
 import Image from "next/image"
+import { supabaseUrl } from "@/utils/utils.variable"
 
 type CompanyBoxType = {
   className?: string
@@ -23,7 +24,7 @@ const CompanyBox: React.FC<CompanyBoxType> = ({ className, company }) => {
         <Image
           width={190}
           height={100}
-          src={`/uploads/${company.logo}`}
+          src={supabaseUrl + company.logo}
           className="rounded-sm w-16 h-auto"
           alt="logo-compnay"
         />

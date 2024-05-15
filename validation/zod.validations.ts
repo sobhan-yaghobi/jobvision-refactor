@@ -59,6 +59,7 @@ export const CompanySchemaWithLogo = companySchema.extend({
     }
   }),
 })
+
 export type TypeCompany = z.infer<typeof companySchema>
 export type TypeCompanyWithLogo = z.infer<typeof CompanySchemaWithLogo>
 

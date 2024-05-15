@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
-import { isEqual, keys, omit, pick } from "lodash"
+import { includes, isEqual, keys, omit, pick } from "lodash"
 import { cn, dateGenerate, getLastMessage } from "@/utils/utils.function"
 import { toast } from "@/components/modules/ui/use-toast"
 import { registerCompany, validateCompany } from "@/app/action/registerCompany"
@@ -12,7 +12,6 @@ import persian_fa from "react-date-object/locales/persian_fa"
 import useSWR from "swr"
 
 import { getMyCompany, getProvinces } from "@/utils/utils.fetch"
-import { TypeCompany } from "@/validation/zod.validations"
 
 import {
   Building,
@@ -43,6 +42,7 @@ import {
 } from "@/components/modules/ui/accordion"
 import LoadButton from "@/components/modules/ui/LoadButton"
 import Image from "next/image"
+import { supabaseUrl } from "@/utils/utils.variable"
 
 const Company: React.FC = () => {
   //! ---------- States
@@ -72,7 +72,7 @@ const Company: React.FC = () => {
       )
       const isEq = isEqual(companyObject, companyPick)
 
-      if (!isEq) {
+      if (!isEq || !includes(companyState.logo, logo.name)) {
         const resualt = await registerCompany(companyObject, formData)
         mutate()
 
@@ -126,7 +126,7 @@ const Company: React.FC = () => {
                 <Image
                   width={500}
                   height={500}
-                  src={`${logoSrc ? logoSrc : `/uploads/${companyState?.logo}`}`}
+                  src={logoSrc ? logoSrc : supabaseUrl + companyState?.logo}
                   alt="company-logo"
                   className="w-full h-auto max-h-24 ml-3 rounded-sm"
                 />
