@@ -43,6 +43,7 @@ import {
 } from "@/components/modules/ui/accordion"
 import LoadButton from "@/components/modules/ui/LoadButton"
 import Image from "next/image"
+import FormCompanySkeleton from "@/components/modules/skeleton/FormCompany.skeleton"
 
 const Company: React.FC = () => {
   //! ---------- States
@@ -113,296 +114,298 @@ const Company: React.FC = () => {
 
   return (
     <>
-      <Title>
-        <h3>ویرایش اطلاعات شرکت</h3>
-      </Title>
       {isLoading ? (
-        <div className="mt-3">در حال بارگذاری</div>
+        <FormCompanySkeleton />
       ) : (
-        <form ref={formRef} action={clientAction}>
-          <div className="flex mt-6">
-            {logoSrc || companyState?.logo ? (
-              <div className="w-24 h-24 center items-start">
-                <Image
-                  width={500}
-                  height={500}
-                  src={logoSrc ? logoSrc : supabaseUrl + companyState?.logo}
-                  alt="company-logo"
-                  className="w-full h-auto max-h-24 ml-3 rounded-sm"
-                />
-              </div>
-            ) : (
-              <div className="bg-muted w-24 h-24 center ml-3 rounded-sm shadow-lg">
-                <ImageIcon className="icon-stroke-light icon-lg" />
-              </div>
-            )}
+        <>
+          <Title>
+            <h3>ویرایش اطلاعات شرکت</h3>
+          </Title>
+          <form ref={formRef} action={clientAction}>
+            <div className="flex mt-6">
+              {logoSrc || companyState?.logo ? (
+                <div className="w-24 h-24 center items-start">
+                  <Image
+                    width={500}
+                    height={500}
+                    src={logoSrc ? logoSrc : supabaseUrl + companyState?.logo}
+                    alt="company-logo"
+                    className="w-full h-auto max-h-24 ml-3 rounded-sm"
+                  />
+                </div>
+              ) : (
+                <div className="bg-muted w-24 h-24 center ml-3 rounded-sm shadow-lg">
+                  <ImageIcon className="icon-stroke-light icon-lg" />
+                </div>
+              )}
 
-            <div className="flex-1">
+              <div className="flex-1">
+                <InputMessage
+                  onChange={readSrcImgAction}
+                  type="file"
+                  accept="image/*"
+                  icon={<FileImage className="icon-stroke-light" />}
+                  wrapperClassName="w-full flex-row-reverse"
+                  placeholder="لینک لوگو شرکت.."
+                  name="logo"
+                  message={
+                    getLastMessage({
+                      array: errs,
+                      key: "path",
+                      main_id: "logo",
+                    })?.message
+                  }
+                />
+                <p className="text-muted-foreground text-xs w-1/2 mt-3">
+                  پیشنهاد میشود مقدار پیکسل لوگو شرکت 800 * 800 و فرمت عکس JPG یا PNG باشد و همچنین
+                  فرمت GIF نامعتبر میباشد
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <span className="morabba">نام شرکت</span>
               <InputMessage
-                onChange={readSrcImgAction}
-                type="file"
-                accept="image/*"
-                icon={<FileImage className="icon-stroke-light" />}
-                wrapperClassName="w-full flex-row-reverse"
-                placeholder="لینک لوگو شرکت.."
-                name="logo"
+                defaultValue={companyState?.name}
+                icon={<Building className="icon-stroke-light" />}
+                wrapperClassName="w-full"
+                placeholder="برای مثال جاب ویژن"
+                name="name"
                 message={
                   getLastMessage({
                     array: errs,
                     key: "path",
-                    main_id: "logo",
+                    main_id: "name",
                   })?.message
                 }
               />
-              <p className="text-muted-foreground text-xs w-1/2 mt-3">
-                پیشنهاد میشود مقدار پیکسل لوگو شرکت 800 * 800 و فرمت عکس JPG یا PNG باشد و همچنین
-                فرمت GIF نامعتبر میباشد
+            </div>
+
+            <div className="mt-6">
+              <span className="morabba">موقعیت شغلی</span>
+              <div className="flex flex-col items-center gap-2">
+                <SingleSelect
+                  key={cityID}
+                  className="w-full"
+                  trigger={
+                    <div
+                      role="combobox"
+                      aria-expanded={Boolean(cityID)}
+                      aria-controls="joketypes"
+                      className={`min-h-10 relative flex items-center flex-wrap gap-1 p-1 pr-12 border-2 border-muted rounded-sm cursor-pointer`}
+                    >
+                      <div className="absolute right-3 center">
+                        <Building2 className="icon-stroke-light" />
+                      </div>
+                      {city?.id ? (
+                        <>
+                          <span className="text-sm">{city?.name}</span>
+                          <button className="mr-auto p-1 rounded-sm hover:*:stroke-destructive hover:bg-destructive-foreground">
+                            <X
+                              onClick={(e) => {
+                                e.preventDefault()
+                                setCityID("")
+                              }}
+                              className="icon"
+                            />
+                          </button>
+                        </>
+                      ) : (
+                        <p className="text-sm text-muted-foreground">شهر</p>
+                      )}
+                    </div>
+                  }
+                >
+                  <Accordion type="single" collapsible className="w-full">
+                    {provinces?.map((province) => (
+                      <AccordionItem
+                        key={`accordion-province-item-${province.id}`}
+                        value={`accordion-province-item-${province.id}`}
+                      >
+                        <AccordionTrigger className="py-2 hover:no-underline">
+                          {province.name}
+                        </AccordionTrigger>
+                        <AccordionContent className="flex flex-col">
+                          {province.cities
+                            ? province.cities.map((cit) => (
+                                <div
+                                  key={`accordion-city-item-${cit.id}`}
+                                  className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
+                                  onClick={() => {
+                                    setCityID(cit.id)
+                                  }}
+                                >
+                                  <CheckIcon
+                                    className={cn(
+                                      "icon btn-icon btn-icon-l",
+                                      cit.id === city?.id ? "opacity-100" : "opacity-0"
+                                    )}
+                                  />
+                                  {cit.name}
+                                </div>
+                              ))
+                            : null}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </SingleSelect>
+                <InputMessage
+                  defaultValue={companyState?.location?.address}
+                  icon={<MapPin className="icon-stroke-light" />}
+                  wrapperClassName="w-full"
+                  placeholder="نشانی"
+                  name="address"
+                />
+              </div>
+              <p className="text-destructive text-xs mt-2">
+                {
+                  getLastMessage({
+                    array: errs,
+                    key: "path",
+                    main_id: "location",
+                  })?.message
+                }
               </p>
             </div>
-          </div>
 
-          <div className="mt-6">
-            <span className="morabba">نام شرکت</span>
-            <InputMessage
-              defaultValue={companyState?.name}
-              icon={<Building className="icon-stroke-light" />}
-              wrapperClassName="w-full"
-              placeholder="برای مثال جاب ویژن"
-              name="name"
-              message={
-                getLastMessage({
-                  array: errs,
-                  key: "path",
-                  main_id: "name",
-                })?.message
-              }
-            />
-          </div>
-
-          <div className="mt-6">
-            <span className="morabba">موقعیت شغلی</span>
-            <div className="flex flex-col items-center gap-2">
-              <SingleSelect
-                key={cityID}
-                className="w-full"
-                trigger={
-                  <div
-                    role="combobox"
-                    aria-expanded={Boolean(cityID)}
-                    aria-controls="joketypes"
-                    className={`min-h-10 relative flex items-center flex-wrap gap-1 p-1 pr-12 border-2 border-muted rounded-sm cursor-pointer`}
-                  >
-                    <div className="absolute right-3 center">
-                      <Building2 className="icon-stroke-light" />
-                    </div>
-                    {city?.id ? (
-                      <>
-                        <span className="text-sm">{city?.name}</span>
-                        <button className="mr-auto p-1 rounded-sm hover:*:stroke-destructive hover:bg-destructive-foreground">
-                          <X
-                            onClick={(e) => {
-                              e.preventDefault()
-                              setCityID("")
-                            }}
-                            className="icon"
-                          />
-                        </button>
-                      </>
-                    ) : (
-                      <p className="text-sm text-muted-foreground">شهر</p>
-                    )}
-                  </div>
-                }
-              >
-                <Accordion type="single" collapsible className="w-full">
-                  {provinces?.map((province) => (
-                    <AccordionItem
-                      key={`accordion-province-item-${province.id}`}
-                      value={`accordion-province-item-${province.id}`}
-                    >
-                      <AccordionTrigger className="py-2 hover:no-underline">
-                        {province.name}
-                      </AccordionTrigger>
-                      <AccordionContent className="flex flex-col">
-                        {province.cities
-                          ? province.cities.map((cit) => (
-                              <div
-                                key={`accordion-city-item-${cit.id}`}
-                                className="flex my-1 py-2 cursor-pointer rounded-md hover:bg-muted"
-                                onClick={() => {
-                                  setCityID(cit.id)
-                                }}
-                              >
-                                <CheckIcon
-                                  className={cn(
-                                    "icon btn-icon btn-icon-l",
-                                    cit.id === city?.id ? "opacity-100" : "opacity-0"
-                                  )}
-                                />
-                                {cit.name}
-                              </div>
-                            ))
-                          : null}
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </SingleSelect>
+            <div className="mt-6">
+              <span className="morabba">وب سایت شرکت</span>
               <InputMessage
-                defaultValue={companyState?.location?.address}
-                icon={<MapPin className="icon-stroke-light" />}
+                defaultValue={companyState?.website}
+                dir="ltr"
+                icon={<Link className="icon-stroke-light" />}
                 wrapperClassName="w-full"
-                placeholder="نشانی"
-                name="address"
+                placeholder="برای مثال www.jobvision.com"
+                name="website"
+                message={
+                  getLastMessage({
+                    array: errs,
+                    key: "path",
+                    main_id: "website",
+                  })?.message
+                }
               />
             </div>
-            <p className="text-destructive text-xs mt-2">
-              {
-                getLastMessage({
-                  array: errs,
-                  key: "path",
-                  main_id: "location",
-                })?.message
-              }
-            </p>
-          </div>
 
-          <div className="mt-6">
-            <span className="morabba">وب سایت شرکت</span>
-            <InputMessage
-              defaultValue={companyState?.website}
-              dir="ltr"
-              icon={<Link className="icon-stroke-light" />}
-              wrapperClassName="w-full"
-              placeholder="برای مثال www.jobvision.com"
-              name="website"
-              message={
-                getLastMessage({
-                  array: errs,
-                  key: "path",
-                  main_id: "website",
-                })?.message
-              }
-            />
-          </div>
+            <div className="mt-6">
+              <span className="morabba">درباره شرکت</span>
+              <Textarea
+                defaultValue={companyState?.description}
+                className="max-h-32"
+                placeholder="سخنی از سمت شرکت شما برای جویندگان شغل ..."
+                name="description"
+              />
+              <p className="text-destructive text-xs mt-2">
+                {
+                  getLastMessage({
+                    array: errs,
+                    key: "path",
+                    main_id: "description",
+                  })?.message
+                }
+              </p>
+            </div>
 
-          <div className="mt-6">
-            <span className="morabba">درباره شرکت</span>
-            <Textarea
-              defaultValue={companyState?.description}
-              className="max-h-32"
-              placeholder="سخنی از سمت شرکت شما برای جویندگان شغل ..."
-              name="description"
-            />
-            <p className="text-destructive text-xs mt-2">
-              {
-                getLastMessage({
-                  array: errs,
-                  key: "path",
-                  main_id: "description",
-                })?.message
-              }
-            </p>
-          </div>
+            <div className="mt-6">
+              <span className="morabba">شعار شرکت</span>
+              <InputMessage
+                defaultValue={companyState?.slogan}
+                icon={<Speech className="icon-stroke-light" />}
+                wrapperClassName="w-full"
+                placeholder="برای مثال ، متفاوت باش"
+                name="slogan"
+                message={
+                  getLastMessage({
+                    array: errs,
+                    key: "path",
+                    main_id: "solgan",
+                  })?.message
+                }
+              />
+            </div>
 
-          <div className="mt-6">
-            <span className="morabba">شعار شرکت</span>
-            <InputMessage
-              defaultValue={companyState?.slogan}
-              icon={<Speech className="icon-stroke-light" />}
-              wrapperClassName="w-full"
-              placeholder="برای مثال ، متفاوت باش"
-              name="slogan"
-              message={
-                getLastMessage({
-                  array: errs,
-                  key: "path",
-                  main_id: "solgan",
-                })?.message
-              }
-            />
-          </div>
+            <div className="mt-6">
+              <span className="morabba">نوع فعالیت شرکت</span>
+              <InputMessage
+                defaultValue={companyState?.type_of_activity}
+                icon={<MonitorDot className="icon-stroke-light" />}
+                wrapperClassName="w-full"
+                placeholder="برای مثال استخدام آنلاین"
+                name="type_of_activity"
+                message={
+                  getLastMessage({
+                    array: errs,
+                    key: "path",
+                    main_id: "type_of_activity",
+                  })?.message
+                }
+              />
+            </div>
 
-          <div className="mt-6">
-            <span className="morabba">نوع فعالیت شرکت</span>
-            <InputMessage
-              defaultValue={companyState?.type_of_activity}
-              icon={<MonitorDot className="icon-stroke-light" />}
-              wrapperClassName="w-full"
-              placeholder="برای مثال استخدام آنلاین"
-              name="type_of_activity"
-              message={
-                getLastMessage({
-                  array: errs,
-                  key: "path",
-                  main_id: "type_of_activity",
-                })?.message
-              }
-            />
-          </div>
+            <div className="mt-6">
+              <span className="morabba">صنعت شرکت</span>
+              <InputMessage
+                defaultValue={companyState?.industry}
+                icon={<MonitorSmartphone className="icon-stroke-light" />}
+                wrapperClassName="w-full"
+                placeholder="برای مثال کاریابی آنلاین در ایران"
+                name="industry"
+                message={
+                  getLastMessage({
+                    array: errs,
+                    key: "path",
+                    main_id: "industry",
+                  })?.message
+                }
+              />
+            </div>
 
-          <div className="mt-6">
-            <span className="morabba">صنعت شرکت</span>
-            <InputMessage
-              defaultValue={companyState?.industry}
-              icon={<MonitorSmartphone className="icon-stroke-light" />}
-              wrapperClassName="w-full"
-              placeholder="برای مثال کاریابی آنلاین در ایران"
-              name="industry"
-              message={
-                getLastMessage({
-                  array: errs,
-                  key: "path",
-                  main_id: "industry",
-                })?.message
-              }
-            />
-          </div>
+            <div className="mt-6">
+              <span className="morabba">تعداد کارکنان شرکت</span>
+              <InputMessage
+                defaultValue={companyState?.organization_employ}
+                type="number"
+                min={1}
+                icon={<Users className="icon-stroke-light" />}
+                wrapperClassName="w-full"
+                placeholder="برای مثال کاریابی آنلاین در ایران"
+                name="organization_employ"
+                message={
+                  getLastMessage({
+                    array: errs,
+                    key: "path",
+                    main_id: "organization_employ",
+                  })?.message
+                }
+              />
+            </div>
 
-          <div className="mt-6">
-            <span className="morabba">تعداد کارکنان شرکت</span>
-            <InputMessage
-              defaultValue={companyState?.organization_employ}
-              type="number"
-              min={1}
-              icon={<Users className="icon-stroke-light" />}
-              wrapperClassName="w-full"
-              placeholder="برای مثال کاریابی آنلاین در ایران"
-              name="organization_employ"
-              message={
-                getLastMessage({
-                  array: errs,
-                  key: "path",
-                  main_id: "organization_employ",
-                })?.message
-              }
-            />
-          </div>
+            <div className="mt-6">
+              <span className="morabba">سال تاسیس شرکت</span>
+              <Calender
+                value={new DateObject({ date: companyState?.established_year, locale: persian_fa })}
+                icon={<CalendarIcon className="icon-stroke-light" />}
+                containerClassName="w-full *:h-10 *:cursor-pointer"
+                placeholder={`برای مثال ${new DateObject().convert(persian)}`}
+                name="established_year"
+              />
+              <p className="mt-2 text-destructive text-xs">
+                {
+                  getLastMessage({
+                    array: errs,
+                    key: "path",
+                    main_id: "established_year",
+                  })?.message
+                }
+              </p>
+            </div>
 
-          <div className="mt-6">
-            <span className="morabba">سال تاسیس شرکت</span>
-            <Calender
-              value={new DateObject({ date: companyState?.established_year, locale: persian_fa })}
-              icon={<CalendarIcon className="icon-stroke-light" />}
-              containerClassName="w-full *:h-10 *:cursor-pointer"
-              placeholder={`برای مثال ${new DateObject().convert(persian)}`}
-              name="established_year"
-            />
-            <p className="mt-2 text-destructive text-xs">
-              {
-                getLastMessage({
-                  array: errs,
-                  key: "path",
-                  main_id: "established_year",
-                })?.message
-              }
-            </p>
-          </div>
-
-          <LoadButton className="mt-6 w-full">
-            {companyState !== null ? "آپدیت" : "ثبت شرکت"}
-          </LoadButton>
-        </form>
+            <LoadButton className="mt-6 w-full">
+              {companyState !== null ? "آپدیت" : "ثبت شرکت"}
+            </LoadButton>
+          </form>
+        </>
       )}
     </>
   )
