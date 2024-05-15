@@ -110,12 +110,8 @@ const AddAds: React.FC<AddADsProps> = ({ categories, advantages }) => {
     }
 
     const resault = await validateAD(newAd)
-    if (!resault.success) {
-      const newErrs = resault.error.issues.map((item) => ({
-        path: item.path.at(0) as string,
-        message: item.message,
-      }))
-      setErrs(newErrs)
+    if (resault.errors) {
+      setErrs(resault.errors)
       return
     }
     const createResault = await addAD(newAd)

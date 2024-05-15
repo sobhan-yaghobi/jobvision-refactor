@@ -9,8 +9,8 @@ import { TypeAd, adSchema } from "@/validation/zod.validations"
 export const addAD = async (ad: TypeAd) => {
   const { user } = await isAuth()
 
-  if (user !== null) {
-    if (user.company_id !== null) {
+  if (user && "id" in user) {
+    if (user.company_id) {
       const isExsist = await prisma.ad.findFirst({
         where: { name: ad.name, company_id: user.company_id },
       })
@@ -31,5 +31,13 @@ export const addAD = async (ad: TypeAd) => {
 //! ---------- Validate AD
 export const validateAD = async (ad: TypeAd) => {
   const resault = adSchema.safeParse(ad)
-  return resault
+  return {
+    data: resault.success ? resault.data : ({} as TypeAd),
+    errors: !resault.success
+      ? resault.error.issues.map((err) => ({
+          message: err.message as string,
+          path: err.path.at(0) as string,
+        }))
+      : null,
+  }
 }
