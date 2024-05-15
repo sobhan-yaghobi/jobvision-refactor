@@ -2,6 +2,7 @@
 
 import React from "react"
 import { cn } from "@/utils/utils.function"
+import { supabaseUrl } from "@/utils/utils.variable"
 
 import { useRouter, useSearchParams } from "next/navigation"
 
@@ -13,7 +14,6 @@ import PriceGenerator from "./PriceGenerator"
 import TimeGenerator from "./TimeGenerator"
 import SendCVButton from "./SendCVButton"
 import Image from "next/image"
-import { supabaseUrl } from "@/utils/utils.variable"
 
 type ADBoxProps = {
   isFooter?: boolean
