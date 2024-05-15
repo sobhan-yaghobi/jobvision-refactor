@@ -31,7 +31,7 @@ const Navbar: React.FC = () => {
   }, [pathname])
 
   return (
-    <div className="flex items-center justify-between relative p-3 shadow-lg z-20">
+    <div className="bg-background flex items-center justify-between relative p-3 shadow-lg z-20">
       <Sheet open={isMenu} onOpenChange={setIsMenu}>
         <SheetTrigger asChild>
           <Button title="منو" size={"sm"} variant={"fill"}>
