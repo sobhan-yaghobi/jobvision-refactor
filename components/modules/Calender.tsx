@@ -17,7 +17,6 @@ const Calender: React.FC<CalendarPropss> = ({ icon, ...props }) => {
         calendarPosition="top-right"
         fixMainPosition
         fixRelativePosition
-        hideOnScroll
       />
     </div>
   )
