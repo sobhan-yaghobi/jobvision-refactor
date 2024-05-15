@@ -8,6 +8,7 @@ import { registerCompany, validateCompany } from "@/app/action/registerCompany"
 import { DateObject } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
+import { supabaseUrl } from "@/utils/utils.variable"
 
 import useSWR from "swr"
 
@@ -42,7 +43,6 @@ import {
 } from "@/components/modules/ui/accordion"
 import LoadButton from "@/components/modules/ui/LoadButton"
 import Image from "next/image"
-import { supabaseUrl } from "@/utils/utils.variable"
 
 const Company: React.FC = () => {
   //! ---------- States
