@@ -58,42 +58,10 @@ const Company: React.FC = () => {
   )
   //! ---------- Actions
   const clientAction = async (formData: FormData) => {
-    const companyObject: TypeCompany = {
-      name: formData.get("name") as string,
-      location: { address: formData.get("address") as string, city_id: city.id },
-      score_company: 4.3,
-      score_popularity: 4.6,
-      score_experience_of_job_seekers: 5,
-      score_responsiveness: 2,
-      website: formData.get("website") as string,
-      description: formData.get("description") as string,
-      slogan: formData.get("slogan") as string,
-      organization_employ: Number(formData.get("organization_employ")),
-      industry: formData.get("industry") as string,
-      established_year: dateGenerate(formData.get("established_year") as string),
-      type_of_activity: formData.get("type_of_activity") as string,
-    }
     const logo = formData.get("logo") as File
+    const { companyObject, errors, validateData } = await validateCompany(cityID, formData)
 
-    if (companyState === null) {
-      //! ---------- Register
-      const validateResault = await validateCompany(companyObject)
-      if (!validateResault.success) {
-        setErrs(
-          validateResault.error.issues.map((err) => ({
-            message: err.message as string,
-            path: err.path.at(0) as string,
-          }))
-        )
-      }
-      const registerResault = await registerCompany(companyObject, formData)
-
-      if (registerResault.status) {
-        toast({ title: registerResault.message })
-        mutate()
-      }
-      toast({ title: registerResault.message, variant: "destructive" })
-    } else {
+    if (companyState && "id" in companyState) {
       //! ---------- Update
       const companyPick = pick(
         {
@@ -104,7 +72,7 @@ const Company: React.FC = () => {
       )
       const isEq = isEqual(companyObject, companyPick)
 
-      if (!isEq || logo.name) {
+      if (!isEq) {
         const resualt = await registerCompany(companyObject, formData)
         mutate()
 
@@ -112,8 +80,21 @@ const Company: React.FC = () => {
           toast({ title: resualt.message })
         } else toast({ title: resualt.message, variant: "destructive" })
       } else {
-        toast({ title: "نخست فیلد مورد نظر خود را بروز کنید" })
+        toast({ title: "نخست فیلد مورد نظر خود را بروزرسانی کنید" })
       }
+    } else {
+      //! ---------- Register
+      if (errors) {
+        setErrs(errors)
+        return
+      }
+      const registerResault = await registerCompany(validateData, formData)
+
+      if (registerResault.status) {
+        toast({ title: registerResault.message, variant: "default" })
+        mutate()
+      }
+      toast({ title: registerResault.message, variant: "destructive" })
     }
   }
   //! ----- Show Image From FileExplorer
@@ -200,7 +181,7 @@ const Company: React.FC = () => {
 
           <div className="mt-6">
             <span className="morabba">موقعیت شغلی</span>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               <SingleSelect
                 key={cityID}
                 className="w-[320px]"
@@ -228,7 +209,7 @@ const Company: React.FC = () => {
                         </button>
                       </>
                     ) : (
-                      <p className="text-sm">شهر مورد نظر را انتخاب کنید</p>
+                      <p className="text-sm text-muted-foreground">شهر</p>
                     )}
                   </div>
                 }
@@ -271,7 +252,7 @@ const Company: React.FC = () => {
                 defaultValue={companyState?.location?.address}
                 icon={<MapPin className="icon-stroke-light" />}
                 wrapperClassName="w-full"
-                placeholder="برای مثال بهارستان"
+                placeholder="نشانی"
                 name="address"
               />
             </div>
@@ -290,6 +271,7 @@ const Company: React.FC = () => {
             <span className="morabba">وب سایت شرکت</span>
             <InputMessage
               defaultValue={companyState?.website}
+              dir="ltr"
               icon={<Link className="icon-stroke-light" />}
               wrapperClassName="w-full"
               placeholder="برای مثال www.jobvision.com"

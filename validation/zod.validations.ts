@@ -1,3 +1,4 @@
+import { MAX_UPLOAD_SIZE } from "@/utils/utils.variable"
 import { $Enums } from "@prisma/client"
 import { z } from "zod"
 
@@ -15,10 +16,19 @@ export type TypeSignIn = z.infer<typeof signInSchema>
 //! ---------- Company Schema
 export const companySchema = z.object({
   name: z.string().trim().min(1, "نام اجباری میباشد"),
-  location: z.object({
-    address: z.string(),
-    city_id: z.string(),
-  }),
+  location: z
+    .object({
+      address: z.string().trim().default(""),
+      city_id: z.string().trim().default(""),
+    })
+    .superRefine((value, ctx) => {
+      if (!value.address || !value.city_id)
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "نشانی شرکت اجباری میباشد",
+          path: ["location"],
+        })
+    }),
   score_company: z.number(),
   score_popularity: z.number(),
   score_experience_of_job_seekers: z.number(),
@@ -31,7 +41,26 @@ export const companySchema = z.object({
   industry: z.string().trim().min(1, "نوع صنعت اجباری میباشد"),
   established_year: z.date(),
 })
+
+export const CompanySchemaWithLogo = companySchema.extend({
+  logo: z.instanceof(File).superRefine((file, ctx) => {
+    if (!file.size) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "لوگو اجباری میباشد",
+        path: ["logo"],
+      })
+    } else if (!file || file.size >= MAX_UPLOAD_SIZE) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "حداکثر حجم عکس 10 مگابایت میباشد",
+        path: ["logo"],
+      })
+    }
+  }),
+})
 export type TypeCompany = z.infer<typeof companySchema>
+export type TypeCompanyWithLogo = z.infer<typeof CompanySchemaWithLogo>
 
 //! ---------- AD Schema
 const genderEnums = [$Enums.gender.FEMALE, $Enums.gender.MALE, $Enums.gender.NOT_IMPORTANT] as const

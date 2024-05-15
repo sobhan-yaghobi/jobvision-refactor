@@ -1,6 +1,12 @@
 import { seniority_level, gender, cooperation_type } from "@prisma/client"
 import { TypeMenuItem, TypeStatus, QuickAccessItemType } from "../types/utils.type"
 
+//! Company Image Storage Url
+export const imageBucket = "jobvision"
+export const supabaseUrl =
+  "https://xsuywgifuwiufdwmpzxr.supabase.co/storage/v1/object/public/jobvision/"
+export const MAX_UPLOAD_SIZE = 1024 * 1024 * 10 // 10MB
+
 //! ---------- Header Variables
 export const menuItem: TypeMenuItem[] = [
   { id: 1, name: "فرصت های شغلی", link: "/jobs", isMegaMenu: true },
