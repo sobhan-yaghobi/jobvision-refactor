@@ -1,5 +1,6 @@
 import React from "react"
 import { cn } from "@/utils/utils.function"
+import { supabaseUrl } from "@/utils/utils.variable"
 
 import { CompaniesWithFollower } from "@/types/utils.type"
 
@@ -8,7 +9,6 @@ import { Star } from "lucide-react"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import FollowButton from "./FollowButton"
 import Image from "next/image"
-import { supabaseUrl } from "@/utils/utils.variable"
 
 type CompanyBoxType = {
   className?: string
