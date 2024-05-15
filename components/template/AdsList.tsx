@@ -2,7 +2,7 @@
 
 import React, { useMemo } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
-import useSWR, { useSWRConfig } from "swr"
+import useSWR from "swr"
 import useCurrentAdQuery from "@/hook/useCurrentAdQuery"
 
 import { fetchFilterAd } from "@/utils/utils.fetch"
