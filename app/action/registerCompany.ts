@@ -16,9 +16,9 @@ import { imageBucket } from "@/utils/utils.variable"
 export const registerCompany = async (company: TypeCompany, formData: FormData) => {
   const { user } = await isAuth()
 
-  if (user !== null) {
+  if (user && "id" in user) {
     //! ---------- Update Company User
-    if (user?.company_id !== null) {
+    if (user.company_id !== null) {
       const { location, ...companyModify } = company
       const companyResponse = await prisma.company.findFirst({
         where: { id: user.company_id },
@@ -30,11 +30,14 @@ export const registerCompany = async (company: TypeCompany, formData: FormData) 
           data: location,
         })
 
-        const logo = await updateImage(formData.get("logo") as File, companyResponse?.logo, user.id)
+        const logoFile = formData.get("logo") as File
+        const logo = logoFile.size
+          ? await updateImage(logoFile, companyResponse?.logo, user.id)
+          : true
         if (logo) {
           const companyResualt = await prisma.company.update({
             where: { id: user.company_id },
-            data: { ...companyModify, logo },
+            data: { ...companyModify, ...(typeof logo === "string" && { logo }) },
           })
 
           if (companyResualt && locationResault) {

@@ -181,10 +181,10 @@ const Company: React.FC = () => {
 
           <div className="mt-6">
             <span className="morabba">موقعیت شغلی</span>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col items-center gap-2">
               <SingleSelect
                 key={cityID}
-                className="w-[320px]"
+                className="w-full"
                 trigger={
                   <div
                     role="combobox"
