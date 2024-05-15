@@ -2,6 +2,7 @@
 
 import React from "react"
 import { getMyCompany } from "@/utils/utils.fetch"
+import { supabaseUrl } from "@/utils/utils.variable"
 
 import useSWR from "swr"
 
@@ -16,7 +17,6 @@ import LogOutButtonAction from "@/components/modules/LogOutButtonAction"
 import { Button } from "@/components/modules/ui/button"
 import Image from "next/image"
 import Link from "next/link"
-import { supabaseUrl } from "@/utils/utils.variable"
 
 const quickLinks = [
   {
@@ -70,13 +70,13 @@ const QuickAccess: React.FC = () => {
           <div className="w-24 h-44 center mb-3">
             {isLoading ? (
               <QuickAccessCompany />
-            ) : company?.logo ? (
+            ) : company && "id" in company ? (
               <div className="center flex-col">
                 <div className="w-24 h-24 center">
                   <Image
                     width={500}
                     height={500}
-                    src={supabaseUrl + company.logo}
+                    src={supabaseUrl + company?.logo}
                     alt="company-logo"
                     className="w-24 h-auto max-h-24"
                   />
