@@ -42,12 +42,8 @@ const Login = () => {
       password: formData.get("password") as string,
     }
     const registerResault = await validateRegister(newUser)
-    if (!registerResault.success) {
-      const errMessage = registerResault.error.issues.map((is) => ({
-        path: is.path.at(0) as string,
-        message: is.message,
-      }))
-      setErrs(errMessage)
+    if (registerResault.errors) {
+      setErrs(registerResault.errors)
       return
     }
     const sign = await registerAction(registerResault.data)

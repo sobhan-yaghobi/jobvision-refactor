@@ -45,7 +45,15 @@ export const registerAction = async ({
 //! ---------- Validate User
 export const validateRegister = async (user: TypeSignIn) => {
   const resault = signInSchema.safeParse(user)
-  return resault
+  return {
+    data: resault.success ? resault.data : ({} as TypeSignIn),
+    errors: !resault.success
+      ? resault.error.issues.map((err) => ({
+          message: err.message as string,
+          path: err.path.at(0) as string,
+        }))
+      : null,
+  }
 }
 
 //! ---------- Set A TokenCookie Timer
