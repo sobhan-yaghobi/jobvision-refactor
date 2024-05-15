@@ -45,7 +45,7 @@ model user {
   company    company?            @relation(fields: [company_id], references: [id])
   company_id String?
   cv         cv[]
-  companies  UserCompanyFollow[]
+  companies  userCompanyFollow[]
   followers  followers[]
 }
 
@@ -56,7 +56,7 @@ model followers {
 
   user              user?               @relation(fields: [user_id], references: [id])
   company           company?            @relation(fields: [company_id], references: [id])
-  UserCompanyFollow UserCompanyFollow[]
+  userCompanyFollow userCompanyFollow[]
 }
 
 model location {
@@ -89,10 +89,10 @@ model company {
   location_id                     String
   cv                              cv[]
   followers                       followers[]
-  UserCompanyFollow               UserCompanyFollow[]
+  userCompanyFollow               userCompanyFollow[]
 }
 
-model UserCompanyFollow {
+model userCompanyFollow {
   user    user   @relation(fields: [user_id], references: [id])
   user_id String
 

@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import addInitalDataAction from "./action/addInitalDataToDb"
 import { Toaster } from "@/components/modules/ui/toaster"
 
 import "./globals.css"
@@ -16,7 +15,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  await addInitalDataAction()
   return (
     <html lang="en" dir="rtl">
       <body>

@@ -1,4 +1,3 @@
-"use server"
 import { DateObject } from "react-multi-date-picker"
 
 import { v4 as uuid } from "uuid"
@@ -11,13 +10,11 @@ import {
   city as City,
   province as Province,
   user as User,
-  PrismaClient,
   advantage as Advantage,
   location as Location,
 } from "@prisma/client"
-import prisma from "@/lib/prisma"
 
-const CategoriesData: Category[] = [
+export const CategoriesData: Category[] = [
   { id: uuid(), name: "حسابدار / مالی و..", link: "accounting" },
   { id: uuid(), name: "معامله گر و تحلیل بازار های مالی", link: "trader" },
   { id: uuid(), name: "منابع انسانی", link: "humen-resources" },
@@ -26,7 +23,7 @@ const CategoriesData: Category[] = [
   { id: uuid(), name: "برنامه نویس و توسعه نرم افزار", link: "developer" },
 ]
 
-const CategoryCollectionData: Category_collection[] = [
+export const CategoryCollectionData: Category_collection[] = [
   {
     id: uuid(),
     category_id: CategoriesData[0].id,
@@ -62,65 +59,171 @@ const CategoryCollectionData: Category_collection[] = [
   },
 ]
 
-const ProvincesData: Province[] = [
+export const ProvincesData: Province[] = [
   { id: uuid(), name: "تهران" },
   { id: uuid(), name: "خراسان رضوی" },
   { id: uuid(), name: "مازندران" },
 ]
 
-const CitiesData: City[] = [
+export const CitiesData: City[] = [
   { id: uuid(), province_id: ProvincesData[0].id, name: "شهریار" },
   { id: uuid(), province_id: ProvincesData[0].id, name: "کمالشهر" },
   { id: uuid(), province_id: ProvincesData[0].id, name: "پرند" },
 
   { id: uuid(), province_id: ProvincesData[1].id, name: "مشهد" },
-  { id: uuid(), province_id: ProvincesData[1].id, name: "نبشابور" },
+  { id: uuid(), province_id: ProvincesData[1].id, name: "نیشابور" },
 
   { id: uuid(), province_id: ProvincesData[2].id, name: "ساری" },
   { id: uuid(), province_id: ProvincesData[2].id, name: "چالوس" },
 ]
 
-const LocationsData: Location[] = [{ id: uuid(), city_id: CitiesData[3].id, address: "سعادت آباد" }]
+export const LocationsData: Location[] = [
+  { id: uuid(), city_id: CitiesData[3].id, address: "سعادت آباد" },
+  { id: uuid(), city_id: CitiesData[2].id, address: "نبش پرند 12" },
+  { id: uuid(), city_id: CitiesData[5].id, address: "خیابان پاستور" },
+  { id: uuid(), city_id: CitiesData[6].id, address: "خیابان فردوسی شمالی" },
+  { id: uuid(), city_id: CitiesData[1].id, address: "کمالشهر 16" },
+]
 
-const CompaniesData: Company[] = [
+export const CompaniesData: Company[] = [
   {
     id: uuid(),
     created_at: new Date(),
     name: "ایرانسل",
     location_id: LocationsData[0].id,
-    logo: "https://upload.wikimedia.org/wikipedia/commons/3/3d/MTN_Irancell_Logo.svg",
+    logo: "1_irancell.png",
     score_company: 4.3,
     score_popularity: 4.6,
     score_experience_of_job_seekers: 5,
     score_responsiveness: 2,
-    website: "www.irancel.com",
+    website: "https://irancell.ir",
     description: "متن تستی برای شرکت ایرانسل",
     slogan: "متن تستی برای شعار شرکت ایرانسل",
     organization_employ: 3,
-    type_of_activity: "شرکت خدمات رسانی دولتی",
-    industry: "فناوری اطلاعات",
+    type_of_activity: "متن تستی نوع فعالیت برای شرکت ایرانسل",
+    industry: "متن تستی صنعت برای شرکت ایرانسل",
+    established_year: new Date(new DateObject().format()),
+  },
+  {
+    id: uuid(),
+    created_at: new Date(),
+    name: "دیجی کالا",
+    location_id: LocationsData[1].id,
+    logo: "2_digikala.svg",
+    score_company: 4.3,
+    score_popularity: 4.6,
+    score_experience_of_job_seekers: 5,
+    score_responsiveness: 2,
+    website: "https://www.digikala.com",
+    description: "متن تستی برای شرکت دیجی کالا",
+    slogan: "متن تستی برای شعار شرکت دیجی کالا",
+    organization_employ: 3,
+    type_of_activity: "متن تستی نوع فعالیت برای شرکت دیجی کالا",
+    industry: "متن تستی صنعت برای شرکت دیجی کالا",
+    established_year: new Date(new DateObject().format()),
+  },
+  {
+    id: uuid(),
+    created_at: new Date(),
+    name: "ترب",
+    location_id: LocationsData[2].id,
+    logo: "3_trob.svg",
+    score_company: 4.3,
+    score_popularity: 4.6,
+    score_experience_of_job_seekers: 5,
+    score_responsiveness: 2,
+    website: "https://torob.com/",
+    description: "متن تستی برای شرکت ترب",
+    slogan: "متن تستی برای شعار شرکت ترب",
+    organization_employ: 3,
+    type_of_activity: "متن تستی نوع فعالیت برای شرکت ترب",
+    industry: "متن تستی صنعت برای شرکت ترب",
+    established_year: new Date(new DateObject().format()),
+  },
+  {
+    id: uuid(),
+    created_at: new Date(),
+    name: "اسنپ",
+    location_id: LocationsData[3].id,
+    logo: "4_snapp.svg",
+    score_company: 4.3,
+    score_popularity: 4.6,
+    score_experience_of_job_seekers: 5,
+    score_responsiveness: 2,
+    website: "https://snapp.ir/",
+    description: "متن تستی برای شرکت اسنپ",
+    slogan: "متن تستی برای شعار شرکت اسنپ",
+    organization_employ: 3,
+    type_of_activity: "متن تستی نوع فعالیت برای شرکت اسنپ",
+    industry: "متن تستی صنعت برای شرکت اسنپ",
+    established_year: new Date(new DateObject().format()),
+  },
+  {
+    id: uuid(),
+    created_at: new Date(),
+    name: "دیوار",
+    location_id: LocationsData[4].id,
+    logo: "5_divar.svg",
+    score_company: 4.3,
+    score_popularity: 4.6,
+    score_experience_of_job_seekers: 5,
+    score_responsiveness: 2,
+    website: "https://divar.ir/",
+    description: "متن تستی برای شرکت دیوار",
+    slogan: "متن تستی برای شعار شرکت دیوار",
+    organization_employ: 3,
+    type_of_activity: "متن تستی نوع فعالیت برای شرکت دیوار",
+    industry: "متن تستی صنعت برای شرکت دیوار",
     established_year: new Date(new DateObject().format()),
   },
 ]
 
-const UsersData: User[] = [
+export const UsersData: User[] = [
   {
-    id: uuid(),
+    id: "1",
     company_id: CompaniesData[0].id,
     email: "sobhan@gmail.com",
-    password: "sobhan1206",
+    password: process.env.NEXT_PUBLIC_SOBHAN_PASS as string,
+    created_at: new Date(),
+  },
+  {
+    id: "2",
+    company_id: CompaniesData[1].id,
+    email: "mahtab@gmail.com",
+    password: process.env.NEXT_PUBLIC_MAHTAB_PASS as string,
+    created_at: new Date(),
+  },
+  {
+    id: "3",
+    company_id: CompaniesData[2].id,
+    email: "farzad@gmail.com",
+    password: process.env.NEXT_PUBLIC_FARZAD_PASS as string,
+    created_at: new Date(),
+  },
+  {
+    id: "4",
+    company_id: CompaniesData[3].id,
+    email: "mehrdad@gmail.com",
+    password: process.env.NEXT_PUBLIC_MEHRDAD_PASS as string,
+    created_at: new Date(),
+  },
+  {
+    id: "5",
+    company_id: CompaniesData[4].id,
+    email: "amir@gmail.com",
+    password: process.env.NEXT_PUBLIC_AMIR_PASS as string,
     created_at: new Date(),
   },
 ]
 
-const AdvantageData: Advantage[] = [
+export const AdvantageData: Advantage[] = [
   { id: uuid(), type: "وام" },
   { id: uuid(), type: "پارکینگ" },
   { id: uuid(), type: "پاداش" },
   { id: uuid(), type: "سرویس رفت و برگشت" },
 ]
 
-const AdsData: AD[] = [
+export const AdsData: AD[] = [
   {
     company_id: CompaniesData[0].id,
     id: uuid(),
@@ -251,81 +354,3 @@ const AdsData: AD[] = [
     created_at: new Date(),
   },
 ]
-
-interface InitialData {
-  data:
-    | Category[]
-    | Category_collection[]
-    | Province[]
-    | City[]
-    | Company[]
-    | User[]
-    | Advantage[]
-    | AD[]
-    | Location[]
-  successMessage: string
-}
-async function addInitialData(
-  model:
-    | "category"
-    | "category_collection"
-    | "province"
-    | "city"
-    | "company"
-    | "user"
-    | "advantage"
-    | "ad"
-    | "location",
-  initialData: InitialData
-): Promise<void> {
-  try {
-    const existingData = await (prisma[model as keyof PrismaClient] as any).findMany()
-    if (existingData.length === 0) {
-      await (prisma[model as keyof PrismaClient] as any).createMany({ data: initialData.data })
-      console.log(`${initialData.successMessage} Successfully Added`)
-    }
-  } catch (error) {
-    console.log(`Server Error on Add Initial Data of ${model}:`, error)
-  }
-}
-
-const addInitalDataAction = async () => {
-  await addInitialData("category", {
-    data: CategoriesData,
-    successMessage: "Inital Data Of Categories",
-  })
-  await addInitialData("category_collection", {
-    data: CategoryCollectionData,
-    successMessage: "Inital Data Of CategoryCollections",
-  })
-  await addInitialData("province", {
-    data: ProvincesData,
-    successMessage: "Inital Data Of Provinces",
-  })
-  await addInitialData("city", {
-    data: CitiesData,
-    successMessage: "Inital Data Of Cities",
-  })
-  await addInitialData("location", {
-    data: LocationsData,
-    successMessage: "Inital Data Of location",
-  })
-  await addInitialData("company", {
-    data: CompaniesData,
-    successMessage: "Inital Data Of Companies",
-  })
-  await addInitialData("user", {
-    data: UsersData,
-    successMessage: "Inital Data Of Users",
-  })
-  await addInitialData("advantage", {
-    data: AdvantageData,
-    successMessage: "Inital Data Of Advantages",
-  })
-  await addInitialData("ad", {
-    data: AdsData,
-    successMessage: "Inital Data Of Ads",
-  })
-}
-
-export default addInitalDataAction

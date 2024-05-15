@@ -85,7 +85,7 @@ export const registerCompany = async (company: TypeCompany, formData: FormData) 
 }
 
 //! ---------- Action Of Company Image
-const createImage = async (file: File, user_id: string) => {
+export const createImage = async (file: File, user_id: string) => {
   const fileName = user_id + "_" + file.name
   const { data, error } = await supabase.storage.from(imageBucket).upload(fileName, file)
   return data && !error ? fileName : false
