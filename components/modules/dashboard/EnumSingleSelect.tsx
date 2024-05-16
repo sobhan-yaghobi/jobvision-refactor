@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react"
 import { cn } from "@/utils/utils.function"
 
-import { cooperation_type, gender, seniority_level } from "@prisma/client"
+import { cooperation_type, gender, seniority_level } from "@/prisma/generated/client"
 
 import { CheckIcon } from "lucide-react"
 

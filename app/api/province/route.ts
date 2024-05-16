@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma"
 import { provinceWithCity } from "@/types/utils.type"
-import { city as City, province as Province } from "@prisma/client"
+import { city as City, province as Province } from "@/prisma/generated/client"
 
 import { NextRequest } from "next/server"
 

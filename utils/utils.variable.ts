@@ -1,4 +1,4 @@
-import { seniority_level, gender, cooperation_type } from "@prisma/client"
+import { seniority_level, gender, cooperation_type } from "@/prisma/generated/client"
 import { TypeMenuItem, TypeStatus, QuickAccessItemType } from "../types/utils.type"
 
 //! Company Image Storage Url

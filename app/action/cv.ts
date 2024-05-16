@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma"
 import isAuth from "./isAuth"
 
 import { AD } from "@/types/utils.type"
-import type { cv } from "@prisma/client"
+import type { cv } from "@/prisma/generated/client"
 
 //! ---------- Accept CV Function
 export const acceptCV = async (id: string) => {

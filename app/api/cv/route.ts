@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma"
 import isAuth from "@/app/action/isAuth"
 
 import { CVWithAdWithUser } from "@/types/utils.type"
-import { status } from "@prisma/client"
+import { status } from "@/prisma/generated/client"
 import { NextRequest } from "next/server"
 
 export const GET = async (request: NextRequest) => {
