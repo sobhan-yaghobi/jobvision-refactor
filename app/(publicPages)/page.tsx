@@ -17,7 +17,7 @@ import {
 } from "@/components/modules/ui/card"
 import CompnaySlider from "@/components/template/CompnaySlider"
 import Landing from "@/components/template/Landing"
-import LastAds from "@/components/template/LastAds"
+import LastAds from "@/components/template/LastADs"
 import Image from "next/image"
 
 const Home = async () => {
