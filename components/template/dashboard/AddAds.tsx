@@ -20,7 +20,7 @@ import {
   cooperation_type,
   gender,
   seniority_level,
-} from "@prisma/client"
+} from "@/types/prismaType/generated/client"
 import { TypeAd } from "@/validation/zod.validations"
 
 import {

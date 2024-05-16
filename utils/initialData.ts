@@ -12,7 +12,7 @@ import {
   user as User,
   advantage as Advantage,
   location as Location,
-} from "@prisma/client"
+} from "@/types/prismaType/generated/client"
 
 export const CategoriesData: Category[] = [
   { id: uuid(), name: "حسابدار / مالی و..", link: "accounting" },

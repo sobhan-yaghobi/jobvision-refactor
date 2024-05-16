@@ -1,0 +1,213 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../types/prismaType/generated/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model category_collection {
+  id                      String                   @id @default(uuid())
+  category_id             String?
+  name                    String?                  @db.Text
+  link                    String?                  @db.Text
+  categories              category?                @relation(fields: [category_id], references: [id])
+  adsCategory_collections adsCategory_collection[]
+}
+
+model category {
+  id                   String                @id @default(uuid())
+  name                 String                @db.Text
+  link                 String                @db.Text
+  category_collections category_collection[]
+}
+
+model province {
+  id     String @id @default(uuid())
+  name   String @db.Text
+  cities city[]
+}
+
+model city {
+  id          String     @id @default(uuid())
+  province_id String?
+  name        String?    @db.Text
+  province    province?  @relation(fields: [province_id], references: [id])
+  locations   location[]
+}
+
+model user {
+  id         String              @id @default(uuid())
+  email      String              @unique @db.VarChar(255)
+  password   String              @db.Text
+  created_at DateTime            @default(now())
+  company    company?            @relation(fields: [company_id], references: [id])
+  company_id String?
+  cv         cv[]
+  companies  userCompanyFollow[]
+  followers  followers[]
+}
+
+model followers {
+  id         String @id @default(uuid())
+  user_id    String
+  company_id String
+
+  user              user?               @relation(fields: [user_id], references: [id])
+  company           company?            @relation(fields: [company_id], references: [id])
+  userCompanyFollow userCompanyFollow[]
+}
+
+model location {
+  id        String    @id @default(uuid())
+  city_id   String
+  city      city      @relation(fields: [city_id], references: [id])
+  address   String
+  companies company[]
+}
+
+model company {
+  id                              String              @id @default(uuid())
+  created_at                      DateTime            @default(now())
+  name                            String              @unique @db.VarChar(255)
+  location                        location            @relation(fields: [location_id], references: [id])
+  logo                            String              @db.Text
+  score_company                   Float               @db.Float
+  score_popularity                Float               @db.Float
+  score_experience_of_job_seekers Float               @db.Float
+  score_responsiveness            Float               @db.Float
+  website                         String              @db.Text
+  description                     String              @db.Text
+  slogan                          String              @db.Text
+  organization_employ             Int
+  type_of_activity                String              @db.Text
+  industry                        String              @db.Text
+  established_year                DateTime            @db.DateTime
+  user                            user[]
+  ads                             ad[]
+  location_id                     String
+  cv                              cv[]
+  followers                       followers[]
+  userCompanyFollow               userCompanyFollow[]
+}
+
+model userCompanyFollow {
+  user    user   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  company     company    @relation(fields: [company_id], references: [id])
+  company_id  String
+  followers   followers? @relation(fields: [followersId], references: [id])
+  followersId String?
+
+  @@unique([user_id, company_id])
+}
+
+model advantage {
+  id                  String                @id @default(uuid())
+  type                String                @db.Text
+  facilitiesAdvantage facilitiesAdvantage[]
+}
+
+enum gender {
+  FEMALE
+  MALE
+  NOT_IMPORTANT
+}
+
+enum seniority_level {
+  WORKER
+  EMPLOYEE
+  EXPERT
+  MA
+  ASSISTANCE
+  CHIEF
+}
+
+enum cooperation_type {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+}
+
+model ad {
+  company_id              String
+  id                      String                   @id @default(uuid())
+  name                    String                   @db.Text
+  price                   Json                     @default("{\"min\": 0, \"max\": 0}")
+  work_time               String                   @db.Text
+  travel_benefits         String                   @db.Text
+  age                     Json                     @default("{\"min\": 0, \"max\": 0}")
+  edicational_level       Json                     @default("[]")
+  key_indicator           Json                     @default("[]")
+  software_skills         Json                     @default("[]")
+  tags                    Json                     @default("[]")
+  facilities              Json                     @default("[]")
+  gender                  gender
+  seniority_level         seniority_level
+  cooperation_type        cooperation_type
+  adsCategory_collections adsCategory_collection[]
+  facilitiesAdvantage     facilitiesAdvantage[]
+  important               Boolean                  @default(false)
+  response                Boolean                  @default(false)
+  itern                   Boolean                  @default(false)
+  telecommuting           Boolean                  @default(false)
+  disabledPeople          Boolean                  @default(false)
+  militaryOrder           Boolean                  @default(false)
+  created_at              DateTime                 @default(now())
+  company                 company                 @relation(fields: [company_id], references: [id])
+  cvAd                    cvAd[]
+  cv                      cv[]
+}
+
+model adsCategory_collection {
+  ad_id String
+  ad    ad     @relation(fields: [ad_id], references: [id])
+
+  category_collection_id String
+  category_collections   category_collection @relation(fields: [category_collection_id], references: [id])
+
+  @@id([ad_id, category_collection_id])
+}
+
+model facilitiesAdvantage {
+  ad_id String
+  ad    ad     @relation(fields: [ad_id], references: [id])
+
+  advantage_id String
+  advantage    advantage @relation(fields: [advantage_id], references: [id])
+
+  @@id([ad_id, advantage_id])
+}
+
+enum status {
+  accept
+  reject
+  waiting
+}
+
+model cv {
+  id         String   @id @default(uuid())
+  user_id    String
+  ad_id      String
+  company_id String
+  status     status
+  created_at DateTime @default(now())
+
+  user    user?    @relation(fields: [user_id], references: [id])
+  ad      ad?      @relation(fields: [ad_id], references: [id])
+  company company? @relation(fields: [company_id], references: [id])
+  cvAd    cvAd[]
+}
+
+model cvAd {
+  cv_id String
+  cv    cv     @relation(fields: [cv_id], references: [id])
+
+  ad_id String
+  ad    ad     @relation(fields: [ad_id], references: [id])
+
+  @@id([cv_id, ad_id])
+}

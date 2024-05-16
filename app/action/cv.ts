@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma"
 import isAuth from "./isAuth"
 
 import { AD } from "@/types/utils.type"
-import { cv } from "@prisma/client"
+import type { cv } from "@/types/prismaType/generated/client"
 
 //! ---------- Accept CV Function
 export const acceptCV = async (id: string) => {
@@ -35,7 +35,7 @@ export const sendCV = async (ad: AD) => {
     if (Array.isArray(cvResault)) {
       const isExsist = cvResault.find((cv) => cv.user_id === user.id)
 
-      if (typeof isExsist === "undefined") {
+      if (typeof isExsist !== "undefined") {
         const cvCreateResault = await prisma.cv.create({
           data: { status: "waiting", user_id: user.id, ad_id: ad.id, company_id: ad.company_id },
         })

@@ -12,7 +12,7 @@ import {
   category_collection as Category_collection,
   city as City,
   province as Province,
-} from "@prisma/client"
+} from "@/types/prismaType/generated/client"
 
 import { Briefcase, CheckIcon, MapPin, Search, X } from "lucide-react"
 
