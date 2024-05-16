@@ -21,7 +21,7 @@ import {
   advantage as Advantage,
   location as Location,
   PrismaClient,
-} from "@/types/prismaType/generated/client"
+} from "@prisma/client"
 
 import prisma from "../lib/prisma"
 

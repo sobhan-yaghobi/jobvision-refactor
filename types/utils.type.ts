@@ -3,7 +3,7 @@ import {
   category_collection as Category_collection,
   advantage as Advantage,
   status,
-} from "@/types/prismaType/generated/client"
+} from "@prisma/client"
 import { ReactNode } from "react"
 
 //! ---------- Header Types

@@ -1,10 +1,7 @@
 import React from "react"
 
 import { CategoryWithCollection, provinceWithCity } from "@/types/utils.type"
-import {
-  category_collection as Category_collection,
-  city as City,
-} from "@/types/prismaType/generated/client"
+import { category_collection as Category_collection, city as City } from "@prisma/client"
 
 import Link from "next/link"
 

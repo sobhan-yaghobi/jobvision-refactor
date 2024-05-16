@@ -1,5 +1,5 @@
 import { MAX_UPLOAD_SIZE } from "@/utils/utils.variable"
-import { $Enums } from "@/types/prismaType/generated/client"
+import { $Enums } from "@prisma/client"
 import { z } from "zod"
 
 //! ---------- Sign In Schema
