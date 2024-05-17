@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { sample } from "lodash"
 
 import { MessageArray } from "@/utils/utils.variable"
@@ -21,7 +21,7 @@ const Map = () => {
     isShow: false,
   })
 
-  const animation = () => {
+  const animation = useCallback(() => {
     const { innerWidth } = window
     if (innerWidth >= 1024) {
       let newElm: SVGCircleElement | null
@@ -51,14 +51,14 @@ const Map = () => {
         return mainObject
       })
     }
-  }
+  }, [])
 
   useEffect(() => {
     animation()
     setTimeout(() => animation(), 1000)
     const interval = setInterval(animation, 6000)
     return () => clearInterval(interval)
-  }, [])
+  }, [animation])
 
   return (
     <svg

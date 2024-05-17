@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 
 import { User } from "@/types/utils.type"
 
@@ -30,23 +30,23 @@ const UserDropDown = () => {
 
   //! ---------- SideEffects =>
   //! ----- Check Login Status Of User
-  useEffect(() => {
-    const getMeAction = async () => {
-      const res = await fetch("/api/getMe")
-      if (res.status === 201) {
-        const data: User | { message: string } = await res.json()
-        if ("id" in data) {
-          setUser(data)
-        } else {
-          toast({ title: "خطا در احراز هویت", variant: "destructive" })
-        }
+  const getMeAction = useCallback(async () => {
+    const res = await fetch("/api/getMe")
+    if (res.status === 201) {
+      const data: User | { message: string } = await res.json()
+      if ("id" in data) {
+        setUser(data)
+      } else {
+        toast({ title: "خطا در احراز هویت", variant: "destructive" })
       }
     }
+  }, [setUser, toast])
+  useEffect(() => {
     getMeAction()
     return () => {
       getMeAction()
     }
-  }, [])
+  }, [getMeAction])
   useEffect(() => {
     setIsDropdownUser(false)
     return () => setIsDropdownUser(false)

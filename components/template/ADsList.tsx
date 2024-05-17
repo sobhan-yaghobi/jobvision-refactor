@@ -15,7 +15,7 @@ const ADsList: React.FC = () => {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { data, isLoading } = useSWR(`/ad/${pathname}?${searchParams.toString()}`, fetchFilterAd)
-  const { currentAd } = useCurrentAdQuery()
+  const { mainAD } = useCurrentAdQuery()
 
   return (
     <div className="bg-muted w-full h-full flex flex-col gap-1 p-3 rounded-sm overflow-y-auto">
@@ -34,10 +34,10 @@ const ADsList: React.FC = () => {
           </Title>
         ) : (
           data.map((ad) => (
-            <ADBox key={ad.id} ad={{ ...ad }} active={ad.id === currentAd()} isFooter></ADBox>
+            <ADBox key={ad.id} ad={{ ...ad }} active={ad.id === mainAD} isFooter></ADBox>
           ))
         )
-      }, [data, isLoading, currentAd()])}
+      }, [data, isLoading, mainAD])}
     </div>
   )
 }
