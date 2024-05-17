@@ -27,8 +27,8 @@
 
 @font-face {
   font-family: "morabba";
-  src: url("/font/morabba/woff/Morabba-medium.woff"),
-    url("/font/morabba/woff2/Morabba-medium.woff2");
+  src: url("/font/morabba/woff/Morabba-Medium.woff"),
+    url("/font/morabba/woff2/Morabba-Medium.woff2");
   font-weight: normal;
   font-display: swap;
 }

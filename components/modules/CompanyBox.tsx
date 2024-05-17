@@ -25,7 +25,7 @@ const CompanyBox: React.FC<CompanyBoxType> = ({ className, company }) => {
           width={190}
           height={100}
           src={supabaseUrl + company.logo}
-          className="rounded-sm w-16 h-auto"
+          className="rounded-sm w-16 h-auto max-h-16 object-contain"
           alt="logo-compnay"
         />
       </CardHeader>

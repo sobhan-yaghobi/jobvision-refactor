@@ -9,12 +9,15 @@ import persian_fa from "react-date-object/locales/persian_fa"
 import gregorian_en from "react-date-object/locales/gregorian_en"
 
 //! ---------- Tailwind Merge Function
-const cn = (...inputs: ClassValue[]) => {
+export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
 }
 
+//! ---------- Float Generator
+export const generageFloat = () => parseFloat(Number(Math.random() * (5 - 1 + 1) + 1).toFixed(1))
+
 //! ---------- Get Last Message Of InputMessage
-const getLastMessage = <T>({
+export const getLastMessage = <T>({
   main_id,
   array,
   key,
@@ -28,7 +31,7 @@ const getLastMessage = <T>({
 }
 
 //! ---------- Date Persian Formater
-const dateGenerate = (date: string | Date) =>
+export const dateGenerate = (date: string | Date) =>
   new Date(
     new DateObject({
       date,
@@ -40,14 +43,14 @@ const dateGenerate = (date: string | Date) =>
   )
 
 //! ---------- Auth Funcs
-const hashPassword = (password: string): Promise<string> => hash(password, 12)
-const generateToken = (data: any) =>
+export const hashPassword = (password: string): Promise<string> => hash(password, 12)
+export const generateToken = (data: any) =>
   sign({ ...data }, process.env.privateKey ?? "", {
     expiresIn: "72h",
   })
-const verifyPassword = (password: string, hashedPassword: string) =>
+export const verifyPassword = (password: string, hashedPassword: string) =>
   compare(password, hashedPassword)
-const verifyToken = (token: string | undefined) => {
+export const verifyToken = (token: string | undefined) => {
   if (typeof token === "undefined") {
     return false
   }
@@ -59,7 +62,7 @@ const verifyToken = (token: string | undefined) => {
     return false
   }
 }
-const validateTokenResualt = async (token: string | undefined) => {
+export const validateTokenResualt = async (token: string | undefined) => {
   const tokenResualt = verifyToken(token)
 
   if (
@@ -76,15 +79,4 @@ const validateTokenResualt = async (token: string | undefined) => {
     }
   }
   return Response.json({ message: "user not found :(" }, { status: 404 })
-}
-
-export {
-  cn,
-  getLastMessage,
-  dateGenerate,
-  hashPassword,
-  generateToken,
-  verifyPassword,
-  verifyToken,
-  validateTokenResualt,
 }

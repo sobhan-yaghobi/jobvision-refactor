@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma"
 import isAuth from "./isAuth"
-import { dateGenerate } from "@/utils/utils.function"
+import { dateGenerate, generageFloat } from "@/utils/utils.function"
 import supabase from "@/lib/supabase"
 import { imageBucket } from "@/utils/utils.variable"
 
@@ -115,10 +115,10 @@ export const validateCompany = async (city_id: string, formData: FormData) => {
   const companyObject: TypeCompany = {
     name: formData.get("name") as string,
     location: { address: formData.get("address") as string, city_id },
-    score_company: 4.3,
-    score_popularity: 4.6,
-    score_experience_of_job_seekers: 5,
-    score_responsiveness: 2,
+    score_company: generageFloat(),
+    score_popularity: generageFloat(),
+    score_experience_of_job_seekers: generageFloat(),
+    score_responsiveness: generageFloat(),
     website: formData.get("website") as string,
     description: formData.get("description") as string,
     slogan: formData.get("slogan") as string,

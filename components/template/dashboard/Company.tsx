@@ -130,7 +130,7 @@ const Company: React.FC = () => {
                     height={500}
                     src={logoSrc ? logoSrc : supabaseUrl + companyState?.logo}
                     alt="company-logo"
-                    className="w-full h-auto max-h-24 ml-3 rounded-sm"
+                    className="w-full h-auto max-h-24 object-contain ml-3 rounded-sm"
                   />
                 </div>
               ) : (

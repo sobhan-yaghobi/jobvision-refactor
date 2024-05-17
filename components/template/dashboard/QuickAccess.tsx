@@ -78,7 +78,7 @@ const QuickAccess: React.FC = () => {
                     height={500}
                     src={supabaseUrl + company?.logo}
                     alt="company-logo"
-                    className="w-24 h-auto max-h-24"
+                    className="w-24 h-auto max-h-24 rounded-full object-contain"
                   />
                 </div>
                 <p className="truncate p-1 my-3 morabba text-xl">{company?.name}</p>
