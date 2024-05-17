@@ -14,6 +14,14 @@ import Title from "./Title"
 import Image from "next/image"
 import Link from "next/link"
 import { QuickAccessItemType } from "@/types/utils.type"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog"
 
 const Footer: React.FC = () => {
   return (
@@ -183,6 +191,55 @@ const Footer: React.FC = () => {
                 />
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="text-center mt-3">
+          <p>
+            این وب‌سایت یک <span className="font-bold">کلون وب</span> از وب‌سایت رسمی است.
+          </p>
+          <div className="center mt-3">
+            <Dialog>
+              <DialogTrigger className="text-xs underline">
+                <Button variant={"ghost"}>اطلاعات بیشتر</Button>
+              </DialogTrigger>
+              <DialogContent className="rounded-sm">
+                <DialogHeader>
+                  <DialogTitle className="text-center">
+                    <Title size="lg" className="text-center">
+                      <h1>اطلاعیه کلون وب</h1>
+                    </Title>
+                  </DialogTitle>
+                </DialogHeader>
+                <DialogDescription className="text-center my-3">
+                  <p className="mb-3">
+                    مهم است توجه داشته باشید که این وب‌سایت هیچ ارتباطی با وب‌سایت رسمی ندارد. این
+                    فقط یک کلون توسط طرفداران از وب‌سایت رسمی است. هدف این وب‌سایت این است که به
+                    کاربران راهی برای دسترسی به اطلاعات و منابع موجود در وب‌سایت رسمی فراهم کند، اما
+                    با طراحی یا تجربه کاربری متفاوت. با این حال، لازم است توجه داشته باشید که این
+                    وب‌سایت منبع رسمی اطلاعات نیست. اگر نیاز به دسترسی به اطلاعات رسمی دارید، لطفاً
+                    وب‌سایت رسمی را مشاهده کنید
+                  </p>
+                  <Link
+                    className="text-primary underline"
+                    target="_blank"
+                    href={"https://jobvision.ir"}
+                  >
+                    وب سایت رسمی جاب ویژن
+                  </Link>
+                </DialogDescription>
+              </DialogContent>
+            </Dialog>
+            <span className="bg-muted w-0.5 h-10 mx-3"></span>
+            <Button variant={"link"}>
+              <Link
+                className="underline text-xs"
+                target="_blank"
+                href={"https://github.com/sobhan-yaghobi/jobvision-refactor"}
+              >
+                ریپو پروژه
+              </Link>
+            </Button>
           </div>
         </section>
       </div>
