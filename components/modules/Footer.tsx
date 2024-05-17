@@ -90,7 +90,7 @@ const Footer: React.FC = () => {
                     <Title>
                       <h3>لینک‌های مرتبط</h3>
                     </Title>
-                    <ul className="flex mt-3">
+                    <ul className="flex flex-row mt-3">
                       {relatedLinks.map((item, index) => (
                         <li key={`relateed-link-${index}`} className="ml-5">
                           <Link href={item.href}>
@@ -110,7 +110,7 @@ const Footer: React.FC = () => {
                     <Title>
                       <h3>آخرین مطالب بلاگ</h3>
                     </Title>
-                    <ul className="flex mt-3">
+                    <ul className="flex flex-row mt-3">
                       {lastBlogs.map((item, index) => (
                         <li key={`last-blog-${index}`} className="ml-5">
                           <Link href={item.href}>
