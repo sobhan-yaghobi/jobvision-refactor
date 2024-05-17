@@ -5,6 +5,7 @@ import isAuth from "./isAuth"
 
 import { AD } from "@/types/utils.type"
 import type { cv } from "@prisma/client"
+import { some } from "lodash"
 
 //! ---------- Accept CV Function
 export const acceptCV = async (id: string) => {
@@ -32,18 +33,21 @@ export const sendCV = async (ad: AD) => {
   }
   if (user?.email) {
     const cvResault: cv[] = await prisma.cv.findMany({ where: { ad_id: ad.id } })
-    if (Array.isArray(cvResault)) {
-      const isExsist = cvResault.find((cv) => cv.user_id === user.id)
-
-      if (typeof isExsist !== "undefined") {
-        const cvCreateResault = await prisma.cv.create({
-          data: { status: "waiting", user_id: user.id, ad_id: ad.id, company_id: ad.company_id },
-        })
-        if (cvCreateResault) {
-          return { message: "رزومه با موفقیت ارسال شد", status: "true" }
-        }
-        return { message: "ارسال رزومه با مشکل روبرو شد", status: false }
+    //! Check The User Have Send CV Before Or Not
+    if (
+      !cvResault ||
+      (Array.isArray(cvResault) &&
+        !some(cvResault, function (param) {
+          return param.user_id === user.id
+        }))
+    ) {
+      const cvCreateResault = await prisma.cv.create({
+        data: { status: "waiting", user_id: user.id, ad_id: ad.id, company_id: ad.company_id },
+      })
+      if (cvCreateResault) {
+        return { message: "رزومه با موفقیت ارسال شد", status: "true" }
       }
+      return { message: "ارسال رزومه با مشکل روبرو شد", status: false }
     }
     return { message: "شما از قبل برای این آگهی رزومه ارسال کرده اید", status: false }
   }
