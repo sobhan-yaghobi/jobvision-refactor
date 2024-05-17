@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# JobVision Clone
 
-## Getting Started
+<img src="public/images/README/landing.png" alt="landing project image">
 
-First, run the development server:
+<p></p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The Full-stack project using `Next-js Typescript`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Table of Contents
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. [Description](#description)
+2. [Usage](#usage)
+3. [Features](#features)
+4. [Contributing](#contributing)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Description
 
-## Learn More
+This project aims to replicate the functionality and design of the jobvision.ir website. It provides a platform for job
 
-To learn more about Next.js, take a look at the following resources:
+## Usage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The project deploy using liara and url of bellow
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<p></p>
 
-## Deploy on Vercel
+click to see [jobvision clone](https://jobvision-clone.liara.run)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. First you need to sign
+2. Click on the notification at the bottom right of the page to enter your panel `مشاهده پنل`
+3. On the right side of the screen, you can see the menu of dashboard pages (or you can enter the important pages of your panel with the quick access keys on the left side)
+4. To add or edit your company, enter "About Company" at the top of the page from the "Home" menu and click on the "Register Company" button after filling in the fields.
+5. After adding Khurd company, you can create your desired ads
+6. To add your advertising, enter `آگهی جدید` at the top of the page from the `آگهی ها` menu and click on the `ثبت آگهی` button after filling in the fields
+7. You can view or delete your ads on the `آگهی ها` page
+8. At the bottom left, you can see the list of people who follow your company name `دنبال کنندگان`
+9. On the requests page, you can see people who send requests for your ad
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<hr/>
+
+<img src="public/images/README/dashboard-company_edit.png">
+- Dashboard company form
+<p></p>
+
+<img src="public/images/README/dashboard-company_advertisings_form.png">
+- Dashboard dvertisign form
+<p></p>
+
+<img src="public/images/README/dashboard-company_advertisings_list.png">
+- Dashboard dvertisign list
+<p></p>
+
+<img src="public/images/README/dashboard-company_request_CVs.png">
+- Dashboard CV Request
+<p></p>
+
+## Features
+
+- Add your comapny
+- Add your company advertising and manage it(just delete)
+- Send your CV for the company you want exept your company ;)
+- Search between the advertising's
+- Follow another componies
+
+## Contributing
+
+We welcome contributions! Feel free to submit a pull request or open an issue.

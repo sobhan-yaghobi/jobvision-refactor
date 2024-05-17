@@ -113,7 +113,7 @@ const QuickAccess: React.FC = () => {
       <div className="flex-1 overflow-hidden">
         <Card className="h-fit max-h-full p-3 border-none shadow-lg overflow-y-auto">
           <CardHeader className="p-0">
-            <h3 className="text-xl morabba">درخواست های اخیر</h3>
+            <h3 className="text-xl morabba">دنبال کنندگان</h3>
           </CardHeader>
           <CardContent className="mt-3 p-0">
             {isFollowerLoading ? (
