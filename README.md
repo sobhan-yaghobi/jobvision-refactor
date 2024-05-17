@@ -11,7 +11,8 @@ The Full-stack project using `Next-js Typescript`
 1. [Description](#description)
 2. [Usage](#usage)
 3. [Features](#features)
-4. [Contributing](#contributing)
+4. [Technology](#technology)
+5. [Contributing](#contributing)
 
 ## Description
 
@@ -60,6 +61,24 @@ click to see [jobvision clone](https://jobvision-clone.liara.run)
 - Send your CV for the company you want exept your company ;)
 - Search between the advertising's
 - Follow another componies
+
+## Technology
+
+- Next-Js
+- Prisma
+- Radix-Ui
+- Supabase
+- Loadash
+- Bcrypt
+- JsonWebToken
+- Lucide-react
+- Swiper
+- SWR
+- Tailwind
+- Zod
+- Zustand
+- React-spinners
+- React-multi-date-picker
 
 ## Contributing
 
