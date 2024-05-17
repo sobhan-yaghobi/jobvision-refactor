@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 
 import { Menu, Rocket } from "lucide-react"
 
@@ -16,6 +16,7 @@ const Navbar: React.FC = () => {
   const [isMenu, setIsMenu] = useState(false)
   const [isQuick, setIsQuick] = useState(false)
   const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   const closeSheet = () => {
     setIsMenu(false)
@@ -28,7 +29,7 @@ const Navbar: React.FC = () => {
     return () => {
       closeSheet()
     }
-  }, [pathname])
+  }, [pathname, searchParams])
 
   return (
     <div className="bg-background flex items-center justify-between relative p-3 shadow-lg z-20">
