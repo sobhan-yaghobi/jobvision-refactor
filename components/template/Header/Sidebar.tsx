@@ -4,7 +4,7 @@ import { menuItem } from "@/utils/utils.variable"
 
 import { CategoryWithCollection, provinceWithCity } from "@/types/utils.type"
 
-import { ArrowRight, ChevronLeft, Menu } from "lucide-react"
+import { ChevronLeft, ChevronRight, Menu } from "lucide-react"
 
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/modules/ui/drawer"
 import { Button } from "../../modules/ui/button"
@@ -37,8 +37,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className, category, province }) => {
       onClick={() => setPage({ currentPage: destination, itemPage: undefined })}
       className="flex justify-between mb-3"
     >
-      <ArrowRight className="icon" />
       بازگشت
+      <ChevronRight className="icon" />
     </Button>
   )
 
