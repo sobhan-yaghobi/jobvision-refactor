@@ -65,6 +65,7 @@ click to see [jobvision clone](https://jobvision-clone.liara.run)
 ## Technology
 
 - Next-Js
+- Typescript 
 - Prisma
 - Radix-Ui
 - Supabase
