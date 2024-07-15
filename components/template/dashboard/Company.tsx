@@ -93,7 +93,7 @@ const Company: React.FC = () => {
 
       if (registerResult.status) {
         toast({ title: registerResult.message, variant: "default" })
-        mutate()
+        return mutate()
       }
       toast({ title: registerResult.message, variant: "destructive" })
     }
