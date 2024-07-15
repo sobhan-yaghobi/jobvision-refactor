@@ -3,8 +3,11 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "postgresql"
+
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model category_collection {
@@ -73,17 +76,17 @@ model company {
   name                            String              @unique @db.VarChar(255)
   location                        location            @relation(fields: [location_id], references: [id])
   logo                            String              @db.Text
-  score_company                   Float               @db.Float
-  score_popularity                Float               @db.Float
-  score_experience_of_job_seekers Float               @db.Float
-  score_responsiveness            Float               @db.Float
+  score_company                   Float
+  score_popularity                Float
+  score_experience_of_job_seekers Float
+  score_responsiveness            Float
   website                         String              @db.Text
   description                     String              @db.Text
   slogan                          String              @db.Text
   organization_employ             Int
   type_of_activity                String              @db.Text
   industry                        String              @db.Text
-  established_year                DateTime            @db.DateTime
+  established_year                DateTime
   user                            user[]
   ads                             ad[]
   location_id                     String
@@ -156,7 +159,7 @@ model ad {
   disabledPeople          Boolean                  @default(false)
   militaryOrder           Boolean                  @default(false)
   created_at              DateTime                 @default(now())
-  company                 company                 @relation(fields: [company_id], references: [id])
+  company                 company                  @relation(fields: [company_id], references: [id])
   cvAd                    cvAd[]
   cv                      cv[]
 }
