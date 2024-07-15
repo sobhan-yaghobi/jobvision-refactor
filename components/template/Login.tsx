@@ -41,12 +41,12 @@ const Login = () => {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
     }
-    const registerResault = await validateRegister(newUser)
-    if (registerResault.errors) {
-      setErrs(registerResault.errors)
+    const registerResult = await validateRegister(newUser)
+    if (registerResult.errors) {
+      setErrs(registerResult.errors)
       return
     }
-    const sign = await registerAction(registerResault.data)
+    const sign = await registerAction(registerResult.data)
 
     const toastId = toast({
       title: sign.message,

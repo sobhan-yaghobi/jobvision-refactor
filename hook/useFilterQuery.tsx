@@ -30,7 +30,7 @@ const useFilterQuery = () => {
     replace(`?${params.toString()}`)
   }
   const get = (path: TypeFilterAd) => searchParams.get(path)
-  const isExsist = (path: TypeFilterAd, value: string) => Boolean(get(path) == value)
+  const isExist = (path: TypeFilterAd, value: string) => Boolean(get(path) == value)
 
   const paramsSize = () =>
     compact(VariablePath.map((variable) => (get(variable) ? variable : undefined))).length
@@ -41,7 +41,7 @@ const useFilterQuery = () => {
     replace(`?${params.toString()}`)
   }
 
-  return { queryAction, get, isExsist, paramsSize, removeAllAction, searchParams }
+  return { queryAction, get, isExist, paramsSize, removeAllAction, searchParams }
 }
 
 export default useFilterQuery

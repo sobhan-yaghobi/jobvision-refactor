@@ -9,8 +9,8 @@ import { some } from "lodash"
 
 //! ---------- Accept CV Function
 export const acceptCV = async (id: string) => {
-  const cvResualt = await prisma.cv.update({ where: { id }, data: { status: "accept" } })
-  if (cvResualt) {
+  const cvResult = await prisma.cv.update({ where: { id }, data: { status: "accept" } })
+  if (cvResult) {
     return { message: "درخواست با موفقیت قبول شد", status: true }
   }
   return { message: "مشکلی در قبول کردن درخواست به وجود آمد", status: false }
@@ -18,8 +18,8 @@ export const acceptCV = async (id: string) => {
 
 //! ---------- Reject CV Function
 export const rejectCV = async (id: string) => {
-  const cvResualt = await prisma.cv.update({ where: { id }, data: { status: "reject" } })
-  if (cvResualt) {
+  const cvResult = await prisma.cv.update({ where: { id }, data: { status: "reject" } })
+  if (cvResult) {
     return { message: "درخواست با موفقیت رد شد", status: true }
   }
   return { message: "مشکلی در رد کردن درخواست به وجود آمد", status: false }
@@ -32,19 +32,19 @@ export const sendCV = async (ad: AD) => {
     return { message: "ارسال رزومه به آگهی شرکت خود ممکن نمیباشد", status: false }
   }
   if (user?.email) {
-    const cvResault: cv[] = await prisma.cv.findMany({ where: { ad_id: ad.id } })
+    const cvResult: cv[] = await prisma.cv.findMany({ where: { ad_id: ad.id } })
     //! Check The User Have Send CV Before Or Not
     if (
-      !cvResault ||
-      (Array.isArray(cvResault) &&
-        !some(cvResault, function (param) {
+      !cvResult ||
+      (Array.isArray(cvResult) &&
+        !some(cvResult, function (param) {
           return param.user_id === user.id
         }))
     ) {
-      const cvCreateResault = await prisma.cv.create({
+      const cvCreateResult = await prisma.cv.create({
         data: { status: "waiting", user_id: user.id, ad_id: ad.id, company_id: ad.company_id },
       })
-      if (cvCreateResault) {
+      if (cvCreateResult) {
         return { message: "رزومه با موفقیت ارسال شد", status: "true" }
       }
       return { message: "ارسال رزومه با مشکل روبرو شد", status: false }

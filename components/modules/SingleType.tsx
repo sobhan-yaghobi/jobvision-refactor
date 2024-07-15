@@ -16,19 +16,19 @@ type SingleTypeProps = {
 }
 
 const SingleType: React.FC<SingleTypeProps> = ({ name, type }) => {
-  const { queryAction, isExsist } = useFilterQuery()
+  const { queryAction, isExist } = useFilterQuery()
   return (
     <Button
       key={type}
       onClick={() => queryAction(type, "true")}
       className={`px-2 py-1 border border-solid ${
-        isExsist(type, "true")
+        isExist(type, "true")
           ? "bg-primary/30 text-black hover:bg-primary/30"
           : "bg-transparent text-muted-foreground hover:bg-muted"
       }`}
     >
       {name}
-      {isExsist(type, "true") ? (
+      {isExist(type, "true") ? (
         <X
           onClick={(e) => {
             e.stopPropagation()

@@ -62,16 +62,16 @@ export const verifyToken = (token: string | undefined) => {
     return false
   }
 }
-export const validateTokenResualt = async (token: string | undefined) => {
-  const tokenResualt = verifyToken(token)
+export const validateTokenResult = async (token: string | undefined) => {
+  const tokenResult = verifyToken(token)
 
   if (
-    typeof tokenResualt !== "string" &&
-    typeof tokenResualt !== "boolean" &&
-    "email" in tokenResualt
+    typeof tokenResult !== "string" &&
+    typeof tokenResult !== "boolean" &&
+    "email" in tokenResult
   ) {
     const user = await prisma.user.findFirst({
-      where: { email: tokenResualt.email },
+      where: { email: tokenResult.email },
       include: { cv: true },
     })
     if (user !== null) {

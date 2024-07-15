@@ -22,27 +22,27 @@ const FollowButton: React.FC<FollowButtonProps> = ({ company }) => {
   //! ----- Follow Action
   const followAction = async () => {
     setIsLoading(true)
-    const cvResault = await createFollower(company.id)
-    if (cvResault.status) {
+    const cvResult = await createFollower(company.id)
+    if (cvResult.status) {
       setIsFollow(true)
       setIsLoading(false)
-      return toast({ title: cvResault.message, variant: "default" })
+      return toast({ title: cvResult.message, variant: "default" })
     }
     setIsLoading(false)
-    return toast({ title: cvResault.message, variant: "destructive" })
+    return toast({ title: cvResult.message, variant: "destructive" })
   }
 
   //! ----- UnFollow Action
   const unFollowAction = async () => {
     setIsLoading(true)
-    const cvResault = await removeFollower(company.id)
-    if (cvResault.status) {
+    const cvResult = await removeFollower(company.id)
+    if (cvResult.status) {
       setIsFollow(false)
       setIsLoading(false)
-      return toast({ title: cvResault.message, variant: "default" })
+      return toast({ title: cvResult.message, variant: "default" })
     }
     setIsLoading(false)
-    return toast({ title: cvResault.message, variant: "destructive" })
+    return toast({ title: cvResult.message, variant: "destructive" })
   }
 
   return isFollow ? (

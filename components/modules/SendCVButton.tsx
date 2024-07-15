@@ -25,14 +25,14 @@ const SendCVButton: React.FC<SendCVButtonProps> = ({ ad }) => {
   const clientAction = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setIsLoading(true)
     event.stopPropagation()
-    const cvResault = await sendCV(ad)
-    if (cvResault.status) {
+    const cvResult = await sendCV(ad)
+    if (cvResult.status) {
       setIsCvSend(true)
       setIsLoading(false)
-      return toast({ title: cvResault.message, variant: "default" })
+      return toast({ title: cvResult.message, variant: "default" })
     }
     setIsLoading(false)
-    return toast({ title: cvResault.message, variant: "destructive" })
+    return toast({ title: cvResult.message, variant: "destructive" })
   }
 
   //! ---------- Check CV Is Send Before

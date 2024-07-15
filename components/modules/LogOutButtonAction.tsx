@@ -34,16 +34,16 @@ const LogOutButtonAction = React.forwardRef<HTMLButtonElement, LogOutButtonActio
     const [isLogoutDialog, setIsLogoutDialog] = useState(false)
 
     const logOutAction = async () => {
-      const resault = await logout()
-      if (resault.status) {
+      const Result = await logout()
+      if (Result.status) {
         setUser(null)
         setIsLogoutDialog(false)
         if (props.redirect) {
           router.replace(props.redirect)
         }
-        toast({ title: resault.message, variant: "default" })
+        toast({ title: Result.message, variant: "default" })
       }
-      toast({ title: resault.message, variant: "destructive" })
+      toast({ title: Result.message, variant: "destructive" })
     }
 
     return (

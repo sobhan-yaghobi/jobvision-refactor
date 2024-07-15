@@ -105,8 +105,8 @@ export const POST = async (request: NextRequest) => {
 
 export const DELETE = async (request: NextRequest) => {
   const id = await request.json()
-  const removeResault = await prisma.ad.delete({ where: { id } })
-  if (removeResault) {
+  const removeResult = await prisma.ad.delete({ where: { id } })
+  if (removeResult) {
     return Response.json({ message: "آگهی با موفقیت پاک شد" }, { status: 201 })
   }
   return Response.json({ message: "خطایی در حین پاک کردن آگهی به وجود آمد" }, { status: 404 })

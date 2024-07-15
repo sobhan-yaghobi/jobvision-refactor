@@ -24,9 +24,9 @@ export const registerCompany = async (company: TypeCompany, formData: FormData) 
         where: { id: user.company_id },
         include: {},
       })
-      //! ----- Company Exsist Condition
+      //! ----- Company Exist Condition
       if (companyResponse && "id" in companyResponse) {
-        const locationResault = await prisma.location.update({
+        const locationResult = await prisma.location.update({
           where: { id: companyResponse?.location_id },
           data: location,
         })
@@ -35,16 +35,16 @@ export const registerCompany = async (company: TypeCompany, formData: FormData) 
         const logo = logoFile.size
           ? await updateImage(logoFile, companyResponse?.logo, user.id)
           : true
-        //! ----- Logo Exsist Condition
+        //! ----- Logo Exist Condition
         if (logo) {
           //! ----- Update Company
-          const companyResualt = await prisma.company.update({
+          const companyResult = await prisma.company.update({
             where: { id: user.company_id },
             data: { ...companyModify, ...(typeof logo === "string" && { logo }) },
           })
 
           //! ----- Company Update Successfully Condition
-          if (companyResualt && locationResault) {
+          if (companyResult && locationResult) {
             return {
               status: true,
               message: "اطلاعات شرکت با موفقیت آپدیت شد",
@@ -60,26 +60,26 @@ export const registerCompany = async (company: TypeCompany, formData: FormData) 
     } else {
       //! ---------- Create Company User
       //! ----- Create Location
-      const locationResault = await prisma.location.create({
+      const locationResult = await prisma.location.create({
         data: company.location,
       })
       const { location, ...companyModify } = company
 
-      //! ----- Logo Exsist Condition
+      //! ----- Logo Exist Condition
       const logo = await createImage(formData.get("logo") as File, user.id)
       if (logo) {
         //! ----- Create Company
-        const companyResualt = await prisma.company.create({
-          data: { ...companyModify, location_id: locationResault.id, logo },
+        const companyResult = await prisma.company.create({
+          data: { ...companyModify, location_id: locationResult.id, logo },
         })
 
         //! ----- Company Create Successfully Condition
-        if (companyResualt && locationResault) {
-          const userResault = await prisma.user.update({
+        if (companyResult && locationResult) {
+          const userResult = await prisma.user.update({
             where: { id: user?.id },
-            data: { company_id: companyResualt.id },
+            data: { company_id: companyResult.id },
           })
-          if (userResault) {
+          if (userResult) {
             return {
               message: "شرکت با موفقیت ثبت شد",
               status: true,
@@ -102,8 +102,8 @@ export const createImage = async (file: File, user_id: string) => {
   return data && !error ? fileName : false
 }
 const updateImage = async (file: File, fileName: string, user_id: string) => {
-  const removeResault = await supabase.storage.from(imageBucket).remove([fileName])
-  if (!removeResault.error) {
+  const removeResult = await supabase.storage.from(imageBucket).remove([fileName])
+  if (!removeResult.error) {
     const newFileName = await createImage(file, user_id)
     return newFileName
   }
@@ -127,14 +127,14 @@ export const validateCompany = async (city_id: string, formData: FormData) => {
     established_year: dateGenerate(formData.get("established_year") as string),
     type_of_activity: formData.get("type_of_activity") as string,
   }
-  const resault = CompanySchemaWithLogo.safeParse({ ...companyObject, logo: formData.get("logo") })
-  const { logo, ...companyResault } = resault.success ? resault.data : ({} as TypeCompanyWithLogo)
+  const Result = CompanySchemaWithLogo.safeParse({ ...companyObject, logo: formData.get("logo") })
+  const { logo, ...companyResult } = Result.success ? Result.data : ({} as TypeCompanyWithLogo)
 
   return {
     companyObject,
-    validateData: resault.success ? companyResault : ({} as TypeCompany),
-    errors: !resault.success
-      ? resault.error.issues.map((err) => ({
+    validateData: Result.success ? companyResult : ({} as TypeCompany),
+    errors: !Result.success
+      ? Result.error.issues.map((err) => ({
           message: err.message as string,
           path: err.path.at(0) as string,
         }))

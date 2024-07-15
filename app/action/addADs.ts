@@ -11,13 +11,13 @@ export const addAD = async (ad: TypeAd) => {
 
   if (user && "id" in user) {
     if (user.company_id) {
-      const isExsist = await prisma.ad.findFirst({
+      const isExist = await prisma.ad.findFirst({
         where: { name: ad.name, company_id: user.company_id },
       })
-      if (isExsist === null) {
-        const adsResualt = await prisma.ad.create({ data: { ...ad, company_id: user.company_id } })
-        if (adsResualt) {
-          return { message: "آگهی با موفقیت ثبت شد", status: true, ad: adsResualt }
+      if (isExist === null) {
+        const adsResult = await prisma.ad.create({ data: { ...ad, company_id: user.company_id } })
+        if (adsResult) {
+          return { message: "آگهی با موفقیت ثبت شد", status: true, ad: adsResult }
         }
         return { message: "ساخت آگهی با شکست مواجه شد", status: false }
       }
@@ -30,11 +30,11 @@ export const addAD = async (ad: TypeAd) => {
 
 //! ---------- Validate AD
 export const validateAD = async (ad: TypeAd) => {
-  const resault = adSchema.safeParse(ad)
+  const Result = adSchema.safeParse(ad)
   return {
-    data: resault.success ? resault.data : ({} as TypeAd),
-    errors: !resault.success
-      ? resault.error.issues.map((err) => ({
+    data: Result.success ? Result.data : ({} as TypeAd),
+    errors: !Result.success
+      ? Result.error.issues.map((err) => ({
           message: err.message as string,
           path: err.path.at(0) as string,
         }))

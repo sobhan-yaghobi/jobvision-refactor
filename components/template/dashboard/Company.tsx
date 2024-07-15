@@ -74,12 +74,12 @@ const Company: React.FC = () => {
       const isEq = isEqual(companyObject, companyPick)
 
       if (!isEq || !includes(companyState.logo, logo.name)) {
-        const resualt = await registerCompany(companyObject, formData)
+        const Result = await registerCompany(companyObject, formData)
         mutate()
 
-        if (resualt.status) {
-          toast({ title: resualt.message })
-        } else toast({ title: resualt.message, variant: "destructive" })
+        if (Result.status) {
+          toast({ title: Result.message })
+        } else toast({ title: Result.message, variant: "destructive" })
       } else {
         toast({ title: "نخست فیلد مورد نظر خود را بروزرسانی کنید" })
       }
@@ -89,13 +89,13 @@ const Company: React.FC = () => {
         setErrs(errors)
         return
       }
-      const registerResault = await registerCompany(validateData, formData)
+      const registerResult = await registerCompany(validateData, formData)
 
-      if (registerResault.status) {
-        toast({ title: registerResault.message, variant: "default" })
+      if (registerResult.status) {
+        toast({ title: registerResult.message, variant: "default" })
         mutate()
       }
-      toast({ title: registerResault.message, variant: "destructive" })
+      toast({ title: registerResult.message, variant: "destructive" })
     }
   }
   //! ----- Show Image From FileExplorer

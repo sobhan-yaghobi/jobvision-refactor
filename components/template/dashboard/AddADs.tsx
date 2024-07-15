@@ -109,18 +109,18 @@ const AddAds: React.FC<AddADsProps> = ({ categories, advantages }) => {
       militaryOrder: status.militaryOrder,
     }
 
-    const resault = await validateAD(newAd)
-    if (resault.errors) {
-      setErrs(resault.errors)
+    const Result = await validateAD(newAd)
+    if (Result.errors) {
+      setErrs(Result.errors)
       return
     }
-    const createResault = await addAD(newAd)
-    if (createResault.status) {
-      toast({ title: createResault.message, variant: "default" })
+    const createResult = await addAD(newAd)
+    if (createResult.status) {
+      toast({ title: createResult.message, variant: "default" })
       clearForm()
       return
     }
-    toast({ title: createResault.message, variant: "destructive" })
+    toast({ title: createResult.message, variant: "destructive" })
   }
   const clearForm = () => {
     formRef.current?.reset()

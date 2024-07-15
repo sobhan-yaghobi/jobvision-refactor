@@ -21,14 +21,14 @@ const CVButton: React.FC<CVButtonProps> = ({ cv, status: cvStatus, mutate }) => 
   const acceptClientAction = async () => {
     if (cvStatus !== "accept") {
       setIsAccpetLoading(true)
-      const cvResault = await acceptCV(cv.id)
-      if (cvResault.status) {
+      const cvResult = await acceptCV(cv.id)
+      if (cvResult.status) {
         typeof mutate !== "undefined" && mutate()
         setIsAccpetLoading(false)
-        return toast({ title: cvResault.message, variant: "default" })
+        return toast({ title: cvResult.message, variant: "default" })
       }
       setIsAccpetLoading(false)
-      return toast({ title: cvResault.message, variant: "destructive" })
+      return toast({ title: cvResult.message, variant: "destructive" })
     }
   }
 
@@ -36,14 +36,14 @@ const CVButton: React.FC<CVButtonProps> = ({ cv, status: cvStatus, mutate }) => 
   const rejectClientAction = async () => {
     if (cvStatus !== "reject") {
       setIsRejectLoading(true)
-      const cvResault = await rejectCV(cv.id)
-      if (cvResault.status) {
+      const cvResult = await rejectCV(cv.id)
+      if (cvResult.status) {
         typeof mutate !== "undefined" && mutate()
         setIsRejectLoading(false)
-        return toast({ title: cvResault.message, variant: "default" })
+        return toast({ title: cvResult.message, variant: "default" })
       }
       setIsRejectLoading(false)
-      return toast({ title: cvResault.message, variant: "destructive" })
+      return toast({ title: cvResult.message, variant: "destructive" })
     }
   }
 
