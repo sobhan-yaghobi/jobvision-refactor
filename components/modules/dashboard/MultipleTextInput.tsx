@@ -28,11 +28,11 @@ const MultipleTextInput: React.FC<MultipleTextInputProps> = ({
 
   //! ---------- Actions
   const clickAction = () => {
-    const isexist = some(state, function (stateVal) {
+    const isExist = some(state, function (stateVal) {
       return stateVal === value
     })
 
-    if (!isexist && value.length) {
+    if (!isExist && value.length) {
       setState((prev) => [...prev, value])
     }
     setValue("")
